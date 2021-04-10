@@ -1,0 +1,3 @@
+#include "center.h"
+
+center::center(float _x, float _y):x(_x),y(_y){};

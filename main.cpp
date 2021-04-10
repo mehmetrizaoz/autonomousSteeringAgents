@@ -3,21 +3,13 @@
 #include <GL/glut.h>
 #include <stdlib.h>
 #include <vector>
+#include "center.h"
 
 using namespace std;
 
 float angle = 30.0f;
-int numberOfAgents = 23;    
-
-class center{
-public:
-  float x;
-  float y;
-  center(float _x, float _y):x(_x),y(_y){};
-};
-
+int numberOfAgents;    
 vector<center *> agentCenters;
-
 
 float randomNegate(float num){
     if(rand() % 2 == 0)
@@ -33,8 +25,7 @@ void createAgent(center *c){
     glVertex3f( c->x - 0.29f, c->y + 0.50f, 0.00f);
     glVertex3f( c->x + 0.57f, c->y, 0.00f);
     glEnd();
-    glPopMatrix();
-   
+    glPopMatrix();   
 }
 
 void handleKeypress(unsigned char key, int x, int y) {
@@ -57,17 +48,13 @@ void handleResize(int w, int h) {
 }
 
 void drawScene() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    
     glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
-    glLoadIdentity(); //Reset the drawing perspective
-    
-    glTranslatef(0.0f, 0.0f, -85.0f); //Move to the center of the triangle    
-
+    glLoadIdentity(); //Reset the drawing perspective    
+    glTranslatef(0.0f, 0.0f, -100.0f); //Move to the center of the triangle    
     
     for(auto it = agentCenters.begin(); it < agentCenters.end(); it++){
-       createAgent(*it);
-       
+       createAgent(*it);       
     }
    
     glutSwapBuffers();
@@ -75,9 +62,8 @@ void drawScene() {
 
 void update(int value) {
     angle += 2.0f;
-    if (angle > 360) {
+    if (angle > 360) 
         angle -= 360;
-    }
     
     glutPostRedisplay(); //Tell GLUT that the display has changed
     glutTimerFunc(25, update, 0);
@@ -86,6 +72,8 @@ void update(int value) {
 int main(int argc, char** argv) {
     float x, y;
     srand (time(NULL));
+
+    cin >> numberOfAgents;
 
     for(int i=0; i<numberOfAgents; i++){
        x = float(rand() % 5); 
@@ -96,31 +84,23 @@ int main(int argc, char** argv) {
        //aynısı çıkıyor!!!
        //cout << x << " " << y << endl;
        agentCenters.push_back(new center(x, y));
-    }
-    
+    }   
     
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(400, 400);
     
-    glutCreateWindow("Transformations and Timers - videotutorialsrock.com");
+    glutCreateWindow("Autonomous Steering Agents");
     glEnable(GL_DEPTH_TEST);
     
     glutDisplayFunc(drawScene);
     glutKeyboardFunc(handleKeypress);
     glutReshapeFunc(handleResize);
     
-    glutTimerFunc(25, update, 0);
-    
+    glutTimerFunc(25, update, 0);    
     glutMainLoop();
     return 0;
 }
-
-
-
-
-
-
 
 
 
