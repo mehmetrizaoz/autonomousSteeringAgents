@@ -6,8 +6,7 @@
 #include "center.h"
 
 using namespace std;
-
-int numberOfAgents = 23;    
+  
 vector<center *> agentCenters;
 
 float randomNegate(float num){
@@ -63,7 +62,9 @@ void update(int value) {
     glutTimerFunc(25, update, 0);
 }
 
-int main(int argc, char** argv) {    
+int main(int argc, char** argv) { 
+    int numberOfAgents; 
+       
     srand (time(NULL));
     cout << "enter number of agents" << endl;
     cin >> numberOfAgents;
@@ -71,7 +72,7 @@ int main(int argc, char** argv) {
     for(int i=0; i<numberOfAgents; i++){   
        //TODO: generating same point is possible
        agentCenters.push_back(
-           new center(randomNegate(float(rand() % 40)), randomNegate(float(rand() % 30))));
+           new center(randomNegate(float(rand() % 70)), randomNegate(float(rand() % 40))));
     }   
     
     glutInit(&argc, argv);
