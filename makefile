@@ -1,4 +1,4 @@
-vpath %.cc src
+vpath %.cpp src
 vpath %.h include
 CC := g++
 

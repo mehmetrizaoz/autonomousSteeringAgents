@@ -1,10 +1,30 @@
 #include <iostream>
 #include <stdlib.h> 
 #include <GL/glut.h>
+#include <stdlib.h>
 
 using namespace std;
 
-//Called when a key is pressed
+float angle = 30.0f;
+
+float randomNegate(float num){
+    if(rand() % 2 == 0)
+       num *= -1;
+    return num;
+}
+
+void createAgent(float c_x, float c_y){ 
+    glPushMatrix();
+    //glRotatef(angle, 1.0f, 0.0f, 0.0f);
+    glBegin(GL_TRIANGLES);    
+    glVertex3f( c_x - 0.29,  c_y - 0.50f, 0.00f);
+    glVertex3f( c_x - 0.29f, c_y + 0.50f, 0.00f);
+    glVertex3f( c_x + 0.57f, c_y, 0.00f);
+    glEnd();
+    glPopMatrix();
+   
+}
+
 void handleKeypress(unsigned char key, int x, int y) {
     switch (key) {
         case 27: //Escape key
@@ -12,19 +32,10 @@ void handleKeypress(unsigned char key, int x, int y) {
     }
 }
 
-//Initializes 3D rendering
-void initRendering() {
-    //Makes 3D drawing work when something is in front of something else
-    glEnable(GL_DEPTH_TEST);
-}
-
-//Called when the window is resized
 void handleResize(int w, int h) {
     //Tell OpenGL how to convert from coordinates to pixel values
-    glViewport(0, 0, w, h);
-    
-    glMatrixMode(GL_PROJECTION); //Switch to setting the camera perspective
-    
+    glViewport(0, 0, w, h);  
+    glMatrixMode(GL_PROJECTION); //Switch to setting the camera perspective   
     //Set the camera perspective
     glLoadIdentity(); //Reset the camera
     gluPerspective(45.0,                  //The camera angle
@@ -33,67 +44,50 @@ void handleResize(int w, int h) {
                    200.0);                //The far z clipping coordinate
 }
 
-float _angle = 30.0f;
-
-//Draws the 3D scene
 void drawScene() {
-    //Clear information from last draw
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
     glLoadIdentity(); //Reset the drawing perspective
     
-    glTranslatef(0.0f, 0.0f, -5.0f); //Move to the center of the triangle    
+    glTranslatef(0.0f, 0.0f, -15.0f); //Move to the center of the triangle    
+
+//agent origin array will be created at init
+   float tx = float(rand() % 51) / 50.0;
+   tx = randomNegate(tx);
+   float ty = float(rand() % 51) / 50.0;
+   ty = randomNegate(ty);   
+      
+    createAgent(tx, ty);
+    createAgent(1,0);
+    createAgent(-1,-1);    
     
-    glPushMatrix();
-    glRotatef(_angle, 1.0f, 0.0f, 0.0f); //Rotate around x axes    
-    glBegin(GL_TRIANGLES);    
-    glVertex3f(0.0f, -0.25f, 0.0f);
-    glVertex3f(-0.25f, 0.25f, 0.0f);
-    glVertex3f(-1.00f, -0.25f, 0.0f);
-    glEnd();
-    glPopMatrix(); 
-    
-    glPushMatrix();
-    glRotatef(_angle, 0.0f, 1.0f, 0.0f); //Rotate around y axes     
-    glBegin(GL_TRIANGLES);    
-    glVertex3f(1.5f, -0.25f, 0.0f);
-    glVertex3f(1.0f, 0.25f, 0.0f);
-    glVertex3f(-0.0f, -0.25f, 0.0f);
-    glEnd();
-    glPopMatrix();    
-        
     glutSwapBuffers();
 }
 
 void update(int value) {
-    _angle += 2.0f;
-    if (_angle > 360) {
-        _angle -= 360;
+    angle += 2.0f;
+    if (angle > 360) {
+        angle -= 360;
     }
     
     glutPostRedisplay(); //Tell GLUT that the display has changed
-    
-    //Tell GLUT to call update again in 25 milliseconds
     glutTimerFunc(25, update, 0);
 }
 
-int main(int argc, char** argv) {
-    //Initialize GLUT
+int main(int argc, char** argv) {    
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(400, 400);
     
-    //Create the window
     glutCreateWindow("Transformations and Timers - videotutorialsrock.com");
-    initRendering();
+    glEnable(GL_DEPTH_TEST);
     
-    //Set handler functions
     glutDisplayFunc(drawScene);
     glutKeyboardFunc(handleKeypress);
     glutReshapeFunc(handleResize);
     
-    glutTimerFunc(25, update, 0); //Add a timer
+    glutTimerFunc(25, update, 0);
     
     glutMainLoop();
     return 0;
