@@ -1,1 +1,6 @@
-#autonomous steering agents c++ implementation (2d and 3d) agents will be implemented with opengl
+# Intent
+Autonomous steering agents will be implementation with c++
+Agents will be implemented with opengl.
+
+# Dependencies
+$sudo apt-get install libglu1-mesa-dev freeglut3-dev mesa-common-dev
