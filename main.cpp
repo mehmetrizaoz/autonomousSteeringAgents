@@ -1,22 +1,14 @@
 #include <iostream>
 #include <stdlib.h> 
-
-//Include OpenGL header files, so that we can use OpenGL
-#ifdef __APPLE__
-#include <OpenGL/OpenGL.h>
-#include <GLUT/glut.h>
-#else
 #include <GL/glut.h>
-#endif
 
 using namespace std;
 
 //Called when a key is pressed
-void handleKeypress(unsigned char key, //The key that was pressed
-                    int x, int y) {    //The current mouse coordinates
+void handleKeypress(unsigned char key, int x, int y) {
     switch (key) {
         case 27: //Escape key
-            exit(0); //Exit the program
+            exit(0);
     }
 }
 
@@ -41,6 +33,8 @@ void handleResize(int w, int h) {
                    200.0);                //The far z clipping coordinate
 }
 
+float _angle = 30.0f;
+
 //Draws the 3D scene
 void drawScene() {
     //Clear information from last draw
@@ -49,58 +43,49 @@ void drawScene() {
     glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
     glLoadIdentity(); //Reset the drawing perspective
     
-    glBegin(GL_QUADS); //Begin quadrilateral coordinates
+    glTranslatef(0.0f, 0.0f, -3.0f); //Move to the center of the triangle
+    glRotatef(_angle, 1.0f, 0.0f, 0.0f); //Rotate around x axes
     
-    //Trapezoid
-    glVertex3f(-0.7f, -1.5f, -5.0f);
-    glVertex3f(0.7f, -1.5f, -5.0f);
-    glVertex3f(0.4f, -0.5f, -5.0f);
-    glVertex3f(-0.4f, -0.5f, -5.0f);
+    glBegin(GL_TRIANGLES);    
+    glVertex3f(0.5f, -0.25f, 0.0f);
+    glVertex3f(0.0f, 0.25f, 0.0f);
+    glVertex3f(-0.5f, -0.25f, 0.0f);
+    glEnd();
+        
+    glutSwapBuffers();
+}
+
+void update(int value) {
+    _angle += 2.0f;
+    if (_angle > 360) {
+        _angle -= 360;
+    }
     
-    glEnd(); //End quadrilateral coordinates
+    glutPostRedisplay(); //Tell GLUT that the display has changed
     
-    glBegin(GL_TRIANGLES); //Begin triangle coordinates
-    
-    //Pentagon
-    glVertex3f(0.5f, 0.5f, -5.0f);
-    glVertex3f(1.5f, 0.5f, -5.0f);
-    glVertex3f(0.5f, 1.0f, -5.0f);
-    
-    glVertex3f(0.5f, 1.0f, -5.0f);
-    glVertex3f(1.5f, 0.5f, -5.0f);
-    glVertex3f(1.5f, 1.0f, -5.0f);
-    
-    glVertex3f(0.5f, 1.0f, -5.0f);
-    glVertex3f(1.5f, 1.0f, -5.0f);
-    glVertex3f(1.0f, 1.5f, -5.0f);
-    
-    //Triangle
-    glVertex3f(-0.5f, 0.5f, -5.0f);
-    glVertex3f(-1.0f, 1.5f, -5.0f);
-    glVertex3f(-1.5f, 0.5f, -5.0f);
-    
-    glEnd(); //End triangle coordinates
-    
-    glutSwapBuffers(); //Send the 3D scene to the screen
+    //Tell GLUT to call update again in 25 milliseconds
+    glutTimerFunc(25, update, 0);
 }
 
 int main(int argc, char** argv) {
     //Initialize GLUT
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-    glutInitWindowSize(400, 400); //Set the window size
+    glutInitWindowSize(400, 400);
     
     //Create the window
-    glutCreateWindow("Basic Shapes - videotutorialsrock.com");
-    initRendering(); //Initialize rendering
+    glutCreateWindow("Transformations and Timers - videotutorialsrock.com");
+    initRendering();
     
-    //Set handler functions for drawing, keypresses, and window resizes
+    //Set handler functions
     glutDisplayFunc(drawScene);
     glutKeyboardFunc(handleKeypress);
     glutReshapeFunc(handleResize);
     
-    glutMainLoop(); //Start the main loop.  glutMainLoop doesn't return.
-    return 0; //This line is never reached
+    glutTimerFunc(25, update, 0); //Add a timer
+    
+    glutMainLoop();
+    return 0;
 }
 
 
