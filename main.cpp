@@ -2,10 +2,22 @@
 #include <stdlib.h> 
 #include <GL/glut.h>
 #include <stdlib.h>
+#include <vector>
 
 using namespace std;
 
 float angle = 30.0f;
+int numberOfAgents = 23;    
+
+class center{
+public:
+  float x;
+  float y;
+  center(float _x, float _y):x(_x),y(_y){};
+};
+
+vector<center *> agentCenters;
+
 
 float randomNegate(float num){
     if(rand() % 2 == 0)
@@ -13,13 +25,13 @@ float randomNegate(float num){
     return num;
 }
 
-void createAgent(float c_x, float c_y){ 
+void createAgent(center *c){ 
     glPushMatrix();
     //glRotatef(angle, 1.0f, 0.0f, 0.0f);
     glBegin(GL_TRIANGLES);    
-    glVertex3f( c_x - 0.29,  c_y - 0.50f, 0.00f);
-    glVertex3f( c_x - 0.29f, c_y + 0.50f, 0.00f);
-    glVertex3f( c_x + 0.57f, c_y, 0.00f);
+    glVertex3f( c->x - 0.29,  c->y - 0.50f, 0.00f);
+    glVertex3f( c->x - 0.29f, c->y + 0.50f, 0.00f);
+    glVertex3f( c->x + 0.57f, c->y, 0.00f);
     glEnd();
     glPopMatrix();
    
@@ -50,18 +62,14 @@ void drawScene() {
     glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
     glLoadIdentity(); //Reset the drawing perspective
     
-    glTranslatef(0.0f, 0.0f, -15.0f); //Move to the center of the triangle    
+    glTranslatef(0.0f, 0.0f, -85.0f); //Move to the center of the triangle    
 
-//agent origin array will be created at init
-   float tx = float(rand() % 51) / 50.0;
-   tx = randomNegate(tx);
-   float ty = float(rand() % 51) / 50.0;
-   ty = randomNegate(ty);   
-      
-    createAgent(tx, ty);
-    createAgent(1,0);
-    createAgent(-1,-1);    
     
+    for(auto it = agentCenters.begin(); it < agentCenters.end(); it++){
+       createAgent(*it);
+       
+    }
+   
     glutSwapBuffers();
 }
 
@@ -75,7 +83,22 @@ void update(int value) {
     glutTimerFunc(25, update, 0);
 }
 
-int main(int argc, char** argv) {    
+int main(int argc, char** argv) {
+    float x, y;
+    srand (time(NULL));
+
+    for(int i=0; i<numberOfAgents; i++){
+       x = float(rand() % 5); 
+       x = randomNegate(x);
+       
+       y = float(rand() % 5);
+       y= randomNegate(y);       
+       //aynısı çıkıyor!!!
+       //cout << x << " " << y << endl;
+       agentCenters.push_back(new center(x, y));
+    }
+    
+    
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(400, 400);
