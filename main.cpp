@@ -7,8 +7,7 @@
 
 using namespace std;
 
-float angle = 30.0f;
-int numberOfAgents;    
+int numberOfAgents = 23;    
 vector<center *> agentCenters;
 
 float randomNegate(float num){
@@ -19,7 +18,6 @@ float randomNegate(float num){
 
 void createAgent(center *c){ 
     glPushMatrix();
-    //glRotatef(angle, 1.0f, 0.0f, 0.0f);
     glBegin(GL_TRIANGLES);    
     glVertex3f( c->x - 0.29,  c->y - 0.50f, 0.00f);
     glVertex3f( c->x - 0.29f, c->y + 0.50f, 0.00f);
@@ -51,7 +49,7 @@ void drawScene() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    
     glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
     glLoadIdentity(); //Reset the drawing perspective    
-    glTranslatef(0.0f, 0.0f, -100.0f); //Move to the center of the triangle    
+    glTranslatef(0.0f, 0.0f, -85.0f); //Move to the center of the triangle    
     
     for(auto it = agentCenters.begin(); it < agentCenters.end(); it++){
        createAgent(*it);       
@@ -61,29 +59,19 @@ void drawScene() {
 }
 
 void update(int value) {
-    angle += 2.0f;
-    if (angle > 360) 
-        angle -= 360;
-    
     glutPostRedisplay(); //Tell GLUT that the display has changed
     glutTimerFunc(25, update, 0);
 }
 
-int main(int argc, char** argv) {
-    float x, y;
+int main(int argc, char** argv) {    
     srand (time(NULL));
-
+    cout << "enter number of agents" << endl;
     cin >> numberOfAgents;
 
-    for(int i=0; i<numberOfAgents; i++){
-       x = float(rand() % 5); 
-       x = randomNegate(x);
-       
-       y = float(rand() % 5);
-       y= randomNegate(y);       
-       //aynısı çıkıyor!!!
-       //cout << x << " " << y << endl;
-       agentCenters.push_back(new center(x, y));
+    for(int i=0; i<numberOfAgents; i++){   
+       //TODO: generating same point is possible
+       agentCenters.push_back(
+           new center(randomNegate(float(rand() % 40)), randomNegate(float(rand() % 30))));
     }   
     
     glutInit(&argc, argv);
