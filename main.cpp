@@ -43,14 +43,25 @@ void drawScene() {
     glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
     glLoadIdentity(); //Reset the drawing perspective
     
-    glTranslatef(0.0f, 0.0f, -3.0f); //Move to the center of the triangle
-    glRotatef(_angle, 1.0f, 0.0f, 0.0f); //Rotate around x axes
+    glTranslatef(0.0f, 0.0f, -5.0f); //Move to the center of the triangle    
     
+    glPushMatrix();
+    glRotatef(_angle, 1.0f, 0.0f, 0.0f); //Rotate around x axes    
     glBegin(GL_TRIANGLES);    
-    glVertex3f(0.5f, -0.25f, 0.0f);
-    glVertex3f(0.0f, 0.25f, 0.0f);
-    glVertex3f(-0.5f, -0.25f, 0.0f);
+    glVertex3f(0.0f, -0.25f, 0.0f);
+    glVertex3f(-0.25f, 0.25f, 0.0f);
+    glVertex3f(-1.00f, -0.25f, 0.0f);
     glEnd();
+    glPopMatrix(); 
+    
+    glPushMatrix();
+    glRotatef(_angle, 0.0f, 1.0f, 0.0f); //Rotate around y axes     
+    glBegin(GL_TRIANGLES);    
+    glVertex3f(1.5f, -0.25f, 0.0f);
+    glVertex3f(1.0f, 0.25f, 0.0f);
+    glVertex3f(-0.0f, -0.25f, 0.0f);
+    glEnd();
+    glPopMatrix();    
         
     glutSwapBuffers();
 }
