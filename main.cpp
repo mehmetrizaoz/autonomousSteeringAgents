@@ -10,8 +10,8 @@ using namespace std;
   
 vector<agent *> agents;
 
-int height    = 34;
-int width     = 64;
+const int height    = 34;
+const int width     = 64;
 
 float randomNegate(float num){
     if(rand() % 2 == 0)
@@ -30,9 +30,10 @@ void createAgent(agent *ag){
     if ((ag->getPosition()->y > height) || (ag->getPosition()->y < -height)) {
        ag->getVelocity()->y = ag->getVelocity()->y * -1;
     }
+  
     //set new agent position
-    ag->setPosition(ag->getPosition()->x + ag->getVelocity()->x,
-                    ag->getPosition()->y + ag->getVelocity()->y);
+    ag->getPosition()->add(ag->getVelocity());
+    
     //draw agent
     glVertex3f( ag->getPosition()->x - 0.29f, ag->getPosition()->y - 0.50f, 0.00f);
     glVertex3f( ag->getPosition()->x - 0.29f, ag->getPosition()->y + 0.50f, 0.00f);

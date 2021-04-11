@@ -6,8 +6,8 @@
 class agent{
 public:
   agent(float x, float y);
-  void setVelocity(float x, float y);
-  void setPosition(float x, float y);
+  agent &setVelocity(float x, float y);
+  agent &setPosition(float x, float y);
   pvector *getPosition();
   pvector *getVelocity();
 private:
