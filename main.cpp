@@ -8,6 +8,11 @@
 using namespace std;
   
 vector<center *> agentCenters;
+float x_speed = 0.1;
+float y_speed = 0.1;
+float x_pos = 0.0;
+float y_pos = 0.0;
+
 
 float randomNegate(float num){
     if(rand() % 2 == 0)
@@ -17,10 +22,14 @@ float randomNegate(float num){
 
 void createAgent(center *c){ 
     glPushMatrix();
-    glBegin(GL_TRIANGLES);    
-    glVertex3f( c->x - 0.29,  c->y - 0.50f, 0.00f);
-    glVertex3f( c->x - 0.29f, c->y + 0.50f, 0.00f);
-    glVertex3f( c->x + 0.57f, c->y, 0.00f);
+    glBegin(GL_TRIANGLES); 
+      //TODO: vector class will be created for calculations
+     x_pos += x_speed;
+     y_pos += y_speed;
+     
+    glVertex3f( c->x - 0.29f + x_pos, c->y - 0.50f + y_pos, 0.00f);
+    glVertex3f( c->x - 0.29f + x_pos, c->y + 0.50f + y_pos, 0.00f);
+    glVertex3f( c->x + 0.57f + x_pos, c->y         + y_pos, 0.00f);
     glEnd();
     glPopMatrix();   
 }
@@ -63,17 +72,21 @@ void update(int value) {
 }
 
 int main(int argc, char** argv) { 
-    int numberOfAgents; 
+    //int numberOfAgents; 
        
-    srand (time(NULL));
-    cout << "enter number of agents" << endl;
-    cin >> numberOfAgents;
-
+    //srand (time(NULL));
+    //cout << "enter number of agents" << endl;
+    //cin >> numberOfAgents;
+  
+  //create a stupid agent
+    center *c = new center(0.0, 0.0);
+    agentCenters.push_back(c);
+/*
     for(int i=0; i<numberOfAgents; i++){   
        //TODO: generating same point is possible
        agentCenters.push_back(
            new center(randomNegate(float(rand() % 70)), randomNegate(float(rand() % 40))));
-    }   
+    }*/
     
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
