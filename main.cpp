@@ -8,11 +8,12 @@
 using namespace std;
   
 vector<center *> agentCenters;
-float x_speed = 0.1;
-float y_speed = 0.1;
-float x_pos = 0.0;
-float y_pos = 0.0;
-
+float x_speed = 0.5;
+float y_speed = 0.3;
+float x_pos   = 0.0;
+float y_pos   = 0.0;
+int height    = 34;
+int width     = 64;
 
 float randomNegate(float num){
     if(rand() % 2 == 0)
@@ -24,14 +25,22 @@ void createAgent(center *c){
     glPushMatrix();
     glBegin(GL_TRIANGLES); 
       //TODO: vector class will be created for calculations
+
+    if ((x_pos > width) || (x_pos < -width)) {
+       x_speed = x_speed * -1;
+     }
+    if ((y_pos > height) || (y_pos < -height)) {
+       y_speed = y_speed * -1;
+     }
+
      x_pos += x_speed;
-     y_pos += y_speed;
+     y_pos += y_speed;     
      
-    glVertex3f( c->x - 0.29f + x_pos, c->y - 0.50f + y_pos, 0.00f);
-    glVertex3f( c->x - 0.29f + x_pos, c->y + 0.50f + y_pos, 0.00f);
-    glVertex3f( c->x + 0.57f + x_pos, c->y         + y_pos, 0.00f);
-    glEnd();
-    glPopMatrix();   
+     glVertex3f( c->x - 0.29f + x_pos, c->y - 0.50f + y_pos, 0.00f);
+     glVertex3f( c->x - 0.29f + x_pos, c->y + 0.50f + y_pos, 0.00f);
+     glVertex3f( c->x + 0.57f + x_pos, c->y         + y_pos, 0.00f);
+     glEnd();
+     glPopMatrix();   
 }
 
 void handleKeypress(unsigned char key, int x, int y) {
