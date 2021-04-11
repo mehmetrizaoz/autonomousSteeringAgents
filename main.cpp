@@ -25,7 +25,7 @@ void createAgent(center *c){
     glPushMatrix();
     glBegin(GL_TRIANGLES); 
       //TODO: vector class will be created for calculations
-
+      //TODO: position, velocity will be moved to agent class, center will be attribute of the same class
     if ((x_pos > width) || (x_pos < -width)) {
        x_speed = x_speed * -1;
      }
