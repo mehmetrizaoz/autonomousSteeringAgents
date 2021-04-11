@@ -1,6 +1,6 @@
 #include <iostream>
 #include <stdlib.h> 
-#include <GL/glut.h>
+#include <GL/glut.h> //https://www.opengl.org/resources/libraries/glut/spec3/node1.html
 #include <stdlib.h>
 #include <vector>
 #include "pvector.h"
@@ -42,19 +42,20 @@ void createAgent(agent *ag){
     glPopMatrix();   
 }
 
-void handleKeypress(unsigned char key, int x, int y) {
+void handleKeypress(unsigned char key, int x, int y) {    
     switch (key) {
         case 27: //Escape key
             exit(0);
     }
+    
 }
 
 void handleResize(int w, int h) {
-    //Tell OpenGL how to convert from coordinates to pixel values
-    glViewport(0, 0, w, h);  
-    glMatrixMode(GL_PROJECTION); //Switch to setting the camera perspective   
-    //Set the camera perspective
+    
+    glViewport(0, 0, w, h);  //Tell OpenGL how to convert from coordinates to pixel values
+    glMatrixMode(GL_PROJECTION); //Switch to setting the camera perspective       
     glLoadIdentity(); //Reset the camera
+    //Set the camera perspective
     gluPerspective(45.0,                  //The camera angle
                    (double)w / (double)h, //The width-to-height ratio
                    1.0,                   //The near z clipping coordinate
@@ -77,6 +78,16 @@ void drawScene() {
 void update(int value) {
     glutPostRedisplay(); //Tell GLUT that the display has changed
     glutTimerFunc(25, update, 0);
+}
+
+void mouseButton(int button, int state, int x, int y){
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
+		cout << "x: " << x << " " << "y: " << y << endl;
+	}
+}
+
+void mouseMove(int x, int y){
+ 	cout << "x: " << x << " " << "y: " << y << endl;
 }
 
 int main(int argc, char** argv) { 
@@ -103,6 +114,8 @@ int main(int argc, char** argv) {
     glEnable(GL_DEPTH_TEST);
     
     glutDisplayFunc(drawScene);
+    glutMouseFunc(mouseButton);
+    glutPassiveMotionFunc(mouseMove);
     glutKeyboardFunc(handleKeypress);
     glutReshapeFunc(handleResize);
     
