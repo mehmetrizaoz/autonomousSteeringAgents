@@ -3,15 +3,13 @@
 #include <GL/glut.h>
 #include <stdlib.h>
 #include <vector>
-#include "center.h"
+#include "pvector.h"
+#include "agent.h"
 
 using namespace std;
   
-vector<center *> agentCenters;
-float x_speed = 0.5;
-float y_speed = 0.3;
-float x_pos   = 0.0;
-float y_pos   = 0.0;
+vector<agent *> agents;
+
 int height    = 34;
 int width     = 64;
 
@@ -21,26 +19,26 @@ float randomNegate(float num){
     return num;
 }
 
-void createAgent(center *c){ 
+void createAgent(agent *ag){ 
     glPushMatrix();
     glBegin(GL_TRIANGLES); 
-      //TODO: vector class will be created for calculations
-      //TODO: position, velocity will be moved to agent class, center will be attribute of the same class
-    if ((x_pos > width) || (x_pos < -width)) {
-       x_speed = x_speed * -1;
-     }
-    if ((y_pos > height) || (y_pos < -height)) {
-       y_speed = y_speed * -1;
-     }
 
-     x_pos += x_speed;
-     y_pos += y_speed;     
-     
-     glVertex3f( c->x - 0.29f + x_pos, c->y - 0.50f + y_pos, 0.00f);
-     glVertex3f( c->x - 0.29f + x_pos, c->y + 0.50f + y_pos, 0.00f);
-     glVertex3f( c->x + 0.57f + x_pos, c->y         + y_pos, 0.00f);
-     glEnd();
-     glPopMatrix();   
+    //reflect from screen borders
+    if ((ag->getPosition()->x > width) || (ag->getPosition()->x < -width)) {
+       ag->getVelocity()->x = ag->getVelocity()->x * -1;
+    }
+    if ((ag->getPosition()->y > height) || (ag->getPosition()->y < -height)) {
+       ag->getVelocity()->y = ag->getVelocity()->y * -1;
+    }
+    //set new agent position
+    ag->setPosition(ag->getPosition()->x + ag->getVelocity()->x,
+                    ag->getPosition()->y + ag->getVelocity()->y);
+    //draw agent
+    glVertex3f( ag->getPosition()->x - 0.29f, ag->getPosition()->y - 0.50f, 0.00f);
+    glVertex3f( ag->getPosition()->x - 0.29f, ag->getPosition()->y + 0.50f, 0.00f);
+    glVertex3f( ag->getPosition()->x + 0.57f, ag->getPosition()->y        , 0.00f);
+    glEnd();
+    glPopMatrix();   
 }
 
 void handleKeypress(unsigned char key, int x, int y) {
@@ -68,7 +66,7 @@ void drawScene() {
     glLoadIdentity(); //Reset the drawing perspective    
     glTranslatef(0.0f, 0.0f, -85.0f); //Move to the center of the triangle    
     
-    for(auto it = agentCenters.begin(); it < agentCenters.end(); it++){
+    for(auto it = agents.begin(); it < agents.end(); it++){       
        createAgent(*it);       
     }
    
@@ -81,21 +79,20 @@ void update(int value) {
 }
 
 int main(int argc, char** argv) { 
-    //int numberOfAgents; 
-       
-    //srand (time(NULL));
-    //cout << "enter number of agents" << endl;
-    //cin >> numberOfAgents;
+/*  int numberOfAgents;       
+    srand (time(NULL));
+    cout << "enter number of agents" << endl;
+    cin >> numberOfAgents;
   
-  //create a stupid agent
-    center *c = new center(0.0, 0.0);
-    agentCenters.push_back(c);
-/*
     for(int i=0; i<numberOfAgents; i++){   
        //TODO: generating same point is possible
-       agentCenters.push_back(
+       agents.push_back(
            new center(randomNegate(float(rand() % 70)), randomNegate(float(rand() % 40))));
     }*/
+
+    agent *ag1 = new agent(0.0, 0.0);
+    ag1->setVelocity(0.5, 0.3);    
+    agents.push_back(ag1);
     
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
