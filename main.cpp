@@ -35,10 +35,8 @@ void drawAgent(agent *ag){
 }
 
 void updateAgentPosition(agent *ag){      
-    ag->calculateDirection(mousePos_x / 5.88 - 34, 34 - mousePos_y / 5.88);
-    ag->calculateNormal(ag->direction);
-    
-    ag->setAcceleration(ag->normal);  
+    ag->calculateDirection(mousePos_x / 5.88 - 34, 34 - mousePos_y / 5.88);   
+    ag->setAcceleration(pvector::getNormal(ag->direction));  
     ag->velocity->add(ag->acceleration);
     ag->limitVelocity();
 

@@ -23,3 +23,7 @@ float pvector::getMagnitude(pvector *v){
    return sqrt((v->x * v->x) + (v->y * v->y));
 }
 
+pvector *pvector::getNormal(pvector *v){
+   //TODO: memory leak ?
+   return new pvector(v->x / pvector::getMagnitude(v), v->y / pvector::getMagnitude(v));
+}

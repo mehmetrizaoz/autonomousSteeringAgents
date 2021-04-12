@@ -5,11 +5,6 @@
 
 using namespace std;
 
-pvector *agent::calculateNormal(pvector *v){
-   normal->x = v->x / pvector::getMagnitude(v);
-   normal->y = v->y / pvector::getMagnitude(v);
-   return normal;
-}
 
 pvector *agent::calculateDirection(int x, int y){
    direction->x = x - this->position->x;
@@ -22,7 +17,6 @@ agent::agent(float x, float y){
     velocity     = new pvector(0.5, 0.5);
     acceleration = new pvector(0.0, 0.0);
     direction    = new pvector(0.0, 0.0);
-    normal       = new pvector(0.0, 0.0);
 };
 
 void agent::setAcceleration(float x, float y){

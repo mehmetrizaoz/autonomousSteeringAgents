@@ -7,6 +7,7 @@ public:
    float y;
    pvector(float x, float y);
    static float getMagnitude(pvector *v);
+   static pvector *getNormal(pvector *v);
    void add(pvector *v);
    void sub(pvector *v);
    
