@@ -35,27 +35,27 @@ void drawAgent(agent *ag){
 }
 
 void updateAgentPosition(agent *ag){      
-    ag->calculateDirection(mousePos_x / 5.88 - 34, 34 - mousePos_y / 5.88);   
+    /*ag->calculateDirection(mousePos_x / 5.88 - 34, 34 - mousePos_y / 5.88);   
     ag->setAcceleration(pvector::getNormal(ag->direction));  
     ag->velocity->add(ag->acceleration);
-    ag->limitVelocity();
+    ag->limitVelocity();*/
 
 
-/*
-    if(pvector::getMagnitude(ag->getVelocity()) >= SPEED_LIMIT)
+
+    if(pvector::getMagnitude(ag->velocity) >= SPEED_LIMIT)
        ag->setAcceleration(0, 0);
 
-    ag->velocity->add(ag->getAcceleration());
+    ag->velocity->add(ag->acceleration);
     //reflect from screen borders
-    if ((ag->getPosition()->x > WIDTH)  || (ag->getPosition()->x < -WIDTH)) {
-       ag->getVelocity()->x = ag->getVelocity()->x * -1;
-       ag->getAcceleration()->x = ag->getAcceleration()->x * -1;
+    if ((ag->position->x > WIDTH)  || (ag->position->x < -WIDTH)) {
+       ag->velocity->x = ag->velocity->x * -1;
+       ag->acceleration->x = ag->acceleration->x * -1;
     }
-    if ((ag->getPosition()->y > HEIGHT) || (ag->getPosition()->y < -HEIGHT)) {
-       ag->getVelocity()->y = ag->getVelocity()->y * -1;
-       ag->getAcceleration()->y = ag->getAcceleration()->y * -1;
+    if ((ag->position->y > HEIGHT) || (ag->position->y < -HEIGHT)) {
+       ag->velocity->y = ag->velocity->y * -1;
+       ag->acceleration->y = ag->acceleration->y * -1;
     }
-    */
+    
     ag->position->add(ag->velocity);
     drawAgent(ag);
 }
