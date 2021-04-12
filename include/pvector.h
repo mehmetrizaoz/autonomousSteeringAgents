@@ -5,7 +5,6 @@ class pvector{
 public:
    float x;
    float y;
-   pvector *normal;
    pvector(float x, float y);
    float magnitude();
    void add(pvector *v);

@@ -4,11 +4,8 @@
 using namespace std;
 
 pvector *agent::calculateNormal(pvector *v){
-   //cout << "vector " << v->x << " " << v->y << endl;
-   //cout << "normal" << v->magnitude() << endl;
    normal->x = v->x / v->magnitude();
    normal->y = v->y / v->magnitude();
-   //cout << "normal " << normal->x << " " << normal->y << endl;
    return normal;
 }
 

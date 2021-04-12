@@ -6,7 +6,7 @@
 #include "pvector.h"
 #include "agent.h"
 
-#define SPEED_LIMIT 1
+#define SPEED_LIMIT 10
 #define WIDTH       34
 #define HEIGHT      34
 #define ESC         27
@@ -34,21 +34,12 @@ void drawAgent(agent *ag){
     glPopMatrix();  
 }
 
-void updateAgentPosition(agent *ag){        
+void updateAgentPosition(agent *ag){      
     ag->calculateDirection(mousePos_x / 5.88 - 34 , 34 - mousePos_y / 5.88);
-    cout << "direction " << ag->direction->x << " " << ag->direction->y << endl;
-    cout << "position " << ag->position->x << " " << ag->position->y << endl;
-    cout << "mouse " << mousePos_x / 5.88 - 34 << " " << 34 - mousePos_y / 5.88 << endl;
     ag->calculateNormal(ag->direction);
-    cout << "normal " << ag->normal->x * 0.005 << " " << ag->normal->y * 0.005 << endl;
-    ag->setAcceleration(ag->normal);
-    cout << "acceleration " << ag->acceleration->x << " " << ag->acceleration->y << endl;
-  
-    /*if( ag->getMagnitude(ag->getVelocity()) >= SPEED_LIMIT ){            
-        ag->setAcceleration(0, 0);
-    }*/
-
+    ag->setAcceleration(ag->normal);  
     ag->velocity->add(ag->getAcceleration());
+    
     if(ag->velocity->x > 1)
        ag->velocity->x = 1;
     if(ag->velocity->x < -1)
@@ -58,11 +49,11 @@ void updateAgentPosition(agent *ag){
     if(ag->velocity->y < -1)
        ag->velocity->y = -1;
 
-
-
-    cout << "velocity " << ag->velocity->x << " " << ag->velocity->y << endl << endl;
-
 /*
+    if( ag->getMagnitude(ag->getVelocity()) >= SPEED_LIMIT ){            
+        ag->setAcceleration(0, 0);
+    }
+    ag->velocity->add(ag->getAcceleration());
     //reflect from screen borders
     if ((ag->getPosition()->x > WIDTH)  || (ag->getPosition()->x < -WIDTH)) {
        ag->getVelocity()->x = ag->getVelocity()->x * -1;
@@ -71,11 +62,9 @@ void updateAgentPosition(agent *ag){
     if ((ag->getPosition()->y > HEIGHT) || (ag->getPosition()->y < -HEIGHT)) {
        ag->getVelocity()->y = ag->getVelocity()->y * -1;
        ag->getAcceleration()->y = ag->getAcceleration()->y * -1;
-    }*/
-  
+    }
+    */
     ag->position->add(ag->getVelocity());
-    //cout << "position2 " << ag->position->x << " " << ag->position->y << endl << endl;
-
     drawAgent(ag);
 }
 
@@ -141,8 +130,8 @@ int main(int argc, char** argv) {
     }*/
 
     agent *ag1 = new agent(0.0, 0.0);
-    ag1->setVelocity(-0.01, -0.01);       
-    //ag1->setAcceleration(0.01, 0.01);
+    ag1->setVelocity(0.5, 0.4);       
+    ag1->setAcceleration(0.01, 0.01);
     agents.push_back(ag1);
 /*
     agent *ag2 = new agent(1.5, 6.0);

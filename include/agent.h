@@ -13,9 +13,10 @@ public:
   pvector *getAcceleration();
   pvector *getPosition();
   pvector *getVelocity();
+   
   pvector *calculateDirection(int x, int y);
-  pvector *calculateNormal(pvector *v);
-  float    getMagnitude(pvector *v);
+  pvector *calculateNormal(pvector *v); //TODO: must be in pvector
+  float    getMagnitude(pvector *v);    //TODO: must be in pvector
 //private:
   pvector *direction;
   pvector *normal;
