@@ -6,15 +6,15 @@
 #include "pvector.h"
 #include "agent.h"
 
-#define SPEED_LIMIT 5
-#define WIDTH       64
+#define SPEED_LIMIT 1
+#define WIDTH       34
 #define HEIGHT      34
 #define ESC         27
 
 using namespace std;
 
-int mousePos_x = 10;
-int mousePos_y = 10;
+int mousePos_x;
+int mousePos_y;
 vector<agent *> agents;
 
 float randomNegate(float num){
@@ -34,24 +34,35 @@ void drawAgent(agent *ag){
     glPopMatrix();  
 }
 
-void updateAgentPosition(agent *ag){
-    /*    
-    //ag->calculateDirection(mousePos_x, mousePos_y);
-    //cout << "direction " << ag->direction->x << " " << ag->direction->y << endl;
+void updateAgentPosition(agent *ag){        
+    ag->calculateDirection(mousePos_x / 5.88 - 34 , 34 - mousePos_y / 5.88);
+    cout << "direction " << ag->direction->x << " " << ag->direction->y << endl;
     cout << "position " << ag->position->x << " " << ag->position->y << endl;
-    cout << "mouse " << mousePos_x << " " << mousePos_y << endl;
-    //ag->calculateNormal(ag->direction);
-    cout << "normal " << ag->normal->x / 10 << " " << ag->normal->y / 10 << endl;
-   // ag->setAcceleration(ag->normal);
+    cout << "mouse " << mousePos_x / 5.88 - 34 << " " << 34 - mousePos_y / 5.88 << endl;
+    ag->calculateNormal(ag->direction);
+    cout << "normal " << ag->normal->x * 0.005 << " " << ag->normal->y * 0.005 << endl;
+    ag->setAcceleration(ag->normal);
     cout << "acceleration " << ag->acceleration->x << " " << ag->acceleration->y << endl;
-  */
-    if( ag->getMagnitude(ag->getVelocity()) >= SPEED_LIMIT ){            
+  
+    /*if( ag->getMagnitude(ag->getVelocity()) >= SPEED_LIMIT ){            
         ag->setAcceleration(0, 0);
-    }
+    }*/
 
     ag->velocity->add(ag->getAcceleration());
-    cout << "velocity " << ag->velocity->x << " " << ag->velocity->y << endl;
+    if(ag->velocity->x > 1)
+       ag->velocity->x = 1;
+    if(ag->velocity->x < -1)
+       ag->velocity->x = -1;
+    if(ag->velocity->y > 1)
+       ag->velocity->y = 1;
+    if(ag->velocity->y < -1)
+       ag->velocity->y = -1;
 
+
+
+    cout << "velocity " << ag->velocity->x << " " << ag->velocity->y << endl << endl;
+
+/*
     //reflect from screen borders
     if ((ag->getPosition()->x > WIDTH)  || (ag->getPosition()->x < -WIDTH)) {
        ag->getVelocity()->x = ag->getVelocity()->x * -1;
@@ -60,10 +71,10 @@ void updateAgentPosition(agent *ag){
     if ((ag->getPosition()->y > HEIGHT) || (ag->getPosition()->y < -HEIGHT)) {
        ag->getVelocity()->y = ag->getVelocity()->y * -1;
        ag->getAcceleration()->y = ag->getAcceleration()->y * -1;
-    }
+    }*/
   
     ag->position->add(ag->getVelocity());
-    cout << "position2 " << ag->position->x << " " << ag->position->y << endl << endl;
+    //cout << "position2 " << ag->position->x << " " << ag->position->y << endl << endl;
 
     drawAgent(ag);
 }
@@ -75,7 +86,7 @@ void handleKeypress(unsigned char key, int x, int y) {
     }    
 }
 
-void handleResize(int w, int h) {    
+void handleResize(int w, int h) {        
     glViewport(0, 0, w, h);  //Tell OpenGL how to convert from coordinates to pixel values
     glMatrixMode(GL_PROJECTION); //Switch to setting the camera perspective       
     glLoadIdentity(); //Reset the camera
@@ -108,10 +119,8 @@ void mouseButton(int button, int state, int x, int y){
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
 		cout << "x: " << x << " " << "y: " << y << endl;
 	}
-    cout << "mmmmmmmmm" << endl;
-    mousePos_x = x;
-    mousePos_y = y;
-
+    //mousePos_x = x;
+    //mousePos_y = y;
 }
 
 void mouseMove(int x, int y){
@@ -132,8 +141,8 @@ int main(int argc, char** argv) {
     }*/
 
     agent *ag1 = new agent(0.0, 0.0);
-    ag1->setVelocity(0.01, 0.01);       
-    ag1->setAcceleration(0.01, 0.01);
+    ag1->setVelocity(-0.01, -0.01);       
+    //ag1->setAcceleration(0.01, 0.01);
     agents.push_back(ag1);
 /*
     agent *ag2 = new agent(1.5, 6.0);
