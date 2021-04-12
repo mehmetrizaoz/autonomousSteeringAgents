@@ -1,11 +1,13 @@
 #include "agent.h"
 #include <iostream>
 
+#define LIMIT 1
+
 using namespace std;
 
 pvector *agent::calculateNormal(pvector *v){
-   normal->x = v->x / v->magnitude();
-   normal->y = v->y / v->magnitude();
+   normal->x = v->x / pvector::getMagnitude(v);
+   normal->y = v->y / pvector::getMagnitude(v);
    return normal;
 }
 
@@ -28,6 +30,17 @@ void agent::setAcceleration(float x, float y){
     acceleration->y = y;
 }
 
+void agent::limitVelocity(){
+    if(velocity->x > LIMIT)
+       velocity->x = LIMIT;
+    if(velocity->x < -LIMIT)
+       velocity->x = -LIMIT;
+    if(velocity->y > LIMIT)
+       velocity->y = LIMIT;
+    if(velocity->y < -LIMIT)
+       velocity->y = -LIMIT;
+}
+
 void agent::setAcceleration(pvector *v){
     acceleration->x = v->x;
     acceleration->y = v->y;
@@ -43,18 +56,3 @@ void agent::setPosition(float x, float y){
     position->y = y;
 }
 
-pvector *agent::getPosition(){
-    return position;
-}
-
-pvector *agent::getVelocity(){
-    return velocity;
-}
-
-pvector *agent::getAcceleration(){
-    return acceleration;
-}
-
-float agent::getMagnitude(pvector *v){
-   return v->magnitude();
-}

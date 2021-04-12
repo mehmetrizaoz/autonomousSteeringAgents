@@ -19,7 +19,7 @@ void pvector::sub(pvector *v){
    y = y - v->y;     
 }
 
-float pvector::magnitude(){
-   return sqrt((x * x) + (y *y));
+float pvector::getMagnitude(pvector *v){
+   return sqrt((v->x * v->x) + (v->y * v->y));
 }
 

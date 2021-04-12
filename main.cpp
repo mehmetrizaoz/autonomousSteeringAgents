@@ -27,32 +27,26 @@ void drawAgent(agent *ag){
     //TODO: drawing will be done regarding velocity vector
     glPushMatrix();
     glBegin(GL_TRIANGLES);
-    glVertex3f( ag->getPosition()->x - 0.29f, ag->getPosition()->y - 0.50f, 0.00f);
-    glVertex3f( ag->getPosition()->x - 0.29f, ag->getPosition()->y + 0.50f, 0.00f);
-    glVertex3f( ag->getPosition()->x + 0.57f, ag->getPosition()->y        , 0.00f);
+    glVertex3f( ag->position->x - 0.29f, ag->position->y - 0.50f, 0.00f);
+    glVertex3f( ag->position->x - 0.29f, ag->position->y + 0.50f, 0.00f);
+    glVertex3f( ag->position->x + 0.57f, ag->position->y        , 0.00f);
     glEnd();
     glPopMatrix();  
 }
 
 void updateAgentPosition(agent *ag){      
-    ag->calculateDirection(mousePos_x / 5.88 - 34 , 34 - mousePos_y / 5.88);
+    ag->calculateDirection(mousePos_x / 5.88 - 34, 34 - mousePos_y / 5.88);
     ag->calculateNormal(ag->direction);
-    ag->setAcceleration(ag->normal);  
-    ag->velocity->add(ag->getAcceleration());
     
-    if(ag->velocity->x > 1)
-       ag->velocity->x = 1;
-    if(ag->velocity->x < -1)
-       ag->velocity->x = -1;
-    if(ag->velocity->y > 1)
-       ag->velocity->y = 1;
-    if(ag->velocity->y < -1)
-       ag->velocity->y = -1;
+    ag->setAcceleration(ag->normal);  
+    ag->velocity->add(ag->acceleration);
+    ag->limitVelocity();
+
 
 /*
-    if( ag->getMagnitude(ag->getVelocity()) >= SPEED_LIMIT ){            
-        ag->setAcceleration(0, 0);
-    }
+    if(pvector::getMagnitude(ag->getVelocity()) >= SPEED_LIMIT)
+       ag->setAcceleration(0, 0);
+
     ag->velocity->add(ag->getAcceleration());
     //reflect from screen borders
     if ((ag->getPosition()->x > WIDTH)  || (ag->getPosition()->x < -WIDTH)) {
@@ -64,7 +58,7 @@ void updateAgentPosition(agent *ag){
        ag->getAcceleration()->y = ag->getAcceleration()->y * -1;
     }
     */
-    ag->position->add(ag->getVelocity());
+    ag->position->add(ag->velocity);
     drawAgent(ag);
 }
 
@@ -106,15 +100,14 @@ void update(int value) {
 
 void mouseButton(int button, int state, int x, int y){
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
-		cout << "x: " << x << " " << "y: " << y << endl;
-	}
-    //mousePos_x = x;
-    //mousePos_y = y;
+		//cout << "x: " << x << " " << "y: " << y << endl;
+	   mousePos_x = x;
+       mousePos_y = y;
+    }    
 }
 
 void mouseMove(int x, int y){
-    mousePos_x = x;
-    mousePos_y = y;
+
 }
 
 int main(int argc, char** argv) { 

@@ -10,14 +10,10 @@ public:
   void setAcceleration(pvector *);
   void setVelocity(float x, float y);
   void setPosition(float x, float y);
-  pvector *getAcceleration();
-  pvector *getPosition();
-  pvector *getVelocity();
-   
-  pvector *calculateDirection(int x, int y);
+  void limitVelocity();
+  
+  pvector *calculateDirection(int x, int y); //TODO: will be steer
   pvector *calculateNormal(pvector *v); //TODO: must be in pvector
-  float    getMagnitude(pvector *v);    //TODO: must be in pvector
-//private:
   pvector *direction;
   pvector *normal;
   pvector *acceleration;

@@ -6,9 +6,10 @@ public:
    float x;
    float y;
    pvector(float x, float y);
-   float magnitude();
+   static float getMagnitude(pvector *v);
    void add(pvector *v);
-   void sub(pvector *v);  
+   void sub(pvector *v);
+   
 };
 
 #endif
