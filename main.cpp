@@ -23,17 +23,28 @@ void createAgent(agent *ag){
     glPushMatrix();
     glBegin(GL_TRIANGLES); 
 
+    //set new agent position
+    if( ag->getMagnitude(ag->getVelocity()) >= 5 ){            
+        ag->setAcceleration(0, 0);
+    }
+
+    ag->velocity->add(ag->getAcceleration());
+
     //reflect from screen borders
-    if ((ag->getPosition()->x > width) || (ag->getPosition()->x < -width)) {
+    if ((ag->getPosition()->x > width)  || (ag->getPosition()->x < -width)) {
        ag->getVelocity()->x = ag->getVelocity()->x * -1;
+       ag->getAcceleration()->x = ag->getAcceleration()->x * -1;
     }
     if ((ag->getPosition()->y > height) || (ag->getPosition()->y < -height)) {
        ag->getVelocity()->y = ag->getVelocity()->y * -1;
+       ag->getAcceleration()->y = ag->getAcceleration()->y * -1;
     }
   
-    //set new agent position
-    ag->getPosition()->add(ag->getVelocity());
-    
+    ag->position->add(ag->getVelocity());
+    //cout << "pos " << ag->position->x << " " << ag->position->y << endl;
+    //cout << "vel " << ag->velocity->x << " " << ag->velocity->y << endl;
+    //cout << "acc " << ag->acceleration->x << " " << ag->acceleration->y << endl << endl;
+        
     //draw agent
     glVertex3f( ag->getPosition()->x - 0.29f, ag->getPosition()->y - 0.50f, 0.00f);
     glVertex3f( ag->getPosition()->x - 0.29f, ag->getPosition()->y + 0.50f, 0.00f);
@@ -103,7 +114,8 @@ int main(int argc, char** argv) {
     }*/
 
     agent *ag1 = new agent(0.0, 0.0);
-    ag1->setVelocity(0.5, 0.3);    
+    ag1->setVelocity(0.5, 0.5);
+    ag1->setAcceleration(0.01, 0.01);
     agents.push_back(ag1);
     
     glutInit(&argc, argv);

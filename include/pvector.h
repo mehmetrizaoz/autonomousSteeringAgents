@@ -6,7 +6,7 @@ public:
    float x;
    float y;
    pvector(float x, float y);
-   float magnitude(pvector v);
+   float magnitude();
    void add(pvector *v);
    void sub(pvector *v);  
 };
