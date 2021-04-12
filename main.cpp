@@ -6,12 +6,13 @@
 #include "pvector.h"
 #include "agent.h"
 
-using namespace std;
-  
-vector<agent *> agents;
+#define SPEED_LIMIT 5
+#define WIDTH       64
+#define HEIGHT      34
 
-const int height    = 34;
-const int width     = 64;
+using namespace std;
+
+vector<agent *> agents;
 
 float randomNegate(float num){
     if(rand() % 2 == 0)
@@ -20,32 +21,28 @@ float randomNegate(float num){
 }
 
 void createAgent(agent *ag){ 
-    glPushMatrix();
-    glBegin(GL_TRIANGLES); 
-
     //set new agent position
-    if( ag->getMagnitude(ag->getVelocity()) >= 5 ){            
+    if( ag->getMagnitude(ag->getVelocity()) >= SPEED_LIMIT ){            
         ag->setAcceleration(0, 0);
     }
-
     ag->velocity->add(ag->getAcceleration());
 
     //reflect from screen borders
-    if ((ag->getPosition()->x > width)  || (ag->getPosition()->x < -width)) {
+    if ((ag->getPosition()->x > WIDTH)  || (ag->getPosition()->x < -WIDTH)) {
        ag->getVelocity()->x = ag->getVelocity()->x * -1;
        ag->getAcceleration()->x = ag->getAcceleration()->x * -1;
     }
-    if ((ag->getPosition()->y > height) || (ag->getPosition()->y < -height)) {
+    if ((ag->getPosition()->y > HEIGHT) || (ag->getPosition()->y < -HEIGHT)) {
        ag->getVelocity()->y = ag->getVelocity()->y * -1;
        ag->getAcceleration()->y = ag->getAcceleration()->y * -1;
     }
   
     ag->position->add(ag->getVelocity());
-    //cout << "pos " << ag->position->x << " " << ag->position->y << endl;
-    //cout << "vel " << ag->velocity->x << " " << ag->velocity->y << endl;
-    //cout << "acc " << ag->acceleration->x << " " << ag->acceleration->y << endl << endl;
-        
+
     //draw agent
+    //TODO: drawing will be done regarding velocity vector
+    glPushMatrix();
+    glBegin(GL_TRIANGLES);
     glVertex3f( ag->getPosition()->x - 0.29f, ag->getPosition()->y - 0.50f, 0.00f);
     glVertex3f( ag->getPosition()->x - 0.29f, ag->getPosition()->y + 0.50f, 0.00f);
     glVertex3f( ag->getPosition()->x + 0.57f, ag->getPosition()->y        , 0.00f);
@@ -117,6 +114,11 @@ int main(int argc, char** argv) {
     ag1->setVelocity(0.5, 0.5);
     ag1->setAcceleration(0.01, 0.01);
     agents.push_back(ag1);
+
+    agent *ag2 = new agent(0.0, 0.0);
+    ag2->setVelocity(0.4, 0.4);
+    ag2->setAcceleration(0.01, 0.01);
+    agents.push_back(ag2);
     
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
