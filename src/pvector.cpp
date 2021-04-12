@@ -1,5 +1,8 @@
 #include "pvector.h"
 #include "math.h"
+#include <iostream>
+
+using namespace std;
 
 pvector::pvector(float x, float y){
    this->x = x;
@@ -7,8 +10,8 @@ pvector::pvector(float x, float y){
 }
 
 void pvector::add(pvector *v){
-      x = x + v->x;
-      y = y + v->y;
+   x = x + v->x;
+   y = y + v->y;
 }
 
 void pvector::sub(pvector *v){
@@ -17,5 +20,6 @@ void pvector::sub(pvector *v){
 }
 
 float pvector::magnitude(){
-   return sqrt((x * x) + (y + y));
+   return sqrt((x * x) + (y *y));
 }
+

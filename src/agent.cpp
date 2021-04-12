@@ -3,17 +3,37 @@
 
 using namespace std;
 
-//TODO: acceleration will be added
+pvector *agent::calculateNormal(pvector *v){
+   //cout << "vector " << v->x << " " << v->y << endl;
+   //cout << "normal" << v->magnitude() << endl;
+   normal->x = v->x / v->magnitude();
+   normal->y = v->y / v->magnitude();
+   //cout << "normal " << normal->x << " " << normal->y << endl;
+   return normal;
+}
+
+pvector *agent::calculateDirection(int x, int y){
+   direction->x = x - this->position->x;
+   direction->y = y - this->position->y;
+   return direction;
+}
 
 agent::agent(float x, float y){
     position     = new pvector(x, y);
     velocity     = new pvector(0.5, 0.5);
     acceleration = new pvector(0.0, 0.0);
+    direction    = new pvector(0.0, 0.0);
+    normal       = new pvector(0.0, 0.0);
 };
 
 void agent::setAcceleration(float x, float y){
     acceleration->x = x;
     acceleration->y = y;
+}
+
+void agent::setAcceleration(pvector *v){
+    acceleration->x = v->x;
+    acceleration->y = v->y;
 }
 
 void agent::setVelocity(float x, float y){

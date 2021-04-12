@@ -9,9 +9,12 @@
 #define SPEED_LIMIT 5
 #define WIDTH       64
 #define HEIGHT      34
+#define ESC         27
 
 using namespace std;
 
+int mousePos_x = 10;
+int mousePos_y = 10;
 vector<agent *> agents;
 
 float randomNegate(float num){
@@ -20,12 +23,34 @@ float randomNegate(float num){
     return num;
 }
 
-void createAgent(agent *ag){ 
-    //set new agent position
+void drawAgent(agent *ag){
+    //TODO: drawing will be done regarding velocity vector
+    glPushMatrix();
+    glBegin(GL_TRIANGLES);
+    glVertex3f( ag->getPosition()->x - 0.29f, ag->getPosition()->y - 0.50f, 0.00f);
+    glVertex3f( ag->getPosition()->x - 0.29f, ag->getPosition()->y + 0.50f, 0.00f);
+    glVertex3f( ag->getPosition()->x + 0.57f, ag->getPosition()->y        , 0.00f);
+    glEnd();
+    glPopMatrix();  
+}
+
+void updateAgentPosition(agent *ag){
+    /*    
+    //ag->calculateDirection(mousePos_x, mousePos_y);
+    //cout << "direction " << ag->direction->x << " " << ag->direction->y << endl;
+    cout << "position " << ag->position->x << " " << ag->position->y << endl;
+    cout << "mouse " << mousePos_x << " " << mousePos_y << endl;
+    //ag->calculateNormal(ag->direction);
+    cout << "normal " << ag->normal->x / 10 << " " << ag->normal->y / 10 << endl;
+   // ag->setAcceleration(ag->normal);
+    cout << "acceleration " << ag->acceleration->x << " " << ag->acceleration->y << endl;
+  */
     if( ag->getMagnitude(ag->getVelocity()) >= SPEED_LIMIT ){            
         ag->setAcceleration(0, 0);
     }
+
     ag->velocity->add(ag->getAcceleration());
+    cout << "velocity " << ag->velocity->x << " " << ag->velocity->y << endl;
 
     //reflect from screen borders
     if ((ag->getPosition()->x > WIDTH)  || (ag->getPosition()->x < -WIDTH)) {
@@ -38,28 +63,19 @@ void createAgent(agent *ag){
     }
   
     ag->position->add(ag->getVelocity());
+    cout << "position2 " << ag->position->x << " " << ag->position->y << endl << endl;
 
-    //draw agent
-    //TODO: drawing will be done regarding velocity vector
-    glPushMatrix();
-    glBegin(GL_TRIANGLES);
-    glVertex3f( ag->getPosition()->x - 0.29f, ag->getPosition()->y - 0.50f, 0.00f);
-    glVertex3f( ag->getPosition()->x - 0.29f, ag->getPosition()->y + 0.50f, 0.00f);
-    glVertex3f( ag->getPosition()->x + 0.57f, ag->getPosition()->y        , 0.00f);
-    glEnd();
-    glPopMatrix();   
+    drawAgent(ag);
 }
 
 void handleKeypress(unsigned char key, int x, int y) {    
     switch (key) {
-        case 27: //Escape key
+        case ESC:
             exit(0);
-    }
-    
+    }    
 }
 
-void handleResize(int w, int h) {
-    
+void handleResize(int w, int h) {    
     glViewport(0, 0, w, h);  //Tell OpenGL how to convert from coordinates to pixel values
     glMatrixMode(GL_PROJECTION); //Switch to setting the camera perspective       
     glLoadIdentity(); //Reset the camera
@@ -77,7 +93,7 @@ void drawScene() {
     glTranslatef(0.0f, 0.0f, -85.0f); //Move to the center of the triangle    
     
     for(auto it = agents.begin(); it < agents.end(); it++){       
-       createAgent(*it);       
+       updateAgentPosition(*it);       
     }
    
     glutSwapBuffers();
@@ -92,10 +108,15 @@ void mouseButton(int button, int state, int x, int y){
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
 		cout << "x: " << x << " " << "y: " << y << endl;
 	}
+    cout << "mmmmmmmmm" << endl;
+    mousePos_x = x;
+    mousePos_y = y;
+
 }
 
 void mouseMove(int x, int y){
- 	cout << "x: " << x << " " << "y: " << y << endl;
+    mousePos_x = x;
+    mousePos_y = y;
 }
 
 int main(int argc, char** argv) { 
@@ -105,20 +126,20 @@ int main(int argc, char** argv) {
     cin >> numberOfAgents;
   
     for(int i=0; i<numberOfAgents; i++){   
-       //TODO: generating same point is possible
+       //TODO: sometimes generates same point
        agents.push_back(
            new center(randomNegate(float(rand() % 70)), randomNegate(float(rand() % 40))));
     }*/
 
     agent *ag1 = new agent(0.0, 0.0);
-    ag1->setVelocity(0.5, 0.5);
+    ag1->setVelocity(0.01, 0.01);       
     ag1->setAcceleration(0.01, 0.01);
     agents.push_back(ag1);
-
-    agent *ag2 = new agent(0.0, 0.0);
-    ag2->setVelocity(0.4, 0.4);
+/*
+    agent *ag2 = new agent(1.5, 6.0);
+    ag2->setVelocity(-0.2, 0.4);
     ag2->setAcceleration(0.01, 0.01);
-    agents.push_back(ag2);
+    agents.push_back(ag2);*/
     
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);

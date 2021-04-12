@@ -7,13 +7,18 @@ class agent{
 public:
   agent(float x, float y);
   void setAcceleration(float x, float y);
+  void setAcceleration(pvector *);
   void setVelocity(float x, float y);
   void setPosition(float x, float y);
   pvector *getAcceleration();
   pvector *getPosition();
   pvector *getVelocity();
-  float getMagnitude(pvector *v);
+  pvector *calculateDirection(int x, int y);
+  pvector *calculateNormal(pvector *v);
+  float    getMagnitude(pvector *v);
 //private:
+  pvector *direction;
+  pvector *normal;
   pvector *acceleration;
   pvector *position;
   pvector *velocity;  
