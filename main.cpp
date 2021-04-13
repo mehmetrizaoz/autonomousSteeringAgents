@@ -6,10 +6,6 @@
 #include "pvector.h"
 #include "agent.h"
 
-#define MAX_SPEED   0.9
-#define MAX_FORCE   1
-#define MASS        1
-
 #define WIDTH       34
 #define HEIGHT      34
 
@@ -28,7 +24,7 @@ float randomNegate(float num){
 
 void updatePosition(agent *ag){
     ag->velocity->add(ag->acceleration);
-    ag->velocity->limit(MAX_SPEED);
+    ag->velocity->limit(ag->maxSpeed);
     ag->position->add(ag->velocity);
     ag->acceleration->set(0,0);
 
@@ -43,7 +39,7 @@ void updatePosition(agent *ag){
 }
 
 void reflect(agent *ag){     
-    if(pvector::getMagnitude(ag->velocity) >= MAX_SPEED)
+    if(pvector::getMagnitude(ag->velocity) >= ag->maxSpeed)
        ag->setAcceleration(0, 0);
     
     ag->velocity->add(ag->acceleration);
@@ -65,11 +61,11 @@ void applyForce(agent *ag){
 
 void seek(agent *ag){     
     ag->desired->set(target_x - ag->position->x, target_y - ag->position->y);    
-    ag->desired->limit(MAX_SPEED);
+    ag->desired->limit(ag->maxSpeed);
     
     ag->steering = ag->desired;
     ag->steering->sub(ag->velocity);  
-    ag->steering->limit(MAX_FORCE);
+    ag->steering->limit(ag->maxForce);
     applyForce(ag);
 }
 
@@ -108,7 +104,7 @@ void drawScene() {
 
 void timerEvent(int value) {
     glutPostRedisplay(); //Tell GLUT that the display has changed
-    glutTimerFunc(25, timerEvent, 0);
+    glutTimerFunc(5, timerEvent, 0);
 }
 
 void mouseButton(int button, int state, int x, int y){
@@ -156,7 +152,7 @@ int main(int argc, char** argv) {
     glutKeyboardFunc(handleKeypress);
     glutReshapeFunc(handleResize);
     
-    glutTimerFunc(25, timerEvent, 0);    
+    glutTimerFunc(5, timerEvent, 0);    
     glutMainLoop();
     return 0;
 }

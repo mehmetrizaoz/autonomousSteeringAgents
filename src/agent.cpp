@@ -11,23 +11,14 @@ agent::agent(float x, float y){
     acceleration = new pvector(0.0, 0.0);
     steering     = new pvector(0.0, 0.0);
     desired      = new pvector(0.0, 0.0);
+    maxForce = 0.03;
+    maxSpeed = 0.5;
 };
 
 void agent::setAcceleration(float x, float y){
     acceleration->x = x;
     acceleration->y = y;
 }
-/*
-void agent::limitVelocity(){
-    if(velocity->x >  SPEED_LIMIT)
-       velocity->x =  SPEED_LIMIT;
-    if(velocity->x < -SPEED_LIMIT)
-       velocity->x = -SPEED_LIMIT;
-    if(velocity->y >  SPEED_LIMIT)
-       velocity->y =  SPEED_LIMIT;
-    if(velocity->y < -SPEED_LIMIT)
-       velocity->y = -SPEED_LIMIT;
-}*/
 
 void agent::setAcceleration(pvector *v){
     acceleration->x = v->x;

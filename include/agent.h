@@ -10,13 +10,14 @@ public:
   void setAcceleration(pvector *);
   void setVelocity(float x, float y);
   void setPosition(float x, float y);
-  //void limitVelocity();
 
   pvector *steering;
   pvector *desired;
   pvector *acceleration;
   pvector *position;
   pvector *velocity;  
+  float maxSpeed; 
+  float maxForce;
 };
 
 #endif
