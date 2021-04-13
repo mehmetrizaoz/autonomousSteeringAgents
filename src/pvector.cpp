@@ -34,7 +34,7 @@ void pvector::normalize(){
    this->y = this->y / magnitude;   
 }
 
-void pvector::limit(int limit){
+void pvector::limit(float limit){
    if(this->x >  limit)
       this->x =  limit;
    if(this->x < -limit)

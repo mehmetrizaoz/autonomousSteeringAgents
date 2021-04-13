@@ -6,7 +6,7 @@
 #include "pvector.h"
 #include "agent.h"
 
-#define MAX_SPEED   1
+#define MAX_SPEED   0.9
 #define MAX_FORCE   1
 #define MASS        1
 
@@ -59,7 +59,7 @@ void reflect(agent *ag){
 }
 
 void applyForce(agent *ag){
-   //MASS has no effect
+   //MASS has no effect, acc * 1 = force 
    ag->acceleration->add(ag->steering);
 }
 
