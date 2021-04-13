@@ -12,7 +12,7 @@ public:
   void setPosition(float x, float y);
   void limitVelocity();
 
-  pvector *direction;
+  pvector *steering;
   pvector *desired;
   pvector *acceleration;
   pvector *position;

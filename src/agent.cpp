@@ -1,7 +1,7 @@
 #include "agent.h"
 #include <iostream>
 
-#define LIMIT 1
+#define SPEED_LIMIT 1
 
 using namespace std;
 
@@ -9,7 +9,7 @@ agent::agent(float x, float y){
     position     = new pvector(x, y);
     velocity     = new pvector(0.5, 0.5);
     acceleration = new pvector(0.0, 0.0);
-    direction    = new pvector(0.0, 0.0);
+    steering     = new pvector(0.0, 0.0);
     desired      = new pvector(0.0, 0.0);
 };
 
@@ -19,14 +19,14 @@ void agent::setAcceleration(float x, float y){
 }
 
 void agent::limitVelocity(){
-    if(velocity->x > LIMIT)
-       velocity->x = LIMIT;
-    if(velocity->x < -LIMIT)
-       velocity->x = -LIMIT;
-    if(velocity->y > LIMIT)
-       velocity->y = LIMIT;
-    if(velocity->y < -LIMIT)
-       velocity->y = -LIMIT;
+    if(velocity->x >  SPEED_LIMIT)
+       velocity->x =  SPEED_LIMIT;
+    if(velocity->x < -SPEED_LIMIT)
+       velocity->x = -SPEED_LIMIT;
+    if(velocity->y >  SPEED_LIMIT)
+       velocity->y =  SPEED_LIMIT;
+    if(velocity->y < -SPEED_LIMIT)
+       velocity->y = -SPEED_LIMIT;
 }
 
 void agent::setAcceleration(pvector *v){

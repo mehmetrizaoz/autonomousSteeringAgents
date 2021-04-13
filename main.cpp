@@ -6,15 +6,15 @@
 #include "pvector.h"
 #include "agent.h"
 
-#define SPEED_LIMIT 10
+#define MAX_SPEED   10
 #define WIDTH       34
 #define HEIGHT      34
 #define ESC         27
 
 using namespace std;
 
-int mousePos_x;
-int mousePos_y;
+int target_x = -34;
+int target_y = 34;
 vector<agent *> agents;
 
 float randomNegate(float num){
@@ -23,8 +23,12 @@ float randomNegate(float num){
     return num;
 }
 
-void drawAgent(agent *ag){
+void updatePosition(agent *ag){
     //TODO: drawing will be done regarding velocity vector
+    ag->velocity->add(ag->acceleration);
+    ag->limitVelocity();
+    ag->position->add(ag->velocity);
+
     glPushMatrix();
     glBegin(GL_TRIANGLES);
     glVertex3f( ag->position->x - 0.29f, ag->position->y - 0.50f, 0.00f);
@@ -34,21 +38,12 @@ void drawAgent(agent *ag){
     glPopMatrix();  
 }
 
-void updateAgentPosition(agent *ag){     /*
-    ag->desired->set(mousePos_x / 5.88 - 34, 34 - mousePos_y / 5.88);
-    ag->desired->sub(ag->position);
-
-    ag->desired->normalize();
-    ag->acceleration = ag->desired;    
-    ag->velocity->add(ag->acceleration);
-    ag->limitVelocity();*/
-
-
-    if(pvector::getMagnitude(ag->velocity) >= SPEED_LIMIT)
+void reflect(agent *ag){     
+    if(pvector::getMagnitude(ag->velocity) >= MAX_SPEED)
        ag->setAcceleration(0, 0);
-
+    
     ag->velocity->add(ag->acceleration);
-    //reflect from screen borders
+
     if ((ag->position->x > WIDTH)  || (ag->position->x < -WIDTH)) {
        ag->velocity->x = ag->velocity->x * -1;
        ag->acceleration->x = ag->acceleration->x * -1;
@@ -56,10 +51,17 @@ void updateAgentPosition(agent *ag){     /*
     if ((ag->position->y > HEIGHT) || (ag->position->y < -HEIGHT)) {
        ag->velocity->y = ag->velocity->y * -1;
        ag->acceleration->y = ag->acceleration->y * -1;
-    }
+    }        
+}
+
+void seek(agent *ag){     
+    ag->desired->set(target_x - ag->position->x, target_y - ag->position->y);
+    ag->desired->normalize();
     
-    ag->position->add(ag->velocity);
-    drawAgent(ag);
+
+    ag->steering = ag->desired;
+    ag->steering->sub(ag->velocity);    
+    ag->acceleration = ag->steering;
 }
 
 void handleKeypress(unsigned char key, int x, int y) {    
@@ -87,7 +89,9 @@ void drawScene() {
     glTranslatef(0.0f, 0.0f, -85.0f); //Move to the center of the triangle    
     
     for(auto it = agents.begin(); it < agents.end(); it++){       
-       updateAgentPosition(*it);       
+       seek(*it); 
+       //reflect(*it);
+       updatePosition(*it);   
     }
    
     glutSwapBuffers();
@@ -101,13 +105,13 @@ void update(int value) {
 void mouseButton(int button, int state, int x, int y){
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
 		//cout << "x: " << x << " " << "y: " << y << endl;
-	   mousePos_x = x;
-       mousePos_y = y;
+
     }    
 }
 
 void mouseMove(int x, int y){
-
+	   target_x = x / 5.88 - 34;
+       target_y = 34 - y / 5.88; 
 }
 
 int main(int argc, char** argv) { 
