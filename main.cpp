@@ -8,10 +8,12 @@
 
 #define MAX_SPEED   1
 #define MAX_FORCE   1
+#define MASS        1
+
 #define WIDTH       34
 #define HEIGHT      34
+
 #define ESC         27
-#define MASS        1
 
 using namespace std;
 
@@ -20,18 +22,17 @@ int target_y = 34;
 vector<agent *> agents;
 
 float randomNegate(float num){
-    if(rand() % 2 == 0)
-       num *= -1;
+    if(rand() % 2 == 0) {num *= -1;}
     return num;
 }
 
 void updatePosition(agent *ag){
-    //TODO: drawing will be done regarding velocity vector
     ag->velocity->add(ag->acceleration);
     ag->velocity->limit(MAX_SPEED);
     ag->position->add(ag->velocity);
     ag->acceleration->set(0,0);
 
+    //TODO: drawing will be done regarding velocity vector
     glPushMatrix();
     glBegin(GL_TRIANGLES);
     glVertex3f( ag->position->x - 0.29f, ag->position->y - 0.50f, 0.00f);
@@ -105,15 +106,13 @@ void drawScene() {
     glutSwapBuffers();
 }
 
-void update(int value) {
+void timerEvent(int value) {
     glutPostRedisplay(); //Tell GLUT that the display has changed
-    glutTimerFunc(25, update, 0);
+    glutTimerFunc(25, timerEvent, 0);
 }
 
 void mouseButton(int button, int state, int x, int y){
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
-		//cout << "x: " << x << " " << "y: " << y << endl;
-
     }    
 }
 
@@ -157,7 +156,7 @@ int main(int argc, char** argv) {
     glutKeyboardFunc(handleKeypress);
     glutReshapeFunc(handleResize);
     
-    glutTimerFunc(25, update, 0);    
+    glutTimerFunc(25, timerEvent, 0);    
     glutMainLoop();
     return 0;
 }
