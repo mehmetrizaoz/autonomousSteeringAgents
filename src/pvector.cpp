@@ -33,3 +33,14 @@ void pvector::normalize(){
    this->x = this->x / magnitude;
    this->y = this->y / magnitude;   
 }
+
+void pvector::limit(int limit){
+   if(this->x >  limit)
+      this->x =  limit;
+   if(this->x < -limit)
+      this->x = -limit;
+   if(this->y >  limit)
+      this->y =  limit;
+   if(this->y < -limit)
+      this->y = -limit;
+}

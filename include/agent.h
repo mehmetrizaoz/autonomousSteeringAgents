@@ -10,7 +10,7 @@ public:
   void setAcceleration(pvector *);
   void setVelocity(float x, float y);
   void setPosition(float x, float y);
-  void limitVelocity();
+  //void limitVelocity();
 
   pvector *steering;
   pvector *desired;

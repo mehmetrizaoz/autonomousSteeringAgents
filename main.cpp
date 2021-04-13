@@ -6,7 +6,8 @@
 #include "pvector.h"
 #include "agent.h"
 
-#define MAX_SPEED   10
+#define MAX_SPEED   1
+#define MAX_FORCE   1
 #define WIDTH       34
 #define HEIGHT      34
 #define ESC         27
@@ -26,8 +27,9 @@ float randomNegate(float num){
 void updatePosition(agent *ag){
     //TODO: drawing will be done regarding velocity vector
     ag->velocity->add(ag->acceleration);
-    ag->limitVelocity();
+    ag->velocity->limit(MAX_SPEED);
     ag->position->add(ag->velocity);
+    ag->acceleration->set(0,0);
 
     glPushMatrix();
     glBegin(GL_TRIANGLES);
@@ -54,14 +56,18 @@ void reflect(agent *ag){
     }        
 }
 
-void seek(agent *ag){     
-    ag->desired->set(target_x - ag->position->x, target_y - ag->position->y);
-    ag->desired->normalize();
-    
+void applyForce(agent *ag){
+   ag->acceleration->add(ag->steering);
+}
 
+void seek(agent *ag){     
+    ag->desired->set(target_x - ag->position->x, target_y - ag->position->y);    
+    ag->desired->limit(MAX_SPEED);
+    
     ag->steering = ag->desired;
-    ag->steering->sub(ag->velocity);    
-    ag->acceleration = ag->steering;
+    ag->steering->sub(ag->velocity);  
+    ag->steering->limit(MAX_FORCE);
+    applyForce(ag);
 }
 
 void handleKeypress(unsigned char key, int x, int y) {    
@@ -89,8 +95,8 @@ void drawScene() {
     glTranslatef(0.0f, 0.0f, -85.0f); //Move to the center of the triangle    
     
     for(auto it = agents.begin(); it < agents.end(); it++){       
-       seek(*it); 
-       //reflect(*it);
+       //seek(*it); 
+       reflect(*it);
        updatePosition(*it);   
     }
    

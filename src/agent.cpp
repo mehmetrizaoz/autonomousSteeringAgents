@@ -17,7 +17,7 @@ void agent::setAcceleration(float x, float y){
     acceleration->x = x;
     acceleration->y = y;
 }
-
+/*
 void agent::limitVelocity(){
     if(velocity->x >  SPEED_LIMIT)
        velocity->x =  SPEED_LIMIT;
@@ -27,7 +27,7 @@ void agent::limitVelocity(){
        velocity->y =  SPEED_LIMIT;
     if(velocity->y < -SPEED_LIMIT)
        velocity->y = -SPEED_LIMIT;
-}
+}*/
 
 void agent::setAcceleration(pvector *v){
     acceleration->x = v->x;

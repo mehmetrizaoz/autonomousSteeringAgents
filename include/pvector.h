@@ -11,6 +11,7 @@ public:
    void set(float x, float y);
    void add(pvector *v);
    void sub(pvector *v);
+   void limit(int limit);
    
 };
 
