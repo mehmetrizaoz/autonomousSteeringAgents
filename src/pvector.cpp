@@ -24,12 +24,12 @@ void pvector::sub(pvector *v){
    this->y = this->y - v->y;     
 }
 
-float pvector::getMagnitude(pvector *v){
-   return sqrt((v->x * v->x) + (v->y * v->y));
+float pvector::magnitude(){
+   return sqrt((this->x * this->x) + (this->y * this->y));
 }
 
 void pvector::normalize(){
-   float magnitude = pvector::getMagnitude(this);
+   float magnitude = this->magnitude();
    this->x = this->x / magnitude;
    this->y = this->y / magnitude;   
 }

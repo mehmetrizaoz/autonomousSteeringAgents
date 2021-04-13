@@ -11,8 +11,9 @@ agent::agent(float x, float y){
     acceleration = new pvector(0.0, 0.0);
     steering     = new pvector(0.0, 0.0);
     desired      = new pvector(0.0, 0.0);
-    maxForce = 0.03;
+    maxForce = 0.08;
     maxSpeed = 0.5;
+    r = 6;
 };
 
 void agent::setAcceleration(float x, float y){

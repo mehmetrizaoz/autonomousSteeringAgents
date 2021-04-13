@@ -5,6 +5,7 @@
 #include <vector>
 #include "pvector.h"
 #include "agent.h"
+#include "math.h"
 
 #define WIDTH       34
 #define HEIGHT      34
@@ -29,17 +30,21 @@ void updatePosition(agent *ag){
     ag->acceleration->set(0,0);
 
     //TODO: drawing will be done regarding velocity vector
+    //float r = sqrt(ag->position->magnitude());
+    //float r_cos_theta = r * (ag->velocity->x / ag->velocity->magnitude());
+    //float r_sin_theta = r * (ag->velocity->y / ag->velocity->magnitude());
+   
     glPushMatrix();
     glBegin(GL_TRIANGLES);
-    glVertex3f( ag->position->x - 0.29f, ag->position->y - 0.50f, 0.00f);
-    glVertex3f( ag->position->x - 0.29f, ag->position->y + 0.50f, 0.00f);
-    glVertex3f( ag->position->x + 0.57f, ag->position->y        , 0.00f);
+    glVertex3f((ag->position->x - 0.29f), (ag->position->y - 0.50f), 0.00f);
+    glVertex3f((ag->position->x - 0.29f), (ag->position->y + 0.50f), 0.00f);
+    glVertex3f((ag->position->x + 0.57f), (ag->position->y)        , 0.00f);
     glEnd();
     glPopMatrix();  
 }
 
 void reflect(agent *ag){     
-    if(pvector::getMagnitude(ag->velocity) >= ag->maxSpeed)
+    if(ag->velocity->magnitude() >= ag->maxSpeed)
        ag->setAcceleration(0, 0);
     
     ag->velocity->add(ag->acceleration);
@@ -55,13 +60,19 @@ void reflect(agent *ag){
 }
 
 void applyForce(agent *ag){
-   //MASS has no effect, acc * 1 = force 
+   //TODO: add mass (MASS has no effect, acc * 1 = force)
    ag->acceleration->add(ag->steering);
 }
 
 void seek(agent *ag){     
     ag->desired->set(target_x - ag->position->x, target_y - ag->position->y);    
-    ag->desired->limit(ag->maxSpeed);
+    //slow down if too close
+    if(ag->desired->magnitude() > 2 * ag->r)
+       ag->desired->limit(ag->maxSpeed);
+    else if(ag->desired->magnitude() > ag->r)
+       ag->desired->limit(ag->maxSpeed / 2);
+    else
+       ag->desired->limit(ag->maxSpeed / 4);
     
     ag->steering = ag->desired;
     ag->steering->sub(ag->velocity);  
@@ -108,8 +119,7 @@ void timerEvent(int value) {
 }
 
 void mouseButton(int button, int state, int x, int y){
-	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
-    }    
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){ }    
 }
 
 void mouseMove(int x, int y){

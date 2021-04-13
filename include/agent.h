@@ -18,6 +18,7 @@ public:
   pvector *velocity;  
   float maxSpeed; 
   float maxForce;
+  float r;
 };
 
 #endif
