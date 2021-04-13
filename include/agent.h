@@ -12,8 +12,8 @@ public:
   void setPosition(float x, float y);
   void limitVelocity();
 
-  pvector *calculateDirection(int x, int y); //TODO: will be steer
   pvector *direction;
+  pvector *desired;
   pvector *acceleration;
   pvector *position;
   pvector *velocity;  

@@ -5,18 +5,12 @@
 
 using namespace std;
 
-
-pvector *agent::calculateDirection(int x, int y){
-   direction->x = x - this->position->x;
-   direction->y = y - this->position->y;
-   return direction;
-}
-
 agent::agent(float x, float y){
     position     = new pvector(x, y);
     velocity     = new pvector(0.5, 0.5);
     acceleration = new pvector(0.0, 0.0);
     direction    = new pvector(0.0, 0.0);
+    desired      = new pvector(0.0, 0.0);
 };
 
 void agent::setAcceleration(float x, float y){

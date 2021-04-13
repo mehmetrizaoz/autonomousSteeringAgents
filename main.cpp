@@ -34,12 +34,14 @@ void drawAgent(agent *ag){
     glPopMatrix();  
 }
 
-void updateAgentPosition(agent *ag){      
-    /*ag->calculateDirection(mousePos_x / 5.88 - 34, 34 - mousePos_y / 5.88);   
-    ag->setAcceleration(pvector::getNormal(ag->direction));  
+void updateAgentPosition(agent *ag){     /*
+    ag->desired->set(mousePos_x / 5.88 - 34, 34 - mousePos_y / 5.88);
+    ag->desired->sub(ag->position);
+
+    ag->desired->normalize();
+    ag->acceleration = ag->desired;    
     ag->velocity->add(ag->acceleration);
     ag->limitVelocity();*/
-
 
 
     if(pvector::getMagnitude(ag->velocity) >= SPEED_LIMIT)

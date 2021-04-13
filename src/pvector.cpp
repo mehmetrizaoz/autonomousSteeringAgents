@@ -14,16 +14,22 @@ void pvector::add(pvector *v){
    y = y + v->y;
 }
 
+void pvector::set(float x, float y){
+   this->x = x;
+   this->y = y;
+}
+
 void pvector::sub(pvector *v){
-   x = x - v->x;
-   y = y - v->y;     
+   this->x = this->x - v->x;
+   this->y = this->y - v->y;     
 }
 
 float pvector::getMagnitude(pvector *v){
    return sqrt((v->x * v->x) + (v->y * v->y));
 }
 
-pvector *pvector::getNormal(pvector *v){
-   //TODO: memory leak ?
-   return new pvector(v->x / pvector::getMagnitude(v), v->y / pvector::getMagnitude(v));
+void pvector::normalize(){
+   float magnitude = pvector::getMagnitude(this);
+   this->x = this->x / magnitude;
+   this->y = this->y / magnitude;   
 }
