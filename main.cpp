@@ -35,15 +35,15 @@ void updatePosition(agent *ag){
     glTranslatef(ag->position->x, ag->position->y, 0.0f);   
     
     angle = ag->velocity->y /ag->velocity->x;   
-    //cout << "velocity " << ag->velocity->x << " " << ag->velocity->y  << endl; 
-    //cout << "ratio " << angle << endl;        
+    cout << "velocity " << ag->velocity->x << " " << ag->velocity->y  << endl; 
+    cout << "ratio " << angle << endl;        
     angle = atan(angle) * 180 / PI;
     //TODO: following code may be eleminated
     if(ag->velocity->x < 0 && ag->velocity->y < 0)
       angle += 180;
-    if(ag->velocity->x < 0 && ag->velocity->y > 0)
+    if(ag->velocity->x < 0 && ag->velocity->y >= 0)
       angle += 180;
-    //cout << "angle " << angle << endl << endl;
+    cout << "angle " << angle << endl << endl;
     if(angle <= 360)
        glRotatef(angle, 0.0f, 0.0f, 1.0f);
 
@@ -71,6 +71,7 @@ void reflect(agent *ag){
     }        
 }
 
+//TODO move to agent class
 void applyForce(agent *ag){
    //TODO: add mass (MASS has no effect, acc * 1 = force)
    ag->acceleration->add(ag->steering);
@@ -158,11 +159,11 @@ int main(int argc, char** argv) {
     ag1->setVelocity(0.5, 0.4);       
     ag1->setAcceleration(0.01, 0.01);
     agents.push_back(ag1);
-/*
+
     agent *ag2 = new agent(5.5, 16.0);
     ag2->setVelocity(-0.2, 0.4);
     ag2->setAcceleration(0.01, 0.01);
-    agents.push_back(ag2);*/
+    agents.push_back(ag2);
     
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
