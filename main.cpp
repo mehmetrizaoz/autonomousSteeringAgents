@@ -142,29 +142,18 @@ void setAgent(agent * ag, float s, float f, float r, float m){
 }
 
 int main(int argc, char** argv) { 
-/*  int numberOfAgents;       
-    srand (time(NULL));
-    cout << "enter number of agents" << endl;
-    cin >> numberOfAgents;
-  
-    for(int i=0; i<numberOfAgents; i++){   
-       //TODO: sometimes generates same point
-       agents.push_back(
-           new center(randomNegate(float(rand() % 70)), randomNegate(float(rand() % 40))));
-    }*/
-
     agent *ag1 = new agent(0.0, 0.0);
-    setAgent(ag1, 0.5, 0.04, 3, 1);
+    setAgent(ag1, 0.5, 0.043, 3, 1);
 
     agent *ag2 = new agent(5.5, 16.0);
-    setAgent(ag2, 0.4, 0.03, 4, 1.1);
+    setAgent(ag2, 0.4, 0.032, 4, 1.1);
 
-    agent *ag3 = new agent(0.0, 0.0);
-    setAgent(ag3, 0.1, 0.4, 3, 1);
+    agent *ag3 = new agent(0.5, 4.0);
+    setAgent(ag3, 0.1, 0.41, 3, 1);
 
     agent *ag4 = new agent(5.5, 16.0);
-    setAgent(ag4, 0.4, 0.33, 4, 1.1);    
-    
+    setAgent(ag4, 0.44, 0.33, 4, 1.1); 
+   
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(400, 400);
