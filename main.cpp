@@ -11,7 +11,6 @@
 #define HEIGHT      34
 
 #define ESC         27
-#define PI          3.14159265
 
 using namespace std;
 
@@ -24,18 +23,15 @@ float randomNegate(float num){
     return num;
 }
 
-void updatePosition(agent *ag){
-    float angle;
+void updatePosition(agent *ag){    
     ag->velocity->add(ag->acceleration);
     ag->velocity->limit(ag->maxSpeed);
     ag->position->add(ag->velocity);
     ag->acceleration->set(0,0);
   
     glPushMatrix();
-    glTranslatef(ag->position->x, ag->position->y, 0.0f);     
-    //TODO: move to pvector getangle
-    angle = atan2 (ag->velocity->y,ag->velocity->x) * 180 / PI;
-    glRotatef(angle, 0.0f, 0.0f, 1.0f);
+    glTranslatef(ag->position->x, ag->position->y, 0.0f);       
+    glRotatef(ag->velocity->angle(), 0.0f, 0.0f, 1.0f);
     glBegin(GL_TRIANGLES);            
     glVertex3f( 1.0f,  0.0f, 0.0f);
     glVertex3f(-1.0f,  0.5f, 0.0f);    
@@ -62,7 +58,7 @@ void reflect(agent *ag){
 
 //TODO move to agent class
 void applyForce(agent *ag){
-   //TODO: add mass (MASS has no effect, acc * 1 = force)
+   ag->steering->div(ag->mass);
    ag->acceleration->add(ag->steering);
 }
 
@@ -129,6 +125,11 @@ void mouseButton(int button, int state, int x, int y){
 }
 
 void mouseMove(int x, int y){
+/*   glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+   glGetDoublev(GL_MODELVIEW_MATRIX, projection);
+   glGetIntegerv(GL_VIEWPORT, viewport);
+   gluUnProject(winX, winY, winZ , modelview, projection, viewport, &posX, &posY, & posZ);
+*/
     //TODO: magic numbers !
 	target_x = x / 5.88 - 34;
     target_y = 34 - y / 5.88; 
@@ -173,6 +174,3 @@ int main(int argc, char** argv) {
     glutMainLoop();
     return 0;
 }
-
-
-

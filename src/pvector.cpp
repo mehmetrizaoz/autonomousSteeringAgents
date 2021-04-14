@@ -2,7 +2,15 @@
 #include "math.h"
 #include <iostream>
 
+#define PI          3.14159265
+
 using namespace std;
+
+float pvector::angle(){
+   float angle;
+   angle = atan2 (this->y, this->x) * 180 / PI;
+   return angle;
+}
 
 pvector::pvector(float x, float y){
    this->x = x;
@@ -12,6 +20,11 @@ pvector::pvector(float x, float y){
 void pvector::add(pvector *v){
    x = x + v->x;
    y = y + v->y;
+}
+
+void pvector::div(float i){
+   x = x / i;
+   y = y / i;
 }
 
 void pvector::set(float x, float y){

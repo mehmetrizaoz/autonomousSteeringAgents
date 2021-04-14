@@ -14,16 +14,12 @@ agent::agent(float x, float y){
     maxForce = 0.04;
     maxSpeed = 0.5;
     r = 6;
+    mass = 1.0;
 };
 
 void agent::setAcceleration(float x, float y){
     acceleration->x = x;
     acceleration->y = y;
-}
-
-void agent::setAcceleration(pvector *v){
-    acceleration->x = v->x;
-    acceleration->y = v->y;
 }
 
 void agent::setVelocity(float x, float y){

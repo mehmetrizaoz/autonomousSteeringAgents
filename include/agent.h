@@ -7,7 +7,6 @@ class agent{
 public:
   agent(float x, float y);
   void setAcceleration(float x, float y);
-  void setAcceleration(pvector *);
   void setVelocity(float x, float y);
   void setPosition(float x, float y);
 
@@ -19,6 +18,7 @@ public:
   float maxSpeed; 
   float maxForce;
   float r;
+  float mass;
 };
 
 #endif
