@@ -34,16 +34,23 @@ void updatePosition(agent *ag){
     glPushMatrix();
     glTranslatef(ag->position->x, ag->position->y, 0.0f);   
     
-    angle = ag->velocity->y /ag->velocity->x;    
+    angle = ag->velocity->y /ag->velocity->x;   
+    //cout << "velocity " << ag->velocity->x << " " << ag->velocity->y  << endl; 
+    //cout << "ratio " << angle << endl;        
     angle = atan(angle) * 180 / PI;
-    cout << angle << endl;
-    if(angle <= 180)
+    //TODO: following code may be eleminated
+    if(ag->velocity->x < 0 && ag->velocity->y < 0)
+      angle += 180;
+    if(ag->velocity->x < 0 && ag->velocity->y > 0)
+      angle += 180;
+    //cout << "angle " << angle << endl << endl;
+    if(angle <= 360)
        glRotatef(angle, 0.0f, 0.0f, 1.0f);
 
     glBegin(GL_TRIANGLES);            
-    glVertex3f( 1.3f,  0.0f, 0.0f);
-    glVertex3f(-1.3f,  0.5f, 0.0f);    
-    glVertex3f(-1.3f, -0.5f, 0.0f);
+    glVertex3f( 1.0f,  0.0f, 0.0f);
+    glVertex3f(-1.0f,  0.5f, 0.0f);    
+    glVertex3f(-1.0f, -0.5f, 0.0f);
     glEnd();
     glPopMatrix();  
 }
@@ -124,7 +131,10 @@ void timerEvent(int value) {
 }
 
 void mouseButton(int button, int state, int x, int y){
-	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){ }    
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){ 
+       //target_x = x / 5.88 - 34;
+       //target_y = 34 - y / 5.88; 
+    }    
 }
 
 void mouseMove(int x, int y){
