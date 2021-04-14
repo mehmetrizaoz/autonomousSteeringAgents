@@ -32,21 +32,10 @@ void updatePosition(agent *ag){
     ag->acceleration->set(0,0);
   
     glPushMatrix();
-    glTranslatef(ag->position->x, ag->position->y, 0.0f);   
-    
-    angle = ag->velocity->y /ag->velocity->x;   
-    cout << "velocity " << ag->velocity->x << " " << ag->velocity->y  << endl; 
-    cout << "ratio " << angle << endl;        
-    angle = atan(angle) * 180 / PI;
-    //TODO: following code may be eleminated
-    if(ag->velocity->x < 0 && ag->velocity->y < 0)
-      angle += 180;
-    if(ag->velocity->x < 0 && ag->velocity->y >= 0)
-      angle += 180;
-    cout << "angle " << angle << endl << endl;
-    if(angle <= 360)
-       glRotatef(angle, 0.0f, 0.0f, 1.0f);
-
+    glTranslatef(ag->position->x, ag->position->y, 0.0f);     
+    //TODO: move to pvector getangle
+    angle = atan2 (ag->velocity->y,ag->velocity->x) * 180 / PI;
+    glRotatef(angle, 0.0f, 0.0f, 1.0f);
     glBegin(GL_TRIANGLES);            
     glVertex3f( 1.0f,  0.0f, 0.0f);
     glVertex3f(-1.0f,  0.5f, 0.0f);    
@@ -79,7 +68,8 @@ void applyForce(agent *ag){
 
 void seek(agent *ag){     
     ag->desired->set(target_x - ag->position->x, target_y - ag->position->y);    
-    //slow down if too close
+    
+    //TODO: table will be used for slowing down
     if(ag->desired->magnitude() > 2 * ag->r)
        ag->desired->limit(ag->maxSpeed);
     else if(ag->desired->magnitude() > ag->r)
@@ -139,8 +129,9 @@ void mouseButton(int button, int state, int x, int y){
 }
 
 void mouseMove(int x, int y){
-	   target_x = x / 5.88 - 34;
-       target_y = 34 - y / 5.88; 
+    //TODO: magic numbers !
+	target_x = x / 5.88 - 34;
+    target_y = 34 - y / 5.88; 
 }
 
 int main(int argc, char** argv) { 
@@ -160,10 +151,10 @@ int main(int argc, char** argv) {
     ag1->setAcceleration(0.01, 0.01);
     agents.push_back(ag1);
 
-    agent *ag2 = new agent(5.5, 16.0);
+    /*agent *ag2 = new agent(5.5, 16.0);
     ag2->setVelocity(-0.2, 0.4);
     ag2->setAcceleration(0.01, 0.01);
-    agents.push_back(ag2);
+    agents.push_back(ag2);*/
     
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
