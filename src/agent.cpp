@@ -13,7 +13,7 @@ agent::agent(float x, float y){
     desired      = new pvector(0.0, 0.0);
     maxForce = 0.04;
     maxSpeed = 0.5;
-    r = 6;
+    r = 12;
     mass = 1.0;
 };
 

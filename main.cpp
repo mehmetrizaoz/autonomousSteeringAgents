@@ -23,21 +23,34 @@ float randomNegate(float num){
     return num;
 }
 
-void updatePosition(agent *ag){    
-    ag->velocity->add(ag->acceleration);
-    ag->velocity->limit(ag->maxSpeed);
-    ag->position->add(ag->velocity);
-    ag->acceleration->set(0,0);
-  
+float theta;
+void drawAgent(agent *ag){
     glPushMatrix();
-    glTranslatef(ag->position->x, ag->position->y, 0.0f);       
-    glRotatef(ag->velocity->angle(), 0.0f, 0.0f, 1.0f);
-    glBegin(GL_TRIANGLES);            
+    glTranslatef(ag->position->x, ag->position->y, 0.0f);
+
+    //if(ag->velocity->x != 0 || ag->velocity->y != 0){
+       theta = ag->velocity->angle();
+    //}    
+ 
+    glRotatef(theta, 0.0f, 0.0f, 1.0f);
+    glBegin(GL_TRIANGLES);          
+    glColor3f(1.0f, 0.7f, 0.0f);  
     glVertex3f( 1.0f,  0.0f, 0.0f);
-    glVertex3f(-1.0f,  0.5f, 0.0f);    
+    glColor3f(1.0f, 1.0f, 1.0f);
+    glVertex3f(-1.0f,  0.5f, 0.0f);
+    glColor3f(0.0f, 0.0f, 1.0f); 
     glVertex3f(-1.0f, -0.5f, 0.0f);
     glEnd();
     glPopMatrix();  
+}
+
+void updatePosition(agent *ag){    
+   ag->velocity->add(ag->acceleration);
+   ag->velocity->limit(ag->maxSpeed);
+   ag->position->add(ag->velocity);
+   ag->acceleration->set(0,0);
+  
+   drawAgent(ag);
 }
 
 void reflect(agent *ag){     
@@ -56,7 +69,6 @@ void reflect(agent *ag){
     }        
 }
 
-//TODO move to agent class
 void applyForce(agent *ag){
    ag->steering->div(ag->mass);
    ag->acceleration->add(ag->steering);
@@ -65,13 +77,10 @@ void applyForce(agent *ag){
 void seek(agent *ag){     
     ag->desired->set(target_x - ag->position->x, target_y - ag->position->y);    
     
-    //TODO: table will be used for slowing down
-    if(ag->desired->magnitude() > 2 * ag->r)
-       ag->desired->limit(ag->maxSpeed);
-    else if(ag->desired->magnitude() > ag->r)
-       ag->desired->limit(ag->maxSpeed / 2);
-    else
-       ag->desired->limit(ag->maxSpeed / 4);
+    //slow down
+    if(ag->desired->magnitude() > ag->r) { ag->desired->limit(ag->maxSpeed); }
+    else if(ag->desired->magnitude() > ag->r / 2) { ag->desired->limit(ag->maxSpeed / 2); }
+    else { ag->desired->limit(ag->maxSpeed / 4); }
     
     ag->steering = ag->desired;
     ag->steering->sub(ag->velocity);  
@@ -80,10 +89,7 @@ void seek(agent *ag){
 }
 
 void handleKeypress(unsigned char key, int x, int y) {    
-    switch (key) {
-        case ESC:
-            exit(0);
-    }    
+    if (key == ESC) { exit(0); }    
 }
 
 void handleResize(int w, int h) {        
@@ -125,11 +131,6 @@ void mouseButton(int button, int state, int x, int y){
 }
 
 void mouseMove(int x, int y){
-/*   glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
-   glGetDoublev(GL_MODELVIEW_MATRIX, projection);
-   glGetIntegerv(GL_VIEWPORT, viewport);
-   gluUnProject(winX, winY, winZ , modelview, projection, viewport, &posX, &posY, & posZ);
-*/
     //TODO: magic numbers !
 	target_x = x / 5.88 - 34;
     target_y = 34 - y / 5.88; 
@@ -162,6 +163,7 @@ int main(int argc, char** argv) {
     glutInitWindowSize(400, 400);
     
     glutCreateWindow("Autonomous Steering Agents");
+    glClearColor(0.7f, 0.9f, 1.0f, 1.0f); //set background color
     glEnable(GL_DEPTH_TEST);
     
     glutDisplayFunc(drawScene);
