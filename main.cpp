@@ -11,6 +11,7 @@
 #define HEIGHT      34
 
 #define ESC         27
+#define PI          3.14159265
 
 using namespace std;
 
@@ -24,21 +25,25 @@ float randomNegate(float num){
 }
 
 void updatePosition(agent *ag){
+    float angle;
     ag->velocity->add(ag->acceleration);
     ag->velocity->limit(ag->maxSpeed);
     ag->position->add(ag->velocity);
     ag->acceleration->set(0,0);
-
-    //TODO: drawing will be done regarding velocity vector
-    //float r = sqrt(ag->position->magnitude());
-    //float r_cos_theta = r * (ag->velocity->x / ag->velocity->magnitude());
-    //float r_sin_theta = r * (ag->velocity->y / ag->velocity->magnitude());
-   
+  
     glPushMatrix();
-    glBegin(GL_TRIANGLES);
-    glVertex3f((ag->position->x - 0.29f), (ag->position->y - 0.50f), 0.00f);
-    glVertex3f((ag->position->x - 0.29f), (ag->position->y + 0.50f), 0.00f);
-    glVertex3f((ag->position->x + 0.57f), (ag->position->y)        , 0.00f);
+    glTranslatef(ag->position->x, ag->position->y, 0.0f);   
+    
+    angle = ag->velocity->y /ag->velocity->x;    
+    angle = atan(angle) * 180 / PI;
+    cout << angle << endl;
+    if(angle <= 180)
+       glRotatef(angle, 0.0f, 0.0f, 1.0f);
+
+    glBegin(GL_TRIANGLES);            
+    glVertex3f( 1.3f,  0.0f, 0.0f);
+    glVertex3f(-1.3f,  0.5f, 0.0f);    
+    glVertex3f(-1.3f, -0.5f, 0.0f);
     glEnd();
     glPopMatrix();  
 }
@@ -143,8 +148,8 @@ int main(int argc, char** argv) {
     ag1->setVelocity(0.5, 0.4);       
     ag1->setAcceleration(0.01, 0.01);
     agents.push_back(ag1);
-
-    /*agent *ag2 = new agent(1.5, 6.0);
+/*
+    agent *ag2 = new agent(5.5, 16.0);
     ag2->setVelocity(-0.2, 0.4);
     ag2->setAcceleration(0.01, 0.01);
     agents.push_back(ag2);*/
