@@ -14,8 +14,8 @@
 
 using namespace std;
 
-int target_x = -34;
-int target_y = 34;
+int target_x = -WIDTH;
+int target_y = HEIGHT;
 vector<agent *> agents;
 
 float randomNegate(float num){
@@ -124,16 +124,21 @@ void timerEvent(int value) {
 }
 
 void mouseButton(int button, int state, int x, int y){
-	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){ 
-       //target_x = x / 5.88 - 34;
-       //target_y = 34 - y / 5.88; 
-    }    
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){}    
 }
 
 void mouseMove(int x, int y){
-    //TODO: magic numbers !
-	target_x = x / 5.88 - 34;
-    target_y = 34 - y / 5.88; 
+    //TODO: mouse position to glut
+	target_x = x / 5.88 - WIDTH;
+    target_y = HEIGHT - y / 5.88; 
+}
+
+void setAgent(agent * ag, float s, float f, float r, float m){
+    ag->setMaxSpeed(s);
+    ag->setMaxForce(f);
+    ag->setR(r);
+    ag->setMass(m);
+    agents.push_back(ag);
 }
 
 int main(int argc, char** argv) { 
@@ -149,14 +154,16 @@ int main(int argc, char** argv) {
     }*/
 
     agent *ag1 = new agent(0.0, 0.0);
-    ag1->setVelocity(0.5, 0.4);       
-    ag1->setAcceleration(0.01, 0.01);
-    agents.push_back(ag1);
+    setAgent(ag1, 0.5, 0.04, 3, 1);
 
-    /*agent *ag2 = new agent(5.5, 16.0);
-    ag2->setVelocity(-0.2, 0.4);
-    ag2->setAcceleration(0.01, 0.01);
-    agents.push_back(ag2);*/
+    agent *ag2 = new agent(5.5, 16.0);
+    setAgent(ag2, 0.4, 0.03, 4, 1.1);
+
+    agent *ag3 = new agent(0.0, 0.0);
+    setAgent(ag3, 0.1, 0.4, 3, 1);
+
+    agent *ag4 = new agent(5.5, 16.0);
+    setAgent(ag4, 0.4, 0.33, 4, 1.1);    
     
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
