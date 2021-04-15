@@ -4,8 +4,7 @@
 #include "pvector.h"
 
 class agent{
-public:
-  agent(float x, float y);
+public:  
   ~agent();
   void setAcceleration(float x, float y);
   void setVelocity(float x, float y);
@@ -14,6 +13,8 @@ public:
   void setR(float s);
   void setMass(float m);
   void setMaxForce(float f);
+  void applyForce();
+  agent(float x, float y, float s, float f, float r, float m);
   pvector steering;
   pvector desired;
   pvector acceleration;

@@ -23,11 +23,11 @@ float randomNegate(float num){
     return num;
 }
 
-void drawAgent(agent *ag){
+void drawAgent(agent &ag){
     glPushMatrix();
-    glTranslatef(ag->position.x, ag->position.y, 0.0f);
+    glTranslatef(ag.position.x, ag.position.y, 0.0f);
   
-    glRotatef(ag->velocity.angle(), 0.0f, 0.0f, 1.0f);
+    glRotatef(ag.velocity.angle(), 0.0f, 0.0f, 1.0f);
     glBegin(GL_TRIANGLES);          
     glColor3f(1.0f, 0.7f, 0.0f);  
     glVertex3f( 1.0f,  0.0f, 0.0f);
@@ -39,48 +39,41 @@ void drawAgent(agent *ag){
     glPopMatrix();  
 }
 
-void updatePosition(agent *ag){   
-   ag->velocity = ag->velocity + ag->acceleration; 
-   ag->velocity.limit(ag->maxSpeed);
-   ag->position = ag->position + ag->velocity;
-   ag->acceleration = pvector(0,0);
-  
-   drawAgent(ag);
+void updatePosition(agent &ag){   
+   ag.velocity = ag.velocity + ag.acceleration; 
+   ag.velocity.limit(ag.maxSpeed);
+   ag.position = ag.position + ag.velocity;
+   ag.acceleration = pvector(0,0);   
 }
 
-void reflect(agent *ag){     
-    if(ag->velocity.magnitude() >= ag->maxSpeed)
-       ag->acceleration = pvector (0, 0);
+void reflect(agent &ag){     
+    if(ag.velocity.magnitude() >= ag.maxSpeed)
+       ag.acceleration = pvector (0, 0);
     
-    ag->velocity = ag->velocity + ag->acceleration;
+    ag.velocity = ag.velocity + ag.acceleration;
 
-    if ((ag->position.x > WIDTH)  || (ag->position.x < -WIDTH)) {
-       ag->velocity.x = ag->velocity.x * -1;
-       ag->acceleration.x = ag->acceleration.x * -1;
+    if ((ag.position.x > WIDTH)  || (ag.position.x < -WIDTH)) {
+       ag.velocity.x = ag.velocity.x * -1;
+       ag.acceleration.x = ag.acceleration.x * -1;
     }
-    if ((ag->position.y > HEIGHT) || (ag->position.y < -HEIGHT)) {
-       ag->velocity.y = ag->velocity.y * -1;
-       ag->acceleration.y = ag->acceleration.y * -1;
+    if ((ag.position.y > HEIGHT) || (ag.position.y < -HEIGHT)) {
+       ag.velocity.y = ag.velocity.y * -1;
+       ag.acceleration.y = ag.acceleration.y * -1;
     }        
 }
 
-void applyForce(agent *ag){
-   ag->steering.div(ag->mass);
-   ag->acceleration = ag->acceleration + ag->steering;
-}
-
-void seek(agent *ag){
-    ag->desired = pvector(target_x - ag->position.x, target_y - ag->position.y);    
+void seek(agent &ag){
+    ag.desired = pvector(target_x - ag.position.x, target_y - ag.position.y);    
     
     //slow down
-    if(ag->desired.magnitude() > ag->r) { ag->desired.limit(ag->maxSpeed); }
-    else if(ag->desired.magnitude() > ag->r / 2) { ag->desired.limit(ag->maxSpeed / 2); }
-    else { ag->desired.limit(ag->maxSpeed / 4); }
+    if(ag.desired.magnitude() > ag.r) { ag.desired.limit(ag.maxSpeed); }
+    else if(ag.desired.magnitude() > ag.r / 2) { ag.desired.limit(ag.maxSpeed / 2); }
+    else { ag.desired.limit(ag.maxSpeed / 4); }
     
-    ag->steering = ag->desired;
-    ag->steering = ag->steering - ag->velocity;  
-    ag->steering.limit(ag->maxForce);
-    applyForce(ag);
+    ag.steering = ag.desired;
+    ag.steering = ag.steering - ag.velocity;  
+    ag.steering.limit(ag.maxForce);
+    ag.applyForce();
 }
 
 void handleKeypress(unsigned char key, int x, int y) {    
@@ -105,9 +98,10 @@ void drawScene() {
     glTranslatef(0.0f, 0.0f, -85.0f); //Move to the center of the triangle    
     
     for(auto it = agents.begin(); it < agents.end(); it++){       
-       seek(*it); 
-       //reflect(*it);
-       updatePosition(*it);   
+       seek(**it); 
+       //reflect(**it);
+       updatePosition(**it);
+       drawAgent(**it);
     }
    
     glutSwapBuffers();
@@ -128,27 +122,19 @@ void mouseMove(int x, int y){
     target_y = HEIGHT - y / 5.88; 
 }
 
-void setAgent(agent *ag, float s, float f, float r, float m){
-    ag->setMaxSpeed(s);
-    ag->setMaxForce(f);
-    ag->setR(r);
-    ag->setMass(m);
-    agents.push_back(ag);
-}
+int main(int argc, char** argv) {     
+    agent ag1  = agent(0.0, 0.0, 0.5, 0.043, 3, 1);
+    agents.push_back(&ag1);
 
-int main(int argc, char** argv) { 
-    agent *ag1 = new agent(0.0, 0.0);
-    setAgent(ag1, 0.5, 0.043, 3, 1);
+    agent ag2 = agent(5.5, 16.0, 0.4, 0.032, 4, 1.1);
+    agents.push_back(&ag2);
 
-    agent *ag2 = new agent(5.5, 16.0);
-    setAgent(ag2, 0.4, 0.032, 4, 1.1);
-
-    agent *ag3 = new agent(0.5, 4.0);
-    setAgent(ag3, 0.3, 0.41, 3, 1);
-
-    agent *ag4 = new agent(5.5, 16.0);
-    setAgent(ag4, 0.44, 0.33, 4, 1.1); 
-   
+    agent ag3 = agent(0.5, 4.0, 0.3, 0.41, 3, 1);
+    agents.push_back(&ag3);
+    
+    agent ag4 = agent(5.5, 16.0, 0.44, 0.33, 4, 1.1); 
+    agents.push_back(&ag4);   
+    
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(400, 400);
