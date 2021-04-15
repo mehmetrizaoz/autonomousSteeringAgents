@@ -38,13 +38,15 @@ void drawAgent(agent &ag){
     glEnd();
     glPopMatrix();  
 }
-/*
+
 void updatePosition(agent &ag){   
    ag.velocity = ag.velocity + ag.acceleration; 
    ag.velocity.limit(ag.maxSpeed);
    ag.position = ag.position + ag.velocity;
-   ag.acceleration = pvector(0,0);   
-}*/
+   ag.acceleration = pvector(0,0);
+  
+   drawAgent(ag);
+}
 
 void reflect(agent &ag){     
     if(ag.velocity.magnitude() >= ag.maxSpeed)
@@ -67,8 +69,7 @@ void seek(agent &ag){
     
     //slow down
     if(ag.desired.magnitude() > ag.r) { ag.desired.limit(ag.maxSpeed); }
-    else if(ag.desired.magnitude() > ag.r / 2) { ag.desired.limit(ag.maxSpeed / 2); }
-    else { ag.desired.limit(ag.maxSpeed / 4); }
+    else { ag.desired.limit(ag.maxSpeed / 2); }
     
     ag.steering = ag.desired;
     ag.steering = ag.steering - ag.velocity;  
@@ -100,8 +101,7 @@ void drawScene() {
     for(auto it = agents.begin(); it < agents.end(); it++){       
        seek(**it); 
        //reflect(**it);
-       (**it).updatePosition();
-       drawAgent(**it);
+       updatePosition(**it);   
     }
    
     glutSwapBuffers();
@@ -109,7 +109,7 @@ void drawScene() {
 
 void timerEvent(int value) {
     glutPostRedisplay(); //Tell GLUT that the display has changed
-    glutTimerFunc(5, timerEvent, 0);
+    glutTimerFunc(20, timerEvent, 0);
 }
 
 void mouseButton(int button, int state, int x, int y){
@@ -122,19 +122,27 @@ void mouseMove(int x, int y){
     target_y = HEIGHT - y / 5.88; 
 }
 
-int main(int argc, char** argv) {     
-    agent ag1  = agent(0.0, 0.0, 0.5, 0.043, 3, 1);
-    agents.push_back(&ag1);
+void setAgent(agent &ag, float s, float f, float r, float m){
+    ag.setMaxSpeed(s);
+    ag.setMaxForce(f);
+    ag.setR(r);
+    ag.setMass(m);
+    agents.push_back(&ag);
+}
 
-    agent ag2 = agent(5.5, 16.0, 0.4, 0.032, 4, 1.1);
-    agents.push_back(&ag2);
+int main(int argc, char** argv) { 
+    agent ag1 = agent(0.0, 0.0);
+    setAgent(ag1, 0.5, 0.043, 3, 1);
 
-    agent ag3 = agent(0.5, 4.0, 0.3, 0.41, 3, 1);
-    agents.push_back(&ag3);
-    
-    agent ag4 = agent(5.5, 16.0, 0.44, 0.33, 4, 1.1); 
-    agents.push_back(&ag4);   
-    
+    agent ag2 = agent(5.5, 16.0);
+    setAgent(ag2, 0.7, 0.032, 4, 1.1);
+
+    agent ag3 = agent(0.5, 4.0);
+    setAgent(ag3, 0.8, 0.51, 3, 1);
+
+    agent ag4 = agent(5.5, 16.0);
+    setAgent(ag4, 0.44, 0.33, 4, 1.1); 
+   
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(400, 400);

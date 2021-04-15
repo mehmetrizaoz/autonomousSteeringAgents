@@ -1,14 +1,16 @@
 #include "agent.h"
 #include <iostream>
 
+#define SPEED_LIMIT 1
+
 using namespace std;
 
-agent::agent(float x, float y, float s, float f, float r, float m){
+agent::agent(float x, float  y){
     position     = pvector(x, y);
-    setMaxSpeed(s);
-    setMaxForce(f);
-    setR(r);
-    setMass(m);    
+    velocity     = pvector(0.5, 0.5);
+    acceleration = pvector(0.0, 0.0);
+    steering     = pvector(0.0, 0.0);
+    desired      = pvector(0.0, 0.0);
 }
 
 agent::~agent(){}
@@ -29,15 +31,7 @@ void agent::setMaxForce(float f){
     maxForce = f;
 }
 
-void agent::updatePosition(){   
-   velocity = velocity + acceleration; 
-   velocity.limit(maxSpeed);
-   position = position + velocity;
-   acceleration = pvector(0,0);   
-}
-
 void agent::applyForce(){
    steering.div(mass);
    acceleration = acceleration + steering;
 }
-

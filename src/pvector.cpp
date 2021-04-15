@@ -45,13 +45,13 @@ void pvector::limit(float limit){
 }
 
 pvector pvector::operator + (pvector const &obj) {
-      pvector res;
+      pvector res; //TODO: leak ?
       res.x = x + obj.x;
       res.y = y + obj.y;
       return res;
 }
 pvector pvector::operator - (pvector const &obj) {
-      pvector res;
+      pvector res; //TODO: leak ?
       res.x = x - obj.x;
       res.y = y - obj.y;
       return res;
