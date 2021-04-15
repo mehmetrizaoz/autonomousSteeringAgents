@@ -6,19 +6,20 @@
 using namespace std;
 
 agent::agent(float x, float y){
-    position     = new pvector(x, y);
-    velocity     = new pvector(0.5, 0.5);
-    acceleration = new pvector(0.0, 0.0);
-    steering     = new pvector(0.0, 0.0);
-    desired      = new pvector(0.0, 0.0);
+    position     = pvector(x, y);
+    velocity     = pvector(0.5, 0.5);
+    acceleration = pvector(0.0, 0.0);
+    steering     = pvector(0.0, 0.0);
+    desired      = pvector(0.0, 0.0);
 }
 
 agent::~agent(){
-   delete position;
-   delete velocity;
-   delete acceleration;
-   delete steering;
-   delete desired;
+//TODO: change with unique pointers
+    delete &position;
+    delete &velocity;
+    delete &acceleration;
+    delete &steering;
+    delete &desired;
 }
 
 void agent::setMass(float m){
@@ -38,17 +39,17 @@ void agent::setMaxForce(float f){
 }
 
 void agent::setAcceleration(float x, float y){
-    acceleration->x = x;
-    acceleration->y = y;
+    acceleration.x = x;
+    acceleration.y = y;
 }
 
 void agent::setVelocity(float x, float y){
-    velocity->x = x;
-    velocity->y = y;
+    velocity.x = x;
+    velocity.y = y;
 }
 
 void agent::setPosition(float x, float y){
-    position->x = x;
-    position->y = y;
+    position.x = x;
+    position.y = y;
 }
 

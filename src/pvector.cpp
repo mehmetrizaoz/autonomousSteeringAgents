@@ -11,15 +11,11 @@ float pvector::angle(){
    angle = atan2 (this->y, this->x) * 180 / PI;
    return angle;
 }
+pvector::pvector(){}
 
 pvector::pvector(float x, float y){
    this->x = x;
    this->y = y;
-}
-
-void pvector::add(pvector *v){
-   x = x + v->x;
-   y = y + v->y;
 }
 
 void pvector::div(float i){
@@ -30,11 +26,6 @@ void pvector::div(float i){
 void pvector::set(float x, float y){
    this->x = x;
    this->y = y;
-}
-
-void pvector::sub(pvector *v){
-   this->x = this->x - v->x;
-   this->y = this->y - v->y;     
 }
 
 float pvector::magnitude(){
@@ -56,4 +47,17 @@ void pvector::limit(float limit){
       this->y =  limit;
    if(this->y < -limit)
       this->y = -limit;
+}
+
+pvector pvector::operator + (pvector const &obj) {
+      pvector res; //TODO: leak ?
+      res.x = x + obj.x;
+      res.y = y + obj.y;
+      return res;
+}
+pvector pvector::operator - (pvector const &obj) {
+      pvector res; //TODO: leak ?
+      res.x = x - obj.x;
+      res.y = y - obj.y;
+      return res;
 }

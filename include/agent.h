@@ -14,11 +14,11 @@ public:
   void setR(float s);
   void setMass(float m);
   void setMaxForce(float f);
-  pvector *steering;
-  pvector *desired;
-  pvector *acceleration;
-  pvector *position;
-  pvector *velocity;  
+  pvector steering;
+  pvector desired;
+  pvector acceleration;
+  pvector position;
+  pvector velocity;  
   float maxSpeed; 
   float maxForce;
   float r;

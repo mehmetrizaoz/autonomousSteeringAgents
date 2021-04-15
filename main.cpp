@@ -26,10 +26,10 @@ float randomNegate(float num){
 float theta;
 void drawAgent(agent *ag){
     glPushMatrix();
-    glTranslatef(ag->position->x, ag->position->y, 0.0f);
+    glTranslatef(ag->position.x, ag->position.y, 0.0f);
 
     //if(ag->velocity->x != 0 || ag->velocity->y != 0){
-       theta = ag->velocity->angle();
+       theta = ag->velocity.angle();
     //}    
  
     glRotatef(theta, 0.0f, 0.0f, 1.0f);
@@ -44,47 +44,48 @@ void drawAgent(agent *ag){
     glPopMatrix();  
 }
 
-void updatePosition(agent *ag){    
-   ag->velocity->add(ag->acceleration);
-   ag->velocity->limit(ag->maxSpeed);
-   ag->position->add(ag->velocity);
-   ag->acceleration->set(0,0);
+void updatePosition(agent *ag){   
+   ag->velocity = ag->velocity + ag->acceleration; 
+   ag->velocity.limit(ag->maxSpeed);
+   ag->position = ag->position + ag->velocity;
+   ag->acceleration.set(0,0);
   
    drawAgent(ag);
 }
 
 void reflect(agent *ag){     
-    if(ag->velocity->magnitude() >= ag->maxSpeed)
+    if(ag->velocity.magnitude() >= ag->maxSpeed)
        ag->setAcceleration(0, 0);
     
-    ag->velocity->add(ag->acceleration);
+    ag->velocity = ag->velocity + ag->acceleration;
 
-    if ((ag->position->x > WIDTH)  || (ag->position->x < -WIDTH)) {
-       ag->velocity->x = ag->velocity->x * -1;
-       ag->acceleration->x = ag->acceleration->x * -1;
+    if ((ag->position.x > WIDTH)  || (ag->position.x < -WIDTH)) {
+       ag->velocity.x = ag->velocity.x * -1;
+       ag->acceleration.x = ag->acceleration.x * -1;
     }
-    if ((ag->position->y > HEIGHT) || (ag->position->y < -HEIGHT)) {
-       ag->velocity->y = ag->velocity->y * -1;
-       ag->acceleration->y = ag->acceleration->y * -1;
+    if ((ag->position.y > HEIGHT) || (ag->position.y < -HEIGHT)) {
+       ag->velocity.y = ag->velocity.y * -1;
+       ag->acceleration.y = ag->acceleration.y * -1;
     }        
 }
 
 void applyForce(agent *ag){
-   ag->steering->div(ag->mass);
-   ag->acceleration->add(ag->steering);
+   ag->steering.div(ag->mass);
+   ag->acceleration = ag->acceleration + ag->steering;
+   //ag->acceleration.add(ag->steering);
 }
 
 void seek(agent *ag){     
-    ag->desired->set(target_x - ag->position->x, target_y - ag->position->y);    
+    ag->desired.set(target_x - ag->position.x, target_y - ag->position.y);    
     
     //slow down
-    if(ag->desired->magnitude() > ag->r) { ag->desired->limit(ag->maxSpeed); }
-    else if(ag->desired->magnitude() > ag->r / 2) { ag->desired->limit(ag->maxSpeed / 2); }
-    else { ag->desired->limit(ag->maxSpeed / 4); }
+    if(ag->desired.magnitude() > ag->r) { ag->desired.limit(ag->maxSpeed); }
+    else if(ag->desired.magnitude() > ag->r / 2) { ag->desired.limit(ag->maxSpeed / 2); }
+    else { ag->desired.limit(ag->maxSpeed / 4); }
     
     ag->steering = ag->desired;
-    ag->steering->sub(ag->velocity);  
-    ag->steering->limit(ag->maxForce);
+    ag->steering = ag->steering - ag->velocity;  
+    ag->steering.limit(ag->maxForce);
     applyForce(ag);
 }
 

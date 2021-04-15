@@ -5,15 +5,16 @@ class pvector{
 public:
    float x;
    float y;
+   pvector();
    pvector(float x, float y);
    float magnitude();   
    void normalize();
    void set(float x, float y);
-   void add(pvector *v);
    void div(float i);
-   void sub(pvector *v);
    void limit(float limit);
    float angle();
+   pvector operator + (pvector const &obj);
+   pvector operator - (pvector const &obj);
 };
 
 #endif
