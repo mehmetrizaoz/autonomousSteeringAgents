@@ -23,16 +23,11 @@ float randomNegate(float num){
     return num;
 }
 
-float theta;
 void drawAgent(agent *ag){
     glPushMatrix();
     glTranslatef(ag->position.x, ag->position.y, 0.0f);
-
-    //if(ag->velocity->x != 0 || ag->velocity->y != 0){
-       theta = ag->velocity.angle();
-    //}    
- 
-    glRotatef(theta, 0.0f, 0.0f, 1.0f);
+  
+    glRotatef(ag->velocity.angle(), 0.0f, 0.0f, 1.0f);
     glBegin(GL_TRIANGLES);          
     glColor3f(1.0f, 0.7f, 0.0f);  
     glVertex3f( 1.0f,  0.0f, 0.0f);
@@ -133,7 +128,7 @@ void mouseMove(int x, int y){
     target_y = HEIGHT - y / 5.88; 
 }
 
-void setAgent(agent * ag, float s, float f, float r, float m){
+void setAgent(agent *ag, float s, float f, float r, float m){
     ag->setMaxSpeed(s);
     ag->setMaxForce(f);
     ag->setR(r);
