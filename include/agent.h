@@ -6,14 +6,13 @@
 class agent{
 public:  
   ~agent();
-  void setAcceleration(float x, float y);
-  void setVelocity(float x, float y);
-  void setPosition(float x, float y);
   void setMaxSpeed(float s);
   void setR(float s);
   void setMass(float m);
   void setMaxForce(float f);
   void applyForce();
+  void updatePosition();
+
   agent(float x, float y, float s, float f, float r, float m);
   pvector steering;
   pvector desired;

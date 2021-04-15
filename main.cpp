@@ -38,13 +38,13 @@ void drawAgent(agent &ag){
     glEnd();
     glPopMatrix();  
 }
-
+/*
 void updatePosition(agent &ag){   
    ag.velocity = ag.velocity + ag.acceleration; 
    ag.velocity.limit(ag.maxSpeed);
    ag.position = ag.position + ag.velocity;
    ag.acceleration = pvector(0,0);   
-}
+}*/
 
 void reflect(agent &ag){     
     if(ag.velocity.magnitude() >= ag.maxSpeed)
@@ -100,7 +100,7 @@ void drawScene() {
     for(auto it = agents.begin(); it < agents.end(); it++){       
        seek(**it); 
        //reflect(**it);
-       updatePosition(**it);
+       (**it).updatePosition();
        drawAgent(**it);
     }
    
