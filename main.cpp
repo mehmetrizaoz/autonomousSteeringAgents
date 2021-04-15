@@ -149,7 +149,7 @@ int main(int argc, char** argv) {
     setAgent(ag2, 0.4, 0.032, 4, 1.1);
 
     agent *ag3 = new agent(0.5, 4.0);
-    setAgent(ag3, 0.1, 0.41, 3, 1);
+    setAgent(ag3, 0.3, 0.41, 3, 1);
 
     agent *ag4 = new agent(5.5, 16.0);
     setAgent(ag4, 0.44, 0.33, 4, 1.1); 

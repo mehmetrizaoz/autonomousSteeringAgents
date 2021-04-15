@@ -11,7 +11,15 @@ agent::agent(float x, float y){
     acceleration = new pvector(0.0, 0.0);
     steering     = new pvector(0.0, 0.0);
     desired      = new pvector(0.0, 0.0);
-};
+}
+
+agent::~agent(){
+   delete position;
+   delete velocity;
+   delete acceleration;
+   delete steering;
+   delete desired;
+}
 
 void agent::setMass(float m){
     mass = m;

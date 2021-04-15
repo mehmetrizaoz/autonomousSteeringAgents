@@ -6,6 +6,7 @@
 class agent{
 public:
   agent(float x, float y);
+  ~agent();
   void setAcceleration(float x, float y);
   void setVelocity(float x, float y);
   void setPosition(float x, float y);
