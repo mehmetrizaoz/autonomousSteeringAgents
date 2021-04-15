@@ -23,11 +23,6 @@ void pvector::div(float i){
    y = y / i;
 }
 
-void pvector::set(float x, float y){
-   this->x = x;
-   this->y = y;
-}
-
 float pvector::magnitude(){
    return sqrt((this->x * this->x) + (this->y * this->y));
 }

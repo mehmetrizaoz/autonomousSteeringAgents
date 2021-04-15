@@ -48,14 +48,14 @@ void updatePosition(agent *ag){
    ag->velocity = ag->velocity + ag->acceleration; 
    ag->velocity.limit(ag->maxSpeed);
    ag->position = ag->position + ag->velocity;
-   ag->acceleration.set(0,0);
+   ag->acceleration = pvector(0,0);
   
    drawAgent(ag);
 }
 
 void reflect(agent *ag){     
     if(ag->velocity.magnitude() >= ag->maxSpeed)
-       ag->setAcceleration(0, 0);
+       ag->acceleration = pvector (0, 0);
     
     ag->velocity = ag->velocity + ag->acceleration;
 
@@ -72,11 +72,10 @@ void reflect(agent *ag){
 void applyForce(agent *ag){
    ag->steering.div(ag->mass);
    ag->acceleration = ag->acceleration + ag->steering;
-   //ag->acceleration.add(ag->steering);
 }
 
-void seek(agent *ag){     
-    ag->desired.set(target_x - ag->position.x, target_y - ag->position.y);    
+void seek(agent *ag){
+    ag->desired = pvector(target_x - ag->position.x, target_y - ag->position.y);    
     
     //slow down
     if(ag->desired.magnitude() > ag->r) { ag->desired.limit(ag->maxSpeed); }

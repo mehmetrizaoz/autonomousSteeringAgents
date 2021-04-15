@@ -9,7 +9,6 @@ public:
    pvector(float x, float y);
    float magnitude();   
    void normalize();
-   void set(float x, float y);
    void div(float i);
    void limit(float limit);
    float angle();
