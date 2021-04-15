@@ -9,6 +9,7 @@
 
 #define WIDTH       34
 #define HEIGHT      34
+#define WALL        30
 
 #define ESC         27
 
@@ -49,19 +50,55 @@ void updatePosition(agent &ag){
 }
 
 void reflect(agent &ag){     
+    
+    glBegin(GL_LINES);
+    glVertex2f(-WALL,  WALL);
+    glVertex2f(WALL, WALL);
+    glEnd();
+    glBegin(GL_LINES);
+    glVertex2f(WALL,  WALL);
+    glVertex2f(WALL, -WALL);
+    glEnd();  
+    glBegin(GL_LINES);
+    glVertex2f(WALL,  -WALL);
+    glVertex2f(-WALL, -WALL);
+    glEnd();       
+    glBegin(GL_LINES);
+    glVertex2f(-WALL,  -WALL);
+    glVertex2f(-WALL, WALL);
+    glEnd(); 
+/*
+    if(ag.position.x < WALL)
+       ag.desired = pvector(ag.maxSpeed, ag.velocity.y);
+    else if(ag.position.x > WIDTH - 4)
+       ag.desired = pvector(-ag.maxSpeed, ag.velocity.y);
+       
+    if(ag.position.y < WALL)
+       ag.desired = pvector(ag.velocity.x, ag.maxSpeed);
+    else
+       ag.desired = pvector(ag.velocity.x, -ag.maxSpeed);
+
+    ag.desired.normalize();
+    ag.desired.x = ag.desired.x * ag.maxSpeed;
+    ag.desired.y = ag.desired.y * ag.maxSpeed;
+    ag.steering = ag.desired - ag.velocity;
+    ag.steering.limit(ag.maxForce);
+    ag.applyForce();*/
+
+
     if(ag.velocity.magnitude() >= ag.maxSpeed)
        ag.acceleration = pvector (0, 0);
     
     ag.velocity = ag.velocity + ag.acceleration;
 
-    if ((ag.position.x > WIDTH)  || (ag.position.x < -WIDTH)) {
+    if ((ag.position.x > WALL)  || (ag.position.x < -WALL)) {
        ag.velocity.x = ag.velocity.x * -1;
        ag.acceleration.x = ag.acceleration.x * -1;
     }
-    if ((ag.position.y > HEIGHT) || (ag.position.y < -HEIGHT)) {
+    if ((ag.position.y > WALL) || (ag.position.y < -WALL)) {
        ag.velocity.y = ag.velocity.y * -1;
        ag.acceleration.y = ag.acceleration.y * -1;
-    }        
+    }     
 }
 
 void seek(agent &ag){
@@ -99,8 +136,8 @@ void drawScene() {
     glTranslatef(0.0f, 0.0f, -85.0f); //Move to the center of the triangle    
     
     for(auto it = agents.begin(); it < agents.end(); it++){       
-       seek(**it); 
-       //reflect(**it);
+       //seek(**it); 
+       reflect(**it);
        updatePosition(**it);   
     }
    
