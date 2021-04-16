@@ -119,7 +119,7 @@ void wind(agent &ag){
     int pos_x = abs((int)ag.position.x) % WIDTH;
     int pos_y = abs((int)ag.position.y) % HEIGHT;
     
-    //TODO: modification required for perlin noise fields
+    //TODO: modification required for non plain fields
     ag.force = flow.getField(pos_x, pos_y); 
     cout << "for " << ag.force.x  << " " <<  ag.force.y     << endl;
 
@@ -167,7 +167,7 @@ void drawScene() {
            break;
            case REFLECT:
               //velocity must be non zero 
-              //(there is no force, space behavior except near the wall)
+              //(there is no force except near the wall)
               reflect(**it); 
            break;
            case WIND:
@@ -213,7 +213,7 @@ int main(int argc, char** argv) {
 
     agent ag1 = agent(1.5, 0.0);
     setAgent(ag1, 2, 0.4, 3, 1);
-/*
+
     agent ag2 = agent(0.5, 2.0);
     setAgent(ag2, 0.3, 0.04, 4, 1.1);
 
@@ -221,7 +221,7 @@ int main(int argc, char** argv) {
     setAgent(ag3, 0.3, 0.03, 3, 1);
 
     agent ag4 = agent(0.5, 16.0);
-    setAgent(ag4, 0.44, 0.33, 4, 1.1); */
+    setAgent(ag4, 0.44, 0.33, 4, 1.1); 
     
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
