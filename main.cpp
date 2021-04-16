@@ -7,23 +7,22 @@
 #include "agent.h"
 #include "math.h"
 
+//platform
 #define WIDTH       34
 #define HEIGHT      34
+//reflection
 #define WALL        30
 #define DISTANCE    2
-
+//keys
 #define ESC         27
 
 using namespace std;
 
+//mouse coordinates
 int target_x = -WIDTH;
 int target_y = HEIGHT;
-vector<agent *> agents;
 
-float randomNegate(float num){
-    if(rand() % 2 == 0) {num *= -1;}
-    return num;
-}
+vector<agent *> agents;
 
 void drawAgent(agent &ag){
     glPushMatrix();
@@ -101,7 +100,7 @@ void reflect(agent &ag){
 
 void seek(agent &ag){
     ag.desired = pvector(target_x - ag.position.x, target_y - ag.position.y);    
-    //slow down
+    //arriving behavior
     if(ag.desired.magnitude() > ag.r) { ag.desired.limit(ag.maxSpeed); }
     else { ag.desired.limit(ag.maxSpeed / 2); }
     
@@ -156,6 +155,7 @@ void mouseMove(int x, int y){
     target_y = HEIGHT - y / 5.88; 
 }
 
+//TODO: move to agent class
 void setAgent(agent &ag, float s, float f, float r, float m){
     ag.setMaxSpeed(s);
     ag.setMaxForce(f);
@@ -164,18 +164,30 @@ void setAgent(agent &ag, float s, float f, float r, float m){
     agents.push_back(&ag);
 }
 
-int main(int argc, char** argv) { 
+void createFlowField(){
+    int resolution = 1;
+    int cols = WIDTH / resolution;
+    int rows = HEIGHT / resolution;
+    pvector field[cols][rows];
+    for (int i = 0; i < cols; i++) {
+       for (int j = 0; j < rows; j++) {
+          field[i][j] = pvector(1,0);
+       }
+    }
+}
+
+int main(int argc, char** argv) {   
     agent ag1 = agent(-20.0, 0.0);
     setAgent(ag1, 0.3, 0.1, 3, 1);
 
-    agent ag2 = agent(0.5, 4.0);
+    /*agent ag2 = agent(0.5, 4.0);
     setAgent(ag2, 0.7, 0.2, 4, 1.1);
 
     agent ag3 = agent(0.5, 4.0);
     setAgent(ag3, 0.8, 0.51, 3, 1);
 
     agent ag4 = agent(5.5, 16.0);
-    setAgent(ag4, 0.44, 0.33, 4, 1.1); 
+    setAgent(ag4, 0.44, 0.33, 4, 1.1); */
    
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);

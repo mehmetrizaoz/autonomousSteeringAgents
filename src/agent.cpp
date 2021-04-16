@@ -7,7 +7,7 @@ using namespace std;
 
 agent::agent(float x, float  y){
     position     = pvector(x, y);
-    velocity     = pvector(-4.5, 2.0);
+    velocity     = pvector(1.5, 0.0);
     acceleration = pvector(2.0, 0.0);
     steering     = pvector(0.0, 0.0);
     desired      = pvector(0.0, 0.0);
