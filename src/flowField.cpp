@@ -5,6 +5,10 @@ flowField::flowField(){
    uniformVectorField();
 }
 
+void flowField::randomField(){
+//TODO: implement
+}
+
 void flowField::perlinNoise(){
 //TODO: implement
 }

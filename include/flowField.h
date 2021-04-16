@@ -13,6 +13,7 @@ public:
 private:   
    void uniformVectorField();
    void perlinNoise();
+   void randomField();
    pvector field[WIDTH][HEIGHT];
 };
 

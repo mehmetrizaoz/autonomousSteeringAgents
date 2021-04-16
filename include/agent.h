@@ -18,6 +18,7 @@ public:
   pvector acceleration;
   pvector position;
   pvector velocity;  
+  pvector force;  
   float maxSpeed; 
   float maxForce;
   float r;

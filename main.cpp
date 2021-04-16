@@ -60,6 +60,7 @@ void updatePosition(agent &ag){
    drawAgent(ag);
 }
 
+//TODO: move opengl related code to platform (not exist) class
 void drawWall(){
     glBegin(GL_LINES);
     glVertex2f(-WALL,  WALL);
@@ -87,24 +88,28 @@ void reflect(agent &ag){
        ag.desired = pvector( -ag.maxSpeed, ag.velocity.y );
        ag.steering = ag.desired - ag.velocity;
        ag.steering.limit(ag.maxForce);
+       ag.force = ag.steering;
        ag.applyForce();
     }
     else if(ag.position.x <= -turnPoint){
        ag.desired = pvector( ag.maxSpeed, ag.velocity.y );
        ag.steering = ag.desired - ag.velocity;
        ag.steering.limit(ag.maxForce);
+       ag.force = ag.steering;
        ag.applyForce();
     }
     else if(ag.position.y >= turnPoint){
        ag.desired = pvector( ag.velocity.x, -ag.maxSpeed );
        ag.steering = ag.desired - ag.velocity;
        ag.steering.limit(ag.maxForce);
+       ag.force = ag.steering;
        ag.applyForce();
     }
     else if(ag.position.y <= -turnPoint){
        ag.desired = pvector( ag.velocity.x, ag.maxSpeed );
        ag.steering = ag.desired - ag.velocity;
        ag.steering.limit(ag.maxForce);
+       ag.force = ag.steering;
        ag.applyForce();
     }
 }
@@ -115,8 +120,9 @@ void wind(agent &ag){
     int pos_y = abs((int)ag.position.y) % HEIGHT;
     
     //TODO: modification required for perlin noise fields
-    ag.steering = flow.getField(pos_x, pos_y); 
-    cout << "ste " << ag.steering.x     << " " <<  ag.steering.y     << endl;
+    ag.force = flow.getField(pos_x, pos_y); 
+    cout << "for " << ag.force.x  << " " <<  ag.force.y     << endl;
+
     ag.applyForce();
 }
 
@@ -129,6 +135,7 @@ void seek(agent &ag){
     ag.steering = ag.desired;
     ag.steering = ag.steering - ag.velocity;  
     ag.steering.limit(ag.maxForce);
+    ag.force = ag.steering;
     ag.applyForce();
 }
 
@@ -205,7 +212,7 @@ int main(int argc, char** argv) {
     flow = flowField();
 
     agent ag1 = agent(1.5, 0.0);
-    setAgent(ag1, 5, 1.2, 3, 1);
+    setAgent(ag1, 2, 0.4, 3, 1);
 /*
     agent ag2 = agent(0.5, 2.0);
     setAgent(ag2, 0.3, 0.04, 4, 1.1);
