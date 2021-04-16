@@ -10,6 +10,7 @@
 #define WIDTH       34
 #define HEIGHT      34
 #define WALL        30
+#define DISTANCE    2
 
 #define ESC         27
 
@@ -49,8 +50,7 @@ void updatePosition(agent &ag){
    drawAgent(ag);
 }
 
-void reflect(agent &ag){     
-    
+void drawWall(){
     glBegin(GL_LINES);
     glVertex2f(-WALL,  WALL);
     glVertex2f(WALL, WALL);
@@ -67,43 +67,40 @@ void reflect(agent &ag){
     glVertex2f(-WALL,  -WALL);
     glVertex2f(-WALL, WALL);
     glEnd(); 
-/*
-    if(ag.position.x < WALL)
-       ag.desired = pvector(ag.maxSpeed, ag.velocity.y);
-    else if(ag.position.x > WIDTH - 4)
-       ag.desired = pvector(-ag.maxSpeed, ag.velocity.y);
-       
-    if(ag.position.y < WALL)
-       ag.desired = pvector(ag.velocity.x, ag.maxSpeed);
-    else
-       ag.desired = pvector(ag.velocity.x, -ag.maxSpeed);
+}
 
-    ag.desired.normalize();
-    ag.desired.x = ag.desired.x * ag.maxSpeed;
-    ag.desired.y = ag.desired.y * ag.maxSpeed;
-    ag.steering = ag.desired - ag.velocity;
-    ag.steering.limit(ag.maxForce);
-    ag.applyForce();*/
+void reflect(agent &ag){    
+    drawWall();
+    int wall = WALL - DISTANCE;
 
-
-    if(ag.velocity.magnitude() >= ag.maxSpeed)
-       ag.acceleration = pvector (0, 0);
-    
-    ag.velocity = ag.velocity + ag.acceleration;
-
-    if ((ag.position.x > WALL)  || (ag.position.x < -WALL)) {
-       ag.velocity.x = ag.velocity.x * -1;
-       ag.acceleration.x = ag.acceleration.x * -1;
+    if(ag.position.x > wall){
+       ag.desired = pvector( -ag.maxSpeed, ag.velocity.y );
+       ag.steering = ag.desired - ag.velocity;
+       ag.steering.limit(ag.maxForce);
+       ag.applyForce();
     }
-    if ((ag.position.y > WALL) || (ag.position.y < -WALL)) {
-       ag.velocity.y = ag.velocity.y * -1;
-       ag.acceleration.y = ag.acceleration.y * -1;
+    else if(ag.position.x < -wall){
+       ag.desired = pvector( ag.maxSpeed, ag.velocity.y );
+       ag.steering = ag.desired - ag.velocity;
+       ag.steering.limit(ag.maxForce);
+       ag.applyForce();
+    }
+    else if(ag.position.y > wall){
+       ag.desired = pvector( ag.velocity.x, -ag.maxSpeed );
+       ag.steering = ag.desired - ag.velocity;
+       ag.steering.limit(ag.maxForce);
+       ag.applyForce();
+    }
+    else if(ag.position.y < -wall){
+       ag.desired = pvector( ag.velocity.x, ag.maxSpeed );
+       ag.steering = ag.desired - ag.velocity;
+       ag.steering.limit(ag.maxForce);
+       ag.applyForce();
     }     
 }
 
 void seek(agent &ag){
     ag.desired = pvector(target_x - ag.position.x, target_y - ag.position.y);    
-    
     //slow down
     if(ag.desired.magnitude() > ag.r) { ag.desired.limit(ag.maxSpeed); }
     else { ag.desired.limit(ag.maxSpeed / 2); }
@@ -168,11 +165,11 @@ void setAgent(agent &ag, float s, float f, float r, float m){
 }
 
 int main(int argc, char** argv) { 
-    agent ag1 = agent(0.0, 0.0);
-    setAgent(ag1, 0.5, 0.043, 3, 1);
+    agent ag1 = agent(-20.0, 0.0);
+    setAgent(ag1, 0.3, 0.1, 3, 1);
 
-    agent ag2 = agent(5.5, 16.0);
-    setAgent(ag2, 0.7, 0.032, 4, 1.1);
+    agent ag2 = agent(0.5, 4.0);
+    setAgent(ag2, 0.7, 0.2, 4, 1.1);
 
     agent ag3 = agent(0.5, 4.0);
     setAgent(ag3, 0.8, 0.51, 3, 1);
