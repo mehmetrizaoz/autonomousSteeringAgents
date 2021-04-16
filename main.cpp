@@ -6,6 +6,7 @@
 #include "pvector.h"
 #include "agent.h"
 #include "math.h"
+#include "flowField.h"
 
 //platform
 #define WIDTH       34
@@ -27,9 +28,8 @@ int mode;
 //mouse coordinates
 int target_x = -WIDTH;
 int target_y = HEIGHT;
-//flow field
-pvector flowField[WIDTH][HEIGHT];
 
+flowField flow;
 vector<agent *> agents;
 
 void drawAgent(agent &ag){
@@ -49,11 +49,12 @@ void drawAgent(agent &ag){
 }
 
 void updatePosition(agent &ag){   
-   cout << "vel " << ag.velocity.x << " " <<  ag.velocity.y << endl;
-   cout << "accel " << ag.acceleration.x << " " << ag.acceleration.y << endl << endl;
+   cout << "acc " << ag.acceleration.x << " " <<  ag.acceleration.y << endl << endl;
    ag.velocity = ag.velocity + ag.acceleration; 
    ag.velocity.limit(ag.maxSpeed);
+   cout << "vel " << ag.velocity.x     << " " <<  ag.velocity.y     << endl;
    ag.position = ag.position + ag.velocity;
+   cout << "pos " << ag.position.x     << " " <<  ag.position.y     << endl;
    ag.acceleration = pvector(0,0);
   
    drawAgent(ag);
@@ -109,11 +110,13 @@ void reflect(agent &ag){
 }
 
 void wind(agent &ag){
-    //TODO: bug 
-       cout << "flow" << flowField[(int)ag.position.x][(int)ag.position.y].x << " ";
-       cout << flowField[(int)ag.position.x][(int)ag.position.y].y << endl;
-       ag.steering = flowField[(int)ag.position.x][(int)ag.position.y] - ag.velocity;
-       ag.applyForce();
+    int pos_x = abs((int)ag.position.x) % WIDTH;
+    int pos_y = abs((int)ag.position.y) % HEIGHT;
+    //pos_x, pos_y must be non negative integer
+    //TODO: modification required for negative positions (for non random (or perlin noise) flow fields)
+    ag.steering = flow.getField(pos_x, pos_y) - ag.velocity;   
+    cout << "ste " << ag.steering.x     << " " <<  ag.steering.y     << endl;
+    ag.applyForce();
 }
 
 void seek(agent &ag){
@@ -160,7 +163,6 @@ void drawScene() {
            case WIND:
               wind(**it); 
            break;
-
        }
 
        updatePosition(**it);   
@@ -193,22 +195,15 @@ void setAgent(agent &ag, float s, float f, float r, float m){
     agents.push_back(&ag);
 }
 
-//TODO: move to wind class
-void createFlowField(){       
-    for (int i = 0; i < WIDTH; i++) {
-       for (int j = 0; j < HEIGHT; j++) {
-          flowField[i][j] = pvector(0, 0.1);
-       }
-    }
-}
-
 int main(int argc, char** argv) {    
     cout << "enter mode pleas:\nSEEK:1\nREFLECT:2\nWIND:3"<< endl;
     cin >> mode;
 
-    agent ag1 = agent(1.5, 0.0);
-    setAgent(ag1, 0.5, 0.02, 3, 1);
+    flow = flowField();
 
+    agent ag1 = agent(1.5, 0.0);
+    setAgent(ag1, 0.85, 1.2, 3, 1);
+/*
     agent ag2 = agent(0.5, 2.0);
     setAgent(ag2, 0.3, 0.04, 4, 1.1);
 
@@ -216,11 +211,8 @@ int main(int argc, char** argv) {
     setAgent(ag3, 0.3, 0.03, 3, 1);
 
     agent ag4 = agent(0.5, 16.0);
-    setAgent(ag4, 0.44, 0.33, 4, 1.1); 
-
-    createFlowField();
+    setAgent(ag4, 0.44, 0.33, 4, 1.1); */
     
-
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(400, 400);
