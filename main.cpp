@@ -129,10 +129,7 @@ void seek(agent &ag){
 }
 
 void handleKeypress(unsigned char key, int x, int y) {    
-    if (key == ESC){ exit(0); }    /*
-    if (key == 49) { mode = SEEK; }  
-    if (key == 50) { mode = REFLECT; }  
-    if (key == 51) { mode = WIND; }  */
+    if (key == ESC){ exit(0); }
 }
 
 void handleResize(int w, int h) {        
@@ -153,9 +150,18 @@ void drawScene() {
     glTranslatef(0.0f, 0.0f, -85.0f); //Move to the center of the triangle    
     
     for(auto it = agents.begin(); it < agents.end(); it++){ 
-       if(mode == SEEK){ seek(**it); }
-       else if(mode == REFLECT){ reflect(**it); }
-       else { wind(**it); }
+       switch(mode){
+           case SEEK:
+              seek(**it); 
+           break;
+           case REFLECT:
+              reflect(**it); 
+           break;
+           case WIND:
+              wind(**it); 
+           break;
+
+       }
 
        updatePosition(**it);   
     }
@@ -191,7 +197,7 @@ void setAgent(agent &ag, float s, float f, float r, float m){
 void createFlowField(){       
     for (int i = 0; i < WIDTH; i++) {
        for (int j = 0; j < HEIGHT; j++) {
-          flowField[i][j] = pvector(0,0.1);
+          flowField[i][j] = pvector(0, 0.1);
        }
     }
 }
@@ -201,20 +207,19 @@ int main(int argc, char** argv) {
     cin >> mode;
 
     agent ag1 = agent(1.5, 0.0);
-    setAgent(ag1, 0.5, 0.5, 3, 1);
+    setAgent(ag1, 0.5, 0.02, 3, 1);
 
     agent ag2 = agent(0.5, 2.0);
-    setAgent(ag2, 0.1, 0.2, 4, 1.1);
+    setAgent(ag2, 0.3, 0.04, 4, 1.1);
 
     agent ag3 = agent(0.5, 4.0);
-    setAgent(ag3, 0.2, 0.51, 3, 1);
+    setAgent(ag3, 0.3, 0.03, 3, 1);
 
     agent ag4 = agent(0.5, 16.0);
     setAgent(ag4, 0.44, 0.33, 4, 1.1); 
 
-    //if(mode == WIND){
-       createFlowField();
-    //}
+    createFlowField();
+    
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
