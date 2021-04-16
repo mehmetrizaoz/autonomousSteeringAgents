@@ -15,12 +15,20 @@
 #define DISTANCE    2
 //keys
 #define ESC         27
+//
+#define SEEK        1 //mouse follower
+#define REFLECT     2 //apply force only near the wall
+#define WIND        3 //wind force (no other force)
 
 using namespace std;
 
+//mode
+int mode;
 //mouse coordinates
 int target_x = -WIDTH;
 int target_y = HEIGHT;
+//flow field
+pvector flowField[WIDTH][HEIGHT];
 
 vector<agent *> agents;
 
@@ -41,6 +49,8 @@ void drawAgent(agent &ag){
 }
 
 void updatePosition(agent &ag){   
+   cout << "vel " << ag.velocity.x << " " <<  ag.velocity.y << endl;
+   cout << "accel " << ag.acceleration.x << " " << ag.acceleration.y << endl << endl;
    ag.velocity = ag.velocity + ag.acceleration; 
    ag.velocity.limit(ag.maxSpeed);
    ag.position = ag.position + ag.velocity;
@@ -70,32 +80,40 @@ void drawWall(){
 
 void reflect(agent &ag){    
     drawWall();
-    int wall = WALL - DISTANCE;
-
-    if(ag.position.x > wall){
+    int turnPoint = WALL - DISTANCE; 
+    
+    if(ag.position.x >= turnPoint){
        ag.desired = pvector( -ag.maxSpeed, ag.velocity.y );
        ag.steering = ag.desired - ag.velocity;
        ag.steering.limit(ag.maxForce);
        ag.applyForce();
     }
-    else if(ag.position.x < -wall){
+    else if(ag.position.x <= -turnPoint){
        ag.desired = pvector( ag.maxSpeed, ag.velocity.y );
        ag.steering = ag.desired - ag.velocity;
        ag.steering.limit(ag.maxForce);
        ag.applyForce();
     }
-    else if(ag.position.y > wall){
+    else if(ag.position.y >= turnPoint){
        ag.desired = pvector( ag.velocity.x, -ag.maxSpeed );
        ag.steering = ag.desired - ag.velocity;
        ag.steering.limit(ag.maxForce);
        ag.applyForce();
     }
-    else if(ag.position.y < -wall){
+    else if(ag.position.y <= -turnPoint){
        ag.desired = pvector( ag.velocity.x, ag.maxSpeed );
        ag.steering = ag.desired - ag.velocity;
        ag.steering.limit(ag.maxForce);
        ag.applyForce();
-    }     
+    }
+}
+
+void wind(agent &ag){
+    //TODO: bug 
+       cout << "flow" << flowField[(int)ag.position.x][(int)ag.position.y].x << " ";
+       cout << flowField[(int)ag.position.x][(int)ag.position.y].y << endl;
+       ag.steering = flowField[(int)ag.position.x][(int)ag.position.y] - ag.velocity;
+       ag.applyForce();
 }
 
 void seek(agent &ag){
@@ -111,7 +129,10 @@ void seek(agent &ag){
 }
 
 void handleKeypress(unsigned char key, int x, int y) {    
-    if (key == ESC) { exit(0); }    
+    if (key == ESC){ exit(0); }    /*
+    if (key == 49) { mode = SEEK; }  
+    if (key == 50) { mode = REFLECT; }  
+    if (key == 51) { mode = WIND; }  */
 }
 
 void handleResize(int w, int h) {        
@@ -131,9 +152,11 @@ void drawScene() {
     glLoadIdentity(); //Reset the drawing perspective    
     glTranslatef(0.0f, 0.0f, -85.0f); //Move to the center of the triangle    
     
-    for(auto it = agents.begin(); it < agents.end(); it++){       
-       //seek(**it); 
-       reflect(**it);
+    for(auto it = agents.begin(); it < agents.end(); it++){ 
+       if(mode == SEEK){ seek(**it); }
+       else if(mode == REFLECT){ reflect(**it); }
+       else { wind(**it); }
+
        updatePosition(**it);   
     }
    
@@ -164,31 +187,35 @@ void setAgent(agent &ag, float s, float f, float r, float m){
     agents.push_back(&ag);
 }
 
-void createFlowField(){
-    int resolution = 1;
-    int cols = WIDTH / resolution;
-    int rows = HEIGHT / resolution;
-    pvector field[cols][rows];
-    for (int i = 0; i < cols; i++) {
-       for (int j = 0; j < rows; j++) {
-          field[i][j] = pvector(1,0);
+//TODO: move to wind class
+void createFlowField(){       
+    for (int i = 0; i < WIDTH; i++) {
+       for (int j = 0; j < HEIGHT; j++) {
+          flowField[i][j] = pvector(0,0.1);
        }
     }
 }
 
-int main(int argc, char** argv) {   
-    agent ag1 = agent(-20.0, 0.0);
-    setAgent(ag1, 0.3, 0.1, 3, 1);
+int main(int argc, char** argv) {    
+    cout << "enter mode pleas:\nSEEK:1\nREFLECT:2\nWIND:3"<< endl;
+    cin >> mode;
 
-    /*agent ag2 = agent(0.5, 4.0);
-    setAgent(ag2, 0.7, 0.2, 4, 1.1);
+    agent ag1 = agent(1.5, 0.0);
+    setAgent(ag1, 0.5, 0.5, 3, 1);
+
+    agent ag2 = agent(0.5, 2.0);
+    setAgent(ag2, 0.1, 0.2, 4, 1.1);
 
     agent ag3 = agent(0.5, 4.0);
-    setAgent(ag3, 0.8, 0.51, 3, 1);
+    setAgent(ag3, 0.2, 0.51, 3, 1);
 
-    agent ag4 = agent(5.5, 16.0);
-    setAgent(ag4, 0.44, 0.33, 4, 1.1); */
-   
+    agent ag4 = agent(0.5, 16.0);
+    setAgent(ag4, 0.44, 0.33, 4, 1.1); 
+
+    //if(mode == WIND){
+       createFlowField();
+    //}
+
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(400, 400);
