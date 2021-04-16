@@ -9,7 +9,10 @@
 class flowField{
 public:
    flowField();
-   pvector getField(int x, int y); 
+   pvector getField(int x, int y);
+private:   
+   void uniformVectorField();
+   void perlinNoise();
    pvector field[WIDTH][HEIGHT];
 };
 

@@ -110,10 +110,12 @@ void reflect(agent &ag){
 }
 
 void wind(agent &ag){
+    //pos_x, pos_y must be non negative integer
     int pos_x = abs((int)ag.position.x) % WIDTH;
     int pos_y = abs((int)ag.position.y) % HEIGHT;
-    //pos_x, pos_y must be non negative integer
-    //TODO: modification required for negative positions (for non random (or perlin noise) flow fields)
+    
+
+    //TODO: modification required for perlin noise fields
     ag.steering = flow.getField(pos_x, pos_y) - ag.velocity;   
     cout << "ste " << ag.steering.x     << " " <<  ag.steering.y     << endl;
     ag.applyForce();
@@ -158,6 +160,8 @@ void drawScene() {
               seek(**it); 
            break;
            case REFLECT:
+              //velocity must be non zero 
+              //(there is no force, space behavior except near the wall)
               reflect(**it); 
            break;
            case WIND:
