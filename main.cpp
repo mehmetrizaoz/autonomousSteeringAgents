@@ -114,9 +114,8 @@ void wind(agent &ag){
     int pos_x = abs((int)ag.position.x) % WIDTH;
     int pos_y = abs((int)ag.position.y) % HEIGHT;
     
-
     //TODO: modification required for perlin noise fields
-    ag.steering = flow.getField(pos_x, pos_y) - ag.velocity;   
+    ag.steering = flow.getField(pos_x, pos_y); 
     cout << "ste " << ag.steering.x     << " " <<  ag.steering.y     << endl;
     ag.applyForce();
 }
@@ -206,7 +205,7 @@ int main(int argc, char** argv) {
     flow = flowField();
 
     agent ag1 = agent(1.5, 0.0);
-    setAgent(ag1, 0.85, 1.2, 3, 1);
+    setAgent(ag1, 5, 1.2, 3, 1);
 /*
     agent ag2 = agent(0.5, 2.0);
     setAgent(ag2, 0.3, 0.04, 4, 1.1);
