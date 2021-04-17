@@ -6,6 +6,7 @@
 #include "pvector.h"
 #include "agent.h"
 #include "math.h"
+#include "graphics.h"
 #include "flowField.h"
 
 //platform
@@ -30,23 +31,8 @@ int target_x = -WIDTH;
 int target_y = HEIGHT;
 
 flowField flow;
+graphics view;
 vector<agent *> agents;
-
-void drawAgent(agent &ag){
-    glPushMatrix();
-    glTranslatef(ag.position.x, ag.position.y, 0.0f);
-  
-    glRotatef(ag.velocity.angle(), 0.0f, 0.0f, 1.0f);
-    glBegin(GL_TRIANGLES);          
-    glColor3f(1.0f, 0.7f, 0.0f);  
-    glVertex3f( 1.0f,  0.0f, 0.0f);
-    glColor3f(1.0f, 1.0f, 1.0f);
-    glVertex3f(-1.0f,  0.5f, 0.0f);
-    glColor3f(0.0f, 0.0f, 1.0f); 
-    glVertex3f(-1.0f, -0.5f, 0.0f);
-    glEnd();
-    glPopMatrix();  
-}
 
 void updatePosition(agent &ag){   
    cout << "acc " << ag.acceleration.x << " " <<  ag.acceleration.y << endl << endl;
@@ -57,31 +43,11 @@ void updatePosition(agent &ag){
    cout << "pos " << ag.position.x     << " " <<  ag.position.y     << endl;
    ag.acceleration = pvector(0,0);
   
-   drawAgent(ag);
-}
-
-//TODO: move opengl related code to platform (not exist) class
-void drawWall(){
-    glBegin(GL_LINES);
-    glVertex2f(-WALL,  WALL);
-    glVertex2f(WALL, WALL);
-    glEnd();
-    glBegin(GL_LINES);
-    glVertex2f(WALL,  WALL);
-    glVertex2f(WALL, -WALL);
-    glEnd();  
-    glBegin(GL_LINES);
-    glVertex2f(WALL,  -WALL);
-    glVertex2f(-WALL, -WALL);
-    glEnd();       
-    glBegin(GL_LINES);
-    glVertex2f(-WALL,  -WALL);
-    glVertex2f(-WALL, WALL);
-    glEnd(); 
+   view.drawAgent(ag);
 }
 
 void reflect(agent &ag){    
-    drawWall();
+    view.drawWall();
     int turnPoint = WALL - DISTANCE; 
     
     if(ag.position.x >= turnPoint){
@@ -181,6 +147,7 @@ void drawScene() {
     glutSwapBuffers();
 }
 
+//TODO: move to graphics class
 void timerEvent(int value) {
     glutPostRedisplay(); //Tell GLUT that the display has changed
     glutTimerFunc(20, timerEvent, 0);
@@ -209,6 +176,7 @@ int main(int argc, char** argv) {
     cout << "enter mode pleas:\nSEEK:1\nREFLECT:2\nWIND:3"<< endl;
     cin >> mode;
 
+    view = graphics();
     flow = flowField();
 
     agent ag1 = agent(1.5, 0.0);
@@ -223,6 +191,7 @@ int main(int argc, char** argv) {
     agent ag4 = agent(0.5, 16.0);
     setAgent(ag4, 0.44, 0.33, 4, 1.1); 
     
+    //TODO: move to graphics class
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(400, 400);
