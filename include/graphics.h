@@ -1,14 +1,15 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
 
-#include "agent.h"
 
 class graphics{
 public:
-   void drawWall();
-   void drawAgent(agent &ag);
- 
-
+   void drawWall(int border);
+   void drawAgent(float x, float y, float angle);
+   static void timerEvent(int value);
+   static void handleKeypress(unsigned char key, int x, int y);
+   static void mouseButton(int button, int state, int x, int y);
+   static void handleResize(int w, int h);
 
 };
 

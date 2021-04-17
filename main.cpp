@@ -15,8 +15,7 @@
 //reflection
 #define WALL        30
 #define DISTANCE    2
-//keys
-#define ESC         27
+
 //
 #define SEEK        1 //mouse follower
 #define REFLECT     2 //apply force only near the wall
@@ -43,11 +42,11 @@ void updatePosition(agent &ag){
    cout << "pos " << ag.position.x     << " " <<  ag.position.y     << endl;
    ag.acceleration = pvector(0,0);
   
-   view.drawAgent(ag);
+   view.drawAgent(ag.position.x, ag.position.y, ag.velocity.angle());
 }
 
 void reflect(agent &ag){    
-    view.drawWall();
+    view.drawWall(WALL);
     int turnPoint = WALL - DISTANCE; 
     
     if(ag.position.x >= turnPoint){
@@ -105,21 +104,6 @@ void seek(agent &ag){
     ag.applyForce();
 }
 
-void handleKeypress(unsigned char key, int x, int y) {    
-    if (key == ESC){ exit(0); }
-}
-
-void handleResize(int w, int h) {        
-    glViewport(0, 0, w, h);  //Tell OpenGL how to convert from coordinates to pixel values
-    glMatrixMode(GL_PROJECTION); //Switch to setting the camera perspective       
-    glLoadIdentity(); //Reset the camera
-    //Set the camera perspective
-    gluPerspective(45.0,                  //The camera angle
-                   (double)w / (double)h, //The width-to-height ratio
-                   1.0,                   //The near z clipping coordinate
-                   200.0);                //The far z clipping coordinate
-}
-
 void drawScene() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    
     glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
@@ -147,16 +131,6 @@ void drawScene() {
     glutSwapBuffers();
 }
 
-//TODO: move to graphics class
-void timerEvent(int value) {
-    glutPostRedisplay(); //Tell GLUT that the display has changed
-    glutTimerFunc(20, timerEvent, 0);
-}
-
-void mouseButton(int button, int state, int x, int y){
-	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){}    
-}
-
 void mouseMove(int x, int y){
     //TODO: mouse position to glut
 	target_x = x / 5.88 - WIDTH;
@@ -173,7 +147,7 @@ void setAgent(agent &ag, float s, float f, float r, float m){
 }
 
 int main(int argc, char** argv) {    
-    cout << "enter mode pleas:\nSEEK:1\nREFLECT:2\nWIND:3"<< endl;
+    cout << "enter mode pleas:\nSEEK:1\nREFLECT:2\nWIND:3\n\n";
     cin >> mode;
 
     view = graphics();
@@ -201,12 +175,11 @@ int main(int argc, char** argv) {
     glEnable(GL_DEPTH_TEST);
     
     glutDisplayFunc(drawScene);
-    glutMouseFunc(mouseButton);
+    glutMouseFunc(graphics::mouseButton);
     glutPassiveMotionFunc(mouseMove);
-    glutKeyboardFunc(handleKeypress);
-    glutReshapeFunc(handleResize);
-    
-    glutTimerFunc(5, timerEvent, 0);    
+    glutKeyboardFunc(graphics::handleKeypress);
+    glutReshapeFunc(graphics::handleResize);    
+    glutTimerFunc(5, graphics::timerEvent, 0);    
     glutMainLoop();
     return 0;
 }

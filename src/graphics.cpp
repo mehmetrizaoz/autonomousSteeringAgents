@@ -1,33 +1,56 @@
 #include "graphics.h"
 #include <GL/glut.h>
-#include "agent.h"
 
-#define WALL        30
+#define ESC         27
 
-void graphics::drawWall(){
+void graphics::handleResize(int w, int h) {        
+    glViewport(0, 0, w, h);  //Tell OpenGL how to convert from coordinates to pixel values
+    glMatrixMode(GL_PROJECTION); //Switch to setting the camera perspective       
+    glLoadIdentity(); //Reset the camera
+    //Set the camera perspective
+    gluPerspective(45.0,                  //The camera angle
+                   (double)w / (double)h, //The width-to-height ratio
+                   1.0,                   //The near z clipping coordinate
+                   200.0);                //The far z clipping coordinate
+}
+
+void graphics::timerEvent(int value) {
+    glutPostRedisplay(); //Tell GLUT that the display has changed
+    glutTimerFunc(20, timerEvent, 0);
+}
+
+void graphics::mouseButton(int button, int state, int x, int y){
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){}    
+}
+
+void graphics::handleKeypress(unsigned char key, int x, int y) {    
+    if (key == ESC){ exit(0); }
+}
+
+void graphics::drawWall(int border){
     glBegin(GL_LINES);
-    glVertex2f(-WALL,  WALL);
-    glVertex2f(WALL, WALL);
+    glVertex2f(-border,  border);
+    glVertex2f(border, border);
     glEnd();
     glBegin(GL_LINES);
-    glVertex2f(WALL,  WALL);
-    glVertex2f(WALL, -WALL);
+    glVertex2f(border,  border);
+    glVertex2f(border, -border);
     glEnd();  
     glBegin(GL_LINES);
-    glVertex2f(WALL,  -WALL);
-    glVertex2f(-WALL, -WALL);
+    glVertex2f(border,  -border);
+    glVertex2f(-border, -border);
     glEnd();       
     glBegin(GL_LINES);
-    glVertex2f(-WALL,  -WALL);
-    glVertex2f(-WALL, WALL);
+    glVertex2f(-border, -border);
+    glVertex2f(-border, border);
     glEnd(); 
 }
 
-void graphics::drawAgent(agent &ag){
+void graphics::drawAgent(float x, float y, float angle){
     glPushMatrix();
-    glTranslatef(ag.position.x, ag.position.y, 0.0f);
+    glTranslatef(x, y, 0.0f);
   
-    glRotatef(ag.velocity.angle(), 0.0f, 0.0f, 1.0f);
+    glRotatef(angle, 0.0f, 0.0f, 1.0f);
     glBegin(GL_TRIANGLES);          
     glColor3f(1.0f, 0.7f, 0.0f);  
     glVertex3f( 1.0f,  0.0f, 0.0f);
