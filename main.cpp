@@ -84,16 +84,21 @@ void reflect(agent &ag){
     }
 }
 
-void drawPath(pvector start, pvector end, float r){   
-    view.drawLine(start.x, start.y-r/2, end.x, end.y-r/2);
-    view.drawLine(start.x, start.y+r/2, end.x, end.y+r/2);
+void drawPath(pvector start, pvector end, float width){   
+    view.drawLine(start.x, start.y - width/2, end.x, end.y - width/2);
+    view.drawLine(start.x, start.y + width/2, end.x, end.y + width/2);
+}
+
+void cratePath(){
+    int slope = 20;
+    pvector p1 = pvector(-WIDTH, -HEIGHT + slope);
+    pvector p2 = pvector( WIDTH,  HEIGHT - slope);
+    drawPath(p1, p2, 5);
 }
 
 //TODO: move to agent class
 void followPath(agent &ag){
-    pvector p1 = pvector(-30, -30);
-    pvector p2 = pvector(30, 30);
-    drawPath(p1, p2, 5);
+    cratePath();
     
 }
 
