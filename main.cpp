@@ -1,6 +1,6 @@
 #include <iostream>
 #include <stdlib.h> 
-#include <GL/glut.h> //https://www.opengl.org/resources/libraries/glut/spec3/node1.html
+#include <GL/glut.h> 
 #include <stdlib.h>
 #include <vector>
 #include "pvector.h"
@@ -9,15 +9,21 @@
 #include "graphics.h"
 #include "flowField.h"
 
+/*TODO: check these links for opengl
+https://www.opengl.org/resources/libraries/glut/spec3/node1.html
+https://learnopengl.com/Getting-started/Coordinate-Systems
+*/
+
 #define WIDTH       34
 #define HEIGHT      34
 
 #define WALL        30
 #define DISTANCE    2
 
-#define SEEK        1 //mouse follower
-#define REFLECT     2 //apply force only near the wall
-#define WIND        3 //wind force (no other force)
+#define SEEK          1 //mouse follower
+#define REFLECT       2 //apply force only near the wall
+#define WIND          3 //wind force (no other force)
+#define PATH_FOLLOWER 4
 
 using namespace std;
 
@@ -78,6 +84,19 @@ void reflect(agent &ag){
     }
 }
 
+void drawPath(pvector start, pvector end, float r){   
+    view.drawLine(start.x, start.y-r/2, end.x, end.y-r/2);
+    view.drawLine(start.x, start.y+r/2, end.x, end.y+r/2);
+}
+
+//TODO: move to agent class
+void followPath(agent &ag){
+    pvector p1 = pvector(-30, -30);
+    pvector p2 = pvector(30, 30);
+    drawPath(p1, p2, 5);
+    
+}
+
 //TODO: move to agent class
 void wind(agent &ag){
     //pos_x, pos_y must be non negative integer
@@ -114,9 +133,10 @@ void drawScene() {
     
     for(auto it = agents.begin(); it < agents.end(); it++){ 
        switch(mode){
-           case SEEK:    seek(**it);    break;
-           case REFLECT: reflect(**it); break; //velocity must be non zero                       
-           case WIND:    wind(**it);    break;
+           case SEEK:          seek(**it);       break;
+           case REFLECT:       reflect(**it);    break; //velocity must be non zero                       
+           case WIND:          wind(**it);       break;
+           case PATH_FOLLOWER: followPath(**it); break;
        }
        updatePosition(**it);   
     }
@@ -125,7 +145,7 @@ void drawScene() {
 }
 
 int main(int argc, char** argv) {    
-    cout << "enter mode pleas:\nSEEK:1\nREFLECT:2\nWIND:3\n\n";
+    cout << "enter mode please:\nSEEK:1\nREFLECT:2\nWIND:3\nPATH FOLLOWER:4\n\n";
     cin >> mode;
 
     view = graphics();
@@ -146,7 +166,7 @@ int main(int argc, char** argv) {
 
     //pvector p1 = pvector(10, 2);
     //pvector p2 = pvector(4, -3);
-    //cout << "p1.p2 :" << p1.dot(p2) << endl;
+    //cout << "p1.p2 :" << p1.dotProduct(p2) << endl;
     //cout << "theta :" << p1.angleBetween(p2) << endl;
         
     //TODO: move to graphics class

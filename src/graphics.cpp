@@ -12,7 +12,6 @@ void graphics::initGraphics(){
     glutMainLoop();
 }
 
-
 void graphics::mouseMove(int x, int y){
     //TODO: mouse position to glut
 	graphics::target_x = x / 5.88 - 34;
@@ -43,23 +42,18 @@ void graphics::handleKeypress(unsigned char key, int x, int y) {
     if (key == ESC){ exit(0); }
 }
 
-void graphics::drawWall(int border){
+void graphics::drawLine(float p1_x, float p1_y, float p2_x, float p2_y){
     glBegin(GL_LINES);
-    glVertex2f(-border,  border);
-    glVertex2f(border, border);
+    glVertex2f(p1_x, p1_y);
+    glVertex2f(p2_x, p2_y);
     glEnd();
-    glBegin(GL_LINES);
-    glVertex2f(border,  border);
-    glVertex2f(border, -border);
-    glEnd();  
-    glBegin(GL_LINES);
-    glVertex2f(border,  -border);
-    glVertex2f(-border, -border);
-    glEnd();       
-    glBegin(GL_LINES);
-    glVertex2f(-border, -border);
-    glVertex2f(-border, border);
-    glEnd(); 
+}
+
+void graphics::drawWall(float border){
+    drawLine(-border,  border,  border,  border);
+    drawLine( border,  border,  border, -border);
+    drawLine( border, -border, -border, -border);
+    drawLine(-border, -border, -border,  border);
 }
 
 void graphics::drawAgent(float x, float y, float angle){

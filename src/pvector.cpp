@@ -13,12 +13,12 @@ float pvector::getAngle(){
 }
 
 float pvector::angleBetween(pvector v){
-   float angle = this->dot(v) / (this->magnitude() * v.magnitude());
+   float angle = this->dotProduct(v) / (this->magnitude() * v.magnitude());
    angle = acos(angle)  * 180 / PI;
    return angle;
 }
 
-float pvector::dot(pvector v){
+float pvector::dotProduct(pvector v){
    return ((x * v.x) + (y * v.y));
 }
 

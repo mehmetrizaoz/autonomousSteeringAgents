@@ -12,7 +12,7 @@ public:
    void div(float i);
    void limit(float limit);
    float getAngle();
-   float dot(pvector v);
+   float dotProduct(pvector v);
    float angleBetween(pvector v);
    pvector operator + (pvector const &obj);
    pvector operator - (pvector const &obj);
