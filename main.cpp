@@ -25,13 +25,13 @@ using namespace std;
 
 //mode
 int mode;
-//mouse coordinates
-int target_x = -WIDTH;
-int target_y = HEIGHT;
 
 flowField flow;
 graphics view;
 vector<agent *> agents;
+
+int graphics::target_x = -WIDTH;
+int graphics::target_y = HEIGHT;
 
 void updatePosition(agent &ag){   
    cout << "acc " << ag.acceleration.x << " " <<  ag.acceleration.y << endl << endl;
@@ -92,7 +92,7 @@ void wind(agent &ag){
 }
 
 void seek(agent &ag){
-    ag.desired = pvector(target_x - ag.position.x, target_y - ag.position.y);    
+    ag.desired = pvector(graphics::target_x - ag.position.x, graphics::target_y - ag.position.y);    
     //arriving behavior
     if(ag.desired.magnitude() > ag.r) { ag.desired.limit(ag.maxSpeed); }
     else { ag.desired.limit(ag.maxSpeed / 2); }
@@ -131,11 +131,7 @@ void drawScene() {
     glutSwapBuffers();
 }
 
-void mouseMove(int x, int y){
-    //TODO: mouse position to glut
-	target_x = x / 5.88 - WIDTH;
-    target_y = HEIGHT - y / 5.88; 
-}
+
 
 //TODO: move to agent class
 void setAgent(agent &ag, float s, float f, float r, float m){
@@ -167,6 +163,7 @@ int main(int argc, char** argv) {
     
     //TODO: move to graphics class
     glutInit(&argc, argv);
+    
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(400, 400);
     
@@ -176,7 +173,7 @@ int main(int argc, char** argv) {
     
     glutDisplayFunc(drawScene);
     glutMouseFunc(graphics::mouseButton);
-    glutPassiveMotionFunc(mouseMove);
+    glutPassiveMotionFunc(graphics::mouseMove);
     glutKeyboardFunc(graphics::handleKeypress);
     glutReshapeFunc(graphics::handleResize);    
     glutTimerFunc(5, graphics::timerEvent, 0);    

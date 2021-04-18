@@ -10,7 +10,9 @@ public:
    static void handleKeypress(unsigned char key, int x, int y);
    static void mouseButton(int button, int state, int x, int y);
    static void handleResize(int w, int h);
-
+   static void mouseMove(int x, int y);
+   static int target_x;
+   static int target_y;   
 };
 
 #endif

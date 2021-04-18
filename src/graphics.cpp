@@ -3,6 +3,12 @@
 
 #define ESC         27
 
+void graphics::mouseMove(int x, int y){
+    //TODO: mouse position to glut
+	graphics::target_x = x / 5.88 - 34;
+    graphics::target_y = 34 - y / 5.88; 
+}
+
 void graphics::handleResize(int w, int h) {        
     glViewport(0, 0, w, h);  //Tell OpenGL how to convert from coordinates to pixel values
     glMatrixMode(GL_PROJECTION); //Switch to setting the camera perspective       
