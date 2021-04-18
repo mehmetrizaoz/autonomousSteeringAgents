@@ -12,6 +12,13 @@ agent::agent(float x, float  y){
     force        = pvector(0.0, 0.0);
 }
 
+void agent::setFeatures(float s, float f, float r, float m){
+    setMaxSpeed(s);
+    setMaxForce(f);
+    setR(r);
+    setMass(m);
+}
+
 agent::~agent(){}
 
 void agent::setMass(float m){

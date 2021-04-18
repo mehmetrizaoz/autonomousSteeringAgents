@@ -9,21 +9,18 @@
 #include "graphics.h"
 #include "flowField.h"
 
-//platform
 #define WIDTH       34
 #define HEIGHT      34
-//reflection
+
 #define WALL        30
 #define DISTANCE    2
 
-//
 #define SEEK        1 //mouse follower
 #define REFLECT     2 //apply force only near the wall
 #define WIND        3 //wind force (no other force)
 
 using namespace std;
 
-//mode
 int mode;
 
 flowField flow;
@@ -112,34 +109,14 @@ void drawScene() {
     
     for(auto it = agents.begin(); it < agents.end(); it++){ 
        switch(mode){
-           case SEEK:
-              seek(**it); 
-           break;
-           case REFLECT:
-              //velocity must be non zero 
-              //(there is no force except near the wall)
-              reflect(**it); 
-           break;
-           case WIND:
-              wind(**it); 
-           break;
+           case SEEK:    seek(**it);    break;
+           case REFLECT: reflect(**it); break; //velocity must be non zero                       
+           case WIND:    wind(**it);    break;
        }
-
        updatePosition(**it);   
     }
-   
+
     glutSwapBuffers();
-}
-
-
-
-//TODO: move to agent class
-void setAgent(agent &ag, float s, float f, float r, float m){
-    ag.setMaxSpeed(s);
-    ag.setMaxForce(f);
-    ag.setR(r);
-    ag.setMass(m);
-    agents.push_back(&ag);
 }
 
 int main(int argc, char** argv) {    
@@ -149,34 +126,30 @@ int main(int argc, char** argv) {
     view = graphics();
     flow = flowField();
 
-    agent ag1 = agent(1.5, 0.0);
-    setAgent(ag1, 2, 0.4, 3, 1);
-
+    agent ag1 = agent(1.5, 0.0);    
     agent ag2 = agent(0.5, 2.0);
-    setAgent(ag2, 0.3, 0.04, 4, 1.1);
-
     agent ag3 = agent(0.5, 4.0);
-    setAgent(ag3, 0.3, 0.03, 3, 1);
-
     agent ag4 = agent(0.5, 16.0);
-    setAgent(ag4, 0.44, 0.33, 4, 1.1); 
     
+    ag1.setFeatures(2, 0.4, 3, 1);
+    ag2.setFeatures(0.3, 0.04, 4, 1.1);
+    ag3.setFeatures(0.3, 0.03, 3, 1);
+    ag4.setFeatures(0.44, 0.33, 4, 1.1); 
+
+    agents.push_back(&ag1);
+    agents.push_back(&ag2);
+    agents.push_back(&ag3);
+    agents.push_back(&ag4);
+        
     //TODO: move to graphics class
     glutInit(&argc, argv);
-    
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-    glutInitWindowSize(400, 400);
-    
+    glutInitWindowSize(400, 400);    
     glutCreateWindow("Autonomous Steering Agents");
     glClearColor(0.7f, 0.9f, 1.0f, 1.0f); //set background color
-    glEnable(GL_DEPTH_TEST);
-    
+    glEnable(GL_DEPTH_TEST);    
     glutDisplayFunc(drawScene);
-    glutMouseFunc(graphics::mouseButton);
-    glutPassiveMotionFunc(graphics::mouseMove);
-    glutKeyboardFunc(graphics::handleKeypress);
-    glutReshapeFunc(graphics::handleResize);    
-    glutTimerFunc(5, graphics::timerEvent, 0);    
-    glutMainLoop();
+    graphics::initGraphics();
+
     return 0;
 }

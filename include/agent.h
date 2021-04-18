@@ -13,6 +13,7 @@ public:
   void setMass(float m);
   void setMaxForce(float f);
   void applyForce();
+  void setFeatures(float s, float f, float r, float m);
   pvector steering;
   pvector desired;
   pvector acceleration;

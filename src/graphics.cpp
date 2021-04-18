@@ -3,6 +3,17 @@
 
 #define ESC         27
 
+void graphics::initGraphics(){
+
+    glutMouseFunc(graphics::mouseButton);
+    glutPassiveMotionFunc(graphics::mouseMove);
+    glutKeyboardFunc(graphics::handleKeypress);
+    glutReshapeFunc(graphics::handleResize);    
+    glutTimerFunc(5, graphics::timerEvent, 0);    
+    glutMainLoop();
+}
+
+
 void graphics::mouseMove(int x, int y){
     //TODO: mouse position to glut
 	graphics::target_x = x / 5.88 - 34;
@@ -54,8 +65,7 @@ void graphics::drawWall(int border){
 
 void graphics::drawAgent(float x, float y, float angle){
     glPushMatrix();
-    glTranslatef(x, y, 0.0f);
-  
+    glTranslatef(x, y, 0.0f);  
     glRotatef(angle, 0.0f, 0.0f, 1.0f);
     glBegin(GL_TRIANGLES);          
     glColor3f(1.0f, 0.7f, 0.0f);  
