@@ -11,7 +11,9 @@ public:
    void normalize();
    void div(float i);
    void limit(float limit);
-   float angle();
+   float getAngle();
+   float dot(pvector v);
+   float angleBetween(pvector v);
    pvector operator + (pvector const &obj);
    pvector operator - (pvector const &obj);
 };

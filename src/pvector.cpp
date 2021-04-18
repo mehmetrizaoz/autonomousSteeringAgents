@@ -6,11 +6,22 @@
 
 using namespace std;
 
-float pvector::angle(){
+float pvector::getAngle(){
    float angle;
    angle = atan2 (this->y, this->x) * 180 / PI;
    return angle;
 }
+
+float pvector::angleBetween(pvector v){
+   float angle = this->dot(v) / (this->magnitude() * v.magnitude());
+   angle = acos(angle)  * 180 / PI;
+   return angle;
+}
+
+float pvector::dot(pvector v){
+   return ((x * v.x) + (y * v.y));
+}
+
 pvector::pvector(){}
 
 pvector::pvector(float x, float y){

@@ -4,7 +4,6 @@
 #define ESC         27
 
 void graphics::initGraphics(){
-
     glutMouseFunc(graphics::mouseButton);
     glutPassiveMotionFunc(graphics::mouseMove);
     glutKeyboardFunc(graphics::handleKeypress);

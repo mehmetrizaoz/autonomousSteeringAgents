@@ -30,18 +30,20 @@ vector<agent *> agents;
 int graphics::target_x = -WIDTH;
 int graphics::target_y = HEIGHT;
 
+//TODO: move to agent class
 void updatePosition(agent &ag){   
-   cout << "acc " << ag.acceleration.x << " " <<  ag.acceleration.y << endl << endl;
+   //out << "acc " << ag.acceleration.x << " " <<  ag.acceleration.y << endl << endl;
    ag.velocity = ag.velocity + ag.acceleration; 
    ag.velocity.limit(ag.maxSpeed);
-   cout << "vel " << ag.velocity.x     << " " <<  ag.velocity.y     << endl;
+   //cout << "vel " << ag.velocity.x     << " " <<  ag.velocity.y     << endl;
    ag.position = ag.position + ag.velocity;
-   cout << "pos " << ag.position.x     << " " <<  ag.position.y     << endl;
+   //cout << "pos " << ag.position.x     << " " <<  ag.position.y     << endl;
    ag.acceleration = pvector(0,0);
   
-   view.drawAgent(ag.position.x, ag.position.y, ag.velocity.angle());
+   view.drawAgent(ag.position.x, ag.position.y, ag.velocity.getAngle());
 }
 
+//TODO: move to agent class
 void reflect(agent &ag){    
     view.drawWall(WALL);
     int turnPoint = WALL - DISTANCE; 
@@ -76,6 +78,7 @@ void reflect(agent &ag){
     }
 }
 
+//TODO: move to agent class
 void wind(agent &ag){
     //pos_x, pos_y must be non negative integer
     int pos_x = abs((int)ag.position.x) % WIDTH;
@@ -83,11 +86,12 @@ void wind(agent &ag){
     
     //TODO: modification required for non plain fields
     ag.force = flow.getField(pos_x, pos_y); 
-    cout << "for " << ag.force.x  << " " <<  ag.force.y     << endl;
+    //cout << "force " << ag.force.x  << " " <<  ag.force.y     << endl;
 
     ag.applyForce();
 }
 
+//TODO: move to agent class
 void seek(agent &ag){
     ag.desired = pvector(graphics::target_x - ag.position.x, graphics::target_y - ag.position.y);    
     //arriving behavior
@@ -101,6 +105,7 @@ void seek(agent &ag){
     ag.applyForce();
 }
 
+//TODO: move to graphics class
 void drawScene() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    
     glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
@@ -129,17 +134,20 @@ int main(int argc, char** argv) {
     agent ag1 = agent(1.5, 0.0);    
     agent ag2 = agent(0.5, 2.0);
     agent ag3 = agent(0.5, 4.0);
-    agent ag4 = agent(0.5, 16.0);
-    
+    agent ag4 = agent(0.5, 16.0);    
     ag1.setFeatures(2, 0.4, 3, 1);
     ag2.setFeatures(0.3, 0.04, 4, 1.1);
     ag3.setFeatures(0.3, 0.03, 3, 1);
     ag4.setFeatures(0.44, 0.33, 4, 1.1); 
-
     agents.push_back(&ag1);
     agents.push_back(&ag2);
     agents.push_back(&ag3);
     agents.push_back(&ag4);
+
+    //pvector p1 = pvector(10, 2);
+    //pvector p2 = pvector(4, -3);
+    //cout << "p1.p2 :" << p1.dot(p2) << endl;
+    //cout << "theta :" << p1.angleBetween(p2) << endl;
         
     //TODO: move to graphics class
     glutInit(&argc, argv);
@@ -149,7 +157,8 @@ int main(int argc, char** argv) {
     glClearColor(0.7f, 0.9f, 1.0f, 1.0f); //set background color
     glEnable(GL_DEPTH_TEST);    
     glutDisplayFunc(drawScene);
-    graphics::initGraphics();
+
+    view.initGraphics();
 
     return 0;
 }
