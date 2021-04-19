@@ -18,7 +18,6 @@ float pvector::angleBetween(pvector v){
    return angle;
 }
 
-//TODO: implement with operator overloading
 float pvector::dotProduct(pvector v){
    return ((x * v.x) + (y * v.y));
 }
