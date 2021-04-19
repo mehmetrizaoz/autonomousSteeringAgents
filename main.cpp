@@ -81,13 +81,6 @@ void drawPath(pvector start, pvector end, float width){
     view.drawLine(start.x, start.y + width/2, end.x, end.y + width/2);
 }
 
-void cratePath(){
-    int slope = 20; //TODO: make this degree
-    pvector p1 = pvector(-WIDTH, -HEIGHT + slope);
-    pvector p2 = pvector( WIDTH,  HEIGHT - slope);
-    drawPath(p1, p2, 5);
-}
-
 //TODO: move to agent class
 void seek(agent &ag){
     ag.desired = ag.target - ag.position;
@@ -104,17 +97,14 @@ void seek(agent &ag){
 
 //TODO: move to agent class
 void followPath(agent &ag){
-  //cratePath();
-  int slope = 20; //TODO: make this degree
-  pvector start = pvector(-WIDTH,  HEIGHT - slope);
-  pvector end   = pvector( WIDTH, -HEIGHT + slope);
+  int pathWidth = 1;
+  int slope = 40; //TODO: make this degree
+  pvector start = pvector(-WIDTH - 5,  HEIGHT - slope);
+  pvector end   = pvector( WIDTH + 5, -HEIGHT + slope);
   drawPath(start, end, 5);
 
   pvector predict = ag.velocity;
   pvector predictedPos = ag.position + predict;
-  cout << "position " << ag.position.x << " " << ag.position.y << endl;
-  cout << "velocity " << ag.velocity.x << " " << ag.velocity.y << endl;
-  cout << "predictedPos " << predictedPos.x << " " << predictedPos.y << endl;
   pvector b = pvector(end.x - start.x, end.y - start.y);
   pvector a = pvector(predictedPos.x - start.x, predictedPos.y -start.y);
   b.normalize();
@@ -126,15 +116,7 @@ void followPath(agent &ag){
   pvector distance = pvector(predictedPos - normalPoint);
   ag.target = normalPoint + b_normalized;
   
-  cout << "normalPoint " << normalPoint.x << " " << normalPoint.y << endl;
-  cout << "a_dot_b " << a_dot_b << endl;
-  cout << "a " << a.x << " " << a.y << endl;
-  cout << "b " << b.x << " " << b.y << endl;
-  cout << "target " << ag.target.x << " " << ag.target.y << endl;
-  cout << "distance " << distance.magnitude() << endl;
-  cout << endl;
-
-  glBegin(GL_LINES);
+  /*glBegin(GL_LINES);
   glVertex2f(predictedPos.x, predictedPos.y);
   glVertex2f(normalPoint.x, normalPoint.y);
   glEnd();  
@@ -142,9 +124,9 @@ void followPath(agent &ag){
   glPointSize(2.2);
   glBegin(GL_POINTS);
   glVertex2f(ag.target.x, ag.target.y);
-  glEnd();
+  glEnd();*/
     
-  if(distance.magnitude() > 2){
+  if(distance.magnitude() > pathWidth / 2){
      seek(ag);
   }
   
@@ -159,7 +141,6 @@ void wind(agent &ag){
     //TODO: modification required for non uniform fields
     ag.force = flow.getField(pos_x, pos_y); 
     //cout << "force " << ag.force.x  << " " <<  ag.force.y     << endl;
-
     ag.applyForce();
 }
 
@@ -195,23 +176,18 @@ int main(int argc, char** argv) {
     flow = flowField();
 
     agent ag1 = agent(-30, 20.0);    
-    //agent ag2 = agent(0.5, 2.0);
-    //agent ag3 = agent(0.5, 4.0);
-    //agent ag4 = agent(0.5, 16.0);    
-    ag1.setFeatures(0.5, 0.4, 3, 1);
-    //ag2.setFeatures(0.3, 0.04, 4, 1.1);
-    //ag3.setFeatures(0.3, 0.03, 3, 1);
-    //ag4.setFeatures(0.44, 0.33, 4, 1.1); 
+    agent ag2 = agent(-20.5, 20.0);
+    agent ag3 = agent(-10.5, 0.0);
+    agent ag4 = agent(-34.5, -16.0);    
+    ag1.setFeatures(0.2,  0.05, 0.5, 1);
+    ag2.setFeatures(0.1,  0.04, 0.5, 1);
+    ag3.setFeatures(0.15, 0.03, 0.5, 1);
+    ag4.setFeatures(0.25, 0.02, 0.5, 1); 
     agents.push_back(&ag1);
-    //agents.push_back(&ag2);
-    //agents.push_back(&ag3);
-    //agents.push_back(&ag4);
-
-    //pvector p1 = pvector(10, 2);
-    //pvector p2 = pvector(4, -3);
-    //cout << "p1.p2 :" << p1.dotProduct(p2) << endl;
-    //cout << "theta :" << p1.angleBetween(p2) << endl;
-        
+    agents.push_back(&ag2);
+    agents.push_back(&ag3);
+    agents.push_back(&ag4);
+       
     //TODO: move to graphics class
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
