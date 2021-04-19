@@ -34,6 +34,11 @@ void pvector::div(float i){
    y = y / i;
 }
 
+void pvector::mul(float i){
+   x = x * i;
+   y = y * i;
+}
+
 float pvector::magnitude(){
    return sqrt((this->x * this->x) + (this->y * this->y));
 }

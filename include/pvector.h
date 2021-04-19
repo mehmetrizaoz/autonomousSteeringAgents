@@ -10,6 +10,7 @@ public:
    float magnitude();   
    void normalize();
    void div(float i);
+   void mul(float i);
    void limit(float limit);
    float getAngle();
    float dotProduct(pvector v);

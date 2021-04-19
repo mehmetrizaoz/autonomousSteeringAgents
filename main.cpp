@@ -89,9 +89,66 @@ void cratePath(){
 }
 
 //TODO: move to agent class
-void followPath(agent &ag){
-    cratePath();
+void seek(agent &ag){
+    ag.desired = pvector(graphics::target_x - ag.position.x, graphics::target_y - ag.position.y);    
+    //arriving behavior
+    if(ag.desired.magnitude() > ag.r) { ag.desired.limit(ag.maxSpeed); }
+    else { ag.desired.limit(ag.maxSpeed / 2); }
     
+    ag.steering = ag.desired;
+    ag.steering = ag.steering - ag.velocity;  
+    ag.steering.limit(ag.maxForce);
+    ag.force = ag.steering;
+    ag.applyForce();
+}
+
+//TODO: move to agent class
+void followPath(agent &ag){
+  //cratePath();
+  int slope = 20; //TODO: make this degree
+  pvector start = pvector(-WIDTH,  HEIGHT - slope);
+  pvector end   = pvector( WIDTH, -HEIGHT + slope);
+  drawPath(start, end, 5);
+
+  pvector predict = ag.velocity;
+  pvector predictedPos = ag.position + predict;
+  cout << "position " << ag.position.x << " " << ag.position.y << endl;
+  cout << "velocity " << ag.velocity.x << " " << ag.velocity.y << endl;
+  cout << "predictedPos " << predictedPos.x << " " << predictedPos.y << endl;
+  pvector b = pvector(end.x - start.x, end.y - start.y);
+  pvector a = pvector(predictedPos.x - start.x, predictedPos.y -start.y);
+  b.normalize();
+  pvector b_normalized = b;
+  float a_dot_b = a.dotProduct(b);
+  
+  b.mul(a_dot_b);
+  pvector normalPoint = b + start;
+  pvector distance = pvector(predictedPos - normalPoint);
+  pvector target = normalPoint + b_normalized;
+
+  cout << "normalPoint " << normalPoint.x << " " << normalPoint.y << endl;
+  cout << "a_dot_b " << a_dot_b << endl;
+  cout << "a " << a.x << " " << a.y << endl;
+  cout << "b " << b.x << " " << b.y << endl;
+  cout << "target " << target.x << " " << target.y << endl;
+  cout << "distance " << distance.magnitude() << endl;
+  cout << endl;
+
+  glBegin(GL_LINES);
+  glVertex2f(predictedPos.x, predictedPos.y);
+  glVertex2f(normalPoint.x, normalPoint.y);
+  glEnd();  
+
+  glPointSize(2.2);
+  glBegin(GL_POINTS);
+  glVertex2f(target.x, target.y);
+  glEnd();
+    
+    /* 
+  if(distance.magnitude() > 5)
+     seek((agent &)target);*/
+     //TODO: modify seek function, it is implemented regarding mouse point
+   
 }
 
 //TODO: move to agent class
@@ -104,20 +161,6 @@ void wind(agent &ag){
     ag.force = flow.getField(pos_x, pos_y); 
     //cout << "force " << ag.force.x  << " " <<  ag.force.y     << endl;
 
-    ag.applyForce();
-}
-
-//TODO: move to agent class
-void seek(agent &ag){
-    ag.desired = pvector(graphics::target_x - ag.position.x, graphics::target_y - ag.position.y);    
-    //arriving behavior
-    if(ag.desired.magnitude() > ag.r) { ag.desired.limit(ag.maxSpeed); }
-    else { ag.desired.limit(ag.maxSpeed / 2); }
-    
-    ag.steering = ag.desired;
-    ag.steering = ag.steering - ag.velocity;  
-    ag.steering.limit(ag.maxForce);
-    ag.force = ag.steering;
     ag.applyForce();
 }
 
@@ -148,18 +191,18 @@ int main(int argc, char** argv) {
     view = graphics();
     flow = flowField();
 
-    agent ag1 = agent(1.5, 0.0);    
-    agent ag2 = agent(0.5, 2.0);
-    agent ag3 = agent(0.5, 4.0);
-    agent ag4 = agent(0.5, 16.0);    
+    agent ag1 = agent(-30, 20.0);    
+    //agent ag2 = agent(0.5, 2.0);
+    //agent ag3 = agent(0.5, 4.0);
+    //agent ag4 = agent(0.5, 16.0);    
     ag1.setFeatures(2, 0.4, 3, 1);
-    ag2.setFeatures(0.3, 0.04, 4, 1.1);
-    ag3.setFeatures(0.3, 0.03, 3, 1);
-    ag4.setFeatures(0.44, 0.33, 4, 1.1); 
+    //ag2.setFeatures(0.3, 0.04, 4, 1.1);
+    //ag3.setFeatures(0.3, 0.03, 3, 1);
+    //ag4.setFeatures(0.44, 0.33, 4, 1.1); 
     agents.push_back(&ag1);
-    agents.push_back(&ag2);
-    agents.push_back(&ag3);
-    agents.push_back(&ag4);
+    //agents.push_back(&ag2);
+    //agents.push_back(&ag3);
+    //agents.push_back(&ag4);
 
     //pvector p1 = pvector(10, 2);
     //pvector p2 = pvector(4, -3);
