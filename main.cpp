@@ -90,7 +90,7 @@ void cratePath(){
 
 //TODO: move to agent class
 void seek(agent &ag){
-    ag.desired = pvector(graphics::target_x - ag.position.x, graphics::target_y - ag.position.y);    
+    ag.desired = ag.target - ag.position;
     //arriving behavior
     if(ag.desired.magnitude() > ag.r) { ag.desired.limit(ag.maxSpeed); }
     else { ag.desired.limit(ag.maxSpeed / 2); }
@@ -124,13 +124,13 @@ void followPath(agent &ag){
   b.mul(a_dot_b);
   pvector normalPoint = b + start;
   pvector distance = pvector(predictedPos - normalPoint);
-  pvector target = normalPoint + b_normalized;
-
+  ag.target = normalPoint + b_normalized;
+  
   cout << "normalPoint " << normalPoint.x << " " << normalPoint.y << endl;
   cout << "a_dot_b " << a_dot_b << endl;
   cout << "a " << a.x << " " << a.y << endl;
   cout << "b " << b.x << " " << b.y << endl;
-  cout << "target " << target.x << " " << target.y << endl;
+  cout << "target " << ag.target.x << " " << ag.target.y << endl;
   cout << "distance " << distance.magnitude() << endl;
   cout << endl;
 
@@ -141,14 +141,13 @@ void followPath(agent &ag){
 
   glPointSize(2.2);
   glBegin(GL_POINTS);
-  glVertex2f(target.x, target.y);
+  glVertex2f(ag.target.x, ag.target.y);
   glEnd();
     
-    /* 
-  if(distance.magnitude() > 5)
-     seek((agent &)target);*/
-     //TODO: modify seek function, it is implemented regarding mouse point
-   
+  if(distance.magnitude() > 2){
+     seek(ag);
+  }
+  
 }
 
 //TODO: move to agent class
@@ -173,7 +172,11 @@ void drawScene() {
     
     for(auto it = agents.begin(); it < agents.end(); it++){ 
        switch(mode){
-           case SEEK:          seek(**it);       break;
+           case SEEK:       
+              (**it).target.x = graphics::target_x;
+              (**it).target.y = graphics::target_y;
+              seek(**it);       
+           break;
            case REFLECT:       reflect(**it);    break; //velocity must be non zero                       
            case WIND:          wind(**it);       break;
            case PATH_FOLLOWER: followPath(**it); break;
@@ -195,7 +198,7 @@ int main(int argc, char** argv) {
     //agent ag2 = agent(0.5, 2.0);
     //agent ag3 = agent(0.5, 4.0);
     //agent ag4 = agent(0.5, 16.0);    
-    ag1.setFeatures(2, 0.4, 3, 1);
+    ag1.setFeatures(0.5, 0.4, 3, 1);
     //ag2.setFeatures(0.3, 0.04, 4, 1.1);
     //ag3.setFeatures(0.3, 0.03, 3, 1);
     //ag4.setFeatures(0.44, 0.33, 4, 1.1); 

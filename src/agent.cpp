@@ -10,6 +10,7 @@ agent::agent(float x, float  y){
     steering     = pvector(0.0, 0.0);
     desired      = pvector(0.0, 0.0);
     force        = pvector(0.0, 0.0);
+    target       = pvector(0.0, 0.0);
 }
 
 void agent::setFeatures(float s, float f, float r, float m){
