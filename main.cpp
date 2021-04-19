@@ -1,18 +1,10 @@
 #include <iostream>
-#include <stdlib.h> 
 #include <GL/glut.h> 
-#include <stdlib.h>
 #include <vector>
 #include "pvector.h"
 #include "agent.h"
-#include "math.h"
 #include "graphics.h"
 #include "flowField.h"
-
-/*TODO: check these links for opengl
-https://www.opengl.org/resources/libraries/glut/spec3/node1.html
-https://learnopengl.com/Getting-started/Coordinate-Systems
-*/
 
 #define WIDTH       34
 #define HEIGHT      34
@@ -90,7 +82,7 @@ void drawPath(pvector start, pvector end, float width){
 }
 
 void cratePath(){
-    int slope = 20;
+    int slope = 20; //TODO: make this degree
     pvector p1 = pvector(-WIDTH, -HEIGHT + slope);
     pvector p2 = pvector( WIDTH,  HEIGHT - slope);
     drawPath(p1, p2, 5);
@@ -108,7 +100,7 @@ void wind(agent &ag){
     int pos_x = abs((int)ag.position.x) % WIDTH;
     int pos_y = abs((int)ag.position.y) % HEIGHT;
     
-    //TODO: modification required for non plain fields
+    //TODO: modification required for non uniform fields
     ag.force = flow.getField(pos_x, pos_y); 
     //cout << "force " << ag.force.x  << " " <<  ag.force.y     << endl;
 
