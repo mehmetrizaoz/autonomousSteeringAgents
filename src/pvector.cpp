@@ -66,6 +66,7 @@ pvector pvector::operator + (pvector const &obj) {
       res.y = y + obj.y;
       return res;
 }
+
 pvector pvector::operator - (pvector const &obj) {
       pvector res;
       res.x = x - obj.x;

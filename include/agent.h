@@ -2,6 +2,7 @@
 #define AGENT_H
 
 #include "pvector.h"
+#include "point.h"
 
 class agent{
 public:
@@ -17,8 +18,8 @@ public:
   pvector steering;
   pvector desired;
   pvector acceleration;
-  pvector position;
-  pvector target;
+  point   position;
+  point   targetPoint;
   pvector velocity;  
   pvector force;  
   float maxSpeed; 

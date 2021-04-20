@@ -3,6 +3,7 @@
 #include <vector>
 #include "pvector.h"
 #include "agent.h"
+#include "point.h"
 #include "graphics.h"
 #include "flowField.h"
 
@@ -34,7 +35,8 @@ void updatePosition(agent &ag){
    ag.velocity = ag.velocity + ag.acceleration; 
    ag.velocity.limit(ag.maxSpeed);
    //cout << "vel " << ag.velocity.x     << " " <<  ag.velocity.y     << endl;
-   ag.position = ag.position + ag.velocity;
+   ag.position.x = ag.position.x + ag.velocity.x;
+   ag.position.y = ag.position.y + ag.velocity.y;
    //cout << "pos " << ag.position.x     << " " <<  ag.position.y     << endl;
    ag.acceleration = pvector(0,0);
   
@@ -76,14 +78,15 @@ void reflect(agent &ag){
     }
 }
 
-void drawPath(pvector start, pvector end, float width){   
+void drawPath(point start, point end, float width){   
     view.drawLine(start.x, start.y - width/2, end.x, end.y - width/2);
     view.drawLine(start.x, start.y + width/2, end.x, end.y + width/2);
 }
 
 //TODO: move to agent class
 void seek(agent &ag){
-    ag.desired = ag.target - ag.position;
+    ag.desired = ag.targetPoint - ag.position;
+    
     //arriving behavior
     if(ag.desired.magnitude() > ag.r) { ag.desired.limit(ag.maxSpeed); }
     else { ag.desired.limit(ag.maxSpeed / 2); }
@@ -99,22 +102,26 @@ void seek(agent &ag){
 void followPath(agent &ag){
   int pathWidth = 1;
   int slope = 40; //TODO: make this degree
-  pvector start = pvector(-WIDTH - 5,  HEIGHT - slope);
-  pvector end   = pvector( WIDTH + 5, -HEIGHT + slope);
+  point start = point(-WIDTH - 5,  HEIGHT - slope);
+  point end   = point( WIDTH + 5, -HEIGHT + slope);
   drawPath(start, end, 5);
 
   pvector predict = ag.velocity;
-  pvector predictedPos = ag.position + predict;
-  pvector b = pvector(end.x - start.x, end.y - start.y);
-  pvector a = pvector(predictedPos.x - start.x, predictedPos.y -start.y);
+  point predictedPos = point();
+  predictedPos = ag.position + predict;
+  
+  pvector b = end - start;
+  pvector a = predictedPos - start;
+
   b.normalize();
   pvector b_normalized = b;
   float a_dot_b = a.dotProduct(b);
   
   b.mul(a_dot_b);
-  pvector normalPoint = b + start;
-  pvector distance = pvector(predictedPos - normalPoint);
-  ag.target = normalPoint + b_normalized;
+  point normalPoint = start + b;
+  pvector distance = predictedPos - normalPoint;
+  ag.targetPoint = normalPoint + b_normalized;
+  
   
   /*glBegin(GL_LINES);
   glVertex2f(predictedPos.x, predictedPos.y);
@@ -154,8 +161,8 @@ void drawScene() {
     for(auto it = agents.begin(); it < agents.end(); it++){ 
        switch(mode){
            case SEEK:       
-              (**it).target.x = graphics::target_x;
-              (**it).target.y = graphics::target_y;
+              (**it).targetPoint.x = graphics::target_x;
+              (**it).targetPoint.y = graphics::target_y;
               seek(**it);       
            break;
            case REFLECT:       reflect(**it);    break; //velocity must be non zero                       

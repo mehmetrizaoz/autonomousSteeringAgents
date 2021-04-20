@@ -3,7 +3,7 @@ vpath %.h include
 CC := g++
 
 CPPFLAGS = -I include
-objects := pvector.o agent.o flowField.o main.o graphics.o
+objects := pvector.o agent.o flowField.o main.o graphics.o point.o
 LIBS = -lglut -lGLU -lGL
 
 all: exec
