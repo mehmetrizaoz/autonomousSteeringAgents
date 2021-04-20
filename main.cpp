@@ -94,20 +94,29 @@ void seek(agent &agent){
 }
 
 void followMultiSegmentPath(agent &agent){
+   point p1 = point(-40, 20);
+   point p2 = point(-14, 25);
+   point p3 = point( 10,  7);
+   point p4 = point( 40, 12);
+   drawPath(p1, p2, 5);
+   drawPath(p2, p3, 5);
+   drawPath(p3, p4, 5);
+
 
 }
 
 //TODO: move to agent class
 void followPath(agent &agent){
+  //TODO: path class will be created
   int pathWidth = 1;
-  int slope = 40; //TODO: make this degree
-  point start = point(-WIDTH - 5,  HEIGHT - slope);
-  point end   = point( WIDTH + 5, -HEIGHT + slope);
+  int slope     = 40; //TODO: make this degree
+  point start   = point(-WIDTH - 5,  HEIGHT - slope);
+  point end     = point( WIDTH + 5, -HEIGHT + slope);
   drawPath(start, end, 5); //TODO: magic number
 
-  pvector predict = agent.velocity;
+  pvector predict    = agent.velocity;
   point predictedPos = point();
-  predictedPos = agent.position + predict;
+  predictedPos       = agent.position + predict;
   
   pvector b = end - start;
   pvector a = predictedPos - start;
@@ -118,8 +127,8 @@ void followPath(agent &agent){
   
   b.mul(a_dot_b);
   point normalPoint = start + b;
-  pvector distance = predictedPos - normalPoint;
-  agent.targetPoint = normalPoint + b_normalized;
+  pvector distance  = predictedPos - normalPoint;
+  agent.targetPoint = normalPoint  + b_normalized;
     
   /*glBegin(GL_LINES);
   glVertex2f(predictedPos.x, predictedPos.y);
@@ -161,10 +170,10 @@ void drawScene() {
               (**it).targetPoint.y = graphics::target_y;
               seek(**it);       
            break;
-           case REFLECT:       reflect(**it);    break; //velocity must be non zero                       
-           case WIND:          wind(**it);       break;
+           case REFLECT:     reflect(**it);    break; //velocity must be non zero                       
+           case WIND:        wind(**it);       break;
            case PATH_SIMPLE: followPath(**it); break;
-           case PATH_COMPLEX:  followMultiSegmentPath(**it); break;
+           case PATH_COMPLEX:followMultiSegmentPath(**it); break;
        }
        updatePosition(**it);   
     }

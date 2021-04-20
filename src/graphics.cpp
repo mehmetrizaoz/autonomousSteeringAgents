@@ -44,6 +44,7 @@ void graphics::handleKeypress(unsigned char key, int x, int y) {
 }
 
 void graphics::drawLine(float p1_x, float p1_y, float p2_x, float p2_y){
+    glLineWidth(2);
     glBegin(GL_LINES);
     glVertex2f(p1_x, p1_y);
     glVertex2f(p2_x, p2_y);
