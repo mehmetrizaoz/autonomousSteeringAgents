@@ -4,13 +4,13 @@
 using namespace std;
 
 agent::agent(float x, float  y){
-    position     = pvector(x, y);
+    position     = point(x, y);
     velocity     = pvector(0.1, 0.05);
     acceleration = pvector(0.0, 0.0);
     steering     = pvector(0.0, 0.0);
     desired      = pvector(0.0, 0.0);
     force        = pvector(0.0, 0.0);
-    target       = pvector(0.0, 0.0);
+    targetPoint  = point(0.0, 0.0);
 }
 
 void agent::setFeatures(float s, float f, float r, float m){

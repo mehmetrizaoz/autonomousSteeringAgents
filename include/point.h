@@ -9,7 +9,7 @@ public:
    float y;   
    point(float x, float y);
    point();
-   point operator + (pvector const &obj);
+   point   operator + (pvector const &obj);
    pvector operator - (point const &obj);
 };
 

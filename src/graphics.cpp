@@ -1,4 +1,5 @@
 #include "graphics.h"
+#include "agent.h"
 #include <GL/glut.h>
 
 #define ESC         27
@@ -56,9 +57,9 @@ void graphics::drawWall(float border){
     drawLine(-border, -border, -border,  border);
 }
 
-void graphics::drawAgent(float x, float y, float angle){
+void graphics::drawAgent(agent &ag, float angle){
     glPushMatrix();
-    glTranslatef(x, y, 0.0f);  
+    glTranslatef(ag.position.x, ag.position.y, 0.0f);  
     glRotatef(angle, 0.0f, 0.0f, 1.0f);
     glBegin(GL_TRIANGLES);          
     glColor3f(1.0f, 0.7f, 0.0f);  

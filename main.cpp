@@ -30,51 +30,46 @@ int graphics::target_x = -WIDTH;
 int graphics::target_y = HEIGHT;
 
 //TODO: move to agent class
-void updatePosition(agent &ag){   
-   //out << "acc " << ag.acceleration.x << " " <<  ag.acceleration.y << endl << endl;
-   ag.velocity = ag.velocity + ag.acceleration; 
-   ag.velocity.limit(ag.maxSpeed);
-   //cout << "vel " << ag.velocity.x     << " " <<  ag.velocity.y     << endl;
-   ag.position.x = ag.position.x + ag.velocity.x;
-   ag.position.y = ag.position.y + ag.velocity.y;
-   //cout << "pos " << ag.position.x     << " " <<  ag.position.y     << endl;
-   ag.acceleration = pvector(0,0);
-  
-   view.drawAgent(ag.position.x, ag.position.y, ag.velocity.getAngle());
+void updatePosition(agent &agent){      
+   agent.velocity = agent.velocity + agent.acceleration; 
+   agent.velocity.limit(agent.maxSpeed);   
+   agent.position = agent.position + agent.velocity;
+   agent.acceleration = pvector(0,0);  
+   view.drawAgent(agent, agent.velocity.getAngle());
 }
 
 //TODO: move to agent class
-void reflect(agent &ag){    
+void reflect(agent &agent){    
     view.drawWall(WALL);
     int turnPoint = WALL - DISTANCE; 
-    
-    if(ag.position.x >= turnPoint){
-       ag.desired = pvector( -ag.maxSpeed, ag.velocity.y );
-       ag.steering = ag.desired - ag.velocity;
-       ag.steering.limit(ag.maxForce);
-       ag.force = ag.steering;
-       ag.applyForce();
+    //TODO: refactor following code
+    if(agent.position.x >= turnPoint){
+       agent.desired = pvector( -agent.maxSpeed, agent.velocity.y );
+       agent.steering = agent.desired - agent.velocity;
+       agent.steering.limit(agent.maxForce);
+       agent.force = agent.steering;
+       agent.applyForce();
     }
-    else if(ag.position.x <= -turnPoint){
-       ag.desired = pvector( ag.maxSpeed, ag.velocity.y );
-       ag.steering = ag.desired - ag.velocity;
-       ag.steering.limit(ag.maxForce);
-       ag.force = ag.steering;
-       ag.applyForce();
+    else if(agent.position.x <= -turnPoint){
+       agent.desired = pvector( agent.maxSpeed, agent.velocity.y );
+       agent.steering = agent.desired - agent.velocity;
+       agent.steering.limit(agent.maxForce);
+       agent.force = agent.steering;
+       agent.applyForce();
     }
-    else if(ag.position.y >= turnPoint){
-       ag.desired = pvector( ag.velocity.x, -ag.maxSpeed );
-       ag.steering = ag.desired - ag.velocity;
-       ag.steering.limit(ag.maxForce);
-       ag.force = ag.steering;
-       ag.applyForce();
+    else if(agent.position.y >= turnPoint){
+       agent.desired = pvector( agent.velocity.x, -agent.maxSpeed );
+       agent.steering = agent.desired - agent.velocity;
+       agent.steering.limit(agent.maxForce);
+       agent.force = agent.steering;
+       agent.applyForce();
     }
-    else if(ag.position.y <= -turnPoint){
-       ag.desired = pvector( ag.velocity.x, ag.maxSpeed );
-       ag.steering = ag.desired - ag.velocity;
-       ag.steering.limit(ag.maxForce);
-       ag.force = ag.steering;
-       ag.applyForce();
+    else if(agent.position.y <= -turnPoint){
+       agent.desired = pvector( agent.velocity.x, agent.maxSpeed );
+       agent.steering = agent.desired - agent.velocity;
+       agent.steering.limit(agent.maxForce);
+       agent.force = agent.steering;
+       agent.applyForce();
     }
 }
 
@@ -84,31 +79,30 @@ void drawPath(point start, point end, float width){
 }
 
 //TODO: move to agent class
-void seek(agent &ag){
-    ag.desired = ag.targetPoint - ag.position;
+void seek(agent &agent){
+    agent.desired = agent.targetPoint - agent.position;
     
     //arriving behavior
-    if(ag.desired.magnitude() > ag.r) { ag.desired.limit(ag.maxSpeed); }
-    else { ag.desired.limit(ag.maxSpeed / 2); }
+    if(agent.desired.magnitude() > agent.r) { agent.desired.limit(agent.maxSpeed); }
+    else { agent.desired.limit(agent.maxSpeed / 2); }
     
-    ag.steering = ag.desired;
-    ag.steering = ag.steering - ag.velocity;  
-    ag.steering.limit(ag.maxForce);
-    ag.force = ag.steering;
-    ag.applyForce();
+    agent.steering = agent.desired - agent.velocity;  
+    agent.steering.limit(agent.maxForce);
+    agent.force = agent.steering;
+    agent.applyForce();
 }
 
 //TODO: move to agent class
-void followPath(agent &ag){
+void followPath(agent &agent){
   int pathWidth = 1;
   int slope = 40; //TODO: make this degree
   point start = point(-WIDTH - 5,  HEIGHT - slope);
   point end   = point( WIDTH + 5, -HEIGHT + slope);
   drawPath(start, end, 5);
 
-  pvector predict = ag.velocity;
+  pvector predict = agent.velocity;
   point predictedPos = point();
-  predictedPos = ag.position + predict;
+  predictedPos = agent.position + predict;
   
   pvector b = end - start;
   pvector a = predictedPos - start;
@@ -120,7 +114,7 @@ void followPath(agent &ag){
   b.mul(a_dot_b);
   point normalPoint = start + b;
   pvector distance = predictedPos - normalPoint;
-  ag.targetPoint = normalPoint + b_normalized;
+  agent.targetPoint = normalPoint + b_normalized;
   
   
   /*glBegin(GL_LINES);
@@ -134,21 +128,20 @@ void followPath(agent &ag){
   glEnd();*/
     
   if(distance.magnitude() > pathWidth / 2){
-     seek(ag);
+     seek(agent);
   }
   
 }
 
 //TODO: move to agent class
-void wind(agent &ag){
+void wind(agent &agent){
     //pos_x, pos_y must be non negative integer
-    int pos_x = abs((int)ag.position.x) % WIDTH;
-    int pos_y = abs((int)ag.position.y) % HEIGHT;
+    int pos_x = abs((int)agent.position.x) % WIDTH;
+    int pos_y = abs((int)agent.position.y) % HEIGHT;
     
     //TODO: modification required for non uniform fields
-    ag.force = flow.getField(pos_x, pos_y); 
-    //cout << "force " << ag.force.x  << " " <<  ag.force.y     << endl;
-    ag.applyForce();
+    agent.force = flow.getField(pos_x, pos_y); 
+    agent.applyForce();
 }
 
 //TODO: move to graphics class
@@ -159,7 +152,7 @@ void drawScene() {
     glTranslatef(0.0f, 0.0f, -85.0f); //Move to the center of the triangle    
     
     for(auto it = agents.begin(); it < agents.end(); it++){ 
-       switch(mode){
+       switch(mode){//TODO: visitor pattern will be used later
            case SEEK:       
               (**it).targetPoint.x = graphics::target_x;
               (**it).targetPoint.y = graphics::target_y;
@@ -182,18 +175,18 @@ int main(int argc, char** argv) {
     view = graphics();
     flow = flowField();
 
-    agent ag1 = agent(-30, 20.0);    
-    agent ag2 = agent(-20.5, 20.0);
-    agent ag3 = agent(-10.5, 0.0);
-    agent ag4 = agent(-34.5, -16.0);    
-    ag1.setFeatures(0.2,  0.05, 0.5, 1);
-    ag2.setFeatures(0.1,  0.04, 0.5, 1);
-    ag3.setFeatures(0.15, 0.03, 0.5, 1);
-    ag4.setFeatures(0.25, 0.02, 0.5, 1); 
-    agents.push_back(&ag1);
-    agents.push_back(&ag2);
-    agents.push_back(&ag3);
-    agents.push_back(&ag4);
+    agent agent1 = agent(-30, 20.0);    
+    agent agent2 = agent(-20.5, 20.0);
+    agent agent3 = agent(-10.5, 0.0);
+    agent agent4 = agent(-34.5, -16.0);    
+    agent1.setFeatures(0.2,  0.05, 0.5, 1);
+    agent2.setFeatures(0.1,  0.04, 0.5, 1);
+    agent3.setFeatures(0.15, 0.03, 0.5, 1);
+    agent4.setFeatures(0.25, 0.02, 0.5, 1); 
+    agents.push_back(&agent1);
+    agents.push_back(&agent2);
+    agents.push_back(&agent3);
+    agents.push_back(&agent4);
        
     //TODO: move to graphics class
     glutInit(&argc, argv);
