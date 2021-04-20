@@ -16,7 +16,8 @@
 #define SEEK          1 //mouse follower
 #define REFLECT       2 //apply force only near the wall
 #define WIND          3 //wind force (no other force)
-#define PATH_FOLLOWER 4
+#define PATH_SIMPLE   4
+#define PATH_COMPLEX  5
 
 using namespace std;
 
@@ -92,13 +93,17 @@ void seek(agent &agent){
     agent.applyForce();
 }
 
+void followMultiSegmentPath(agent &agent){
+
+}
+
 //TODO: move to agent class
 void followPath(agent &agent){
   int pathWidth = 1;
   int slope = 40; //TODO: make this degree
   point start = point(-WIDTH - 5,  HEIGHT - slope);
   point end   = point( WIDTH + 5, -HEIGHT + slope);
-  drawPath(start, end, 5);
+  drawPath(start, end, 5); //TODO: magic number
 
   pvector predict = agent.velocity;
   point predictedPos = point();
@@ -115,8 +120,7 @@ void followPath(agent &agent){
   point normalPoint = start + b;
   pvector distance = predictedPos - normalPoint;
   agent.targetPoint = normalPoint + b_normalized;
-  
-  
+    
   /*glBegin(GL_LINES);
   glVertex2f(predictedPos.x, predictedPos.y);
   glVertex2f(normalPoint.x, normalPoint.y);
@@ -129,8 +133,7 @@ void followPath(agent &agent){
     
   if(distance.magnitude() > pathWidth / 2){
      seek(agent);
-  }
-  
+  }  
 }
 
 //TODO: move to agent class
@@ -160,7 +163,8 @@ void drawScene() {
            break;
            case REFLECT:       reflect(**it);    break; //velocity must be non zero                       
            case WIND:          wind(**it);       break;
-           case PATH_FOLLOWER: followPath(**it); break;
+           case PATH_SIMPLE: followPath(**it); break;
+           case PATH_COMPLEX:  followMultiSegmentPath(**it); break;
        }
        updatePosition(**it);   
     }
@@ -169,7 +173,9 @@ void drawScene() {
 }
 
 int main(int argc, char** argv) {    
-    cout << "enter mode please:\nSEEK:1\nREFLECT:2\nWIND:3\nPATH FOLLOWER:4\n\n";
+    cout << "SEEK:\t\t\t\t1" << endl << "REFLECT:\t\t\t2" << endl;
+    cout << "WIND:\t\t\t\t3" << endl << "FOLLOW SIMPLE PATH:\t\t4" << endl;
+    cout << "FOLLOW MULTISEGMENT PATH:\t5" << endl;;
     cin >> mode;
 
     view = graphics();
@@ -191,7 +197,7 @@ int main(int argc, char** argv) {
     //TODO: move to graphics class
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-    glutInitWindowSize(400, 400);    
+    glutInitWindowSize(400, 400);   //TODO: magic number
     glutCreateWindow("Autonomous Steering Agents");
     glClearColor(0.7f, 0.9f, 1.0f, 1.0f); //set background color
     glEnable(GL_DEPTH_TEST);    

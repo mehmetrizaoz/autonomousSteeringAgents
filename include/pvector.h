@@ -8,10 +8,10 @@ public:
    pvector();
    pvector(float x, float y);
    float magnitude();   
-   void normalize();
-   void div(float i);
-   void mul(float i);
-   void limit(float limit);
+   void  normalize();
+   void  div(float i);
+   void  mul(float i);
+   void  limit(float limit);
    float getAngle();
    float dotProduct(pvector v);
    float angleBetween(pvector v);
