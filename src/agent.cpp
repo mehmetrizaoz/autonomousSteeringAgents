@@ -13,6 +13,13 @@ agent::agent(float x, float  y){
     targetPoint  = point(0.0, 0.0);
 }
 
+void agent::updatePosition(){      
+   velocity = velocity + acceleration; 
+   velocity.limit(maxSpeed);   
+   position = position + velocity;
+   acceleration = pvector(0,0);  
+}
+
 void agent::setFeatures(float s, float f, float r, float m){
     setMaxSpeed(s);
     setMaxForce(f);

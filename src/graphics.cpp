@@ -1,5 +1,6 @@
 #include "graphics.h"
 #include "agent.h"
+#include "path.h"
 #include <GL/glut.h>
 
 #define ESC         27
@@ -11,6 +12,11 @@ void graphics::initGraphics(){
     glutReshapeFunc(graphics::handleResize);    
     glutTimerFunc(5, graphics::timerEvent, 0);    
     glutMainLoop();
+}
+
+void graphics::drawPath(path p){   
+    drawLine(p.start.x, p.start.y - p.width/2, p.end.x, p.end.y - p.width/2);
+    drawLine(p.start.x, p.start.y + p.width/2, p.end.x, p.end.y + p.width/2);
 }
 
 void graphics::mouseMove(int x, int y){

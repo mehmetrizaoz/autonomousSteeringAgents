@@ -32,15 +32,6 @@ int graphics::target_x = -WIDTH;
 int graphics::target_y = HEIGHT;
 
 //TODO: move to agent class
-void updatePosition(agent &agent){      
-   agent.velocity = agent.velocity + agent.acceleration; 
-   agent.velocity.limit(agent.maxSpeed);   
-   agent.position = agent.position + agent.velocity;
-   agent.acceleration = pvector(0,0);  
-   view.drawAgent(agent, agent.velocity.getAngle());
-}
-
-//TODO: move to agent class
 void reflect(agent &agent){    
     view.drawWall(WALL);
     int turnPoint = WALL - DISTANCE; 
@@ -75,11 +66,6 @@ void reflect(agent &agent){
     }
 }
 
-void drawPath(path p){   
-    view.drawLine(p.start.x, p.start.y - p.width/2, p.end.x, p.end.y - p.width/2);
-    view.drawLine(p.start.x, p.start.y + p.width/2, p.end.x, p.end.y + p.width/2);
-}
-
 //TODO: move to agent class
 void seek(agent &agent){
     agent.desired = agent.targetPoint - agent.position;
@@ -102,9 +88,9 @@ void followMultiSegmentPath(agent &agent){
    path path1 = path(p1, p2, 5);
    path path2 = path(p2, p3, 5);
    path path3 = path(p3, p4, 5);
-   drawPath(path1);
-   drawPath(path2);
-   drawPath(path3);
+   view.drawPath(path1);
+   view.drawPath(path2);
+   view.drawPath(path3);
 }
 
 //TODO: move to agent class
@@ -112,21 +98,18 @@ void followPath(agent &agent){
   point start = point(-WIDTH - 5,  HEIGHT - 40);
   point end   = point( WIDTH + 5, -HEIGHT + 40);
   path  path1 = path(start, end, 6);
-  drawPath(path1);
+  view.drawPath(path1);
 
-  pvector predict    = agent.velocity;
-  point predictedPos = point();
-  predictedPos       = agent.position + predict;
-  
+  point predictedPos = agent.position + agent.velocity; 
   pvector b = end - start;
   pvector a = predictedPos - start;
 
   b.normalize();
   pvector b_normalized = b;
-  float a_dot_b = a.dotProduct(b);
-  
+  float a_dot_b = a.dotProduct(b);  
   b.mul(a_dot_b);
   point normalPoint = start + b;
+
   pvector distance  = predictedPos - normalPoint;
   agent.targetPoint = normalPoint  + b_normalized;
     /*
@@ -175,7 +158,8 @@ void drawScene() {
            case PATH_SIMPLE: followPath(**it); break;
            case PATH_COMPLEX:followMultiSegmentPath(**it); break;
        }
-       updatePosition(**it);   
+       (**it).updatePosition();  
+       view.drawAgent((**it), (**it).velocity.getAngle()); 
     }
 
     glutSwapBuffers();

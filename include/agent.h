@@ -8,7 +8,7 @@ class agent{
 public:
   agent(float x, float y);
   ~agent();
-  
+  void updatePosition();
   void setMaxSpeed(float s);
   void setR(float s);
   void setMass(float m);
