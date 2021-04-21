@@ -6,6 +6,7 @@
 #include "point.h"
 #include "graphics.h"
 #include "flowField.h"
+#include "path.h"
 
 #define WIDTH       34
 #define HEIGHT      34
@@ -74,9 +75,9 @@ void reflect(agent &agent){
     }
 }
 
-void drawPath(point start, point end, float width){   
-    view.drawLine(start.x, start.y - width/2, end.x, end.y - width/2);
-    view.drawLine(start.x, start.y + width/2, end.x, end.y + width/2);
+void drawPath(path p){   
+    view.drawLine(p.start.x, p.start.y - p.width/2, p.end.x, p.end.y - p.width/2);
+    view.drawLine(p.start.x, p.start.y + p.width/2, p.end.x, p.end.y + p.width/2);
 }
 
 //TODO: move to agent class
@@ -98,21 +99,20 @@ void followMultiSegmentPath(agent &agent){
    point p2 = point(-14, 25);
    point p3 = point( 10,  7);
    point p4 = point( 40, 12);
-   drawPath(p1, p2, 5);
-   drawPath(p2, p3, 5);
-   drawPath(p3, p4, 5);
-
-
+   path path1 = path(p1, p2, 5);
+   path path2 = path(p2, p3, 5);
+   path path3 = path(p3, p4, 5);
+   drawPath(path1);
+   drawPath(path2);
+   drawPath(path3);
 }
 
 //TODO: move to agent class
-void followPath(agent &agent){
-  //TODO: path class will be created
-  int pathWidth = 1;
-  int slope     = 40; //TODO: make this degree
-  point start   = point(-WIDTH - 5,  HEIGHT - slope);
-  point end     = point( WIDTH + 5, -HEIGHT + slope);
-  drawPath(start, end, 5); //TODO: magic number
+void followPath(agent &agent){  
+  point start = point(-WIDTH - 5,  HEIGHT - 40);
+  point end   = point( WIDTH + 5, -HEIGHT + 40);
+  path  path1 = path(start, end, 6);
+  drawPath(path1);
 
   pvector predict    = agent.velocity;
   point predictedPos = point();
@@ -129,18 +129,18 @@ void followPath(agent &agent){
   point normalPoint = start + b;
   pvector distance  = predictedPos - normalPoint;
   agent.targetPoint = normalPoint  + b_normalized;
-    
-  /*glBegin(GL_LINES);
+    /*
+  glBegin(GL_LINES);
   glVertex2f(predictedPos.x, predictedPos.y);
   glVertex2f(normalPoint.x, normalPoint.y);
   glEnd();  
 
   glPointSize(2.2);
   glBegin(GL_POINTS);
-  glVertex2f(ag.target.x, ag.target.y);
+  glVertex2f(agent.targetPoint.x, agent.targetPoint.y);
   glEnd();*/
     
-  if(distance.magnitude() > pathWidth / 2){
+  if(distance.magnitude() > path1.width / 8){
      seek(agent);
   }  
 }
