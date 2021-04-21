@@ -27,6 +27,7 @@ int mode;
 flowField flow;
 graphics view;
 vector<agent *> agents;
+vector<path> paths;
 
 int graphics::target_x = -WIDTH;
 int graphics::target_y = HEIGHT;
@@ -80,17 +81,46 @@ void seek(agent &agent){
     agent.applyForce();
 }
 
+point getNormalPoint(point predicted, point start, point end){
+  pvector a = predicted - start;
+  pvector b = end - start;
+  b.normalize();
+  float a_dot_b = a.dotProduct(b);  
+  b.mul(a_dot_b);
+  return start + b;
+}
+
 void followMultiSegmentPath(agent &agent){
    point p1 = point(-40, 20);
    point p2 = point(-14, 25);
    point p3 = point( 10,  7);
    point p4 = point( 40, 12);
+   //draw path
    path path1 = path(p1, p2, 5);
    path path2 = path(p2, p3, 5);
    path path3 = path(p3, p4, 5);
    view.drawPath(path1);
    view.drawPath(path2);
    view.drawPath(path3);
+
+   paths.push_back(path1);
+   paths.push_back(path2);
+   paths.push_back(path3);
+   
+   for(auto it = paths.begin(); it < paths.end(); it++){
+      point start = (*it).start;
+      point end   = (*it).end;
+      point predictedPos = agent.position + agent.velocity; 
+      pvector bNormalized;
+
+      //point normalPoint = getNormalPoint(predictedPos, start, end, bNormalized);
+           
+
+      //cout << start.x << " " << start.y << endl;
+      //cout << end.x   << " " << end.y   << endl;
+      //cout << endl;
+
+   }
 }
 
 //TODO: move to agent class
@@ -101,17 +131,12 @@ void followPath(agent &agent){
   view.drawPath(path1);
 
   point predictedPos = agent.position + agent.velocity; 
+  point normalPoint = getNormalPoint(predictedPos, start, end);
   pvector b = end - start;
-  pvector a = predictedPos - start;
-
   b.normalize();
-  pvector b_normalized = b;
-  float a_dot_b = a.dotProduct(b);  
-  b.mul(a_dot_b);
-  point normalPoint = start + b;
-
   pvector distance  = predictedPos - normalPoint;
-  agent.targetPoint = normalPoint  + b_normalized;
+  agent.targetPoint = normalPoint  + b;
+
     /*
   glBegin(GL_LINES);
   glVertex2f(predictedPos.x, predictedPos.y);
@@ -186,7 +211,7 @@ int main(int argc, char** argv) {
     agents.push_back(&agent2);
     agents.push_back(&agent3);
     agents.push_back(&agent4);
-       
+      
     //TODO: move to graphics class
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
