@@ -2,14 +2,17 @@
 #define PATH_H
 
 #include "point.h"
+#include <vector>
+
+using namespace std;
 
 class path{
 public:
-   point start;
-   point end;  
+   vector<point> points;
    int width; 
-   path(point start, point end, int width);
-   path();   
+   path(float width);
+   path();
+   void addPoint(point p);
 };
 
 #endif

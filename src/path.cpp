@@ -1,11 +1,14 @@
 #include "point.h"
 #include "path.h"
+#include <vector>
 
-
-path::path(point start, point end, int width){
-   this->start = start;
-   this->end   = end;
-   this->width = width;
+void path::addPoint(point p){
+   points.push_back(p);
+   
 }
 
 path::path(){}
+
+path::path(float width){
+   this->width = width;
+}

@@ -9,7 +9,7 @@ public:
    void drawWall(float border);
    void drawAgent(agent &ag, float angle);
    void drawLine(float p1_x, float p1_y, float p2_x, float p2_y);
-   void drawPath(path p);
+   void drawPath(point start, point end, int width);
    void initGraphics();
    static void timerEvent(int value);
    static void handleKeypress(unsigned char key, int x, int y);

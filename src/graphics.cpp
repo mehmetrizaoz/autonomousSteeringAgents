@@ -14,9 +14,9 @@ void graphics::initGraphics(){
     glutMainLoop();
 }
 
-void graphics::drawPath(path p){   
-    drawLine(p.start.x, p.start.y - p.width/2, p.end.x, p.end.y - p.width/2);
-    drawLine(p.start.x, p.start.y + p.width/2, p.end.x, p.end.y + p.width/2);
+void graphics::drawPath(point start, point end, int width){   
+    drawLine(start.x, start.y - width/2, end.x, end.y - width/2);
+    drawLine(start.x, start.y + width/2, end.x, end.y + width/2);
 }
 
 void graphics::mouseMove(int x, int y){
