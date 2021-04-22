@@ -26,7 +26,7 @@ int mode;
 
 flowField flow;
 graphics view;
-vector<agent *> agents; //TODO: disqualify pointer
+vector<agent> agents;
 path pathMultiSegment;
 path pathSimple;
 
@@ -124,10 +124,10 @@ void followMultiSegmentPath(agent &agent){
 }
 
 //TODO: move to agent class
-void followPath(agent &agent){  
+void followSimplePath(agent &agent){  
   point start = point(-WIDTH - 5,  HEIGHT - 40);
   point end   = point( WIDTH + 5, -HEIGHT + 40);
-  pathSimple = path(6);
+  pathSimple  = path(6);
   pathSimple.addPoint(start);
   pathSimple.addPoint(end);
   view.drawPath(pathSimple.points.at(0), pathSimple.points.at(1), pathSimple.width);
@@ -176,17 +176,17 @@ void drawScene() {
     for(auto it = agents.begin(); it < agents.end(); it++){ 
        switch(mode){//TODO: visitor pattern will be used later
            case SEEK:       
-              (**it).targetPoint.x = graphics::target_x;
-              (**it).targetPoint.y = graphics::target_y;
-              seek(**it);       
+              (*it).targetPoint.x = graphics::target_x;
+              (*it).targetPoint.y = graphics::target_y;
+              seek(*it);       
            break;
-           case REFLECT:     reflect(**it);    break; //velocity must be non zero                       
-           case WIND:        wind(**it);       break;
-           case PATH_SIMPLE: followPath(**it); break;
-           case PATH_COMPLEX:followMultiSegmentPath(**it); break;
+           case REFLECT:     reflect(*it);    break; //velocity must be non zero                       
+           case WIND:        wind(*it);       break;
+           case PATH_SIMPLE: followSimplePath(*it); break;
+           case PATH_COMPLEX:followMultiSegmentPath(*it); break;
        }      
-       (**it).updatePosition();         
-       view.drawAgent((**it), (**it).velocity.getAngle()); 
+       (*it).updatePosition();         
+       view.drawAgent((*it), (*it).velocity.getAngle()); 
     }      
     glutSwapBuffers();
 }
@@ -216,10 +216,10 @@ int main(int argc, char** argv) {
    agent3.setFeatures(0.2, 0.3, 0.1, 1);
    agent4.setFeatures(0.25,0.2, 0.5, 1); 
    
-   agents.push_back(&agent1);
-   agents.push_back(&agent2);
-   agents.push_back(&agent3);   
-   agents.push_back(&agent4);
+   agents.push_back(agent1);
+   agents.push_back(agent2);
+   agents.push_back(agent3);   
+   agents.push_back(agent4);
   
    //TODO: move to graphics class
    glutInit(&argc, argv);

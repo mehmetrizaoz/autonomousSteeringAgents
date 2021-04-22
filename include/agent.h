@@ -16,7 +16,7 @@ public:
   void applyForce();
   void setFeatures(float s, float f, float r, float m);
   pvector steering;
-  pvector desired;
+  pvector desired; //velocity
   pvector acceleration;
   point   position;
   point   targetPoint;
