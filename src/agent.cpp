@@ -5,7 +5,7 @@ using namespace std;
 
 agent::agent(float x, float  y){
     position     = point(x, y);
-    velocity     = pvector(0.5, 0.0);
+    velocity     = pvector(-0.2, 0.2);
     acceleration = pvector(0.0, 0.0);
     steering     = pvector(0.0, 0.0);
     desired      = pvector(0.0, 0.0);
@@ -13,8 +13,10 @@ agent::agent(float x, float  y){
     targetPoint  = point(0.0, 0.0);
 }
 
-void agent::updatePosition(){      
+void agent::updatePosition(){
+   //cout << "accelera " << acceleration.x << " " << acceleration.y << endl;
    velocity = velocity + acceleration; 
+   
    velocity.limit(maxSpeed);   
    position = position + velocity;
    acceleration = pvector(0,0);  

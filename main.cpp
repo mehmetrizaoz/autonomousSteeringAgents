@@ -26,9 +26,9 @@ int mode;
 
 flowField flow;
 graphics view;
-vector<agent *> agents;
+vector<agent *> agents; //TODO: disqualify pointer
 path pathMultiSegment;
-path  pathSimple;
+path pathSimple;
 
 int graphics::target_x = -WIDTH;
 int graphics::target_y = HEIGHT;
@@ -71,12 +71,14 @@ void reflect(agent &agent){
 //TODO: move to agent class
 void seek(agent &agent){
     agent.desired = agent.targetPoint - agent.position;
-    
+    agent.desired.normalize();
+    agent.desired.mul(agent.maxSpeed);
+
     //arriving behavior
     if(agent.desired.magnitude() > agent.r) { agent.desired.limit(agent.maxSpeed); }
     else { agent.desired.limit(agent.maxSpeed / 2); }
     
-    agent.steering = agent.desired - agent.velocity;  
+    agent.steering = agent.desired - agent.velocity;
     agent.steering.limit(agent.maxForce);
     agent.force = agent.steering;
     agent.applyForce();
@@ -87,14 +89,12 @@ point getNormalPoint(point predicted, point start, point end){
    pvector b = end - start;
    b.normalize();
    float a_dot_b = a.dotProduct(b);  
-   b.mul(a_dot_b);
-   
+   b.mul(a_dot_b);   
    point normalPoint = start + b;
-
    return normalPoint;
 }
 
-void followMultiSegmentPath(agent &agent){
+void followMultiSegmentPath(agent &agent){   
    view.drawPath(pathMultiSegment.points.at(0), pathMultiSegment.points.at(1), pathMultiSegment.width);
    view.drawPath(pathMultiSegment.points.at(1), pathMultiSegment.points.at(2), pathMultiSegment.width);
    view.drawPath(pathMultiSegment.points.at(2), pathMultiSegment.points.at(3), pathMultiSegment.width);    
@@ -111,41 +111,15 @@ void followMultiSegmentPath(agent &agent){
       normalPoint = getNormalPoint(predictedPos, start, end);
       
       if (normalPoint.x < start.x || normalPoint.x > end.x) {
-         normalPoint = start;
+         normalPoint = end;
       }      
-      
-      glBegin(GL_LINES);
-      glVertex2f(predictedPos.x, predictedPos.y);
-      glVertex2f(normalPoint.x, normalPoint.y);
-      glEnd(); 
 
       distance = predictedPos - normalPoint;
-      
-      //cout << (*it).x << " " << (*it).y << endl;
-      //cout << (*(it+1)).x << " " << (*(it+1)).y << endl << endl;
-      //cout << "distance " << distance.magnitude() << endl;
-
       if (distance.magnitude() < worldRecord) {
-         //cout << "normalPoint " << normalPoint.x << " " << normalPoint.y << endl;
          worldRecord = distance.magnitude();
-         agent.targetPoint = normalPoint;
-         //cout << "start " << start.x << " " << start.y << endl;
-         //cout << "end " << end.x << " " << end.y << endl;
-      } 
-      //cout << worldRecord << endl;
-   }
-   //cout << "-----------" << endl;
-/*
-   glBegin(GL_LINES);
-   glVertex2f(predictedPos.x, predictedPos.y);
-   glVertex2f(normalPoint.x, normalPoint.y);
-   glEnd();  
-
-   glPointSize(2.2);
-   glBegin(GL_POINTS);
-   glVertex2f(agent.targetPoint.x, agent.targetPoint.y);
-   glEnd();*/
-
+         agent.targetPoint = normalPoint;         
+      }       
+   }   
    seek(agent);
 }
 
@@ -210,11 +184,10 @@ void drawScene() {
            case WIND:        wind(**it);       break;
            case PATH_SIMPLE: followPath(**it); break;
            case PATH_COMPLEX:followMultiSegmentPath(**it); break;
-       }
-       (**it).updatePosition();  
+       }      
+       (**it).updatePosition();         
        view.drawAgent((**it), (**it).velocity.getAngle()); 
-    }
-
+    }      
     glutSwapBuffers();
 }
 
@@ -227,27 +200,27 @@ int main(int argc, char** argv) {
    view = graphics();    
    flow = flowField();
    
-   pathMultiSegment = path(5);
-   pathMultiSegment.addPoint(point(-30, 20));
+   pathMultiSegment = path(7);
+   pathMultiSegment.addPoint(point(-40, 20));
    pathMultiSegment.addPoint(point(-14, 25));
    pathMultiSegment.addPoint(point( 10,  7));
-   pathMultiSegment.addPoint(point( 30, 12));
+   pathMultiSegment.addPoint(point( 40, 12));
 
-   //agent agent1 = agent(-30, 20.0);    
-   //agent agent2 = agent(-20.5, 20.0);
+   agent agent1 = agent(-30, 20.0);    
+   agent agent2 = agent(-20.5, 20.0);
    agent agent3 = agent(-20.5, 8.0);
-   //agent agent4 = agent(-34.5, -16.0);    
-   //agent1.setFeatures(0.2,  0.05, 0.5, 1);
-   //agent2.setFeatures(0.1,  0.04, 0.5, 1);
-   agent3.setFeatures(0.15, 0.03, 0.5, 1);
-   //agent4.setFeatures(0.25, 0.02, 0.5, 1); 
-   //agents.push_back(&agent1);
-   //agents.push_back(&agent2);
-   agents.push_back(&agent3);   
-   //agents.push_back(&agent4);
+   agent agent4 = agent(-34.5, -16.0);
 
-   //followMultiSegmentPath(agent3);
-    
+   agent1.setFeatures(0.5, 0.3, 0.1, 1);
+   agent2.setFeatures(0.3, 0.4, 0.5, 1);
+   agent3.setFeatures(0.2, 0.3, 0.1, 1);
+   agent4.setFeatures(0.25,0.2, 0.5, 1); 
+   
+   agents.push_back(&agent1);
+   agents.push_back(&agent2);
+   agents.push_back(&agent3);   
+   agents.push_back(&agent4);
+  
    //TODO: move to graphics class
    glutInit(&argc, argv);
    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
