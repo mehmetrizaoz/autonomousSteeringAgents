@@ -120,7 +120,8 @@ void followMultiSegmentPath(agent &agent){
          agent.targetPoint = normalPoint;         
       }       
    }   
-   view.drawPoint(agent.targetPoint);
+   //view.drawPoint(agent.targetPoint);
+
    seek(agent);
 }
 

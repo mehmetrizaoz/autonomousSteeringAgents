@@ -14,11 +14,6 @@ void graphics::initGraphics(){
     glutMainLoop();
 }
 
-void graphics::drawPath(point start, point end, int width){   
-    drawLine(start.x, start.y - width/2, end.x, end.y - width/2);
-    drawLine(start.x, start.y + width/2, end.x, end.y + width/2);
-}
-
 void graphics::mouseMove(int x, int y){
     //TODO: mouse position to glut
 	graphics::target_x = x / 5.88 - 34;
@@ -49,20 +44,21 @@ void graphics::handleKeypress(unsigned char key, int x, int y) {
     if (key == ESC){ exit(0); }
 }
 
-//TODO: delete this function, use the other one for both operation
-void graphics::drawLine(float p1_x, float p1_y, float p2_x, float p2_y){
-    glLineWidth(2);
-    glBegin(GL_LINES);
-    glVertex2f(p1_x, p1_y);
-    glVertex2f(p2_x, p2_y);
-    glEnd();
+void graphics::drawPath(point start, point end, int width){   
+    point p1 = point (start.x, start.y - width/2);
+    point p2 = point (end.x, end.y - width/2);
+    drawLine(p1, p2);
+
+    p1 = point (start.x, start.y + width/2);
+    p2 = point (end.x, end.y + width/2);
+    drawLine(p1, p2);
 }
 
 void graphics::drawLine(point p1, point p2){
-  glBegin(GL_LINES);
-  glVertex2f(p1.x, p1.y);
-  glVertex2f(p2.x, p2.y);
-  glEnd();  
+    glBegin(GL_LINES);
+    glVertex2f(p1.x, p1.y);
+    glVertex2f(p2.x, p2.y);
+    glEnd();  
 }
 
 void graphics::drawPoint(point p){
@@ -73,10 +69,21 @@ void graphics::drawPoint(point p){
 }
 
 void graphics::drawWall(float border){
-    drawLine(-border,  border,  border,  border);
-    drawLine( border,  border,  border, -border);
-    drawLine( border, -border, -border, -border);
-    drawLine(-border, -border, -border,  border);
+    point p1 = point (-border,  border);
+    point p2 = point ( border,  border);
+    drawLine(p1, p2);
+
+    p1 = point ( border,  border);
+    p2 = point ( border, -border);
+    drawLine(p1, p2);
+
+    p1 = point (  border, -border);
+    p2 = point ( -border, -border);
+    drawLine(p1, p2);    
+
+    p1 = point (-border,  border);
+    p2 = point (-border, -border);
+    drawLine(p1, p2);
 }
 
 void graphics::drawAgent(agent &agent){    

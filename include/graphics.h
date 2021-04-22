@@ -19,8 +19,6 @@ public:
    static void mouseMove(int x, int y);   
    static int target_x;
    static int target_y;   
-private:
-   void drawLine(float p1_x, float p1_y, float p2_x, float p2_y);
 };
 
 #endif
