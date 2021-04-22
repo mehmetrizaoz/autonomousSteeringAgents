@@ -33,6 +33,14 @@ path pathSimple;
 int graphics::target_x = -WIDTH;
 int graphics::target_y = HEIGHT;
 
+
+void applySteeringForce(agent &agent){
+   agent.steering = agent.desired - agent.velocity;
+   agent.steering.limit(agent.maxForce);
+   agent.force = agent.steering;
+   agent.applyForce();
+}
+
 //TODO: move to agent class
 void reflect(agent &agent){    
     view.drawWall(WALL);
@@ -40,31 +48,19 @@ void reflect(agent &agent){
     //TODO: refactor following code
     if(agent.position.x >= turnPoint){
        agent.desired = pvector( -agent.maxSpeed, agent.velocity.y );
-       agent.steering = agent.desired - agent.velocity;
-       agent.steering.limit(agent.maxForce);
-       agent.force = agent.steering;
-       agent.applyForce();
+       applySteeringForce(agent);
     }
     else if(agent.position.x <= -turnPoint){
        agent.desired = pvector( agent.maxSpeed, agent.velocity.y );
-       agent.steering = agent.desired - agent.velocity;
-       agent.steering.limit(agent.maxForce);
-       agent.force = agent.steering;
-       agent.applyForce();
+       applySteeringForce(agent);
     }
     else if(agent.position.y >= turnPoint){
        agent.desired = pvector( agent.velocity.x, -agent.maxSpeed );
-       agent.steering = agent.desired - agent.velocity;
-       agent.steering.limit(agent.maxForce);
-       agent.force = agent.steering;
-       agent.applyForce();
+       applySteeringForce(agent);;
     }
     else if(agent.position.y <= -turnPoint){
        agent.desired = pvector( agent.velocity.x, agent.maxSpeed );
-       agent.steering = agent.desired - agent.velocity;
-       agent.steering.limit(agent.maxForce);
-       agent.force = agent.steering;
-       agent.applyForce();
+       applySteeringForce(agent);
     }
 }
 
@@ -78,10 +74,7 @@ void seek(agent &agent){
     if(agent.desired.magnitude() > agent.r) { agent.desired.limit(agent.maxSpeed); }
     else { agent.desired.limit(agent.maxSpeed / 2); }
     
-    agent.steering = agent.desired - agent.velocity;
-    agent.steering.limit(agent.maxForce);
-    agent.force = agent.steering;
-    agent.applyForce();
+    applySteeringForce(agent);
 }
 
 point getNormalPoint(point predicted, point start, point end){
@@ -121,7 +114,6 @@ void followMultiSegmentPath(agent &agent){
       }       
    }   
    //view.drawPoint(agent.targetPoint);
-
    seek(agent);
 }
 
