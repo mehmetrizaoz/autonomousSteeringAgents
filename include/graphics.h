@@ -7,9 +7,10 @@
 class graphics{
 public:
    void drawWall(float border);
-   void drawAgent(agent &ag, float angle);
-   void drawLine(float p1_x, float p1_y, float p2_x, float p2_y);
+   void drawAgent(agent &agent);
+   void drawLine(point predicted, point normal);
    void drawPath(point start, point end, int width);
+   void drawPoint(point p);
    void initGraphics();
    static void timerEvent(int value);
    static void handleKeypress(unsigned char key, int x, int y);
@@ -18,6 +19,8 @@ public:
    static void mouseMove(int x, int y);   
    static int target_x;
    static int target_y;   
+private:
+   void drawLine(float p1_x, float p1_y, float p2_x, float p2_y);
 };
 
 #endif

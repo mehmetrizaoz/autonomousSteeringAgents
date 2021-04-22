@@ -49,12 +49,27 @@ void graphics::handleKeypress(unsigned char key, int x, int y) {
     if (key == ESC){ exit(0); }
 }
 
+//TODO: delete this function, use the other one for both operation
 void graphics::drawLine(float p1_x, float p1_y, float p2_x, float p2_y){
     glLineWidth(2);
     glBegin(GL_LINES);
     glVertex2f(p1_x, p1_y);
     glVertex2f(p2_x, p2_y);
     glEnd();
+}
+
+void graphics::drawLine(point p1, point p2){
+  glBegin(GL_LINES);
+  glVertex2f(p1.x, p1.y);
+  glVertex2f(p2.x, p2.y);
+  glEnd();  
+}
+
+void graphics::drawPoint(point p){
+  glPointSize(2.2);
+  glBegin(GL_POINTS);
+  glVertex2f(p.x, p.y);
+  glEnd();
 }
 
 void graphics::drawWall(float border){
@@ -64,10 +79,10 @@ void graphics::drawWall(float border){
     drawLine(-border, -border, -border,  border);
 }
 
-void graphics::drawAgent(agent &ag, float angle){
+void graphics::drawAgent(agent &agent){    
     glPushMatrix();
-    glTranslatef(ag.position.x, ag.position.y, 0.0f);  
-    glRotatef(angle, 0.0f, 0.0f, 1.0f);
+    glTranslatef(agent.position.x, agent.position.y, 0.0f);  
+    glRotatef(agent.velocity.getAngle(), 0.0f, 0.0f, 1.0f);
     glBegin(GL_TRIANGLES);          
     glColor3f(1.0f, 0.7f, 0.0f);  
     glVertex3f( 1.0f,  0.0f, 0.0f);

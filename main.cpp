@@ -120,6 +120,7 @@ void followMultiSegmentPath(agent &agent){
          agent.targetPoint = normalPoint;         
       }       
    }   
+   view.drawPoint(agent.targetPoint);
    seek(agent);
 }
 
@@ -139,16 +140,9 @@ void followSimplePath(agent &agent){
 
   pvector distance  = predictedPos - normalPoint;
   agent.targetPoint = normalPoint  + b;
-/*
-  glBegin(GL_LINES);
-  glVertex2f(predictedPos.x, predictedPos.y);
-  glVertex2f(normalPoint.x, normalPoint.y);
-  glEnd();  
 
-  glPointSize(2.2);
-  glBegin(GL_POINTS);
-  glVertex2f(agent.targetPoint.x, agent.targetPoint.y);
-  glEnd();*/
+  view.drawLine(predictedPos, normalPoint);
+  view.drawPoint(agent.targetPoint);
     
   if(distance.magnitude() > pathMultiSegment.width / 8){
      seek(agent);
@@ -186,7 +180,7 @@ void drawScene() {
            case PATH_COMPLEX:followMultiSegmentPath(*it); break;
        }      
        (*it).updatePosition();         
-       view.drawAgent((*it), (*it).velocity.getAngle()); 
+       view.drawAgent(*it); 
     }      
     glutSwapBuffers();
 }
