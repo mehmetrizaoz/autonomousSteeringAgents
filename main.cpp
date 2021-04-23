@@ -34,27 +34,26 @@ path pathSimple;
 int graphics::target_x = -WIDTH;
 int graphics::target_y = HEIGHT;
 
-//TODO: move to agent class
 void reflect(agent &agent){    
-    view.drawWall(WALL);
-    int turnPoint = WALL - DISTANCE; 
+   view.drawWall(WALL);
+   int turnPoint = WALL - DISTANCE; 
 
-    if(agent.position.x >= turnPoint){
-       agent.desired = pvector( -agent.maxSpeed, agent.velocity.y );
-       agent.applySteeringForce();
-    }
-    else if(agent.position.x <= -turnPoint){
-       agent.desired = pvector( agent.maxSpeed, agent.velocity.y );
-       agent.applySteeringForce();
-    }
-    else if(agent.position.y >= turnPoint){
-       agent.desired = pvector( agent.velocity.x, -agent.maxSpeed );
-       agent.applySteeringForce();
-    }
-    else if(agent.position.y <= -turnPoint){
-       agent.desired = pvector( agent.velocity.x, agent.maxSpeed );
-       agent.applySteeringForce();
-    }
+   if(agent.position.x >= turnPoint){
+      agent.desired = pvector( -agent.maxSpeed, agent.velocity.y );
+      agent.applySteeringForce();
+   }
+   else if(agent.position.x <= -turnPoint){
+      agent.desired = pvector( agent.maxSpeed, agent.velocity.y );
+      agent.applySteeringForce();
+   }
+   else if(agent.position.y >= turnPoint){
+      agent.desired = pvector( agent.velocity.x, -agent.maxSpeed );
+      agent.applySteeringForce();
+   }
+   else if(agent.position.y <= -turnPoint){
+      agent.desired = pvector( agent.velocity.x, agent.maxSpeed );
+      agent.applySteeringForce();
+   }
 }
 
 point getNormalPoint(point predicted, point start, point end){
@@ -147,22 +146,7 @@ void drawScene() {
     glutSwapBuffers();
 }
 
-int main(int argc, char** argv) {    
-   cout << "SEEK\t\t\t\t:1" << endl << "REFLECT\t\t\t\t:2" << endl;
-   cout << "WIND\t\t\t\t:3" << endl << "FOLLOW SIMPLE PATH\t\t:4" << endl;
-   cout << "FOLLOW MULTISEGMENT PATH\t:5" << endl;
-   cout << "GROUP BEHAVIOR\t\t\t:6" << endl;
-   cin >> mode;
-
-   view = graphics();    
-   flow = flowField();
-   
-   pathMultiSegment = path(7);
-   pathMultiSegment.addPoint(point(-40, 20));
-   pathMultiSegment.addPoint(point(-14, 25));
-   pathMultiSegment.addPoint(point( 10,  7));
-   pathMultiSegment.addPoint(point( 40, 12));
-
+void createAgents(){
    agent agent1 = agent(-30.0,  20.0);    
    agent agent2 = agent(-20.5,  20.0);
    agent agent3 = agent(-20.5,   8.0);
@@ -177,6 +161,29 @@ int main(int argc, char** argv) {
    agents.push_back(agent2);
    agents.push_back(agent3);   
    agents.push_back(agent4);
+}
+
+void displayMenu(){
+   cout << "SEEK\t\t\t\t:1" << endl << "REFLECT\t\t\t\t:2" << endl;
+   cout << "WIND\t\t\t\t:3" << endl << "FOLLOW SIMPLE PATH\t\t:4" << endl;
+   cout << "FOLLOW MULTISEGMENT PATH\t:5" << endl;
+   cout << "GROUP BEHAVIOR\t\t\t:6" << endl;
+   cin >> mode;
+}
+
+int main(int argc, char** argv) {    
+   displayMenu();
+
+   view = graphics();    
+   flow = flowField();
+   
+   pathMultiSegment = path(7);
+   pathMultiSegment.addPoint(point(-40, 20));
+   pathMultiSegment.addPoint(point(-14, 25));
+   pathMultiSegment.addPoint(point( 10,  7));
+   pathMultiSegment.addPoint(point( 40, 12));
+
+   createAgents();
   
    //TODO: move to graphics class
    glutInit(&argc, argv);
