@@ -6,6 +6,13 @@
 #include "flowField.h"
 #include "graphics.h"
 
+#define SEEK           1 
+#define REFLECT        2
+#define WIND           3
+#define PATH_SIMPLE    4
+#define PATH_COMPLEX   5
+#define GROUP_BEHAVIOR 6
+
 class graphics;
 class path;
 
@@ -31,7 +38,7 @@ public:
   point   targetPoint;
 private:
   pvector steering;
-  pvector desired; //velocity
+  pvector desiredVelocity;
   pvector acceleration;
   pvector force;  
   float maxSpeed; 

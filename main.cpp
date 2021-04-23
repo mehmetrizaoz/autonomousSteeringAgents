@@ -14,19 +14,11 @@
 #define WALL        30
 #define DISTANCE    2
 
-#define SEEK           1 
-#define REFLECT        2
-#define WIND           3
-#define PATH_SIMPLE    4
-#define PATH_COMPLEX   5
-#define GROUP_BEHAVIOR 6
-
 using namespace std;
 
-int mode;
-
+int mode; //TODO: move to agent class, make it static variable
 flowField flow;
-graphics view;
+graphics  view;
 vector<agent> agents;
 path pathMultiSegment;
 path pathSimple;
@@ -71,6 +63,9 @@ void drawScene() {
 
          case PATH_COMPLEX:
             (*it).followMultiSegmentPath(view, pathMultiSegment);
+         break;
+
+         default:
          break;
       }      
       (*it).updatePosition();         

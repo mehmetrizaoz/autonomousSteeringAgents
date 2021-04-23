@@ -10,7 +10,7 @@ agent::agent(float x, float  y){
     velocity     = pvector(-0.2, 0.2);
     acceleration = pvector(0.0, 0.0);
     steering     = pvector(0.0, 0.0);
-    desired      = pvector(0.0, 0.0);
+    desiredVelocity      = pvector(0.0, 0.0);
     force        = pvector(0.0, 0.0);
     targetPoint  = point(0.0, 0.0);
 }
@@ -53,7 +53,7 @@ void agent::applyForce(){
 }
 
 void agent::applySteeringForce(){
-   steering = desired - velocity;
+   steering = desiredVelocity - velocity;
    steering.limit(maxForce);
    force = steering;
    applyForce();
@@ -70,13 +70,13 @@ void agent::applyWindForce(flowField &flow){
 }
 
 void agent::seekTarget(){
-    desired = targetPoint - position;
-    desired.normalize();
-    desired.mul(maxSpeed);
+    desiredVelocity = targetPoint - position;
+    desiredVelocity.normalize();
+    desiredVelocity.mul(maxSpeed);
 
     //arriving behavior
-    if(desired.magnitude() > r) { desired.limit(maxSpeed); }
-    else { desired.limit(maxSpeed / 2); }
+    if(desiredVelocity.magnitude() > r) { desiredVelocity.limit(maxSpeed); }
+    else { desiredVelocity.limit(maxSpeed / 2); }
     
     applySteeringForce();
 }
@@ -86,19 +86,19 @@ void agent::reflect(graphics &view, int wall, int distance){
    int turnPoint = wall - distance; 
 
    if(position.x >= turnPoint){
-      desired = pvector( -maxSpeed, velocity.y );
+      desiredVelocity = pvector( -maxSpeed, velocity.y );
       applySteeringForce();
    }
    else if(position.x <= -turnPoint){
-      desired = pvector( maxSpeed, velocity.y );
+      desiredVelocity = pvector( maxSpeed, velocity.y );
       applySteeringForce();
    }
    else if(position.y >= turnPoint){
-      desired = pvector( velocity.x, -maxSpeed );
+      desiredVelocity = pvector( velocity.x, -maxSpeed );
       applySteeringForce();
    }
    else if(position.y <= -turnPoint){
-      desired = pvector( velocity.x, maxSpeed );
+      desiredVelocity = pvector( velocity.x, maxSpeed );
       applySteeringForce();
    }
 }
