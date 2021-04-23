@@ -15,6 +15,8 @@
 #define WALL        30
 #define DISTANCE    2
 
+#define NUMBER_OF_AGENTS 17
+
 using namespace std;
 
 int mode; //TODO: move to agent class, make it static variable
@@ -76,17 +78,21 @@ void drawScene() {
 }
 
 void createRandomAgents(){
-   int a[68];
-   for(int i=0; i<68; i++){
-      a[i] = i;
+   int size = NUMBER_OF_AGENTS * 4;
+   int arr[size];
+   int dividor = 34;
+   float offset = 0.01;
+
+   for(int i=0; i<size; i++){
+      arr[i] = i;
    }
    
    srand(time(NULL));
-   for (int i=0; i<68 ;i++){
-      int r = i + (rand() % (68 -i));
-      swap(a[i], a[r]);
+   for (int i=0; i<size ;i++){
+      int r = i + (rand() % (size -i));
+      swap(arr[i], arr[r]);
    }
-   
+
    /*
    for(int i=0; i<68; i++){
       cout << float(a[i]) / 34 << " ";
@@ -95,14 +101,14 @@ void createRandomAgents(){
    }*/
    
    agent tempAgent = agent(0, 0);
-   for(int i=0; i<68; i=i+4){
-      cout << a[i] << " " << a[i+1] << endl;
-      tempAgent.position.x = a[i]   - 34;
-      tempAgent.position.y = a[i+1] - 34;
+   for(int i=0; i<size; i=i+4){
+      cout << arr[i] << " " << arr[i+1] << endl;
+      tempAgent.position.x = arr[i]   - WIDTH;
+      tempAgent.position.y = arr[i+1] - HEIGHT;
       tempAgent.setMass(1);
       tempAgent.setR(3);
-      tempAgent.setMaxForce( float(a[i+2]) / 34 - 0.02);
-      tempAgent.setMaxSpeed( float(a[i+3]) / 34 + 0.01);
+      tempAgent.setMaxForce( float(arr[i+2]) / dividor );
+      tempAgent.setMaxSpeed( float(arr[i+3]) / dividor + offset );
       agents.push_back(tempAgent);
    }
 }
