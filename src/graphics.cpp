@@ -55,6 +55,7 @@ void graphics::drawPath(point start, point end, int width){
 }
 
 void graphics::drawLine(point p1, point p2){
+    glLineWidth(2);
     glBegin(GL_LINES);
     glVertex2f(p1.x, p1.y);
     glVertex2f(p2.x, p2.y);

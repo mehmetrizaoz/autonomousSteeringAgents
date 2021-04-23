@@ -6,6 +6,8 @@
 #include "flowField.h"
 #include "graphics.h"
 
+class graphics;
+
 class agent{
 public:
   agent(float x, float y);
