@@ -34,28 +34,6 @@ path pathSimple;
 int graphics::target_x = -WIDTH;
 int graphics::target_y = HEIGHT;
 
-void reflect(agent &agent){    
-   view.drawWall(WALL);
-   int turnPoint = WALL - DISTANCE; 
-
-   if(agent.position.x >= turnPoint){
-      agent.desired = pvector( -agent.maxSpeed, agent.velocity.y );
-      agent.applySteeringForce();
-   }
-   else if(agent.position.x <= -turnPoint){
-      agent.desired = pvector( agent.maxSpeed, agent.velocity.y );
-      agent.applySteeringForce();
-   }
-   else if(agent.position.y >= turnPoint){
-      agent.desired = pvector( agent.velocity.x, -agent.maxSpeed );
-      agent.applySteeringForce();
-   }
-   else if(agent.position.y <= -turnPoint){
-      agent.desired = pvector( agent.velocity.x, agent.maxSpeed );
-      agent.applySteeringForce();
-   }
-}
-
 point getNormalPoint(point predicted, point start, point end){
    pvector a = predicted - start;
    pvector b = end - start;
@@ -123,27 +101,34 @@ void followSimplePath(agent &agent){
 
 //TODO: move to graphics class
 void drawScene() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    
-    glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
-    glLoadIdentity(); //Reset the drawing perspective    
-    glTranslatef(0.0f, 0.0f, -85.0f); //Move to the center of the triangle    
-    
-    for(auto it = agents.begin(); it < agents.end(); it++){ 
-       switch(mode){
-           case SEEK:       
-              (*it).targetPoint.x = graphics::target_x;
-              (*it).targetPoint.y = graphics::target_y;
-              (*it).seekTarget();              
-           break;
-           case REFLECT:     reflect(*it);                break;
-           case WIND:        (*it).applyWindForce(flow);  break;
-           case PATH_SIMPLE: followSimplePath(*it);       break;
-           case PATH_COMPLEX:followMultiSegmentPath(*it); break;
-       }      
-       (*it).updatePosition();         
-       view.drawAgent(*it); 
-    }      
-    glutSwapBuffers();
+   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    
+   glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
+   glLoadIdentity(); //Reset the drawing perspective    
+   glTranslatef(0.0f, 0.0f, -85.0f); //Move to the center of the triangle    
+   
+   for(auto it = agents.begin(); it < agents.end(); it++){ 
+      switch(mode){
+         case SEEK:       
+            (*it).targetPoint.x = graphics::target_x;
+            (*it).targetPoint.y = graphics::target_y;
+            (*it).seekTarget();              
+         break;
+
+         case REFLECT:     
+            (*it).reflect(view, WALL, DISTANCE);    
+         break;
+         
+         case WIND:        
+            (*it).applyWindForce(flow);  
+         break;
+         
+         case PATH_SIMPLE: followSimplePath(*it);       break;
+         case PATH_COMPLEX:followMultiSegmentPath(*it); break;
+      }      
+      (*it).updatePosition();         
+      view.drawAgent(*it); 
+   }      
+   glutSwapBuffers();
 }
 
 void createAgents(){

@@ -1,5 +1,6 @@
 #include "agent.h"
 #include "flowField.h"
+#include "graphics.h"
 #include <iostream>
 
 using namespace std;
@@ -78,4 +79,26 @@ void agent::seekTarget(){
     else { desired.limit(maxSpeed / 2); }
     
     applySteeringForce();
+}
+
+void agent::reflect(graphics &view, int wall, int distance){    
+   view.drawWall(wall);
+   int turnPoint = wall - distance; 
+
+   if(position.x >= turnPoint){
+      desired = pvector( -maxSpeed, velocity.y );
+      applySteeringForce();
+   }
+   else if(position.x <= -turnPoint){
+      desired = pvector( maxSpeed, velocity.y );
+      applySteeringForce();
+   }
+   else if(position.y >= turnPoint){
+      desired = pvector( velocity.x, -maxSpeed );
+      applySteeringForce();
+   }
+   else if(position.y <= -turnPoint){
+      desired = pvector( velocity.x, maxSpeed );
+      applySteeringForce();
+   }
 }

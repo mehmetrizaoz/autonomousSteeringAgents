@@ -4,6 +4,8 @@
 #include "agent.h"
 #include "path.h"
 
+class agent;
+
 class graphics{
 public:
    void drawWall(float border);

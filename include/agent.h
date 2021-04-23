@@ -4,6 +4,7 @@
 #include "pvector.h"
 #include "point.h"
 #include "flowField.h"
+#include "graphics.h"
 
 class agent{
 public:
@@ -19,6 +20,7 @@ public:
   void applySteeringForce();
   void applyWindForce(flowField &flow);
   void seekTarget();
+  void reflect(graphics &view, int wall, int distance);
   pvector steering;
   pvector desired; //velocity
   pvector acceleration;
