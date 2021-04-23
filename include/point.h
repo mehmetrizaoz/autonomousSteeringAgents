@@ -11,6 +11,7 @@ public:
    point();
    point   operator + (pvector const &obj);
    pvector operator - (point const &obj);
+   static point getNormalPoint(point predicted, point start, point end);
 };
 
 #endif

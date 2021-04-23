@@ -1,4 +1,5 @@
 #include "point.h"
+#include "pvector.h"
 
 point::point(float x, float y){
    this->x = x;
@@ -19,4 +20,14 @@ pvector point::operator - (point const &obj) {
       res.x = x - obj.x;
       res.y = y - obj.y;
       return res;
+}
+
+point point::getNormalPoint(point predicted, point start, point end){
+   pvector a = predicted - start;
+   pvector b = end - start;
+   b.normalize();
+   float a_dot_b = a.dotProduct(b);  
+   b.mul(a_dot_b);   
+   point normalPoint = start + b;
+   return normalPoint;
 }

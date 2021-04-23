@@ -34,16 +34,6 @@ path pathSimple;
 int graphics::target_x = -WIDTH;
 int graphics::target_y = HEIGHT;
 
-point getNormalPoint(point predicted, point start, point end){
-   pvector a = predicted - start;
-   pvector b = end - start;
-   b.normalize();
-   float a_dot_b = a.dotProduct(b);  
-   b.mul(a_dot_b);   
-   point normalPoint = start + b;
-   return normalPoint;
-}
-
 void followMultiSegmentPath(agent &agent){   
    view.drawPath(pathMultiSegment.points.at(0), pathMultiSegment.points.at(1), pathMultiSegment.width);
    view.drawPath(pathMultiSegment.points.at(1), pathMultiSegment.points.at(2), pathMultiSegment.width);
@@ -58,7 +48,7 @@ void followMultiSegmentPath(agent &agent){
       point start = point((*it).x, (*it).y);
       point end   = point((*(it+1)).x, (*(it+1)).y);
       predictedPos = agent.position + agent.velocity; 
-      normalPoint = getNormalPoint(predictedPos, start, end);
+      normalPoint = point::getNormalPoint(predictedPos, start, end);
       
       if (normalPoint.x < start.x || normalPoint.x > end.x) {
          normalPoint = end;
@@ -84,7 +74,7 @@ void followSimplePath(agent &agent){
   view.drawPath(pathSimple.points.at(0), pathSimple.points.at(1), pathSimple.width);
 
   point predictedPos = agent.position + agent.velocity; 
-  point normalPoint = getNormalPoint(predictedPos, start, end);
+  point normalPoint = point::getNormalPoint(predictedPos, start, end);
   pvector b = end - start;
   b.normalize();
 
@@ -156,20 +146,23 @@ void displayMenu(){
    cin >> mode;
 }
 
+void createMultisegmentPath(){
+   pathMultiSegment = path(7);
+   pathMultiSegment.addPoint(point(-40, 20));
+   pathMultiSegment.addPoint(point(-14, 25));
+   pathMultiSegment.addPoint(point( 10,  7));
+   pathMultiSegment.addPoint(point( 40, 12));
+}
+
 int main(int argc, char** argv) {    
    displayMenu();
 
    view = graphics();    
    flow = flowField();
    
-   pathMultiSegment = path(7);
-   pathMultiSegment.addPoint(point(-40, 20));
-   pathMultiSegment.addPoint(point(-14, 25));
-   pathMultiSegment.addPoint(point( 10,  7));
-   pathMultiSegment.addPoint(point( 40, 12));
-
    createAgents();
-  
+   createMultisegmentPath();  
+
    //TODO: move to graphics class
    glutInit(&argc, argv);
    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
