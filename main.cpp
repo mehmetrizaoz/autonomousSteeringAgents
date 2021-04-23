@@ -86,6 +86,7 @@ void createRandomAgents(){
       int r = i + (rand() % (68 -i));
       swap(a[i], a[r]);
    }
+   
    /*
    for(int i=0; i<68; i++){
       cout << float(a[i]) / 34 << " ";
@@ -94,14 +95,14 @@ void createRandomAgents(){
    }*/
    
    agent tempAgent = agent(0, 0);
-   for(int i=0; i<28; i=i+4){
+   for(int i=0; i<68; i=i+4){
       cout << a[i] << " " << a[i+1] << endl;
-      tempAgent.position.x = a[i] - 34;
+      tempAgent.position.x = a[i]   - 34;
       tempAgent.position.y = a[i+1] - 34;
       tempAgent.setMass(1);
-      tempAgent.setR(2);
-      tempAgent.setMaxForce( float(a[i+2]) / 34 );
-      tempAgent.setMaxSpeed( float(a[i+3]) / 34 );
+      tempAgent.setR(3);
+      tempAgent.setMaxForce( float(a[i+2]) / 34 - 0.02);
+      tempAgent.setMaxSpeed( float(a[i+3]) / 34 + 0.01);
       agents.push_back(tempAgent);
    }
 }
