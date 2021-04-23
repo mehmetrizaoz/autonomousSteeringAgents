@@ -102,3 +102,25 @@ void agent::reflect(graphics &view, int wall, int distance){
       applySteeringForce();
    }
 }
+
+void agent::followSimplePath(graphics &view, path &pathSimple){  
+  point start = pathSimple.points.at(0);
+  point end   = pathSimple.points.at(1);
+
+  view.drawPath(start, end, pathSimple.width);
+
+  point predictedPos = position + velocity; 
+  point normalPoint = point::getNormalPoint(predictedPos, start, end);
+  pvector b = end - start;
+  b.normalize();
+
+  pvector distance  = predictedPos - normalPoint;
+  targetPoint = normalPoint  + b;
+
+  view.drawLine(predictedPos, normalPoint);
+  view.drawPoint(targetPoint);
+    
+  if(distance.magnitude() > pathSimple.width / 8){
+     seekTarget();
+  }  
+}

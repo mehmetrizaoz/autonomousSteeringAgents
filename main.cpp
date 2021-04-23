@@ -64,29 +64,12 @@ void followMultiSegmentPath(agent &agent){
    agent.seekTarget();
 }
 
-//TODO: move to agent class
-void followSimplePath(agent &agent){  
+void createSimplePath(){
   point start = point(-WIDTH - 5,  HEIGHT - 40);
   point end   = point( WIDTH + 5, -HEIGHT + 40);
   pathSimple  = path(6);
   pathSimple.addPoint(start);
-  pathSimple.addPoint(end);
-  view.drawPath(pathSimple.points.at(0), pathSimple.points.at(1), pathSimple.width);
-
-  point predictedPos = agent.position + agent.velocity; 
-  point normalPoint = point::getNormalPoint(predictedPos, start, end);
-  pvector b = end - start;
-  b.normalize();
-
-  pvector distance  = predictedPos - normalPoint;
-  agent.targetPoint = normalPoint  + b;
-
-  view.drawLine(predictedPos, normalPoint);
-  view.drawPoint(agent.targetPoint);
-    
-  if(distance.magnitude() > pathMultiSegment.width / 8){
-     agent.seekTarget();
-  }  
+  pathSimple.addPoint(end);   
 }
 
 //TODO: move to graphics class
@@ -112,7 +95,10 @@ void drawScene() {
             (*it).applyWindForce(flow);  
          break;
          
-         case PATH_SIMPLE: followSimplePath(*it);       break;
+         case PATH_SIMPLE: 
+            (*it).followSimplePath(view, pathSimple);
+         break;
+
          case PATH_COMPLEX:followMultiSegmentPath(*it); break;
       }      
       (*it).updatePosition();         
@@ -161,7 +147,8 @@ int main(int argc, char** argv) {
    flow = flowField();
    
    createAgents();
-   createMultisegmentPath();  
+   createMultisegmentPath();
+   createSimplePath();
 
    //TODO: move to graphics class
    glutInit(&argc, argv);

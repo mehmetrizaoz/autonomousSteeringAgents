@@ -23,6 +23,7 @@ public:
   void applyWindForce(flowField &flow);
   void seekTarget();
   void reflect(graphics &view, int wall, int distance);
+  void followSimplePath(graphics &view, path &pathSimple);
   pvector steering;
   pvector desired; //velocity
   pvector acceleration;
