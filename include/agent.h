@@ -7,6 +7,7 @@
 #include "graphics.h"
 
 class graphics;
+class path;
 
 class agent{
 public:
@@ -25,12 +26,13 @@ public:
   void reflect(graphics &view, int wall, int distance);
   void followSimplePath(graphics &view, path &pathSimple);
   void followMultiSegmentPath(graphics &view, path &pathMultiSegment);
+  point   position;
+  pvector velocity;  
+  point   targetPoint;
+private:
   pvector steering;
   pvector desired; //velocity
   pvector acceleration;
-  point   position;
-  point   targetPoint;
-  pvector velocity;  
   pvector force;  
   float maxSpeed; 
   float maxForce;
