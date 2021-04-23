@@ -7,6 +7,7 @@
 #include "graphics.h"
 #include "flowField.h"
 #include "path.h"
+#include <stdlib.h>
 
 #define WIDTH       34
 #define HEIGHT      34
@@ -69,9 +70,40 @@ void drawScene() {
          break;
       }      
       (*it).updatePosition();         
-      view.drawAgent(*it); 
+      view.drawAgent(*it);
    }      
    glutSwapBuffers();
+}
+
+void createRandomAgents(){
+   int a[68];
+   for(int i=0; i<68; i++){
+      a[i] = i;
+   }
+   
+   srand(time(NULL));
+   for (int i=0; i<68 ;i++){
+      int r = i + (rand() % (68 -i));
+      swap(a[i], a[r]);
+   }
+   /*
+   for(int i=0; i<68; i++){
+      cout << float(a[i]) / 34 << " ";
+      if(i%10 == 0)
+         cout << endl;
+   }*/
+   
+   agent tempAgent = agent(0, 0);
+   for(int i=0; i<28; i=i+4){
+      cout << a[i] << " " << a[i+1] << endl;
+      tempAgent.position.x = a[i] - 34;
+      tempAgent.position.y = a[i+1] - 34;
+      tempAgent.setMass(1);
+      tempAgent.setR(2);
+      tempAgent.setMaxForce( float(a[i+2]) / 34 );
+      tempAgent.setMaxSpeed( float(a[i+3]) / 34 );
+      agents.push_back(tempAgent);
+   }
 }
 
 void createAgents(){
@@ -113,9 +145,11 @@ int main(int argc, char** argv) {
    view = graphics();    
    flow = flowField();
    
-   createAgents();
+   //createAgents();
    createMultisegmentPath();
    createSimplePath();
+   
+   createRandomAgents();
 
    //TODO: move to graphics class
    glutInit(&argc, argv);
