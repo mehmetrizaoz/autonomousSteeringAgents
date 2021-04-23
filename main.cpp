@@ -34,36 +34,6 @@ path pathSimple;
 int graphics::target_x = -WIDTH;
 int graphics::target_y = HEIGHT;
 
-void followMultiSegmentPath(agent &agent){   
-   view.drawPath(pathMultiSegment.points.at(0), pathMultiSegment.points.at(1), pathMultiSegment.width);
-   view.drawPath(pathMultiSegment.points.at(1), pathMultiSegment.points.at(2), pathMultiSegment.width);
-   view.drawPath(pathMultiSegment.points.at(2), pathMultiSegment.points.at(3), pathMultiSegment.width);    
-
-   float worldRecord = 1000000;
-   point normalPoint;
-   point predictedPos;
-   pvector distance;
-
-   for(auto it = pathMultiSegment.points.begin(); it < pathMultiSegment.points.end()-1; it++){
-      point start = point((*it).x, (*it).y);
-      point end   = point((*(it+1)).x, (*(it+1)).y);
-      predictedPos = agent.position + agent.velocity; 
-      normalPoint = point::getNormalPoint(predictedPos, start, end);
-      
-      if (normalPoint.x < start.x || normalPoint.x > end.x) {
-         normalPoint = end;
-      }      
-
-      distance = predictedPos - normalPoint;
-      if (distance.magnitude() < worldRecord) {
-         worldRecord = distance.magnitude();
-         agent.targetPoint = normalPoint;         
-      }       
-   }   
-   //view.drawPoint(agent.targetPoint);
-   agent.seekTarget();
-}
-
 void createSimplePath(){
   point start = point(-WIDTH - 5,  HEIGHT - 40);
   point end   = point( WIDTH + 5, -HEIGHT + 40);
@@ -99,7 +69,9 @@ void drawScene() {
             (*it).followSimplePath(view, pathSimple);
          break;
 
-         case PATH_COMPLEX:followMultiSegmentPath(*it); break;
+         case PATH_COMPLEX:
+            (*it).followMultiSegmentPath(view, pathMultiSegment);
+         break;
       }      
       (*it).updatePosition();         
       view.drawAgent(*it); 

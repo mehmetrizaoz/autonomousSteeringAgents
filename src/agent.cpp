@@ -124,3 +124,34 @@ void agent::followSimplePath(graphics &view, path &pathSimple){
      seekTarget();
   }  
 }
+
+void agent::followMultiSegmentPath(graphics &view, path &pathMultiSegment){   
+   view.drawPath(pathMultiSegment.points.at(0), pathMultiSegment.points.at(1), pathMultiSegment.width);
+   view.drawPath(pathMultiSegment.points.at(1), pathMultiSegment.points.at(2), pathMultiSegment.width);
+   view.drawPath(pathMultiSegment.points.at(2), pathMultiSegment.points.at(3), pathMultiSegment.width);    
+
+   float worldRecord = 1000000;
+   point normalPoint;
+   point predictedPos;
+   pvector distance;
+   point start, end;
+
+   for(auto it = pathMultiSegment.points.begin(); it < pathMultiSegment.points.end()-1; it++){
+      start = point((*it).x, (*it).y);
+      end   = point((*(it+1)).x, (*(it+1)).y);
+      predictedPos = position + velocity; 
+      normalPoint = point::getNormalPoint(predictedPos, start, end);
+      
+      if (normalPoint.x < start.x || normalPoint.x > end.x) {
+         normalPoint = end;
+      }      
+
+      distance = predictedPos - normalPoint;
+      if (distance.magnitude() < worldRecord) {
+         worldRecord = distance.magnitude();
+         targetPoint = normalPoint;         
+      }       
+   }   
+   //view.drawPoint(agent.targetPoint);
+   seekTarget();
+}

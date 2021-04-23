@@ -24,6 +24,7 @@ public:
   void seekTarget();
   void reflect(graphics &view, int wall, int distance);
   void followSimplePath(graphics &view, path &pathSimple);
+  void followMultiSegmentPath(graphics &view, path &pathMultiSegment);
   pvector steering;
   pvector desired; //velocity
   pvector acceleration;
