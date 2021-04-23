@@ -14,11 +14,12 @@
 #define WALL        30
 #define DISTANCE    2
 
-#define SEEK          1 //mouse follower
-#define REFLECT       2 //apply force only near the wall
-#define WIND          3 //wind force (no other force)
-#define PATH_SIMPLE   4
-#define PATH_COMPLEX  5
+#define SEEK           1 
+#define REFLECT        2
+#define WIND           3
+#define PATH_SIMPLE    4
+#define PATH_COMPLEX   5
+#define GROUP_BEHAVIOR 6
 
 using namespace std;
 
@@ -33,48 +34,27 @@ path pathSimple;
 int graphics::target_x = -WIDTH;
 int graphics::target_y = HEIGHT;
 
-
-void applySteeringForce(agent &agent){
-   agent.steering = agent.desired - agent.velocity;
-   agent.steering.limit(agent.maxForce);
-   agent.force = agent.steering;
-   agent.applyForce();
-}
-
 //TODO: move to agent class
 void reflect(agent &agent){    
     view.drawWall(WALL);
     int turnPoint = WALL - DISTANCE; 
-    //TODO: refactor following code
+
     if(agent.position.x >= turnPoint){
        agent.desired = pvector( -agent.maxSpeed, agent.velocity.y );
-       applySteeringForce(agent);
+       agent.applySteeringForce();
     }
     else if(agent.position.x <= -turnPoint){
        agent.desired = pvector( agent.maxSpeed, agent.velocity.y );
-       applySteeringForce(agent);
+       agent.applySteeringForce();
     }
     else if(agent.position.y >= turnPoint){
        agent.desired = pvector( agent.velocity.x, -agent.maxSpeed );
-       applySteeringForce(agent);;
+       agent.applySteeringForce();
     }
     else if(agent.position.y <= -turnPoint){
        agent.desired = pvector( agent.velocity.x, agent.maxSpeed );
-       applySteeringForce(agent);
+       agent.applySteeringForce();
     }
-}
-
-//TODO: move to agent class
-void seek(agent &agent){
-    agent.desired = agent.targetPoint - agent.position;
-    agent.desired.normalize();
-    agent.desired.mul(agent.maxSpeed);
-
-    //arriving behavior
-    if(agent.desired.magnitude() > agent.r) { agent.desired.limit(agent.maxSpeed); }
-    else { agent.desired.limit(agent.maxSpeed / 2); }
-    
-    applySteeringForce(agent);
 }
 
 point getNormalPoint(point predicted, point start, point end){
@@ -114,7 +94,7 @@ void followMultiSegmentPath(agent &agent){
       }       
    }   
    //view.drawPoint(agent.targetPoint);
-   seek(agent);
+   agent.seekTarget();
 }
 
 //TODO: move to agent class
@@ -138,19 +118,8 @@ void followSimplePath(agent &agent){
   view.drawPoint(agent.targetPoint);
     
   if(distance.magnitude() > pathMultiSegment.width / 8){
-     seek(agent);
+     agent.seekTarget();
   }  
-}
-
-//TODO: move to agent class
-void wind(agent &agent){
-    //pos_x, pos_y must be non negative integer
-    int pos_x = abs((int)agent.position.x) % WIDTH;
-    int pos_y = abs((int)agent.position.y) % HEIGHT;
-    
-    //TODO: modification required for non uniform fields
-    agent.force = flow.getField(pos_x, pos_y); 
-    agent.applyForce();
 }
 
 //TODO: move to graphics class
@@ -161,15 +130,15 @@ void drawScene() {
     glTranslatef(0.0f, 0.0f, -85.0f); //Move to the center of the triangle    
     
     for(auto it = agents.begin(); it < agents.end(); it++){ 
-       switch(mode){//TODO: visitor pattern will be used later
+       switch(mode){
            case SEEK:       
               (*it).targetPoint.x = graphics::target_x;
               (*it).targetPoint.y = graphics::target_y;
-              seek(*it);       
+              (*it).seekTarget();              
            break;
-           case REFLECT:     reflect(*it);    break; //velocity must be non zero                       
-           case WIND:        wind(*it);       break;
-           case PATH_SIMPLE: followSimplePath(*it); break;
+           case REFLECT:     reflect(*it);                break;
+           case WIND:        (*it).applyWindForce(flow);  break;
+           case PATH_SIMPLE: followSimplePath(*it);       break;
            case PATH_COMPLEX:followMultiSegmentPath(*it); break;
        }      
        (*it).updatePosition();         
@@ -179,9 +148,10 @@ void drawScene() {
 }
 
 int main(int argc, char** argv) {    
-   cout << "SEEK:\t\t\t\t1" << endl << "REFLECT:\t\t\t2" << endl;
-   cout << "WIND:\t\t\t\t3" << endl << "FOLLOW SIMPLE PATH:\t\t4" << endl;
-   cout << "FOLLOW MULTISEGMENT PATH:\t5" << endl;;
+   cout << "SEEK\t\t\t\t:1" << endl << "REFLECT\t\t\t\t:2" << endl;
+   cout << "WIND\t\t\t\t:3" << endl << "FOLLOW SIMPLE PATH\t\t:4" << endl;
+   cout << "FOLLOW MULTISEGMENT PATH\t:5" << endl;
+   cout << "GROUP BEHAVIOR\t\t\t:6" << endl;
    cin >> mode;
 
    view = graphics();    
@@ -193,9 +163,9 @@ int main(int argc, char** argv) {
    pathMultiSegment.addPoint(point( 10,  7));
    pathMultiSegment.addPoint(point( 40, 12));
 
-   agent agent1 = agent(-30, 20.0);    
-   agent agent2 = agent(-20.5, 20.0);
-   agent agent3 = agent(-20.5, 8.0);
+   agent agent1 = agent(-30.0,  20.0);    
+   agent agent2 = agent(-20.5,  20.0);
+   agent agent3 = agent(-20.5,   8.0);
    agent agent4 = agent(-34.5, -16.0);
 
    agent1.setFeatures(0.5, 0.3, 0.1, 1);

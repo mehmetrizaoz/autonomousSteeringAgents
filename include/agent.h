@@ -3,6 +3,7 @@
 
 #include "pvector.h"
 #include "point.h"
+#include "flowField.h"
 
 class agent{
 public:
@@ -15,6 +16,9 @@ public:
   void setMaxForce(float f);
   void applyForce();
   void setFeatures(float s, float f, float r, float m);
+  void applySteeringForce();
+  void applyWindForce(flowField &flow);
+  void seekTarget();
   pvector steering;
   pvector desired; //velocity
   pvector acceleration;

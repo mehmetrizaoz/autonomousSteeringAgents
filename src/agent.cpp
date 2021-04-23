@@ -1,4 +1,5 @@
 #include "agent.h"
+#include "flowField.h"
 #include <iostream>
 
 using namespace std;
@@ -48,4 +49,33 @@ void agent::setMaxForce(float f){
 void agent::applyForce(){
    force.div(mass);    
    acceleration = acceleration + force;
+}
+
+void agent::applySteeringForce(){
+   steering = desired - velocity;
+   steering.limit(maxForce);
+   force = steering;
+   applyForce();
+}
+
+void agent::applyWindForce(flowField &flow){
+    //pos_x, pos_y must be non negative integer
+    int pos_x = abs((int)position.x) % WIDTH;
+    int pos_y = abs((int)position.y) % HEIGHT;
+    
+    //TODO: modification required for non uniform fields
+    force = flow.getField(pos_x, pos_y); 
+    applyForce();
+}
+
+void agent::seekTarget(){
+    desired = targetPoint - position;
+    desired.normalize();
+    desired.mul(maxSpeed);
+
+    //arriving behavior
+    if(desired.magnitude() > r) { desired.limit(maxSpeed); }
+    else { desired.limit(maxSpeed / 2); }
+    
+    applySteeringForce();
 }
