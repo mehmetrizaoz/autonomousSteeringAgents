@@ -30,13 +30,14 @@ int graphics::target_x = -WIDTH;
 int graphics::target_y = HEIGHT;
 
 void createSimplePath(){
-  point start = point(-WIDTH - 5,  HEIGHT - 40);
-  point end   = point( WIDTH + 5, -HEIGHT + 40);
-  pathSimple  = path(6);
-  pathSimple.addPoint(start);
-  pathSimple.addPoint(end);   
+   point start = point(-WIDTH - 5,  HEIGHT - 40);
+   point end   = point( WIDTH + 5, -HEIGHT + 40);
+   pathSimple  = path(6);
+   pathSimple.addPoint(start);
+   pathSimple.addPoint(end);   
 }
 
+//TODO: move to agent class
 void separate(agent &vehicle, vector<agent> agents){
    float desiredSeparation = vehicle.r;
    pvector sum = pvector(0,0);   
@@ -56,21 +57,14 @@ void separate(agent &vehicle, vector<agent> agents){
    }
 
    if(count > 0){
-      //cout << "count :" << count << endl;
-      //cout << "sum : " << sum.x << " " << sum.y << endl;
       sum.div(count);
       sum.normalize();
-      sum.mul(vehicle.maxSpeed);
-      //cout << "sum : " << sum.x << " " << sum.y << endl;
+      sum.mul(vehicle.maxSpeed);      
       vehicle.steering = sum - vehicle.velocity;
-      //cout << "vehicle : " << vehicle.velocity.x << " " << vehicle.velocity.y << endl;
-      //cout << "steering : " << vehicle.steering.x << " " << vehicle.steering.y << endl;
       vehicle.steering.limit(vehicle.maxForce);      
       vehicle.force = vehicle.steering;
       vehicle.applyForce();
-   }
-   //cout << "acc4 : " << vehicle.acceleration.x << " " << vehicle.acceleration.y << endl;
-
+   }   
 }
 
 //TODO: move to graphics class
@@ -102,8 +96,7 @@ void drawScene() {
          break;
 
          case PATH_COMPLEX:
-            (*it).followMultiSegmentPath(view, pathMultiSegment);
-            separate(*it, agents);
+            (*it).followMultiSegmentPath(view, pathMultiSegment);            
          break;
 
          default:
@@ -133,7 +126,6 @@ void createRandomAgents(int number){
    }
    
    for(int i=0; i<size; i=i+4){
-      //cout << arr[i] << " " << arr[i+1] << endl;
       tempAgent.position.x = arr[i]   - WIDTH;
       tempAgent.position.y = arr[i+1] - HEIGHT;
       tempAgent.setMass(1);
@@ -142,7 +134,6 @@ void createRandomAgents(int number){
          arr[i+2] = offset;
       if(arr[i+3] < offset || arr[i+3] > 25)
          arr[i+3] = offset; 
-      //cout << arr[i+2] << " " << arr[i+3] << endl;        
       tempAgent.setMaxForce( float(arr[i+2]) / dividor );
       tempAgent.setMaxSpeed( float(arr[i+3]) / dividor );
       agents.push_back(tempAgent);
@@ -152,27 +143,24 @@ void createRandomAgents(int number){
 void createAgents(){
    agent agent1 = agent(-10.0,  0.0);    
    agent agent2 = agent( 10.0,  0.0);
-   //agent agent3 = agent(-20.5,   8.0);
-   //agent agent4 = agent(-34.5, -16.0);
-   agent1.velocity = pvector( 0.1, 0.0);
-   agent2.velocity = pvector(-0.1, 0.0);
+   agent agent3 = agent(-20.5,   8.0);
+   agent agent4 = agent(-34.5, -16.0);
    
    agent1.setFeatures(0.3, 0.5, 3, 1);
    agent2.setFeatures(0.3, 0.5, 2, 1);
-   //agent3.setFeatures(0.2, 0.3, 0.1, 1);
-   //agent4.setFeatures(0.25,0.2, 0.5, 1); 
+   agent3.setFeatures(0.2, 0.3, 0.1, 1);
+   agent4.setFeatures(0.25,0.2, 0.5, 1); 
    
    agents.push_back(agent1);
    agents.push_back(agent2);
-   //agents.push_back(agent3);   
-   //agents.push_back(agent4);
+   agents.push_back(agent3);   
+   agents.push_back(agent4);
 }
 
 void displayMenu(){
    cout << "SEEK\t\t\t\t:1" << endl << "REFLECT\t\t\t\t:2" << endl;
    cout << "WIND\t\t\t\t:3" << endl << "FOLLOW SIMPLE PATH\t\t:4" << endl;
    cout << "FOLLOW MULTISEGMENT PATH\t:5" << endl;
-   cout << "SEPARATION\t\t\t:6" << endl;
    cin >> mode;
 }
 

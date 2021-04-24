@@ -51,12 +51,10 @@ void agent::setMaxForce(float f){
 void agent::applyForce(){
    force.div(mass);    
    acceleration = acceleration + force;
-   //cout << "acc3 : " << acceleration.x << " " << acceleration.y << endl;
 }
 
 void agent::applySteeringForce(){
    steering = desiredVelocity - velocity;
-   //cout << "steering : " << steering.x << " " << steering.y << endl;
    steering.limit(maxForce);
    force = steering;
    applyForce();
