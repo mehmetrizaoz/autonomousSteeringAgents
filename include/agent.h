@@ -27,21 +27,21 @@ public:
   void setMaxForce(float f);
   void applyForce();
   void setFeatures(float s, float f, float r, float m);
-  void applySteeringForce();
-  void applyWindForce(flowField &flow);
-  void seekTarget();
-  void reflect(graphics &view, int wall, int distance);
+  //TODO: new class will be created for behaviors 
+  void addSteeringForce();
+  void addFlowForce(flowField &flow);
+  void addReflectionForce(graphics &view, int wall, int distance);
+  void addTargetSeekForce();
+  void addSeparationForce(vector<agent> agents);
   void followSimplePath(graphics &view, path &pathSimple);
   void followMultiSegmentPath(graphics &view, path &pathMultiSegment);
-  void separate(vector<agent> agents);
   point   position;
   pvector velocity;  
   point   targetPoint;
   float maxSpeed; 
   float maxForce;
   pvector steering;
-
-//private:
+private:
   pvector desiredVelocity;
   pvector acceleration;
   pvector force;  

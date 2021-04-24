@@ -51,26 +51,25 @@ void agent::setMaxForce(float f){
 void agent::applyForce(){
    force.div(mass);    
    acceleration = acceleration + force;
+   force = pvector(0,0);
 }
 
-void agent::applySteeringForce(){
+void agent::addSteeringForce(){
    steering = desiredVelocity - velocity;
    steering.limit(maxForce);
-   force = steering;
-   applyForce();
+   force = force + steering;
 }
 
-void agent::applyWindForce(flowField &flow){
+void agent::addFlowForce(flowField &flow){
     //pos_x, pos_y must be non negative integer
     int pos_x = abs((int)position.x) % WIDTH;
     int pos_y = abs((int)position.y) % HEIGHT;
     
     //TODO: modification required for non uniform fields
-    force = flow.getField(pos_x, pos_y); 
-    applyForce();
+    force = force + flow.getField(pos_x, pos_y); 
 }
 
-void agent::seekTarget(){
+void agent::addTargetSeekForce(){
     desiredVelocity = targetPoint - position;
     desiredVelocity.normalize();
     desiredVelocity.mul(maxSpeed);
@@ -79,28 +78,28 @@ void agent::seekTarget(){
     if(desiredVelocity.magnitude() > r) { desiredVelocity.limit(maxSpeed); }
     else { desiredVelocity.limit(maxSpeed / 2); }
     
-    applySteeringForce();
+    addSteeringForce();
 }
 
-void agent::reflect(graphics &view, int wall, int distance){    
+void agent::addReflectionForce(graphics &view, int wall, int distance){    
    view.drawWall(wall);
    int turnPoint = wall - distance; 
 
    if(position.x >= turnPoint){
       desiredVelocity = pvector( -maxSpeed, velocity.y );
-      applySteeringForce();
+      addSteeringForce();
    }
    else if(position.x <= -turnPoint){
       desiredVelocity = pvector( maxSpeed, velocity.y );
-      applySteeringForce();
+      addSteeringForce();
    }
    else if(position.y >= turnPoint){
       desiredVelocity = pvector( velocity.x, -maxSpeed );
-      applySteeringForce();
+      addSteeringForce();
    }
    else if(position.y <= -turnPoint){
       desiredVelocity = pvector( velocity.x, maxSpeed );
-      applySteeringForce();
+      addSteeringForce();
    }
 }
 
@@ -122,7 +121,7 @@ void agent::followSimplePath(graphics &view, path &pathSimple){
   view.drawPoint(targetPoint);
     
   if(distance.magnitude() > pathSimple.width / 8){
-     seekTarget();
+     addTargetSeekForce();
   }  
 }
 
@@ -152,10 +151,10 @@ void agent::followMultiSegmentPath(graphics &view, path &pathMultiSegment){
       }       
    }   
    //view.drawPoint(agent.targetPoint);
-   seekTarget();
+   addTargetSeekForce();
 }
 
-void agent::separate(vector<agent> agents){
+void agent::addSeparationForce(vector<agent> agents){
    float desiredSeparation = r;
    pvector sum = pvector(0,0);   
    int count = 0;
@@ -177,7 +176,6 @@ void agent::separate(vector<agent> agents){
       sum.mul(maxSpeed);      
       steering = sum - velocity;
       steering.limit(maxForce);      
-      force = steering;
-      applyForce();
+      force = force + steering;
    }   
 }

@@ -20,7 +20,7 @@
 using namespace std;
 
 int mode; //TODO: move to agent class, make it static variable
-flowField flow;
+flowField wind;
 graphics  view;
 vector<agent> agents;
 path pathMultiSegment;
@@ -49,16 +49,16 @@ void drawScene() {
          case SEEK:       
             (*it).targetPoint.x = graphics::target_x;
             (*it).targetPoint.y = graphics::target_y;
-            (*it).seekTarget();              
+            (*it).addTargetSeekForce();              
          break;
 
          case REFLECT:     
-            (*it).reflect(view, WALL, DISTANCE);
-            (*it).separate(agents);                       
+            (*it).addReflectionForce(view, WALL, DISTANCE);
+            (*it).addSeparationForce(agents);                       
          break;
          
          case WIND:        
-            (*it).applyWindForce(flow);  
+            (*it).addFlowForce(wind);  
          break;
          
          case PATH_SIMPLE: 
@@ -71,7 +71,8 @@ void drawScene() {
 
          default:
          break;
-      }      
+      }
+      (*it).applyForce();
       (*it).updatePosition();         
       view.drawAgent(*it);
    }      
@@ -145,7 +146,7 @@ int main(int argc, char** argv) {
    displayMenu();
 
    view = graphics();    
-   flow = flowField();
+   wind = flowField();
    
    //createAgents();
    createMultisegmentPath();
