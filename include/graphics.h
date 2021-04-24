@@ -5,13 +5,15 @@
 #include "path.h"
 
 class agent;
+class point;
 
 class graphics{
 public:
    void drawWall(float border);
    void drawAgent(agent &agent);
    void drawLine(point predicted, point normal);
-   void drawPath(point start, point end, int width);
+  // void drawSimplePath(point start, point end, int width);
+   void drawPath(path &path);  
    void drawPoint(point p);
    void initGraphics();
    static void timerEvent(int value);

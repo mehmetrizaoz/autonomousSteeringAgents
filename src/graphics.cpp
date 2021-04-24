@@ -2,8 +2,14 @@
 #include "agent.h"
 #include "path.h"
 #include <GL/glut.h>
+#include <iostream>
 
 #define ESC         27
+
+using namespace std;
+
+class path;
+class point;
 
 void graphics::initGraphics(){
     glutMouseFunc(graphics::mouseButton);
@@ -43,8 +49,8 @@ void graphics::mouseButton(int button, int state, int x, int y){
 void graphics::handleKeypress(unsigned char key, int x, int y) {    
     if (key == ESC){ exit(0); }
 }
-
-void graphics::drawPath(point start, point end, int width){   
+/*
+void graphics::drawSimplePath(point start, point end, int width){   
     point p1 = point (start.x, start.y - width/2);
     point p2 = point (end.x, end.y - width/2);
     drawLine(p1, p2);
@@ -52,6 +58,29 @@ void graphics::drawPath(point start, point end, int width){
     p1 = point (start.x, start.y + width/2);
     p2 = point (end.x, end.y + width/2);
     drawLine(p1, p2);
+}*/
+
+void graphics::drawPath(path &path){ 
+    point p1, p2;
+    for(auto it = path.points.begin(); it < path.points.end()-1; it++){
+        p1 = point((*it).x, (*it).y - path.width/2) ;
+        p2 = point((*(it+1)).x, (*(it+1)).y - path.width/2);
+        drawLine(p1, p2);
+
+        p1 = point((*it).x, (*it).y + path.width/2) ;
+        p2 = point((*(it+1)).x, (*(it+1)).y + path.width/2);
+        drawLine(p1, p2);        
+        cout << endl;
+    }
+    /*
+    cout << "(" << path.points.at(0).x << "," << path.points.at(0).y << ")";
+    cout << "(" << path.points.at(1).x << "," << path.points.at(1).y << ")";
+    cout << "(" << path.points.at(2).x << "," << path.points.at(2).y << ")";
+    cout << "(" << path.points.at(3).x << "," << path.points.at(3).y << ")";
+    */
+   cout << endl;
+
+
 }
 
 void graphics::drawLine(point p1, point p2){

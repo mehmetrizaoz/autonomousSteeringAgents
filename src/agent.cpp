@@ -108,7 +108,7 @@ void agent::followSimplePath(graphics &view, path &pathSimple){
   point start = pathSimple.points.at(0);
   point end   = pathSimple.points.at(1);
 
-  view.drawPath(start, end, pathSimple.width);
+  view.drawPath(pathSimple);
 
   point predictedPos = position + velocity; 
   point normalPoint = point::getNormalPoint(predictedPos, start, end);
@@ -127,10 +127,7 @@ void agent::followSimplePath(graphics &view, path &pathSimple){
 }
 
 void agent::followMultiSegmentPath(graphics &view, path &pathMultiSegment){  
-   //TODO: make path creation generic, more than 3 segments must be supported
-   view.drawPath(pathMultiSegment.points.at(0), pathMultiSegment.points.at(1), pathMultiSegment.width);
-   view.drawPath(pathMultiSegment.points.at(1), pathMultiSegment.points.at(2), pathMultiSegment.width);
-   view.drawPath(pathMultiSegment.points.at(2), pathMultiSegment.points.at(3), pathMultiSegment.width);    
+   view.drawPath(pathMultiSegment);
 
    float worldRecord = 1000000;
    point normalPoint;

@@ -130,9 +130,9 @@ void createRandomAgents(int number){
       tempAgent.position.y = arr[i+1] - HEIGHT;
       tempAgent.setMass(1);
       tempAgent.setR(3);
-      if(arr[i+2] < offset || arr[i+2] > 25)
+      if(arr[i+2] < offset || arr[i+2] > 45)
          arr[i+2] = offset;
-      if(arr[i+3] < offset || arr[i+3] > 25)
+      if(arr[i+3] < offset || arr[i+3] > 45)
          arr[i+3] = offset; 
       tempAgent.setMaxForce( float(arr[i+2]) / dividor );
       tempAgent.setMaxSpeed( float(arr[i+3]) / dividor );
@@ -181,7 +181,7 @@ int main(int argc, char** argv) {
    //createAgents();
    createMultisegmentPath();
    createSimplePath();   
-   createRandomAgents(40);
+   createRandomAgents(100);
 
    //TODO: move to graphics class
    glutInit(&argc, argv);
