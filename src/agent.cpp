@@ -154,3 +154,30 @@ void agent::followMultiSegmentPath(graphics &view, path &pathMultiSegment){
    //view.drawPoint(agent.targetPoint);
    seekTarget();
 }
+
+void agent::separate(vector<agent> agents){
+   float desiredSeparation = r;
+   pvector sum = pvector(0,0);   
+   int count = 0;
+   float d;
+   pvector diff;   
+   for(auto it = agents.begin(); it < agents.end(); it++){
+      d = ( position - (*it).position ).magnitude();
+      if( (d >0) && (d < desiredSeparation) ){
+         diff = position - (*it).position;
+         diff.normalize();
+         diff.div(d);
+         sum = sum + diff;
+         count++;
+      }   
+   }
+   if(count > 0){
+      sum.div(count);
+      sum.normalize();
+      sum.mul(maxSpeed);      
+      steering = sum - velocity;
+      steering.limit(maxForce);      
+      force = steering;
+      applyForce();
+   }   
+}

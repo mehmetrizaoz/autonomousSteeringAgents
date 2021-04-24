@@ -37,36 +37,6 @@ void createSimplePath(){
    pathSimple.addPoint(end);   
 }
 
-//TODO: move to agent class
-void separate(agent &vehicle, vector<agent> agents){
-   float desiredSeparation = vehicle.r;
-   pvector sum = pvector(0,0);   
-   int count = 0;
-   float d;
-   pvector diff;
-   
-   for(auto it = agents.begin(); it < agents.end(); it++){
-      d = ( vehicle.position - (*it).position ).magnitude();
-      if( (d >0) && (d < desiredSeparation) ){
-         diff = vehicle.position - (*it).position;
-         diff.normalize();
-         diff.div(d);
-         sum = sum + diff;
-         count++;
-      }   
-   }
-
-   if(count > 0){
-      sum.div(count);
-      sum.normalize();
-      sum.mul(vehicle.maxSpeed);      
-      vehicle.steering = sum - vehicle.velocity;
-      vehicle.steering.limit(vehicle.maxForce);      
-      vehicle.force = vehicle.steering;
-      vehicle.applyForce();
-   }   
-}
-
 //TODO: move to graphics class
 void drawScene() {
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    
@@ -84,7 +54,7 @@ void drawScene() {
 
          case REFLECT:     
             (*it).reflect(view, WALL, DISTANCE);
-            separate(*it, agents);            
+            (*it).separate(agents);                       
          break;
          
          case WIND:        
@@ -115,9 +85,8 @@ void createRandomAgents(int number){
    float offset = 10;
    agent tempAgent = agent(0, 0);
 
-   for(int i=0; i<size; i++){
-      arr[i] = i;
-   }
+   for(int i=0; i<size; i++)
+      arr[i] = i;  
    
    srand(time(NULL));
    for (int i=0; i<size ;i++){
@@ -181,7 +150,7 @@ int main(int argc, char** argv) {
    //createAgents();
    createMultisegmentPath();
    createSimplePath();   
-   createRandomAgents(100);
+   createRandomAgents(20);
 
    //TODO: move to graphics class
    glutInit(&argc, argv);
