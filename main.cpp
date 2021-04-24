@@ -48,17 +48,18 @@ void drawScene() {
       switch(mode){
          case SEEK:       
             (*it).targetPoint.x = graphics::target_x;
-            (*it).targetPoint.y = graphics::target_y;
-            (*it).addTargetSeekForce();              
+            (*it).targetPoint.y = graphics::target_y;            
+            (*it).addTargetSeekForce();      
+            (*it).addSeparationForce(agents);                    
          break;
 
          case REFLECT:     
             (*it).addReflectionForce(view, WALL, DISTANCE);
-            (*it).addSeparationForce(agents);                       
+            (*it).addSeparationForce(agents);            
          break;
          
          case WIND:        
-            (*it).addFlowForce(wind);  
+            (*it).addFlowForce(wind);
          break;
          
          case PATH_SIMPLE: 
@@ -66,7 +67,8 @@ void drawScene() {
          break;
 
          case PATH_COMPLEX:
-            (*it).followMultiSegmentPath(view, pathMultiSegment);            
+            (*it).followMultiSegmentPath(view, pathMultiSegment);
+            (*it).addFlowForce(wind);            
          break;
 
          default:
@@ -118,8 +120,8 @@ void createAgents(){
    
    agent1.setFeatures(0.3, 0.5, 3, 1);
    agent2.setFeatures(0.3, 0.5, 2, 1);
-   agent3.setFeatures(0.2, 0.3, 0.1, 1);
-   agent4.setFeatures(0.25,0.2, 0.5, 1); 
+   agent3.setFeatures(0.2, 0.3, 4, 1);
+   agent4.setFeatures(0.25,0.2, 3, 1); 
    
    agents.push_back(agent1);
    agents.push_back(agent2);
@@ -148,10 +150,10 @@ int main(int argc, char** argv) {
    view = graphics();    
    wind = flowField();
    
-   //createAgents();
+   createAgents();
    createMultisegmentPath();
    createSimplePath();   
-   createRandomAgents(20);
+   //createRandomAgents(20);
 
    //TODO: move to graphics class
    glutInit(&argc, argv);

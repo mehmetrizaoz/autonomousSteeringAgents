@@ -150,7 +150,7 @@ void agent::followMultiSegmentPath(graphics &view, path &pathMultiSegment){
          targetPoint = normalPoint;         
       }       
    }   
-   //view.drawPoint(agent.targetPoint);
+   view.drawPoint(targetPoint);
    addTargetSeekForce();
 }
 

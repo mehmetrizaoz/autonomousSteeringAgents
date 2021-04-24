@@ -27,7 +27,7 @@ public:
   void setMaxForce(float f);
   void applyForce();
   void setFeatures(float s, float f, float r, float m);
-  //TODO: new class will be created for behaviors 
+  //TODO: a new class will be created for agent behaviors 
   void addSteeringForce();
   void addFlowForce(flowField &flow);
   void addReflectionForce(graphics &view, int wall, int distance);
