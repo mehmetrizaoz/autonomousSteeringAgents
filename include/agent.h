@@ -11,7 +11,7 @@
 #define WIND           3
 #define PATH_SIMPLE    4
 #define PATH_COMPLEX   5
-#define GROUP_BEHAVIOR 6
+#define SEPARATION     6
 
 class graphics;
 class path;
@@ -36,13 +36,14 @@ public:
   point   position;
   pvector velocity;  
   point   targetPoint;
-private:
+  float maxSpeed; 
+  float maxForce;
   pvector steering;
+
+//private:
   pvector desiredVelocity;
   pvector acceleration;
   pvector force;  
-  float maxSpeed; 
-  float maxForce;
   float r;
   float mass;
 };

@@ -6,16 +6,17 @@
 using namespace std;
 
 agent::agent(float x, float  y){
-    position     = point(x, y);
-    velocity     = pvector(-0.2, 0.2);
-    acceleration = pvector(0.0, 0.0);
-    steering     = pvector(0.0, 0.0);
-    desiredVelocity      = pvector(0.0, 0.0);
-    force        = pvector(0.0, 0.0);
-    targetPoint  = point(0.0, 0.0);
+    position        = point(x, y);
+    velocity        = pvector(0.2, 0.2);
+    acceleration    = pvector(0.0, 0.0);
+    steering        = pvector(0.0, 0.0);
+    desiredVelocity = pvector(0.0, 0.0);
+    force           = pvector(0.0, 0.0);
+    targetPoint     = point(0.0, 0.0);
 }
 
 void agent::updatePosition(){
+   //cout << "acc: " << acceleration.x << " " << acceleration.y << endl;
    velocity = velocity + acceleration;    
    velocity.limit(maxSpeed);   
    position = position + velocity;
@@ -50,10 +51,12 @@ void agent::setMaxForce(float f){
 void agent::applyForce(){
    force.div(mass);    
    acceleration = acceleration + force;
+   //cout << "acc3 : " << acceleration.x << " " << acceleration.y << endl;
 }
 
 void agent::applySteeringForce(){
    steering = desiredVelocity - velocity;
+   //cout << "steering : " << steering.x << " " << steering.y << endl;
    steering.limit(maxForce);
    force = steering;
    applyForce();
@@ -125,7 +128,8 @@ void agent::followSimplePath(graphics &view, path &pathSimple){
   }  
 }
 
-void agent::followMultiSegmentPath(graphics &view, path &pathMultiSegment){   
+void agent::followMultiSegmentPath(graphics &view, path &pathMultiSegment){  
+   //TODO: make path creation generic, more than 3 segments must be supported
    view.drawPath(pathMultiSegment.points.at(0), pathMultiSegment.points.at(1), pathMultiSegment.width);
    view.drawPath(pathMultiSegment.points.at(1), pathMultiSegment.points.at(2), pathMultiSegment.width);
    view.drawPath(pathMultiSegment.points.at(2), pathMultiSegment.points.at(3), pathMultiSegment.width);    

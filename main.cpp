@@ -37,6 +37,42 @@ void createSimplePath(){
   pathSimple.addPoint(end);   
 }
 
+void separate(agent &vehicle, vector<agent> agents){
+   float desiredSeparation = vehicle.r;
+   pvector sum = pvector(0,0);   
+   int count = 0;
+   float d;
+   pvector diff;
+   
+   for(auto it = agents.begin(); it < agents.end(); it++){
+      d = ( vehicle.position - (*it).position ).magnitude();
+      if( (d >0) && (d < desiredSeparation) ){
+         diff = vehicle.position - (*it).position;
+         diff.normalize();
+         diff.div(d);
+         sum = sum + diff;
+         count++;
+      }   
+   }
+
+   if(count > 0){
+      //cout << "count :" << count << endl;
+      //cout << "sum : " << sum.x << " " << sum.y << endl;
+      sum.div(count);
+      sum.normalize();
+      sum.mul(vehicle.maxSpeed);
+      //cout << "sum : " << sum.x << " " << sum.y << endl;
+      vehicle.steering = sum - vehicle.velocity;
+      //cout << "vehicle : " << vehicle.velocity.x << " " << vehicle.velocity.y << endl;
+      //cout << "steering : " << vehicle.steering.x << " " << vehicle.steering.y << endl;
+      vehicle.steering.limit(vehicle.maxForce);      
+      vehicle.force = vehicle.steering;
+      vehicle.applyForce();
+   }
+   //cout << "acc4 : " << vehicle.acceleration.x << " " << vehicle.acceleration.y << endl;
+
+}
+
 //TODO: move to graphics class
 void drawScene() {
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    
@@ -53,7 +89,8 @@ void drawScene() {
          break;
 
          case REFLECT:     
-            (*it).reflect(view, WALL, DISTANCE);    
+            (*it).reflect(view, WALL, DISTANCE);
+            separate(*it, agents);            
          break;
          
          case WIND:        
@@ -61,11 +98,12 @@ void drawScene() {
          break;
          
          case PATH_SIMPLE: 
-            (*it).followSimplePath(view, pathSimple);
+            (*it).followSimplePath(view, pathSimple);             
          break;
 
          case PATH_COMPLEX:
             (*it).followMultiSegmentPath(view, pathMultiSegment);
+            separate(*it, agents);
          break;
 
          default:
@@ -77,11 +115,12 @@ void drawScene() {
    glutSwapBuffers();
 }
 
-void createRandomAgents(){
-   int size = NUMBER_OF_AGENTS * 4;
+void createRandomAgents(int number){
+   int size = number * 4;
    int arr[size];
    int dividor = 34;
-   float offset = 0.01;
+   float offset = 10;
+   agent tempAgent = agent(0, 0);
 
    for(int i=0; i<size; i++){
       arr[i] = i;
@@ -92,56 +131,55 @@ void createRandomAgents(){
       int r = i + (rand() % (size -i));
       swap(arr[i], arr[r]);
    }
-
-   /*
-   for(int i=0; i<68; i++){
-      cout << float(a[i]) / 34 << " ";
-      if(i%10 == 0)
-         cout << endl;
-   }*/
    
-   agent tempAgent = agent(0, 0);
    for(int i=0; i<size; i=i+4){
-      cout << arr[i] << " " << arr[i+1] << endl;
+      //cout << arr[i] << " " << arr[i+1] << endl;
       tempAgent.position.x = arr[i]   - WIDTH;
       tempAgent.position.y = arr[i+1] - HEIGHT;
       tempAgent.setMass(1);
       tempAgent.setR(3);
+      if(arr[i+2] < offset || arr[i+2] > 25)
+         arr[i+2] = offset;
+      if(arr[i+3] < offset || arr[i+3] > 25)
+         arr[i+3] = offset; 
+      //cout << arr[i+2] << " " << arr[i+3] << endl;        
       tempAgent.setMaxForce( float(arr[i+2]) / dividor );
-      tempAgent.setMaxSpeed( float(arr[i+3]) / dividor + offset );
+      tempAgent.setMaxSpeed( float(arr[i+3]) / dividor );
       agents.push_back(tempAgent);
    }
 }
 
 void createAgents(){
-   agent agent1 = agent(-30.0,  20.0);    
-   agent agent2 = agent(-20.5,  20.0);
-   agent agent3 = agent(-20.5,   8.0);
-   agent agent4 = agent(-34.5, -16.0);
-
-   agent1.setFeatures(0.5, 0.3, 0.1, 1);
-   agent2.setFeatures(0.3, 0.4, 0.5, 1);
-   agent3.setFeatures(0.2, 0.3, 0.1, 1);
-   agent4.setFeatures(0.25,0.2, 0.5, 1); 
+   agent agent1 = agent(-10.0,  0.0);    
+   agent agent2 = agent( 10.0,  0.0);
+   //agent agent3 = agent(-20.5,   8.0);
+   //agent agent4 = agent(-34.5, -16.0);
+   agent1.velocity = pvector( 0.1, 0.0);
+   agent2.velocity = pvector(-0.1, 0.0);
+   
+   agent1.setFeatures(0.3, 0.5, 3, 1);
+   agent2.setFeatures(0.3, 0.5, 2, 1);
+   //agent3.setFeatures(0.2, 0.3, 0.1, 1);
+   //agent4.setFeatures(0.25,0.2, 0.5, 1); 
    
    agents.push_back(agent1);
    agents.push_back(agent2);
-   agents.push_back(agent3);   
-   agents.push_back(agent4);
+   //agents.push_back(agent3);   
+   //agents.push_back(agent4);
 }
 
 void displayMenu(){
    cout << "SEEK\t\t\t\t:1" << endl << "REFLECT\t\t\t\t:2" << endl;
    cout << "WIND\t\t\t\t:3" << endl << "FOLLOW SIMPLE PATH\t\t:4" << endl;
    cout << "FOLLOW MULTISEGMENT PATH\t:5" << endl;
-   cout << "GROUP BEHAVIOR\t\t\t:6" << endl;
+   cout << "SEPARATION\t\t\t:6" << endl;
    cin >> mode;
 }
 
 void createMultisegmentPath(){
    pathMultiSegment = path(7);
-   pathMultiSegment.addPoint(point(-40, 20));
-   pathMultiSegment.addPoint(point(-14, 25));
+   pathMultiSegment.addPoint(point(-40, -15));
+   pathMultiSegment.addPoint(point(-14, 15));
    pathMultiSegment.addPoint(point( 10,  7));
    pathMultiSegment.addPoint(point( 40, 12));
 }
@@ -154,9 +192,8 @@ int main(int argc, char** argv) {
    
    //createAgents();
    createMultisegmentPath();
-   createSimplePath();
-   
-   createRandomAgents();
+   createSimplePath();   
+   createRandomAgents(40);
 
    //TODO: move to graphics class
    glutInit(&argc, argv);
