@@ -64,6 +64,9 @@ void drawScene() {
          case FLOW_FIELD:        
             flow = flowField(pvector(GRAVITY));
             (*it).addFlowForce(flow);
+            
+            flow = flowField(pvector(WIND_WEST));
+            (*it).addFlowForce(flow);            
          break;
          
          case PATH_SIMPLE: 
@@ -147,7 +150,7 @@ void displayMenu(){
 
 void createMultisegmentPath(){
    pathMultiSegment = path(7);
-   pathMultiSegment.addPoint(point(-40,-15));
+   pathMultiSegment.addPoint(point(-40,  5));
    pathMultiSegment.addPoint(point(-14, 15));
    pathMultiSegment.addPoint(point( 10,  7));
    pathMultiSegment.addPoint(point( 40, 12));

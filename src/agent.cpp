@@ -8,7 +8,7 @@ using namespace std;
 
 agent::agent(float x, float  y){
     position        = point(x, y);
-    velocity        = pvector(0.2, 0.2);
+    velocity        = pvector(0.0, 0.0);
     acceleration    = pvector(0.0, 0.0);
     steering        = pvector(0.0, 0.0);
     desiredVelocity = pvector(0.0, 0.0);
@@ -152,7 +152,7 @@ void agent::followMultiSegmentPath(graphics &view, path &pathMultiSegment){
          targetPoint = normalPoint;         
       }       
    }   
-   view.drawPoint(targetPoint);
+   //view.drawPoint(targetPoint);
    addTargetSeekForce();
 }
 
