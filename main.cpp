@@ -24,6 +24,7 @@ int mode; //TODO: move to agent class, make it static variable
 flowField flow;
 graphics  view;
 vector<agent> agents;
+vector<color> colors;
 path pathMultiSegment;
 path pathSimple;
 
@@ -102,6 +103,7 @@ void createRandomAgents(int number){
    for(int i=0; i<size; i=i+4){
       tempAgent.position.x = arr[i]   - WIDTH;
       tempAgent.position.y = arr[i+1] - HEIGHT;
+      tempAgent.vehicleColor = colors.at( (i/4) %8 );
       tempAgent.setMass(1);
       tempAgent.setR(3);
       if(arr[i+2] < offset || arr[i+2] > 45)
@@ -125,10 +127,10 @@ void createAgents(){
    agent3.setFeatures(0.2, 0.1, 1, 1); // ****
    agent4.setFeatures(0.25,0.2, 3, 1);
 
-   agent1.vehicleColor = color(1.0, 0.0, 0.0);
-   agent2.vehicleColor = color(0.0, 1.0, 0.0);   
-   agent3.vehicleColor = color(0.0, 0.0, 1.0);
-   agent4.vehicleColor = color(0.0, 0.0, 0.0);
+   agent1.vehicleColor = colors.at(0);
+   agent2.vehicleColor = colors.at(1);
+   agent3.vehicleColor = colors.at(2);
+   agent4.vehicleColor = colors.at(3);
    
    agents.push_back(agent1);
    agents.push_back(agent2);
@@ -151,10 +153,22 @@ void createMultisegmentPath(){
    pathMultiSegment.addPoint(point( 40, 12));
 }
 
+void createColors(){
+   colors.push_back(color(0.0, 0.0, 0.0));
+   colors.push_back(color(0.0, 0.0, 1.0));
+   colors.push_back(color(0.0, 1.0, 0.0));
+   colors.push_back(color(0.0, 1.0, 1.0));
+   colors.push_back(color(1.0, 0.0, 0.0));
+   colors.push_back(color(1.0, 0.0, 1.0));
+   colors.push_back(color(1.0, 1.0, 0.0));
+   colors.push_back(color(1.0, 1.0, 1.0));
+}
+
 int main(int argc, char** argv) {    
    displayMenu();
    view = graphics();       
    
+   createColors();
    createAgents();
    createMultisegmentPath();
    createSimplePath();   

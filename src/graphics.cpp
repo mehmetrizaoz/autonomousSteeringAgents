@@ -63,6 +63,7 @@ void graphics::drawPath(path &path){
 }
 
 void graphics::drawLine(point p1, point p2){
+    glColor3f( 0.0, 0.0, 1.0); 
     glLineWidth(2);
     glBegin(GL_LINES);
     glVertex2f(p1.x, p1.y);
