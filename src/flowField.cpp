@@ -1,9 +1,11 @@
 #include "flowField.h"
 #include "pvector.h"
 
-flowField::flowField(){
-   uniformVectorField();
+flowField::flowField(pvector p){
+   uniformVectorField(p);
 }
+
+flowField::flowField(){}
 
 void flowField::randomField(){
 //TODO: implement
@@ -13,14 +15,14 @@ void flowField::perlinNoise(){
 //TODO: implement
 }
 
-void flowField::uniformVectorField(){
+void flowField::uniformVectorField(pvector p){
    for (int i = 0; i < WIDTH; i++) {
       for (int j = 0; j < HEIGHT; j++) {
-         field[i][j] = pvector(0.005, 0.0);
+         uniformField[i][j] = pvector(p);
       }
    }
 }
 
 pvector flowField::getField(int x, int y){
-   return field[x][y];
+   return uniformField[x][y];
 }

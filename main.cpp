@@ -20,7 +20,7 @@
 using namespace std;
 
 int mode; //TODO: move to agent class, make it static variable
-flowField wind;
+flowField flow;
 graphics  view;
 vector<agent> agents;
 path pathMultiSegment;
@@ -58,8 +58,9 @@ void drawScene() {
             (*it).addSeparationForce(agents);            
          break;
          
-         case WIND:        
-            (*it).addFlowForce(wind);
+         case FLOW_FIELD:        
+            flow = flowField(pvector(GRAVITY));
+            (*it).addFlowForce(flow);
          break;
          
          case PATH_SIMPLE: 
@@ -68,7 +69,6 @@ void drawScene() {
 
          case PATH_COMPLEX:
             (*it).followMultiSegmentPath(view, pathMultiSegment);
-            (*it).addFlowForce(wind);            
          break;
 
          default:
@@ -120,7 +120,7 @@ void createAgents(){
    
    agent1.setFeatures(0.3, 0.5, 3, 1);
    agent2.setFeatures(0.3, 0.5, 2, 1);
-   agent3.setFeatures(0.2, 0.3, 4, 1);
+   agent3.setFeatures(0.2, 0.1, 1, 1); // ****
    agent4.setFeatures(0.25,0.2, 3, 1); 
    
    agents.push_back(agent1);
@@ -131,14 +131,14 @@ void createAgents(){
 
 void displayMenu(){
    cout << "SEEK\t\t\t\t:1" << endl << "REFLECT\t\t\t\t:2" << endl;
-   cout << "WIND\t\t\t\t:3" << endl << "FOLLOW SIMPLE PATH\t\t:4" << endl;
+   cout << "FLOW_FIELD\t\t\t:3" << endl << "FOLLOW SIMPLE PATH\t\t:4" << endl;
    cout << "FOLLOW MULTISEGMENT PATH\t:5" << endl;
    cin >> mode;
 }
 
 void createMultisegmentPath(){
    pathMultiSegment = path(7);
-   pathMultiSegment.addPoint(point(-40, -15));
+   pathMultiSegment.addPoint(point(-40,-15));
    pathMultiSegment.addPoint(point(-14, 15));
    pathMultiSegment.addPoint(point( 10,  7));
    pathMultiSegment.addPoint(point( 40, 12));
@@ -146,9 +146,7 @@ void createMultisegmentPath(){
 
 int main(int argc, char** argv) {    
    displayMenu();
-
-   view = graphics();    
-   wind = flowField();
+   view = graphics();       
    
    createAgents();
    createMultisegmentPath();

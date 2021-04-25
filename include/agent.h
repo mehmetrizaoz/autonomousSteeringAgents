@@ -5,10 +5,13 @@
 #include "point.h"
 #include "flowField.h"
 #include "graphics.h"
+#include <vector>
+
+using namespace std;
 
 #define SEEK           1 
 #define REFLECT        2
-#define WIND           3
+#define FLOW_FIELD     3
 #define PATH_SIMPLE    4
 #define PATH_COMPLEX   5
 #define SEPARATION     6

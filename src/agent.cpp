@@ -16,7 +16,6 @@ agent::agent(float x, float  y){
 }
 
 void agent::updatePosition(){
-   //cout << "acc: " << acceleration.x << " " << acceleration.y << endl;
    velocity = velocity + acceleration;    
    velocity.limit(maxSpeed);   
    position = position + velocity;
