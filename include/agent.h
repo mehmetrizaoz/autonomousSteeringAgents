@@ -3,6 +3,7 @@
 
 #include "pvector.h"
 #include "point.h"
+#include "color.h"
 #include "flowField.h"
 #include "graphics.h"
 #include <vector>
@@ -38,16 +39,17 @@ public:
   void addSeparationForce(vector<agent> agents);
   void followSimplePath(graphics &view, path &pathSimple);
   void followMultiSegmentPath(graphics &view, path &pathMultiSegment);
+  color   vehicleColor;
   point   position;
   pvector velocity;  
   point   targetPoint;
   float maxSpeed; 
   float maxForce;
   pvector steering;
+  pvector force;  
 private:
   pvector desiredVelocity;
   pvector acceleration;
-  pvector force;  
   float r;
   float mass;
 };

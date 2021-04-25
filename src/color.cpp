@@ -6,3 +6,5 @@ color::color(float r, float g, float b){
     B = b;
 }
 
+color::color(){}
+

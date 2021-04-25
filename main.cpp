@@ -40,7 +40,7 @@ void createSimplePath(){
 
 //TODO: move to graphics class
 void drawScene() {
-   color red = color(1.0, 0.0, 0.0);
+   //color red = color(1.0, 0.0, 0.0);
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    
    glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
    glLoadIdentity(); //Reset the drawing perspective    
@@ -51,8 +51,8 @@ void drawScene() {
          case SEEK:       
             (*it).targetPoint.x = graphics::target_x;
             (*it).targetPoint.y = graphics::target_y;            
-            (*it).addTargetSeekForce();      
-            (*it).addSeparationForce(agents);                    
+            (*it).addTargetSeekForce();  
+            //TODO: add flow field 
          break;
 
          case REFLECT:     
@@ -78,7 +78,7 @@ void drawScene() {
       }
       (*it).applyForce();
       (*it).updatePosition();         
-      view.drawAgent(*it, red); //mehmet
+      view.drawAgent(*it, (*it).vehicleColor);
    }      
    glutSwapBuffers();
 }
@@ -123,7 +123,12 @@ void createAgents(){
    agent1.setFeatures(0.3, 0.5, 3, 1);
    agent2.setFeatures(0.3, 0.5, 2, 1);
    agent3.setFeatures(0.2, 0.1, 1, 1); // ****
-   agent4.setFeatures(0.25,0.2, 3, 1); 
+   agent4.setFeatures(0.25,0.2, 3, 1);
+
+   agent1.vehicleColor = color(1.0, 0.0, 0.0);
+   agent2.vehicleColor = color(0.0, 1.0, 0.0);   
+   agent3.vehicleColor = color(0.0, 0.0, 1.0);
+   agent4.vehicleColor = color(0.0, 0.0, 0.0);
    
    agents.push_back(agent1);
    agents.push_back(agent2);
@@ -153,7 +158,7 @@ int main(int argc, char** argv) {
    createAgents();
    createMultisegmentPath();
    createSimplePath();   
-   //createRandomAgents(20);
+   createRandomAgents(20);
 
    //TODO: move to graphics class
    glutInit(&argc, argv);

@@ -2,6 +2,7 @@
 #include "flowField.h"
 #include "graphics.h"
 #include <iostream>
+#include "color.h"
 
 using namespace std;
 
@@ -13,6 +14,7 @@ agent::agent(float x, float  y){
     desiredVelocity = pvector(0.0, 0.0);
     force           = pvector(0.0, 0.0);
     targetPoint     = point(0.0, 0.0);
+    vehicleColor    = color(1.0, 0.0, 0.0);
 }
 
 void agent::updatePosition(){
@@ -65,7 +67,8 @@ void agent::addFlowForce(flowField &flow){
     int pos_y = abs((int)position.y) % HEIGHT;
     
     //TODO: modification required for non uniform fields
-    force = force + flow.getField(pos_x, pos_y); 
+    force = force + flow.getField(pos_x, pos_y);
+    
 }
 
 void agent::addTargetSeekForce(){
