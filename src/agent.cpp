@@ -8,7 +8,7 @@ using namespace std;
 
 agent::agent(float x, float  y){
     position        = point(x, y);
-    velocity        = pvector(0.0, 0.0);
+    velocity        = pvector(0.5, 0.4);
     acceleration    = pvector(0.0, 0.0);
     steering        = pvector(0.0, 0.0);
     desiredVelocity = pvector(0.0, 0.0);

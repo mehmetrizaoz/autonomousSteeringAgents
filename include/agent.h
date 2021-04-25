@@ -46,10 +46,10 @@ public:
   float maxSpeed; 
   float maxForce;
   pvector steering;
-  pvector force;  
+  pvector force;
+  pvector acceleration;
 private:
   pvector desiredVelocity;
-  pvector acceleration;
   float r;
   float mass;
 };

@@ -53,7 +53,12 @@ void drawScene() {
             (*it).targetPoint.x = graphics::target_x;
             (*it).targetPoint.y = graphics::target_y;            
             (*it).addTargetSeekForce();  
-            //TODO: add flow field 
+            cout << "force :" << (*it).force.x << " " << (*it).force.y << endl;
+
+            flow = flowField(pvector(WIND_WEST));
+            (*it).addFlowForce(flow);
+            cout << "force :" << (*it).force.x << " " << (*it).force.y << endl;
+            cout << endl;            
          break;
 
          case REFLECT:     
@@ -64,7 +69,7 @@ void drawScene() {
          case FLOW_FIELD:        
             flow = flowField(pvector(GRAVITY));
             (*it).addFlowForce(flow);
-            
+
             flow = flowField(pvector(WIND_WEST));
             (*it).addFlowForce(flow);            
          break;
