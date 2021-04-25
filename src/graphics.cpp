@@ -49,17 +49,6 @@ void graphics::mouseButton(int button, int state, int x, int y){
 void graphics::handleKeypress(unsigned char key, int x, int y) {    
     if (key == ESC){ exit(0); }
 }
-/*
-void graphics::drawSimplePath(point start, point end, int width){   
-    point p1 = point (start.x, start.y - width/2);
-    point p2 = point (end.x, end.y - width/2);
-    drawLine(p1, p2);
-
-    p1 = point (start.x, start.y + width/2);
-    p2 = point (end.x, end.y + width/2);
-    drawLine(p1, p2);
-}*/
-
 void graphics::drawPath(path &path){ 
     point p1, p2;
     for(auto it = path.points.begin(); it < path.points.end()-1; it++){
@@ -70,17 +59,7 @@ void graphics::drawPath(path &path){
         p1 = point((*it).x, (*it).y + path.width/2) ;
         p2 = point((*(it+1)).x, (*(it+1)).y + path.width/2);
         drawLine(p1, p2);        
-        cout << endl;
     }
-    /*
-    cout << "(" << path.points.at(0).x << "," << path.points.at(0).y << ")";
-    cout << "(" << path.points.at(1).x << "," << path.points.at(1).y << ")";
-    cout << "(" << path.points.at(2).x << "," << path.points.at(2).y << ")";
-    cout << "(" << path.points.at(3).x << "," << path.points.at(3).y << ")";
-    */
-   cout << endl;
-
-
 }
 
 void graphics::drawLine(point p1, point p2){
@@ -92,10 +71,10 @@ void graphics::drawLine(point p1, point p2){
 }
 
 void graphics::drawPoint(point p){
-  glPointSize(2.2);
-  glBegin(GL_POINTS);
-  glVertex2f(p.x, p.y);
-  glEnd();
+    glPointSize(2.2);
+    glBegin(GL_POINTS);
+    glVertex2f(p.x, p.y);
+    glEnd();
 }
 
 void graphics::drawWall(float border){
@@ -116,17 +95,23 @@ void graphics::drawWall(float border){
     drawLine(p1, p2);
 }
 
-void graphics::drawAgent(agent &agent){    
+void graphics::drawAgent(agent &agent, color &color){    
     glPushMatrix();
     glTranslatef(agent.position.x, agent.position.y, 0.0f);  
     glRotatef(agent.velocity.getAngle(), 0.0f, 0.0f, 1.0f);
     glBegin(GL_TRIANGLES);          
+
+    glColor3f( color.R, color.G, color.B);  
+    glVertex3f( 1.0f,  0.0f, 0.0f);
+    glVertex3f(-1.0f,  0.5f, 0.0f);
+    glVertex3f(-1.0f, -0.5f, 0.0f);
+    /*
     glColor3f(1.0f, 0.7f, 0.0f);  
     glVertex3f( 1.0f,  0.0f, 0.0f);
     glColor3f(1.0f, 1.0f, 1.0f);
     glVertex3f(-1.0f,  0.5f, 0.0f);
     glColor3f(0.0f, 0.0f, 1.0f); 
-    glVertex3f(-1.0f, -0.5f, 0.0f);
+    glVertex3f(-1.0f, -0.5f, 0.0f);*/
     glEnd();
     glPopMatrix();  
 }

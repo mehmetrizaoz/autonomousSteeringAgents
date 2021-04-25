@@ -4,6 +4,7 @@
 #include "pvector.h"
 #include "agent.h"
 #include "point.h"
+#include "color.h"
 #include "graphics.h"
 #include "flowField.h"
 #include "path.h"
@@ -39,6 +40,7 @@ void createSimplePath(){
 
 //TODO: move to graphics class
 void drawScene() {
+   color red = color(1.0, 0.0, 0.0);
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    
    glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
    glLoadIdentity(); //Reset the drawing perspective    
@@ -76,7 +78,7 @@ void drawScene() {
       }
       (*it).applyForce();
       (*it).updatePosition();         
-      view.drawAgent(*it);
+      view.drawAgent(*it, red); //mehmet
    }      
    glutSwapBuffers();
 }

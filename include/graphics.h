@@ -3,6 +3,7 @@
 
 #include "agent.h"
 #include "path.h"
+#include "color.h"
 
 class agent;
 class point;
@@ -10,7 +11,7 @@ class point;
 class graphics{
 public:
    void drawWall(float border);
-   void drawAgent(agent &agent);
+   void drawAgent(agent &agent, color &color);
    void drawLine(point predicted, point normal);
   // void drawSimplePath(point start, point end, int width);
    void drawPath(path &path);  
