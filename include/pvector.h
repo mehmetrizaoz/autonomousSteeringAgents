@@ -1,6 +1,8 @@
 #ifndef PVECTOR_H
 #define PVECTOR_H
 
+class point;
+
 class pvector{
 public:
    float x;
@@ -17,6 +19,8 @@ public:
    float angleBetween(pvector v);
    pvector operator + (pvector const &obj);
    pvector operator - (pvector const &obj);
+   pvector operator + (point const &obj);
+
 };
 
 #endif

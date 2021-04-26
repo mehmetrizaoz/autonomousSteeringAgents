@@ -1,5 +1,6 @@
 #include "pvector.h"
 #include "math.h"
+#include "point.h"
 #include <iostream>
 
 #define PI          3.14159265
@@ -65,6 +66,13 @@ pvector pvector::operator + (pvector const &obj) {
       res.x = x + obj.x;
       res.y = y + obj.y;
       return res;
+}
+
+pvector pvector::operator + (point const &obj){
+   pvector res;
+   res.x = x + obj.x;
+   res.y = y + obj.y;
+   return res;
 }
 
 pvector pvector::operator - (pvector const &obj) {

@@ -8,7 +8,7 @@ using namespace std;
 
 agent::agent(float x, float  y){
     position        = point(x, y);
-    velocity        = pvector(0.5, 0.4);
+    velocity        = pvector(0.0, 0.0);
     acceleration    = pvector(0.0, 0.0);
     steering        = pvector(0.0, 0.0);
     desiredVelocity = pvector(0.0, 0.0);
@@ -56,9 +56,17 @@ void agent::applyForce(){
 }
 
 void agent::addSteeringForce(){
+   //cout << "steering 1: " << steering.x << " " << steering.y << endl;
+   //cout << "desiredVelocity 4: " << desiredVelocity.x << " " << desiredVelocity.y << endl;
+   //cout << "velocity 1: " << velocity.x << " " << velocity.y << endl;
    steering = desiredVelocity - velocity;
+   //cout << "steering 1: " << steering.x << " " << steering.y << endl;
+   //cout << "desiredVelocity 5: " << desiredVelocity.x << " " << desiredVelocity.y << endl;
+   //cout << "velocity 2: " << velocity.x << " " << velocity.y << endl;
    steering.limit(maxForce);
+   //cout << "force 1: " << force.x << " " << force.y << endl;
    force = force + steering;
+   //cout << "force 2: " << force.x << " " << force.y << endl;
 }
 
 void agent::addFlowForce(flowField &flow){
@@ -72,13 +80,21 @@ void agent::addFlowForce(flowField &flow){
 }
 
 void agent::addTargetSeekForce(){
+    //cout << "desiredVelocity 1: " << desiredVelocity.x << " " << desiredVelocity.y << endl;
+    //cout << "targetPoint 1: " << targetPoint.x << " " << targetPoint.y << endl;
+    //cout << "position 1: " << position.x << " " << position.y << endl;
     desiredVelocity = targetPoint - position;
+    cout << "desiredVelocity 2: " << desiredVelocity.x << " " << desiredVelocity.y << endl;
+    //cout << "targetPoint 2: " << targetPoint.x << " " << targetPoint.y << endl;
+    //cout << "position 3: " << position.x << " " << position.y << endl;
+
     desiredVelocity.normalize();
     desiredVelocity.mul(maxSpeed);
 
+
     //arriving behavior
-    if(desiredVelocity.magnitude() > r) { desiredVelocity.limit(maxSpeed); }
-    else { desiredVelocity.limit(maxSpeed / 2); }
+    //if(desiredVelocity.magnitude() > r) { desiredVelocity.limit(maxSpeed); }
+    //else { desiredVelocity.limit(maxSpeed / 2); }
     
     addSteeringForce();
 }
@@ -156,12 +172,36 @@ void agent::followMultiSegmentPath(graphics &view, path &pathMultiSegment){
    addTargetSeekForce();
 }
 
-void agent::addCohesionForce(vector<agent> agents){
-   
+void agent::addCohesionForce(vector<agent> boids){
+   float neighborDist = 10;
+   pvector sum = pvector(0,0);
+   float d;
+   int count = 1;
+
+   for(auto it = boids.begin(); it < boids.end(); it++){
+      d = (position - (*it).position).magnitude();
+      if( (d >0) && (d < neighborDist) ){
+         sum = sum + position;
+         count++;
+      }
+   }
+
+   if(count>1){
+      sum.div(count);
+      targetPoint.x = sum.x;
+      targetPoint.y = sum.y;
+      addTargetSeekForce();
+      cout << "targetPoint: " << targetPoint.x << " " << targetPoint.y << endl;
+      cout << "position: " << position.x << " " << position.y << endl;
+      //cout << agent.position.x << " " << agent.position.y << endl;
+      cout << "count" << count << endl;
+      cout << endl;
+
+   }   
 }
 
 void agent::addAlignForce(vector<agent> boids){
-   float neighborDist = 20;
+   float neighborDist = 10;
    pvector sum = pvector(0,0);
    float d;
    int count = 0;
@@ -175,6 +215,8 @@ void agent::addAlignForce(vector<agent> boids){
    }
 
    if(count>0){
+      //cout << agent.position.x << " " << agent.position.y << endl;
+      //cout << "count " << count << endl;
       sum.div(count);
       sum.normalize();
       sum.mul(maxSpeed);

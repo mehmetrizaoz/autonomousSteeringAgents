@@ -82,10 +82,9 @@ void drawScene() {
          break;
 
          case FLOCK:
-            (*it).addReflectionForce(view, WALL, DISTANCE);
-            (*it).addSeparationForce(agents);            
-          
-            (*it).addAlignForce(agents);
+            view.checkInScreen((*it));
+            (*it).addSeparationForce(agents);                    
+            //(*it).addAlignForce(agents);
             //(*it).addCohesionForce(agents);
          break;
 
@@ -134,8 +133,8 @@ void createRandomAgents(int number){
 void createAgents(){
    agent agent1 = agent(-10.0,  0.0);    
    agent agent2 = agent( 10.0,  0.0);
-   agent agent3 = agent(-20.5,   8.0);
-   agent agent4 = agent(-34.5, -16.0);
+   //agent agent3 = agent(-20.5,   8.0);
+   //agent agent4 = agent(-34.5, -16.0);
    
    /*agent1.setFeatures(0.3, 0.5, 3, 1);
    agent2.setFeatures(0.3, 0.5, 2, 1);
@@ -143,18 +142,14 @@ void createAgents(){
    agent4.setFeatures(0.25,0.2, 3, 1);*/
    agent1.setFeatures(0.3, 0.3, 3, 1);
    agent2.setFeatures(0.3, 0.3, 3, 1);
-   agent3.setFeatures(0.3, 0.3, 3, 1); // ****
-   agent4.setFeatures(0.3, 0.3, 3, 1);
 
-   agent1.vehicleColor = colors.at(0);
-   agent2.vehicleColor = colors.at(1);
-   agent3.vehicleColor = colors.at(2);
-   agent4.vehicleColor = colors.at(3);
+   agent1.velocity.x =  0.1;
+   agent2.velocity.x = -0.1;
    
    agents.push_back(agent1);
    agents.push_back(agent2);
-   agents.push_back(agent3);   
-   agents.push_back(agent4);
+   //agents.push_back(agent3);   
+   //agents.push_back(agent4);
 }
 
 void displayMenu(){

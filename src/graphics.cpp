@@ -20,6 +20,18 @@ void graphics::initGraphics(){
     glutMainLoop();
 }
 
+void graphics::checkInScreen(agent &agent){
+    if(agent.position.x > WIDTH)
+       agent.position.x -= 2 * WIDTH;
+    if(agent.position.x < -WIDTH)
+       agent.position.x += 2 * WIDTH;
+    if(agent.position.y > HEIGHT)
+       agent.position.y -= 2 * HEIGHT;
+    if(agent.position.y < -HEIGHT)
+       agent.position.y += 2 * HEIGHT;
+}
+
+
 void graphics::mouseMove(int x, int y){
     //TODO: mouse position to glut
 	graphics::target_x = x / 5.88 - 34;
