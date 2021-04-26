@@ -46,6 +46,7 @@ void drawScene() {
    glLoadIdentity(); //Reset the drawing perspective    
    glTranslatef(0.0f, 0.0f, -85.0f); //Move to the center of the triangle    
    
+   //cout << "---" << endl;
    for(auto it = agents.begin(); it < agents.end(); it++){ 
       switch(mode){
          case SEEK:       
@@ -83,7 +84,8 @@ void drawScene() {
 
          case FLOCK:
             view.checkInScreen((*it));
-            (*it).addSeparationForce(agents);                    
+            (*it).addSeparationForce(agents); 
+            
             //(*it).addAlignForce(agents);
             //(*it).addCohesionForce(agents);
          break;
@@ -91,10 +93,13 @@ void drawScene() {
          default:
          break;
       }
+
+   }
+   for(auto it = agents.begin(); it < agents.end(); it++){ 
       (*it).applyForce();
       (*it).updatePosition();         
       view.drawAgent(*it, (*it).vehicleColor);
-   }      
+   }
    glutSwapBuffers();
 }
 
@@ -119,7 +124,7 @@ void createRandomAgents(int number){
       tempAgent.position.y = arr[i+1] - HEIGHT;
       tempAgent.vehicleColor = colors.at( (i/4) %8 );
       tempAgent.setMass(1);
-      tempAgent.setR(3);
+      tempAgent.setR(5);
       if(arr[i+2] < offset || arr[i+2] > 45)
          arr[i+2] = offset;
       if(arr[i+3] < offset || arr[i+3] > 45)
@@ -136,15 +141,18 @@ void createAgents(){
    //agent agent3 = agent(-20.5,   8.0);
    //agent agent4 = agent(-34.5, -16.0);
    
-   /*agent1.setFeatures(0.3, 0.5, 3, 1);
+   agent1.setFeatures(0.3, 0.5, 2, 1);
    agent2.setFeatures(0.3, 0.5, 2, 1);
-   agent3.setFeatures(0.2, 0.1, 1, 1); // ****
-   agent4.setFeatures(0.25,0.2, 3, 1);*/
-   agent1.setFeatures(0.3, 0.3, 3, 1);
-   agent2.setFeatures(0.3, 0.3, 3, 1);
-
+   //agent3.setFeatures(0.3, 0.5, 5, 1); // ****
+   //agent4.setFeatures(0.3, 0.5, 5, 1);
+   
+   //agent1.setFeatures(0.1, 0.3, 3, 5);
+   //agent2.setFeatures(0.1, 0.3, 3, 5);
    agent1.velocity.x =  0.1;
+   agent1.name = "agent1";
    agent2.velocity.x = -0.1;
+   agent2.name = "agent2";
+   
    
    agents.push_back(agent1);
    agents.push_back(agent2);
@@ -186,10 +194,10 @@ int main(int argc, char** argv) {
    view = graphics();       
    
    createColors();
-   createAgents();
+   //createAgents();
    createMultisegmentPath();
    createSimplePath();   
-   //createRandomAgents(10);
+   createRandomAgents(20);
 
    //TODO: move to graphics class
    glutInit(&argc, argv);

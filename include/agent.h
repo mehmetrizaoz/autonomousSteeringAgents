@@ -7,6 +7,7 @@
 #include "flowField.h"
 #include "graphics.h"
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -41,6 +42,7 @@ public:
   void addAlignForce(vector<agent> boids);  
   void followSimplePath(graphics &view, path &pathSimple);
   void followMultiSegmentPath(graphics &view, path &pathMultiSegment);
+  string name = "aaa";
   color   vehicleColor;
   point   position;
   pvector velocity;  

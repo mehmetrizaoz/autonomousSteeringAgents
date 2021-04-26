@@ -8,7 +8,7 @@ using namespace std;
 
 agent::agent(float x, float  y){
     position        = point(x, y);
-    velocity        = pvector(0.0, 0.0);
+    velocity        = pvector(0.5, 0.0);
     acceleration    = pvector(0.0, 0.0);
     steering        = pvector(0.0, 0.0);
     desiredVelocity = pvector(0.0, 0.0);
@@ -84,7 +84,7 @@ void agent::addTargetSeekForce(){
     //cout << "targetPoint 1: " << targetPoint.x << " " << targetPoint.y << endl;
     //cout << "position 1: " << position.x << " " << position.y << endl;
     desiredVelocity = targetPoint - position;
-    cout << "desiredVelocity 2: " << desiredVelocity.x << " " << desiredVelocity.y << endl;
+    //cout << "desiredVelocity 2: " << desiredVelocity.x << " " << desiredVelocity.y << endl;
     //cout << "targetPoint 2: " << targetPoint.x << " " << targetPoint.y << endl;
     //cout << "position 3: " << position.x << " " << position.y << endl;
 
@@ -93,8 +93,8 @@ void agent::addTargetSeekForce(){
 
 
     //arriving behavior
-    //if(desiredVelocity.magnitude() > r) { desiredVelocity.limit(maxSpeed); }
-    //else { desiredVelocity.limit(maxSpeed / 2); }
+    if(desiredVelocity.magnitude() > r) { desiredVelocity.limit(maxSpeed); }
+    else { desiredVelocity.limit(maxSpeed / 2); }
     
     addSteeringForce();
 }
@@ -191,17 +191,17 @@ void agent::addCohesionForce(vector<agent> boids){
       targetPoint.x = sum.x;
       targetPoint.y = sum.y;
       addTargetSeekForce();
-      cout << "targetPoint: " << targetPoint.x << " " << targetPoint.y << endl;
-      cout << "position: " << position.x << " " << position.y << endl;
+    //  cout << "targetPoint: " << targetPoint.x << " " << targetPoint.y << endl;
+    //  cout << "position: " << position.x << " " << position.y << endl;
       //cout << agent.position.x << " " << agent.position.y << endl;
-      cout << "count" << count << endl;
-      cout << endl;
+    //  cout << "count" << count << endl;
+    //  cout << endl;
 
    }   
 }
 
 void agent::addAlignForce(vector<agent> boids){
-   float neighborDist = 10;
+   float neighborDist = r;
    pvector sum = pvector(0,0);
    float d;
    int count = 0;
@@ -230,10 +230,20 @@ void agent::addSeparationForce(vector<agent> agents){
    float desiredSeparation = r;
    pvector sum = pvector(0,0);   
    int count = 0;
-   float d;
-   pvector diff;   
+   float d = 0;
+   pvector diff = pvector(0,0); 
+
+   //cout << "**: " << name << " "; 
+
    for(auto it = agents.begin(); it < agents.end(); it++){
       d = ( position - (*it).position ).magnitude();
+      
+      /*if (d>0){
+         cout << name << " d " << d << endl;
+         cout << "position" << position.x << " " << position.y << endl;
+         cout << "other position" << (*it).position.x << " " << (*it).position.y << endl;
+      }*/
+      
       if( (d >0) && (d < desiredSeparation) ){
          diff = position - (*it).position;
          diff.normalize();
@@ -242,12 +252,18 @@ void agent::addSeparationForce(vector<agent> agents){
          count++;
       }   
    }
+
    if(count > 0){
       sum.div(count);
       sum.normalize();
       sum.mul(maxSpeed);      
       steering = sum - velocity;
       steering.limit(maxForce);      
-      force = force + steering;
-   }   
+      force = force + steering; 
+
+      /*cout << name << " aaaaaaaa";      
+      force.print();*/
+   }
+   
+
 }

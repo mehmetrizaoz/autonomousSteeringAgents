@@ -20,7 +20,7 @@ public:
    pvector operator + (pvector const &obj);
    pvector operator - (pvector const &obj);
    pvector operator + (point const &obj);
-
+   void print();
 };
 
 #endif
