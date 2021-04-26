@@ -39,6 +39,7 @@ public:
   void addTargetSeekForce();
   void addSeparationForce(vector<agent> agents);
   void addCohesionForce(vector<agent> agents);
+  void addAlignForce(vector<agent> agents);  
   void followSimplePath(graphics &view, path &pathSimple);
   void followMultiSegmentPath(graphics &view, path &pathMultiSegment);
   color   vehicleColor;

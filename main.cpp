@@ -83,6 +83,7 @@ void drawScene() {
 
          case FLOCK:
             (*it).addSeparationForce(agents);            
+            (*it).addAlignForce(agents);
             (*it).addCohesionForce(agents);
 
          break;

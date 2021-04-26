@@ -157,7 +157,11 @@ void agent::followMultiSegmentPath(graphics &view, path &pathMultiSegment){
 }
 
 void agent::addCohesionForce(vector<agent> agents){
+   
+}
 
+void agent::addAlignForce(vector<agent> agents){
+   
 }
 
 void agent::addSeparationForce(vector<agent> agents){
