@@ -16,6 +16,7 @@ using namespace std;
 #define PATH_SIMPLE    4
 #define PATH_COMPLEX   5
 #define SEPARATION     6
+#define FLOCK          7
 
 class graphics;
 class path;
@@ -37,6 +38,7 @@ public:
   void addReflectionForce(graphics &view, int wall, int distance);
   void addTargetSeekForce();
   void addSeparationForce(vector<agent> agents);
+  void addCohesionForce(vector<agent> agents);
   void followSimplePath(graphics &view, path &pathSimple);
   void followMultiSegmentPath(graphics &view, path &pathMultiSegment);
   color   vehicleColor;

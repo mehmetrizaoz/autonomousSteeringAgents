@@ -41,7 +41,6 @@ void createSimplePath(){
 
 //TODO: move to graphics class
 void drawScene() {
-   //color red = color(1.0, 0.0, 0.0);
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    
    glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
    glLoadIdentity(); //Reset the drawing perspective    
@@ -52,13 +51,13 @@ void drawScene() {
          case SEEK:       
             (*it).targetPoint.x = graphics::target_x;
             (*it).targetPoint.y = graphics::target_y;            
-            (*it).addTargetSeekForce();  
-            cout << "force :" << (*it).force.x << " " << (*it).force.y << endl;
+            (*it).addTargetSeekForce();
+            /*cout << "force :" << (*it).force.x << " " << (*it).force.y << endl;
 
             flow = flowField(pvector(WIND_WEST));
             (*it).addFlowForce(flow);
             cout << "force :" << (*it).force.x << " " << (*it).force.y << endl;
-            cout << endl;            
+            cout << endl;  */          
          break;
 
          case REFLECT:     
@@ -82,6 +81,12 @@ void drawScene() {
             (*it).followMultiSegmentPath(view, pathMultiSegment);
          break;
 
+         case FLOCK:
+            (*it).addSeparationForce(agents);            
+            (*it).addCohesionForce(agents);
+
+         break;
+
          default:
          break;
       }
@@ -95,7 +100,7 @@ void drawScene() {
 void createRandomAgents(int number){
    int size = number * 4;
    int arr[size];
-   int dividor = 34;
+   int dividor = WIDTH;
    float offset = 10;
    agent tempAgent = agent(0, 0);
 

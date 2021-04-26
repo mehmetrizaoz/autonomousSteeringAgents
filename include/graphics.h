@@ -13,7 +13,6 @@ public:
    void drawWall(float border);
    void drawAgent(agent &agent, color &color);
    void drawLine(point predicted, point normal);
-  // void drawSimplePath(point start, point end, int width);
    void drawPath(path &path);  
    void drawPoint(point p);
    void initGraphics();

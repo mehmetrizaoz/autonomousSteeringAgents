@@ -156,6 +156,10 @@ void agent::followMultiSegmentPath(graphics &view, path &pathMultiSegment){
    addTargetSeekForce();
 }
 
+void agent::addCohesionForce(vector<agent> agents){
+
+}
+
 void agent::addSeparationForce(vector<agent> agents){
    float desiredSeparation = r;
    pvector sum = pvector(0,0);   
