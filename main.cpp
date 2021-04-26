@@ -82,10 +82,11 @@ void drawScene() {
          break;
 
          case FLOCK:
+            (*it).addReflectionForce(view, WALL, DISTANCE);
             (*it).addSeparationForce(agents);            
+          
             (*it).addAlignForce(agents);
-            (*it).addCohesionForce(agents);
-
+            //(*it).addCohesionForce(agents);
          break;
 
          default:
@@ -136,10 +137,14 @@ void createAgents(){
    agent agent3 = agent(-20.5,   8.0);
    agent agent4 = agent(-34.5, -16.0);
    
-   agent1.setFeatures(0.3, 0.5, 3, 1);
+   /*agent1.setFeatures(0.3, 0.5, 3, 1);
    agent2.setFeatures(0.3, 0.5, 2, 1);
    agent3.setFeatures(0.2, 0.1, 1, 1); // ****
-   agent4.setFeatures(0.25,0.2, 3, 1);
+   agent4.setFeatures(0.25,0.2, 3, 1);*/
+   agent1.setFeatures(0.3, 0.3, 3, 1);
+   agent2.setFeatures(0.3, 0.3, 3, 1);
+   agent3.setFeatures(0.3, 0.3, 3, 1); // ****
+   agent4.setFeatures(0.3, 0.3, 3, 1);
 
    agent1.vehicleColor = colors.at(0);
    agent2.vehicleColor = colors.at(1);
@@ -153,9 +158,12 @@ void createAgents(){
 }
 
 void displayMenu(){
-   cout << "SEEK\t\t\t\t:1" << endl << "REFLECT\t\t\t\t:2" << endl;
-   cout << "FLOW_FIELD\t\t\t:3" << endl << "FOLLOW SIMPLE PATH\t\t:4" << endl;
-   cout << "FOLLOW MULTISEGMENT PATH\t:5" << endl;
+   cout << "SEEK: 1" << endl;
+   cout << "REFLECTION: 2" << endl;
+   cout << "FLOW_FIELD: 3" << endl;
+   cout << "SIMPLE PATH: 4" << endl;
+   cout << "MULTISEGMENT PATH: 5" << endl;
+   cout << "FLOCK: 6" << endl;
    cin >> mode;
 }
 
@@ -186,7 +194,7 @@ int main(int argc, char** argv) {
    createAgents();
    createMultisegmentPath();
    createSimplePath();   
-   createRandomAgents(20);
+   //createRandomAgents(10);
 
    //TODO: move to graphics class
    glutInit(&argc, argv);

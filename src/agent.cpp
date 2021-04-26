@@ -160,8 +160,28 @@ void agent::addCohesionForce(vector<agent> agents){
    
 }
 
-void agent::addAlignForce(vector<agent> agents){
-   
+void agent::addAlignForce(vector<agent> boids){
+   float neighborDist = 20;
+   pvector sum = pvector(0,0);
+   float d;
+   int count = 0;
+
+   for(auto it = boids.begin(); it < boids.end(); it++){
+      d = (position - (*it).position).magnitude();
+      if( (d >0) && (d < neighborDist) ){
+         sum = sum + velocity;
+         count++;
+      }
+   }
+
+   if(count>0){
+      sum.div(count);
+      sum.normalize();
+      sum.mul(maxSpeed);
+      steering = sum - velocity;
+      steering.limit(maxForce);
+      force = force + steering;
+   }
 }
 
 void agent::addSeparationForce(vector<agent> agents){
