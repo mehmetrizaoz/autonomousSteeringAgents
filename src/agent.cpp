@@ -158,7 +158,7 @@ void agent::followMultiSegmentPath(graphics &view, path &pathMultiSegment){
 }
 
 void agent::addCohesionForce(vector<agent> boids, graphics &view){
-   float neighborDist = 50;
+   float neighborDist = 15;
    pvector sum = pvector(0,0);
    float d;
    int count = 0;
@@ -199,13 +199,13 @@ void agent::addCohesionForce(vector<agent> boids, graphics &view){
     //addSteeringForce();
      steering = desiredVelocity - velocity;
      steering.limit(maxForce);
-     steering.div(3);
+     steering.div(4);
      force = force + steering;
    }   
 }
 
 void agent::addAlignForce(vector<agent> boids){
-   float neighborDist = 10;
+   float neighborDist = 15;
    pvector sum = pvector(0,0);
    float d;
    int count = 0;
@@ -262,7 +262,7 @@ void agent::addSeparationForce(vector<agent> agents){
       sum.mul(maxSpeed);      
       steering = sum - velocity;
       steering.limit(maxForce);
-      steering.mul(1.5);
+      steering.mul(2);
 
       force = force + steering; 
    } 

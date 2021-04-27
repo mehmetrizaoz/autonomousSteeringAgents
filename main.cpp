@@ -85,6 +85,7 @@ void drawScene() {
 
          case FLOCK:
             view.checkInScreen((*it));
+            //(*it).addReflectionForce(view, WALL, DISTANCE);
             (*it).addSeparationForce(agents);                      
             (*it).addAlignForce(agents);
             (*it).addCohesionForce(agents, view);
@@ -123,8 +124,8 @@ void createRandomAgents(int number){
       tempAgent.velocity.x = (arr[i]   - 34) / 10;
       tempAgent.velocity.y = (arr[i+1] - 34) / 10;      
       //tempAgent.vehicleColor = colors.at( (i/4) %8 );
-      tempAgent.setMass(1);
-      tempAgent.setR(5);
+      //tempAgent.setMass(1);
+      //tempAgent.setR(5);
       /*
       if(arr[i+2] < offset || arr[i+2] > 45)
          arr[i+2] = offset;
@@ -132,8 +133,10 @@ void createRandomAgents(int number){
          arr[i+3] = offset; 
       tempAgent.setMaxForce( float(arr[i+2]) / 17 );
       tempAgent.setMaxSpeed( float(arr[i+3]) / 17 );*/
-      tempAgent.setMaxForce(0.3);
-      tempAgent.setMaxSpeed(0.4);
+      //tempAgent.setMaxForce(0.3);
+      //tempAgent.setMaxSpeed(0.4);
+         tempAgent.setFeatures(0.5, 0.3, 4, 1);
+
       agents.push_back(tempAgent);
    }
 }
@@ -142,25 +145,26 @@ void createAgents(){
    agent agent1 = agent(-10.0,  0.0);    
    agent agent2 = agent( 10.0,  0.0);
    agent agent3 = agent(  0.0, 20.0);
-   //agent agent4 = agent(  5, 5);
+   agent agent4 = agent(  5, 5);
    
-   agent1.setFeatures(1, 0.3, 4, 1);
-   agent2.setFeatures(1, 0.3, 4, 1);
-   agent3.setFeatures(1, 0.3, 4, 1);
+   agent1.setFeatures(0.5, 0.3, 4, 1);
+   agent2.setFeatures(0.5, 0.3, 4, 1);
+   agent3.setFeatures(0.5, 0.3, 4, 1);
+   agent4.setFeatures(0.5, 0.3, 4, 1);
+
    agent1.vehicleColor = colors.at(4);
    agent2.vehicleColor = colors.at(1);
    agent3.vehicleColor = colors.at(0);
-   //agent1.velocity = pvector(0.1, 0.2);
-   //agent2.velocity = pvector(0.2, 0.2);
-   //agent3.velocity = pvector(0.3, 0.1);
-   //agent4.vehicleColor = colors.at(2);
+   agent4.vehicleColor = colors.at(2);
+
+   agent1.velocity = pvector(0.1, 0.2);
+   agent2.velocity = pvector(0.2, 0.2);
+   agent3.velocity = pvector(0.3, 0.1);
+   agent4.velocity = pvector(0.3, 0.1);
    agent1.name = "agent1 ";   
    agent2.name = "agent2 ";
    agent3.name = "agent3 ";
-   //agent4.name = "agent4 ";
-
-
-   //agent4.setFeatures(1, 0.4, 4, 1);
+   agent4.name = "agent4 ";
    
    /*
    agent1.setFeatures(0.1, 0.3, 3, 5);
@@ -174,7 +178,7 @@ void createAgents(){
    agents.push_back(agent1);
    agents.push_back(agent2);
    agents.push_back(agent3);   
-   //agents.push_back(agent4);
+   agents.push_back(agent4);
 }
 
 void displayMenu(){
@@ -211,10 +215,10 @@ int main(int argc, char** argv) {
    view = graphics();       
    
    createColors();
-   createAgents();
+   //createAgents();
    createMultisegmentPath();
    createSimplePath();   
-   //createRandomAgents(17);
+   createRandomAgents(17);
 
    //TODO: move to graphics class
    glutInit(&argc, argv);
