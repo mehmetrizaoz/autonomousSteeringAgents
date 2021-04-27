@@ -39,6 +39,7 @@ void createSimplePath(){
    pathSimple.addPoint(end);   
 }
 
+
 //TODO: move to graphics class
 void drawScene() {
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    
@@ -84,10 +85,10 @@ void drawScene() {
 
          case FLOCK:
             view.checkInScreen((*it));
-            (*it).addSeparationForce(agents); 
+            //(*it).addSeparationForce(agents); 
             
-            //TODO: not working correctly
-            //(*it).addAlignForce(agents);
+            
+            (*it).addAlignForce(agents);
             (*it).addCohesionForce(agents, view);
          break;
       }
@@ -145,12 +146,15 @@ void createAgents(){
    agent agent3 = agent(  0.0, 20.0);
    //agent agent4 = agent(  5, 5);
    
-   agent1.setFeatures(1, 0.4, 4, 1);
-   agent2.setFeatures(1, 0.4, 4, 1);
-   agent3.setFeatures(1, 0.4, 4, 1);
+   agent1.setFeatures(1, 0.3, 4, 1);
+   agent2.setFeatures(1, 0.3, 4, 1);
+   agent3.setFeatures(1, 0.3, 4, 1);
    agent1.vehicleColor = colors.at(4);
    agent2.vehicleColor = colors.at(1);
    agent3.vehicleColor = colors.at(0);
+   //agent1.velocity = pvector(0.1, 0.2);
+   //agent2.velocity = pvector(0.2, 0.2);
+   //agent3.velocity = pvector(0.3, 0.1);
    //agent4.vehicleColor = colors.at(2);
    agent1.name = "agent1 ";   
    agent2.name = "agent2 ";

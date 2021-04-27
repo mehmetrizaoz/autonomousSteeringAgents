@@ -52,7 +52,7 @@ void agent::setMaxForce(float f){
 
 void agent::applyForce(){
    force.div(mass);    
-   acceleration = acceleration + force;
+   acceleration = force;
    force = pvector(0,0);
 }
 
@@ -178,60 +178,55 @@ void agent::addCohesionForce(vector<agent> boids, graphics &view){
    pvector sum = pvector(0,0);
    float d;
    int count = 0;
+   cout << name << endl;// << position.x << " " << position.y << endl;
 
-   cout << name << position.x << " " << position.y << endl;
 
    for(auto it = boids.begin(); it < boids.end(); it++){
+      cout << (*it).name << (*it).position.x << " " << (*it).position.y << endl;
       d = (position - (*it).position).magnitude();
+      cout << "d " << d << endl;
       if( (d >0) && (d < neighborDist) ){
-         //cout << name << (*it).name << (*it).position.x << " " << (*it).position.y << endl;
          sum = sum + (*it).position;
          count++;
       }
    }
+   cout << "sum"; sum.print();
+   cout << endl << "---" << endl << endl;
 
    if(count>0){
       sum.div(count);
+      cout << "sum"; sum.print();
+
+      //sum.div(2);
       targetPoint.x = sum.x;
       targetPoint.y = sum.y;
 
       glColor3f( vehicleColor.R, vehicleColor.G, vehicleColor.B); 
       view.drawPoint(targetPoint);
-      
-
       addTargetSeekForce();
-
-    //  cout << "targetPoint: " << targetPoint.x << " " << targetPoint.y << endl;
-    //  cout << "position: " << position.x << " " << position.y << endl;
-      //cout << agent.position.x << " " << agent.position.y << endl;
-      //cout << "count" << count << endl;
-    //  cout << endl;
-
    }   
 }
 
 void agent::addAlignForce(vector<agent> boids){
-   float neighborDist = 40;
+   float neighborDist = 10;
    pvector sum = pvector(0,0);
    float d;
    int count = 0;
+/*
+   cout << name << name << position.x << " " << position.y << endl;
+   cout << name << name << velocity.x << " " << velocity.y << endl;
+   cout << "*******" << endl;*/
 
    for(auto it = boids.begin(); it < boids.end(); it++){
       d = (position - (*it).position).magnitude();
 
       if( (d >0) && (d < neighborDist) ){
-         //cout << name << " d " << d << endl;
-         //cout << "velocity " << velocity.x << " " << velocity.y << endl;
-         //cout << "other velocity " << (*it).velocity.x << " " << (*it).velocity.y << endl;
          sum = sum + (*it).velocity;
-         //cout << "sum " << sum.x << " " << sum.y << endl;
          count++;
       }
    }
 
    if(count>0){
-      //cout << agent.position.x << " " << agent.position.y << endl;
-      //cout << "count " << count << endl << endl;
       sum.div(count);
       sum.normalize();
       sum.mul(maxSpeed);
@@ -242,13 +237,11 @@ void agent::addAlignForce(vector<agent> boids){
 }
 
 void agent::addSeparationForce(vector<agent> agents){
-   float desiredSeparation = 8;
+   float desiredSeparation = 5;
    pvector sum = pvector(0,0);   
    int count = 0;
    float d = 0;
    pvector diff = pvector(0,0); 
-
-   //cout << "**: " << name << " "; 
 
    for(auto it = agents.begin(); it < agents.end(); it++){
       d = ( position - (*it).position ).magnitude();
@@ -269,17 +262,11 @@ void agent::addSeparationForce(vector<agent> agents){
 
    if(count > 0){
       sum.div(count);
-      //sum.normalize();
       sum.mul(maxSpeed);      
       steering = sum - velocity;
       steering.limit(maxForce);
       steering.mul(1.5);
 
       force = force + steering; 
-
-      /*cout << name << " aaaaaaaa";      
-      force.print();*/
-   }
-   
-
+   } 
 }
