@@ -128,14 +128,14 @@ void agent::followSimplePath(graphics &view, path &pathSimple){
   }  
 }
 
-void agent::followMultiSegmentPath(graphics &view, path &pathMultiSegment){  
-   view.drawPath(pathMultiSegment);
-
+void agent::followMultiSegmentPath(graphics &view, path &pathMultiSegment){     
    float worldRecord = 1000000;
    point normalPoint;
    point predictedPos;
    pvector distance;
    point start, end;
+
+   view.drawPath(pathMultiSegment);
 
    for(auto it = pathMultiSegment.points.begin(); it < pathMultiSegment.points.end()-1; it++){
       start = point((*it).x, (*it).y);
@@ -162,24 +162,17 @@ void agent::addCohesionForce(vector<agent> boids, graphics &view){
    pvector sum = pvector(0,0);
    float d;
    int count = 0;
-   //cout << name << endl;// << position.x << " " << position.y << endl;
-
 
    for(auto it = boids.begin(); it < boids.end(); it++){
-      //cout << (*it).name << (*it).position.x << " " << (*it).position.y << endl;
       d = (position - (*it).position).magnitude();
-      //cout << "d " << d << endl;
       if( (d >0) && (d < neighborDist) ){
          sum = sum + (*it).position;
          count++;
       }
    }
-   //cout << "sum"; sum.print();
-   //cout << endl << "---" << endl << endl;
 
    if(count>0){
       sum.div(count);
-  //    cout << "sum"; sum.print();
 
       targetPoint.x = sum.x;
       targetPoint.y = sum.y;
@@ -192,9 +185,6 @@ void agent::addCohesionForce(vector<agent> boids, graphics &view){
     desiredVelocity.normalize();
     desiredVelocity.mul(maxSpeed);
 
-    //arriving behavior
-    if(desiredVelocity.magnitude() > r) { desiredVelocity.limit(maxSpeed); }
-    else { desiredVelocity.limit(maxSpeed / 2); }
     
     //addSteeringForce();
      steering = desiredVelocity - velocity;
@@ -203,17 +193,14 @@ void agent::addCohesionForce(vector<agent> boids, graphics &view){
      force = force + steering;
    }   
 }
-//TODO: make generic all the code
+
+//TODO: refactor and make flock behaviors
 
 void agent::addAlignForce(vector<agent> boids){
    float neighborDist = 15;
    pvector sum = pvector(0,0);
    float d;
    int count = 0;
-/*
-   cout << name << name << position.x << " " << position.y << endl;
-   cout << name << name << velocity.x << " " << velocity.y << endl;
-   cout << "*******" << endl;*/
 
    for(auto it = boids.begin(); it < boids.end(); it++){
       d = (position - (*it).position).magnitude();
@@ -235,7 +222,7 @@ void agent::addAlignForce(vector<agent> boids){
 }
 
 void agent::addSeparationForce(vector<agent> agents){
-   float desiredSeparation = 5;
+   float desiredSeparation = 3;
    pvector sum = pvector(0,0);   
    int count = 0;
    float d = 0;
@@ -243,13 +230,7 @@ void agent::addSeparationForce(vector<agent> agents){
 
    for(auto it = agents.begin(); it < agents.end(); it++){
       d = ( position - (*it).position ).magnitude();
-      
-      /*if (d>0){
-         cout << name << " d " << d << endl;
-         cout << "position" << position.x << " " << position.y << endl;
-         cout << "other position" << (*it).position.x << " " << (*it).position.y << endl;
-      }*/
-      
+          
       if( (d >0) && (d < desiredSeparation) ){
          diff = position - (*it).position;
          diff.normalize();
@@ -263,8 +244,8 @@ void agent::addSeparationForce(vector<agent> agents){
       sum.mul(maxSpeed);      
       steering = sum - velocity;
       steering.limit(maxForce);
-      //steering.mul(2);
-
+      
+      steering.mul(0.5); // !
       force = force + steering; 
    } 
 }

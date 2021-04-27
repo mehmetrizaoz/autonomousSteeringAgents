@@ -39,9 +39,8 @@ void createSimplePath(){
    pathSimple.addPoint(end);   
 }
 
-
 //TODO: move to graphics class
-void drawScene() {
+void drawScene() {   
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    
    glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
    glLoadIdentity(); //Reset the drawing perspective    
@@ -53,13 +52,7 @@ void drawScene() {
          case SEEK:       
             (*it).targetPoint.x = graphics::target_x;
             (*it).targetPoint.y = graphics::target_y;            
-            (*it).addTargetSeekForce();
-            /*cout << "force :" << (*it).force.x << " " << (*it).force.y << endl;
-
-            flow = flowField(pvector(WIND_WEST));
-            (*it).addFlowForce(flow);
-            cout << "force :" << (*it).force.x << " " << (*it).force.y << endl;
-            cout << endl;  */          
+            (*it).addTargetSeekForce();      
          break;
 
          case REFLECT:     
@@ -85,14 +78,14 @@ void drawScene() {
 
          case FLOCK:
             view.checkInScreen((*it));
-            //(*it).addReflectionForce(view, WALL, DISTANCE);
+            //TODO: needs some improvement         
             (*it).addSeparationForce(agents);                      
             (*it).addAlignForce(agents);
             (*it).addCohesionForce(agents, view);
          break;
       }
    }
-  // cout << endl<< endl;
+
    for(auto it = agents.begin(); it < agents.end(); it++){ 
       (*it).applyForce();
       (*it).updatePosition();         
@@ -121,21 +114,21 @@ void createRandomAgents(int number){
    for(int i=1; i<=size; i=i+4){
       tempAgent.position.x = arr[i]   - WIDTH;
       tempAgent.position.y = arr[i+1] - HEIGHT;
-      tempAgent.velocity.x = (arr[i]   - 34) / 10;
+      tempAgent.velocity.x = (arr[i]   - 34) / 10; //TODO: magic numbers
       tempAgent.velocity.y = (arr[i+1] - 34) / 10;      
       tempAgent.vehicleColor = colors.at( (i/4) %8 );
-      //tempAgent.setMass(1);
-      //tempAgent.setR(5);
-      /*
-      if(arr[i+2] < offset || arr[i+2] > 45)
+      tempAgent.setMass(1);
+      tempAgent.setR(5);
+      
+      if(arr[i+2] < offset || arr[i+2] > 45)//TODO: magic numbers
          arr[i+2] = offset;
       if(arr[i+3] < offset || arr[i+3] > 45)
          arr[i+3] = offset; 
-      tempAgent.setMaxForce( float(arr[i+2]) / 17 );
-      tempAgent.setMaxSpeed( float(arr[i+3]) / 17 );*/
-      //tempAgent.setMaxForce(0.3);
-      //tempAgent.setMaxSpeed(0.4);
-         tempAgent.setFeatures(0.5, 0.3, 4, 1);
+      //tempAgent.setMaxForce( float(arr[i+2]) / 17 );
+      //tempAgent.setMaxSpeed( float(arr[i+3]) / 17 );
+      tempAgent.setMaxForce(0.4);
+      tempAgent.setMaxSpeed(0.6);
+         //tempAgent.setFeatures(0.5, 0.3, 4, 1);
 
       agents.push_back(tempAgent);
    }
@@ -161,20 +154,12 @@ void createAgents(){
    agent2.velocity = pvector(0.2, 0.2);
    agent3.velocity = pvector(0.3, 0.1);
    agent4.velocity = pvector(0.3, 0.1);
+   
    agent1.name = "agent1 ";   
    agent2.name = "agent2 ";
    agent3.name = "agent3 ";
    agent4.name = "agent4 ";
-   
-   /*
-   agent1.setFeatures(0.1, 0.3, 3, 5);
-   agent2.setFeatures(0.1, 0.3, 3, 5);
-   agent1.velocity.x =  0.1;
-   agent1.name = "agent1";
-   agent2.velocity.x = -0.1;
-   agent2.name = "agent2";
-   */
-   
+
    agents.push_back(agent1);
    agents.push_back(agent2);
    agents.push_back(agent3);   
