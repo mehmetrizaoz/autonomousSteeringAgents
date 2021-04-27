@@ -8,7 +8,7 @@ using namespace std;
 
 agent::agent(float x, float  y){
     position        = point(x, y);
-    velocity        = pvector(0.5, 0.0);
+    velocity        = pvector(0.0, 0.0);
     acceleration    = pvector(0.0, 0.0);
     steering        = pvector(0.0, 0.0);
     desiredVelocity = pvector(0.0, 0.0);
@@ -173,7 +173,7 @@ void agent::followMultiSegmentPath(graphics &view, path &pathMultiSegment){
 }
 
 void agent::addCohesionForce(vector<agent> boids){
-   float neighborDist = 10;
+   float neighborDist = 20;
    pvector sum = pvector(0,0);
    float d;
    int count = 1;
@@ -181,7 +181,7 @@ void agent::addCohesionForce(vector<agent> boids){
    for(auto it = boids.begin(); it < boids.end(); it++){
       d = (position - (*it).position).magnitude();
       if( (d >0) && (d < neighborDist) ){
-         sum = sum + position;
+         sum = sum + (*it).position;
          count++;
       }
    }
@@ -201,22 +201,27 @@ void agent::addCohesionForce(vector<agent> boids){
 }
 
 void agent::addAlignForce(vector<agent> boids){
-   float neighborDist = r;
+   float neighborDist = 40;
    pvector sum = pvector(0,0);
    float d;
    int count = 0;
 
    for(auto it = boids.begin(); it < boids.end(); it++){
       d = (position - (*it).position).magnitude();
+
       if( (d >0) && (d < neighborDist) ){
-         sum = sum + velocity;
+         //cout << name << " d " << d << endl;
+         //cout << "velocity " << velocity.x << " " << velocity.y << endl;
+         //cout << "other velocity " << (*it).velocity.x << " " << (*it).velocity.y << endl;
+         sum = sum + (*it).velocity;
+         //cout << "sum " << sum.x << " " << sum.y << endl;
          count++;
       }
    }
 
    if(count>0){
       //cout << agent.position.x << " " << agent.position.y << endl;
-      //cout << "count " << count << endl;
+      //cout << "count " << count << endl << endl;
       sum.div(count);
       sum.normalize();
       sum.mul(maxSpeed);
@@ -227,7 +232,7 @@ void agent::addAlignForce(vector<agent> boids){
 }
 
 void agent::addSeparationForce(vector<agent> agents){
-   float desiredSeparation = r;
+   float desiredSeparation = 3;
    pvector sum = pvector(0,0);   
    int count = 0;
    float d = 0;
@@ -247,7 +252,8 @@ void agent::addSeparationForce(vector<agent> agents){
       if( (d >0) && (d < desiredSeparation) ){
          diff = position - (*it).position;
          diff.normalize();
-         diff.div(d);
+         //diff.div(d);
+
          sum = sum + diff;
          count++;
       }   
@@ -258,7 +264,9 @@ void agent::addSeparationForce(vector<agent> agents){
       sum.normalize();
       sum.mul(maxSpeed);      
       steering = sum - velocity;
-      steering.limit(maxForce);      
+      steering.limit(maxForce);
+      steering.mul(1.5);
+
       force = force + steering; 
 
       /*cout << name << " aaaaaaaa";      

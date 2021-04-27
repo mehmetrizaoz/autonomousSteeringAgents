@@ -84,8 +84,9 @@ void drawScene() {
 
          case FLOCK:
             view.checkInScreen((*it));
-            (*it).addSeparationForce(agents); 
+            //(*it).addSeparationForce(agents); 
             
+            //TODO: not working correctly
             //(*it).addAlignForce(agents);
             //(*it).addCohesionForce(agents);
          break;
@@ -95,11 +96,13 @@ void drawScene() {
       }
 
    }
+
    for(auto it = agents.begin(); it < agents.end(); it++){ 
       (*it).applyForce();
       (*it).updatePosition();         
       view.drawAgent(*it, (*it).vehicleColor);
    }
+   
    glutSwapBuffers();
 }
 
@@ -119,9 +122,11 @@ void createRandomAgents(int number){
       swap(arr[i], arr[r]);
    }
    
-   for(int i=0; i<size; i=i+4){
+   for(int i=1; i<=size; i=i+4){
       tempAgent.position.x = arr[i]   - WIDTH;
       tempAgent.position.y = arr[i+1] - HEIGHT;
+      tempAgent.velocity.x = 0.1  + (arr[i]   - 34) / 34;
+      tempAgent.velocity.y = 0.05 + (arr[i+1] - 34) / 34;      
       tempAgent.vehicleColor = colors.at( (i/4) %8 );
       tempAgent.setMass(1);
       tempAgent.setR(5);
@@ -129,8 +134,10 @@ void createRandomAgents(int number){
          arr[i+2] = offset;
       if(arr[i+3] < offset || arr[i+3] > 45)
          arr[i+3] = offset; 
-      tempAgent.setMaxForce( float(arr[i+2]) / dividor );
-      tempAgent.setMaxSpeed( float(arr[i+3]) / dividor );
+      tempAgent.setMaxForce( float(arr[i+2]) / 17 );
+      tempAgent.setMaxSpeed( float(arr[i+3]) / 17 );
+      //tempAgent.setMaxForce(0.5);
+      //tempAgent.setMaxSpeed(0.8);
       agents.push_back(tempAgent);
    }
 }
@@ -138,26 +145,27 @@ void createRandomAgents(int number){
 void createAgents(){
    agent agent1 = agent(-10.0,  0.0);    
    agent agent2 = agent( 10.0,  0.0);
-   //agent agent3 = agent(-20.5,   8.0);
-   //agent agent4 = agent(-34.5, -16.0);
+   agent agent3 = agent(-20.5,   8.0);
+   agent agent4 = agent(-34.5, -16.0);
    
-   agent1.setFeatures(0.3, 0.5, 2, 1);
-   agent2.setFeatures(0.3, 0.5, 2, 1);
-   //agent3.setFeatures(0.3, 0.5, 5, 1); // ****
-   //agent4.setFeatures(0.3, 0.5, 5, 1);
+   agent1.setFeatures(1, 0.4, 4, 1);
+   agent2.setFeatures(1, 0.4, 4, 1);
+   agent3.setFeatures(1, 0.4, 4, 1); // ****
+   agent4.setFeatures(1, 0.4, 4, 1);
    
-   //agent1.setFeatures(0.1, 0.3, 3, 5);
-   //agent2.setFeatures(0.1, 0.3, 3, 5);
+   /*
+   agent1.setFeatures(0.1, 0.3, 3, 5);
+   agent2.setFeatures(0.1, 0.3, 3, 5);
    agent1.velocity.x =  0.1;
    agent1.name = "agent1";
    agent2.velocity.x = -0.1;
    agent2.name = "agent2";
-   
+   */
    
    agents.push_back(agent1);
    agents.push_back(agent2);
-   //agents.push_back(agent3);   
-   //agents.push_back(agent4);
+   agents.push_back(agent3);   
+   agents.push_back(agent4);
 }
 
 void displayMenu(){
@@ -197,7 +205,7 @@ int main(int argc, char** argv) {
    //createAgents();
    createMultisegmentPath();
    createSimplePath();   
-   createRandomAgents(20);
+   createRandomAgents(17);
 
    //TODO: move to graphics class
    glutInit(&argc, argv);
