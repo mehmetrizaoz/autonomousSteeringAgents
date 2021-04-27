@@ -57,17 +57,9 @@ void agent::applyForce(){
 }
 
 void agent::addSteeringForce(){
-   //cout << "steering 1: " << steering.x << " " << steering.y << endl;
-   //cout << "desiredVelocity 4: " << desiredVelocity.x << " " << desiredVelocity.y << endl;
-   //cout << "velocity 1: " << velocity.x << " " << velocity.y << endl;
    steering = desiredVelocity - velocity;
-   //cout << "steering 1: " << steering.x << " " << steering.y << endl;
-   //cout << "desiredVelocity 5: " << desiredVelocity.x << " " << desiredVelocity.y << endl;
-   //cout << "velocity 2: " << velocity.x << " " << velocity.y << endl;
    steering.limit(maxForce);
-   //cout << "force 1: " << force.x << " " << force.y << endl;
    force = force + steering;
-   //cout << "force 2: " << force.x << " " << force.y << endl;
 }
 
 void agent::addFlowForce(flowField &flow){
@@ -81,17 +73,9 @@ void agent::addFlowForce(flowField &flow){
 }
 
 void agent::addTargetSeekForce(){
-    //cout << "desiredVelocity 1: " << desiredVelocity.x << " " << desiredVelocity.y << endl;
-    //cout << "targetPoint 1: " << targetPoint.x << " " << targetPoint.y << endl;
-    //cout << "position 1: " << position.x << " " << position.y << endl;
     desiredVelocity = targetPoint - position;
-    //cout << "desiredVelocity 2: " << desiredVelocity.x << " " << desiredVelocity.y << endl;
-    //cout << "targetPoint 2: " << targetPoint.x << " " << targetPoint.y << endl;
-    //cout << "position 3: " << position.x << " " << position.y << endl;
-
     desiredVelocity.normalize();
     desiredVelocity.mul(maxSpeed);
-
 
     //arriving behavior
     if(desiredVelocity.magnitude() > r) { desiredVelocity.limit(maxSpeed); }
@@ -178,32 +162,45 @@ void agent::addCohesionForce(vector<agent> boids, graphics &view){
    pvector sum = pvector(0,0);
    float d;
    int count = 0;
-   cout << name << endl;// << position.x << " " << position.y << endl;
+   //cout << name << endl;// << position.x << " " << position.y << endl;
 
 
    for(auto it = boids.begin(); it < boids.end(); it++){
-      cout << (*it).name << (*it).position.x << " " << (*it).position.y << endl;
+      //cout << (*it).name << (*it).position.x << " " << (*it).position.y << endl;
       d = (position - (*it).position).magnitude();
-      cout << "d " << d << endl;
+      //cout << "d " << d << endl;
       if( (d >0) && (d < neighborDist) ){
          sum = sum + (*it).position;
          count++;
       }
    }
-   cout << "sum"; sum.print();
-   cout << endl << "---" << endl << endl;
+   //cout << "sum"; sum.print();
+   //cout << endl << "---" << endl << endl;
 
    if(count>0){
       sum.div(count);
-      cout << "sum"; sum.print();
+  //    cout << "sum"; sum.print();
 
-      //sum.div(2);
       targetPoint.x = sum.x;
       targetPoint.y = sum.y;
 
       glColor3f( vehicleColor.R, vehicleColor.G, vehicleColor.B); 
       view.drawPoint(targetPoint);
-      addTargetSeekForce();
+     // addTargetSeekForce();
+
+    desiredVelocity = targetPoint - position;
+    desiredVelocity.normalize();
+    desiredVelocity.mul(maxSpeed);
+
+    //arriving behavior
+    if(desiredVelocity.magnitude() > r) { desiredVelocity.limit(maxSpeed); }
+    else { desiredVelocity.limit(maxSpeed / 2); }
+    
+    //addSteeringForce();
+     steering = desiredVelocity - velocity;
+     steering.limit(maxForce);
+     steering.div(3);
+     force = force + steering;
    }   
 }
 

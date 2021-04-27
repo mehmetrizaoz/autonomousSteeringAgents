@@ -85,15 +85,13 @@ void drawScene() {
 
          case FLOCK:
             view.checkInScreen((*it));
-            //(*it).addSeparationForce(agents); 
-            
-            
+            (*it).addSeparationForce(agents);                      
             (*it).addAlignForce(agents);
             (*it).addCohesionForce(agents, view);
          break;
       }
    }
-   cout << endl<< endl;
+  // cout << endl<< endl;
    for(auto it = agents.begin(); it < agents.end(); it++){ 
       (*it).applyForce();
       (*it).updatePosition();         
