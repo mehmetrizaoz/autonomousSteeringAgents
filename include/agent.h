@@ -38,7 +38,7 @@ public:
   void addReflectionForce(graphics &view, int wall, int distance);
   void addTargetSeekForce();
   void addSeparationForce(vector<agent> agents);
-  void addCohesionForce(vector<agent> boids);
+  void addCohesionForce(vector<agent> boids, graphics &view);
   void addAlignForce(vector<agent> boids);  
   void followSimplePath(graphics &view, path &pathSimple);
   void followMultiSegmentPath(graphics &view, path &pathMultiSegment);

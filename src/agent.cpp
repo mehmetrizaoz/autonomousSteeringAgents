@@ -3,6 +3,7 @@
 #include "graphics.h"
 #include <iostream>
 #include "color.h"
+#include <GL/glut.h> 
 
 using namespace std;
 
@@ -172,29 +173,38 @@ void agent::followMultiSegmentPath(graphics &view, path &pathMultiSegment){
    addTargetSeekForce();
 }
 
-void agent::addCohesionForce(vector<agent> boids){
-   float neighborDist = 20;
+void agent::addCohesionForce(vector<agent> boids, graphics &view){
+   float neighborDist = 50;
    pvector sum = pvector(0,0);
    float d;
-   int count = 1;
+   int count = 0;
+
+   cout << name << position.x << " " << position.y << endl;
 
    for(auto it = boids.begin(); it < boids.end(); it++){
       d = (position - (*it).position).magnitude();
       if( (d >0) && (d < neighborDist) ){
+         //cout << name << (*it).name << (*it).position.x << " " << (*it).position.y << endl;
          sum = sum + (*it).position;
          count++;
       }
    }
 
-   if(count>1){
+   if(count>0){
       sum.div(count);
       targetPoint.x = sum.x;
       targetPoint.y = sum.y;
+
+      glColor3f( vehicleColor.R, vehicleColor.G, vehicleColor.B); 
+      view.drawPoint(targetPoint);
+      
+
       addTargetSeekForce();
+
     //  cout << "targetPoint: " << targetPoint.x << " " << targetPoint.y << endl;
     //  cout << "position: " << position.x << " " << position.y << endl;
       //cout << agent.position.x << " " << agent.position.y << endl;
-    //  cout << "count" << count << endl;
+      //cout << "count" << count << endl;
     //  cout << endl;
 
    }   
@@ -232,7 +242,7 @@ void agent::addAlignForce(vector<agent> boids){
 }
 
 void agent::addSeparationForce(vector<agent> agents){
-   float desiredSeparation = 3;
+   float desiredSeparation = 8;
    pvector sum = pvector(0,0);   
    int count = 0;
    float d = 0;
@@ -252,8 +262,6 @@ void agent::addSeparationForce(vector<agent> agents){
       if( (d >0) && (d < desiredSeparation) ){
          diff = position - (*it).position;
          diff.normalize();
-         //diff.div(d);
-
          sum = sum + diff;
          count++;
       }   
@@ -261,7 +269,7 @@ void agent::addSeparationForce(vector<agent> agents){
 
    if(count > 0){
       sum.div(count);
-      sum.normalize();
+      //sum.normalize();
       sum.mul(maxSpeed);      
       steering = sum - velocity;
       steering.limit(maxForce);
