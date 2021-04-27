@@ -184,8 +184,8 @@ void agent::addCohesionForce(vector<agent> boids, graphics &view){
       targetPoint.x = sum.x;
       targetPoint.y = sum.y;
 
-      glColor3f( vehicleColor.R, vehicleColor.G, vehicleColor.B); 
-      view.drawPoint(targetPoint);
+      //glColor3f( vehicleColor.R, vehicleColor.G, vehicleColor.B); 
+      //view.drawPoint(targetPoint);
      // addTargetSeekForce();
 
     desiredVelocity = targetPoint - position;
@@ -203,6 +203,7 @@ void agent::addCohesionForce(vector<agent> boids, graphics &view){
      force = force + steering;
    }   
 }
+//TODO: make generic all the code
 
 void agent::addAlignForce(vector<agent> boids){
    float neighborDist = 15;
@@ -262,7 +263,7 @@ void agent::addSeparationForce(vector<agent> agents){
       sum.mul(maxSpeed);      
       steering = sum - velocity;
       steering.limit(maxForce);
-      steering.mul(2);
+      //steering.mul(2);
 
       force = force + steering; 
    } 

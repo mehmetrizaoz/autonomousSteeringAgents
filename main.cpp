@@ -123,7 +123,7 @@ void createRandomAgents(int number){
       tempAgent.position.y = arr[i+1] - HEIGHT;
       tempAgent.velocity.x = (arr[i]   - 34) / 10;
       tempAgent.velocity.y = (arr[i+1] - 34) / 10;      
-      //tempAgent.vehicleColor = colors.at( (i/4) %8 );
+      tempAgent.vehicleColor = colors.at( (i/4) %8 );
       //tempAgent.setMass(1);
       //tempAgent.setR(5);
       /*
