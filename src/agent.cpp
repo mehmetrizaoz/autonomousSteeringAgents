@@ -4,8 +4,11 @@
 #include <iostream>
 #include "color.h"
 #include <GL/glut.h> 
+#include "behavior.h"
 
 using namespace std;
+
+class behavior;
 
 agent::agent(float x, float  y){
     position        = point(x, y);
@@ -16,6 +19,7 @@ agent::agent(float x, float  y){
     force           = pvector(0.0, 0.0);
     targetPoint     = point(0.0, 0.0);
     vehicleColor    = color(1.0, 0.0, 0.0);
+    ccc =  behavior();
 }
 
 void agent::updatePosition(){
@@ -68,8 +72,7 @@ void agent::uniformFlow(flowField &flow){
     int pos_y = abs((int)position.y) % HEIGHT;
     
     //TODO: modification required for non uniform fields
-    force = force + flow.getField(pos_x, pos_y);
-    
+    force = force + flow.getField(pos_x, pos_y);    
 }
 
 void agent::seek(){

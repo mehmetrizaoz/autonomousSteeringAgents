@@ -8,6 +8,7 @@
 #include "graphics.h"
 #include <vector>
 #include <string>
+#include "behavior.h"
 
 using namespace std;
 
@@ -20,6 +21,7 @@ using namespace std;
 
 class graphics;
 class path;
+//class behavior;
 
 class agent{
 public:
@@ -32,7 +34,7 @@ public:
   void setMaxForce(float f);
   void applyForce();
   void setFeatures(float s, float f, float r, float m);
-  //TODO: a new class will be created for agent behaviors 
+
   void addSteeringForce();
   void uniformFlow(flowField &flow);
   void reflect(graphics &view, int wall, int distance);
@@ -42,20 +44,21 @@ public:
   void align(vector<agent> boids);  
   void simplePath(graphics &view, path &pathSimple);
   void curvedPath(graphics &view, path &pathMultiSegment);
-  string name;
-  color   vehicleColor;
-  point   position;
-  pvector velocity;  
-  point   targetPoint;
-  float maxSpeed; 
-  float maxForce;
-  pvector steering;
-  pvector force;
-  pvector acceleration;
-private:
-  pvector desiredVelocity;
-  float r;
-  float mass;
+
+  string   name;
+  color    vehicleColor;
+  point    position;
+  pvector  velocity;  
+  point    targetPoint;
+  float    maxSpeed; 
+  float    maxForce;
+  pvector  steering;
+  pvector  force;
+  pvector  acceleration;
+  behavior ccc;
+  pvector  desiredVelocity;
+  float    r;
+  float    mass;
 };
 
 #endif
