@@ -80,7 +80,7 @@ void drawScene() {
             view.checkInScreen((*it));
             (*it).separation(agents);                      
             (*it).align(agents);
-            (*it).cohesion(agents, view);
+            (*it).cohesion(agents);
          break;
       }
    }
@@ -94,41 +94,28 @@ void drawScene() {
    glutSwapBuffers();
 }
 
-void createRandomAgents(int number){
-   int size = number * 4;
-   int arr[size];
-   int dividor = WIDTH;
-   float offset = 10;
-   agent tempAgent = agent(0, 0);
 
-   for(int i=0; i<size; i++)
-      arr[i] = i;  
-   
+void createRandomAgents(int number){
+   int maxAgentCount = 34;
+   int arr[maxAgentCount];   
+   agent tempAgent = agent(0, 0);
    srand(time(NULL));
-   for (int i=0; i<size ;i++){
-      int r = i + (rand() % (size -i));
-      swap(arr[i], arr[r]);
+
+   for(int i=0; i<maxAgentCount; i++){
+      arr[i] = i;        
    }
-   
-   for(int i=1; i<=size; i=i+4){
+
+   for (int i=0; i < maxAgentCount ;i++){
+      int r = rand() % maxAgentCount;
+      swap(arr[i], arr[r]);
+   }  
+
+   for(int i=0; i < number*2; i=i+2){
       tempAgent.position.x = arr[i]   - WIDTH;
       tempAgent.position.y = arr[i+1] - HEIGHT;
-      tempAgent.velocity.x = (arr[i]   - 34) / 10; //TODO: magic numbers
-      tempAgent.velocity.y = (arr[i+1] - 34) / 10;      
-      tempAgent.vehicleColor = colors.at( (i/4) %8 );
-      tempAgent.setMass(1);
-      tempAgent.setR(5);
-      
-      if(arr[i+2] < offset || arr[i+2] > 45)//TODO: magic numbers
-         arr[i+2] = offset;
-      if(arr[i+3] < offset || arr[i+3] > 45)
-         arr[i+3] = offset; 
-      //tempAgent.setMaxForce( float(arr[i+2]) / 17 );
-      //tempAgent.setMaxSpeed( float(arr[i+3]) / 17 );
-      tempAgent.setMaxForce(0.4);
-      tempAgent.setMaxSpeed(0.6);
-         //tempAgent.setFeatures(0.5, 0.3, 4, 1);
-
+      //cout << "a" << i << " ";
+      tempAgent.vehicleColor = colors.at( (i/2) %8 );
+      tempAgent.setFeatures(0.5, 0.3, 4, 1);
       agents.push_back(tempAgent);
    }
 }
@@ -143,21 +130,6 @@ void createAgents(){
    agent2.setFeatures(0.5, 0.3, 4, 1);
    agent3.setFeatures(0.5, 0.3, 4, 1);
    agent4.setFeatures(0.5, 0.3, 4, 1);
-
-   agent1.vehicleColor = colors.at(4);
-   agent2.vehicleColor = colors.at(1);
-   agent3.vehicleColor = colors.at(0);
-   agent4.vehicleColor = colors.at(2);
-
-   agent1.velocity = pvector(0.1, 0.2);
-   agent2.velocity = pvector(0.2, 0.2);
-   agent3.velocity = pvector(0.3, 0.1);
-   agent4.velocity = pvector(0.3, 0.1);
-   
-   agent1.name = "agent1 ";   
-   agent2.name = "agent2 ";
-   agent3.name = "agent3 ";
-   agent4.name = "agent4 ";
 
    agents.push_back(agent1);
    agents.push_back(agent2);
@@ -202,7 +174,7 @@ int main(int argc, char** argv) {
    //createAgents();
    createMultisegmentPath();
    createSimplePath();   
-   createRandomAgents(17);
+   createRandomAgents(5);
 
    //TODO: move to graphics class
    glutInit(&argc, argv);

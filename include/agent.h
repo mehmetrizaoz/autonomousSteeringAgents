@@ -8,7 +8,6 @@
 #include "graphics.h"
 #include <vector>
 #include <string>
-#include "behavior.h"
 
 using namespace std;
 
@@ -21,7 +20,6 @@ using namespace std;
 
 class graphics;
 class path;
-//class behavior;
 
 class agent{
 public:
@@ -40,7 +38,7 @@ public:
   void reflect(graphics &view, int wall, int distance);
   void seek();
   void separation(vector<agent> agents);
-  void cohesion(vector<agent> boids, graphics &view);
+  void cohesion(vector<agent> boids);
   void align(vector<agent> boids);  
   void simplePath(graphics &view, path &pathSimple);
   void curvedPath(graphics &view, path &pathMultiSegment);
@@ -55,7 +53,6 @@ public:
   pvector  steering;
   pvector  force;
   pvector  acceleration;
-  behavior ccc;
   pvector  desiredVelocity;
   float    r;
   float    mass;

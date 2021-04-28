@@ -4,22 +4,18 @@
 #include <iostream>
 #include "color.h"
 #include <GL/glut.h> 
-#include "behavior.h"
 
 using namespace std;
 
-class behavior;
-
 agent::agent(float x, float  y){
     position        = point(x, y);
-    velocity        = pvector(0.0, 0.0);
+    velocity        = pvector(0.3, 0.4);
     acceleration    = pvector(0.0, 0.0);
     steering        = pvector(0.0, 0.0);
     desiredVelocity = pvector(0.0, 0.0);
     force           = pvector(0.0, 0.0);
     targetPoint     = point(0.0, 0.0);
     vehicleColor    = color(1.0, 0.0, 0.0);
-    ccc =  behavior();
 }
 
 void agent::updatePosition(){
@@ -160,7 +156,7 @@ void agent::curvedPath(graphics &view, path &pathMultiSegment){
    seek();
 }
 
-void agent::cohesion(vector<agent> boids, graphics &view){
+void agent::cohesion(vector<agent> boids){
    float neighborDist = 20;
    pvector sum = pvector(0,0);
    float d;
