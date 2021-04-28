@@ -52,36 +52,36 @@ void drawScene() {
          case SEEK:       
             (*it).targetPoint.x = graphics::target_x;
             (*it).targetPoint.y = graphics::target_y;            
-            (*it).addTargetSeekForce();      
+            (*it).seek();      
          break;
 
          case REFLECT:     
-            (*it).addReflectionForce(view, WALL, DISTANCE);
-            (*it).addSeparationForce(agents);            
+            (*it).reflect(view, WALL, DISTANCE);
+            (*it).separation(agents);            
          break;
          
          case FLOW_FIELD:        
             flow = flowField(pvector(GRAVITY));
-            (*it).addFlowForce(flow);
+            (*it).uniformFlow(flow);
 
             flow = flowField(pvector(WIND_WEST));
-            (*it).addFlowForce(flow);            
+            (*it).uniformFlow(flow);            
          break;
          
          case PATH_SIMPLE: 
-            (*it).followSimplePath(view, pathSimple);             
+            (*it).simplePath(view, pathSimple);             
          break;
 
          case PATH_COMPLEX:
-            (*it).followMultiSegmentPath(view, pathMultiSegment);
+            (*it).curvedPath(view, pathMultiSegment);
          break;
 
          case FLOCK:
             view.checkInScreen((*it));
             //TODO: needs some improvement         
-            (*it).addSeparationForce(agents);                      
-            (*it).addAlignForce(agents);
-            (*it).addCohesionForce(agents, view);
+            (*it).separation(agents);                      
+            (*it).align(agents);
+            (*it).cohesion(agents, view);
          break;
       }
    }

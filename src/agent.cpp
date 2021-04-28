@@ -62,7 +62,7 @@ void agent::addSteeringForce(){
    force = force + steering;
 }
 
-void agent::addFlowForce(flowField &flow){
+void agent::uniformFlow(flowField &flow){
     //pos_x, pos_y must be non negative integer
     int pos_x = abs((int)position.x) % WIDTH;
     int pos_y = abs((int)position.y) % HEIGHT;
@@ -72,7 +72,7 @@ void agent::addFlowForce(flowField &flow){
     
 }
 
-void agent::addTargetSeekForce(){
+void agent::seek(){
     desiredVelocity = targetPoint - position;
     desiredVelocity.normalize();
     desiredVelocity.mul(maxSpeed);
@@ -84,7 +84,7 @@ void agent::addTargetSeekForce(){
     addSteeringForce();
 }
 
-void agent::addReflectionForce(graphics &view, int wall, int distance){    
+void agent::reflect(graphics &view, int wall, int distance){    
    view.drawWall(wall);
    int turnPoint = wall - distance; 
 
@@ -106,7 +106,7 @@ void agent::addReflectionForce(graphics &view, int wall, int distance){
    }
 }
 
-void agent::followSimplePath(graphics &view, path &pathSimple){  
+void agent::simplePath(graphics &view, path &pathSimple){  
   point start = pathSimple.points.at(0);
   point end   = pathSimple.points.at(1);
 
@@ -124,11 +124,11 @@ void agent::followSimplePath(graphics &view, path &pathSimple){
   view.drawPoint(targetPoint);
     
   if(distance.magnitude() > pathSimple.width / 8){
-     addTargetSeekForce();
+     seek();
   }  
 }
 
-void agent::followMultiSegmentPath(graphics &view, path &pathMultiSegment){     
+void agent::curvedPath(graphics &view, path &pathMultiSegment){     
    float worldRecord = 1000000;
    point normalPoint;
    point predictedPos;
@@ -154,11 +154,11 @@ void agent::followMultiSegmentPath(graphics &view, path &pathMultiSegment){
       }       
    }   
    //view.drawPoint(targetPoint);
-   addTargetSeekForce();
+   seek();
 }
 
-void agent::addCohesionForce(vector<agent> boids, graphics &view){
-   float neighborDist = 15;
+void agent::cohesion(vector<agent> boids, graphics &view){
+   float neighborDist = 20;
    pvector sum = pvector(0,0);
    float d;
    int count = 0;
@@ -172,21 +172,16 @@ void agent::addCohesionForce(vector<agent> boids, graphics &view){
    }
 
    if(count>0){
-      sum.div(count);
+     sum.div(count);
+     targetPoint.x = sum.x;
+     targetPoint.y = sum.y;
+     //glColor3f( vehicleColor.R, vehicleColor.G, vehicleColor.B); 
+     //view.drawPoint(targetPoint);
 
-      targetPoint.x = sum.x;
-      targetPoint.y = sum.y;
-
-      //glColor3f( vehicleColor.R, vehicleColor.G, vehicleColor.B); 
-      //view.drawPoint(targetPoint);
-     // addTargetSeekForce();
-
-    desiredVelocity = targetPoint - position;
-    desiredVelocity.normalize();
-    desiredVelocity.mul(maxSpeed);
-
+     desiredVelocity = targetPoint - position;
+     desiredVelocity.normalize();
+     desiredVelocity.mul(maxSpeed);
     
-    //addSteeringForce();
      steering = desiredVelocity - velocity;
      steering.limit(maxForce);
      steering.div(4);
@@ -194,9 +189,7 @@ void agent::addCohesionForce(vector<agent> boids, graphics &view){
    }   
 }
 
-//TODO: refactor and make flock behaviors
-
-void agent::addAlignForce(vector<agent> boids){
+void agent::align(vector<agent> boids){
    float neighborDist = 15;
    pvector sum = pvector(0,0);
    float d;
@@ -204,7 +197,6 @@ void agent::addAlignForce(vector<agent> boids){
 
    for(auto it = boids.begin(); it < boids.end(); it++){
       d = (position - (*it).position).magnitude();
-
       if( (d >0) && (d < neighborDist) ){
          sum = sum + (*it).velocity;
          count++;
@@ -221,7 +213,7 @@ void agent::addAlignForce(vector<agent> boids){
    }
 }
 
-void agent::addSeparationForce(vector<agent> agents){
+void agent::separation(vector<agent> agents){
    float desiredSeparation = 3;
    pvector sum = pvector(0,0);   
    int count = 0;
@@ -229,8 +221,7 @@ void agent::addSeparationForce(vector<agent> agents){
    pvector diff = pvector(0,0); 
 
    for(auto it = agents.begin(); it < agents.end(); it++){
-      d = ( position - (*it).position ).magnitude();
-          
+      d = ( position - (*it).position ).magnitude();          
       if( (d >0) && (d < desiredSeparation) ){
          diff = position - (*it).position;         
          diff.normalize();

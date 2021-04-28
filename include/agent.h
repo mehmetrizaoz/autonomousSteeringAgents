@@ -34,15 +34,15 @@ public:
   void setFeatures(float s, float f, float r, float m);
   //TODO: a new class will be created for agent behaviors 
   void addSteeringForce();
-  void addFlowForce(flowField &flow);
-  void addReflectionForce(graphics &view, int wall, int distance);
-  void addTargetSeekForce();
-  void addSeparationForce(vector<agent> agents);
-  void addCohesionForce(vector<agent> boids, graphics &view);
-  void addAlignForce(vector<agent> boids);  
-  void followSimplePath(graphics &view, path &pathSimple);
-  void followMultiSegmentPath(graphics &view, path &pathMultiSegment);
-  string name = "aaa";
+  void uniformFlow(flowField &flow);
+  void reflect(graphics &view, int wall, int distance);
+  void seek();
+  void separation(vector<agent> agents);
+  void cohesion(vector<agent> boids, graphics &view);
+  void align(vector<agent> boids);  
+  void simplePath(graphics &view, path &pathSimple);
+  void curvedPath(graphics &view, path &pathMultiSegment);
+  string name;
   color   vehicleColor;
   point   position;
   pvector velocity;  
