@@ -232,8 +232,9 @@ void agent::addSeparationForce(vector<agent> agents){
       d = ( position - (*it).position ).magnitude();
           
       if( (d >0) && (d < desiredSeparation) ){
-         diff = position - (*it).position;
+         diff = position - (*it).position;         
          diff.normalize();
+         diff.div(d);
          sum = sum + diff;
          count++;
       }   
@@ -245,7 +246,7 @@ void agent::addSeparationForce(vector<agent> agents){
       steering = sum - velocity;
       steering.limit(maxForce);
       
-      steering.mul(0.5); // !
+      //steering.mul(0.5); // !
       force = force + steering; 
    } 
 }
