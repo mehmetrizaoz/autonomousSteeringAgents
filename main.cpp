@@ -20,7 +20,7 @@
 
 using namespace std;
 
-int mode; //TODO: move to agent class, make it static variable
+int mode;
 flowField flow;
 graphics  view;
 vector<agent> agents;
@@ -31,7 +31,7 @@ path pathSimple;
 int graphics::target_x = -WIDTH;
 int graphics::target_y = HEIGHT;
 
-void createSimplePath(){
+void createPath_1(){
    point start = point(-WIDTH - 5,  HEIGHT - 40);
    point end   = point( WIDTH + 5, -HEIGHT + 40);
    pathSimple  = path(6);
@@ -46,7 +46,6 @@ void drawScene() {
    glLoadIdentity(); //Reset the drawing perspective    
    glTranslatef(0.0f, 0.0f, -85.0f); //Move to the center of the triangle    
    
-   //cout << "---" << endl;
    for(auto it = agents.begin(); it < agents.end(); it++){ 
       switch(mode){
          case SEEK:       
@@ -89,11 +88,9 @@ void drawScene() {
       (*it).applyForce();
       (*it).updatePosition();         
       view.drawAgent(*it, (*it).vehicleColor);
-   }
-   
+   }   
    glutSwapBuffers();
 }
-
 
 void createRandomAgents(int number){
    int maxAgentCount = 34;
@@ -113,7 +110,6 @@ void createRandomAgents(int number){
    for(int i=0; i < number*2; i=i+2){
       tempAgent.position.x = arr[i]   - WIDTH;
       tempAgent.position.y = arr[i+1] - HEIGHT;
-      //cout << "a" << i << " ";
       tempAgent.vehicleColor = colors.at( (i/2) %8 );
       tempAgent.setFeatures(0.5, 0.3, 4, 1);
       agents.push_back(tempAgent);
@@ -138,16 +134,16 @@ void createAgents(){
 }
 
 void displayMenu(){
-   cout << "SEEK: 1" << endl;
-   cout << "REFLECTION: 2" << endl;
-   cout << "FLOW_FIELD: 3" << endl;
-   cout << "SIMPLE PATH: 4" << endl;
-   cout << "MULTISEGMENT PATH: 5" << endl;
-   cout << "FLOCK: 6" << endl;
+   cout << "SEEK:   1" << endl;
+   cout << "REFLECT:2" << endl;
+   cout << "FLOW:   3" << endl;
+   cout << "PATH 1: 4" << endl;
+   cout << "PATH 2: 5" << endl;
+   cout << "FLOCK:  6" << endl;
    cin >> mode;
 }
 
-void createMultisegmentPath(){
+void createPath_2(){
    pathMultiSegment = path(7);
    pathMultiSegment.addPoint(point(-40,  5));
    pathMultiSegment.addPoint(point(-14, 15));
@@ -172,8 +168,8 @@ int main(int argc, char** argv) {
    
    createColors();
    //createAgents();
-   createMultisegmentPath();
-   createSimplePath();   
+   createPath_2();
+   createPath_1();   
    createRandomAgents(5);
 
    //TODO: move to graphics class
