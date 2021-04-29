@@ -80,14 +80,9 @@ void agent::seek(bool arriving){
    desiredVelocity.mul(maxSpeed);
    
    if(arriving == true){
-      if(diff.magnitude() > r) { 
-         desiredVelocity.limit(maxSpeed); 
-      }
-      else { 
-         desiredVelocity.limit(maxSpeed * diff.magnitude() / r); 
-      }
+      if(diff.magnitude() > r) desiredVelocity.limit(maxSpeed);       
+      else desiredVelocity.limit(maxSpeed * diff.magnitude() / r);       
    } 
-
    addSteeringForce(1);
 }
 
@@ -116,7 +111,6 @@ void agent::reflect(graphics &view, int wall, int distance){
 void agent::simplePath(graphics &view, path &pathSimple){  
   point start = pathSimple.points.at(0);
   point end   = pathSimple.points.at(1);
-
   view.drawPath(pathSimple);
 
   point predictedPos = position + velocity; 
@@ -130,9 +124,8 @@ void agent::simplePath(graphics &view, path &pathSimple){
   view.drawLine(predictedPos, normalPoint);
   view.drawPoint(targetPoint);
     
-  if(distance.magnitude() > pathSimple.width / 8){
+  if(distance.magnitude() > pathSimple.width / 8)
      seek(WITHOUT_ARRIVING);
-  }  
 }
 
 void agent::curvedPath(graphics &view, path &pathMultiSegment){     
@@ -148,11 +141,9 @@ void agent::curvedPath(graphics &view, path &pathMultiSegment){
       start = point((*it).x, (*it).y);
       end   = point((*(it+1)).x, (*(it+1)).y);
       predictedPos = position + velocity; 
-      normalPoint = point::getNormalPoint(predictedPos, start, end);
-      
-      if (normalPoint.x < start.x || normalPoint.x > end.x) {
+      normalPoint = point::getNormalPoint(predictedPos, start, end);      
+      if (normalPoint.x < start.x || normalPoint.x > end.x)
          normalPoint = end;
-      }      
 
       distance = predictedPos - normalPoint;
       if (distance.magnitude() < worldRecord) {
@@ -166,8 +157,7 @@ void agent::curvedPath(graphics &view, path &pathMultiSegment){
 }
 
 void agent::cohesion(vector<agent> boids, float multiplier){
-   //TODO: magic numbers
-   float neighborDist = 15;
+   float neighborDist = 20;
    targetPoint = point(0,0);
    float d;
    int count = 0;
@@ -179,21 +169,17 @@ void agent::cohesion(vector<agent> boids, float multiplier){
          count++;
       }
    }
-
    if(count>0){
      targetPoint.div(count);
-
      desiredVelocity = targetPoint - position;
      desiredVelocity.normalize();
      desiredVelocity.mul(maxSpeed);
-
      addSteeringForce(multiplier);    
    }   
 }
 
 void agent::align(vector<agent> boids, float multiplier){
-   //TODO: magic numbers
-   float neighborDist = 15;
+   float neighborDist = 20;
    float d;
    int count = 0;
 
@@ -204,7 +190,6 @@ void agent::align(vector<agent> boids, float multiplier){
          count++;
       }
    }
-
    if(count>0){
       desiredVelocity.div(count);
       desiredVelocity.normalize();
@@ -213,9 +198,8 @@ void agent::align(vector<agent> boids, float multiplier){
    }
 }
 
-void agent::separation(vector<agent> agents, float multiplier){
-   //TODO: magic numbers
-   float desiredSeparation = 3;
+void agent::separation(vector<agent> agents, float multiplier){   
+   float desiredSeparation = 4;
    int count = 0;
    pvector diff = pvector(0,0); 
 
@@ -227,7 +211,6 @@ void agent::separation(vector<agent> agents, float multiplier){
          count++;
       }   
    }
-
    if(count > 0){
       desiredVelocity.div(count);
       desiredVelocity.normalize();

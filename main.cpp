@@ -79,9 +79,9 @@ void drawScene() {
 
          case FLOCK:
             view.checkInScreen((*it));
-            (*it).separation(agents, 0.7);                    
+            (*it).separation(agents, 0.5);                    
             (*it).align(agents, 1);
-            (*it).cohesion(agents, 0.25);
+            (*it).cohesion(agents, 0.3);
             //TODO: print all vectors and check if sum is correct
          break;
 
@@ -123,7 +123,7 @@ void createRandomAgents(int agentCount){
       tempAgent.position.x = arr[i]   - WIDTH;
       tempAgent.position.y = arr[i+1] - HEIGHT;
       tempAgent.vehicleColor = colors.at( (i/2) % 8 );
-      tempAgent.setFeatures(0.9, 0.3, 20, 1);
+      tempAgent.setFeatures(0.5, 0.3, 20, 1);
       agents.push_back(tempAgent);
    }
 }
