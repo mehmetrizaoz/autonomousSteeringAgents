@@ -9,7 +9,9 @@ public:
    float y;   
    point(float x, float y);
    point();
-   point   operator + (pvector const &obj);
+   void div(float d);
+   point operator + (pvector const &obj);
+   point operator + (point const &obj);   
    pvector operator - (point const &obj);
    static point getNormalPoint(point predicted, point start, point end);
 };

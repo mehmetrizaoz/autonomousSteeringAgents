@@ -75,6 +75,13 @@ pvector pvector::operator + (point const &obj){
    return res;
 }
 
+pvector pvector::operator - (point const &obj){
+   pvector res;
+   res.x = x - obj.x;
+   res.y = y - obj.y;
+   return res;
+}
+
 void pvector::print(){
    cout << " " << x << " " << y;
 }

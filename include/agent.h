@@ -40,7 +40,7 @@ public:
   void applyForce();
   void setFeatures(float s, float f, float r, float m);
 
-  void addSteeringForce();
+  void addSteeringForce(float multiplier);
   void uniformFlow(flowField &flow);
   void reflect(graphics &view, int wall, int distance);  
   void seek(bool arriving);  

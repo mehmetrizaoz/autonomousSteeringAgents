@@ -56,9 +56,11 @@ void agent::applyForce(){
    force = pvector(0,0);
 }
 
-void agent::addSteeringForce(){
+void agent::addSteeringForce(float multiplier){
    steering = desiredVelocity - velocity;
    steering.limit(maxForce);
+   steering.mul(multiplier);
+   desiredVelocity = pvector(0,0);
    force = force + steering;
 }
 
@@ -86,7 +88,7 @@ void agent::seek(bool arriving){
       }
    } 
 
-   addSteeringForce();
+   addSteeringForce(1);
 }
 
 void agent::reflect(graphics &view, int wall, int distance){    
@@ -95,19 +97,19 @@ void agent::reflect(graphics &view, int wall, int distance){
 
    if(position.x >= turnPoint){
       desiredVelocity = pvector( -maxSpeed, velocity.y );
-      addSteeringForce();
+      addSteeringForce(1);
    }
    else if(position.x <= -turnPoint){
       desiredVelocity = pvector( maxSpeed, velocity.y );
-      addSteeringForce();
+      addSteeringForce(1);
    }
    else if(position.y >= turnPoint){
       desiredVelocity = pvector( velocity.x, -maxSpeed );
-      addSteeringForce();
+      addSteeringForce(1);
    }
    else if(position.y <= -turnPoint){
       desiredVelocity = pvector( velocity.x, maxSpeed );
-      addSteeringForce();
+      addSteeringForce(1);
    }
 }
 
@@ -167,7 +169,7 @@ void agent::curvedPath(graphics &view, path &pathMultiSegment){
 //TODO: use utility functions (addSteeringForce etc) for behaviors below
 void agent::cohesion(vector<agent> boids, float multiplier){
    //TODO: magic numbers
-   float neighborDist = 20;
+   float neighborDist = 15;
    pvector sum = pvector(0,0);
    float d;
    int count = 0;
@@ -182,50 +184,43 @@ void agent::cohesion(vector<agent> boids, float multiplier){
 
    if(count>0){
      sum.div(count);
-     targetPoint.x = sum.x;
+     targetPoint.x = sum.x; //TODO: refactor code here
      targetPoint.y = sum.y;
 
      desiredVelocity = targetPoint - position;
      desiredVelocity.normalize();
      desiredVelocity.mul(maxSpeed);
     
-     steering = desiredVelocity - velocity;
-     steering.limit(maxForce);
-     steering.mul(multiplier);
-     force = force + steering;
+     addSteeringForce(multiplier);    
    }   
 }
 
 void agent::align(vector<agent> boids, float multiplier){
    //TODO: magic numbers
    float neighborDist = 15;
-   pvector sum = pvector(0,0);
    float d;
    int count = 0;
 
    for(auto it = boids.begin(); it < boids.end(); it++){
       d = (position - (*it).position).magnitude();
       if( (d >0) && (d < neighborDist) ){
-         sum = sum + (*it).velocity;
+         desiredVelocity = desiredVelocity + (*it).velocity;
          count++;
       }
    }
 
    if(count>0){
-      sum.div(count);
-      sum.normalize();
-      sum.mul(maxSpeed);
-      steering = sum - velocity;
-      steering.limit(maxForce);
-      steering.mul(1);
-      force = force + steering;
+      desiredVelocity.div(count);
+      desiredVelocity.normalize();
+      desiredVelocity.mul(maxSpeed);
+
+      addSteeringForce(multiplier);   
    }
 }
 
 void agent::separation(vector<agent> agents, float multiplier){
    //TODO: magic numbers
    float desiredSeparation = 3;
-   pvector sum = pvector(0,0);   
    int count = 0;
    float d = 0;
    pvector diff = pvector(0,0); 
@@ -236,17 +231,16 @@ void agent::separation(vector<agent> agents, float multiplier){
          diff = position - (*it).position;         
          diff.normalize();
          diff.div(d); //TODO: if necessary do it same with the seek arrival
-         sum = sum + diff;
+         desiredVelocity = desiredVelocity + diff;
          count++;
       }   
    }
 
    if(count > 0){
-      sum.div(count);
-      sum.mul(maxSpeed);      
-      steering = sum - velocity;
-      steering.limit(maxForce);      
-      steering.mul(multiplier);
-      force = force + steering; 
+      desiredVelocity.div(count);
+      desiredVelocity.normalize();
+      desiredVelocity.mul(maxSpeed);
+
+      addSteeringForce(multiplier);       
    } 
 }

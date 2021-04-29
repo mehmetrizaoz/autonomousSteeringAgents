@@ -79,9 +79,9 @@ void drawScene() {
 
          case FLOCK:
             view.checkInScreen((*it));
-            (*it).separation(agents, 1);                    
-            (*it).align(agents, 0.5);
-            (*it).cohesion(agents, 0.25);
+            (*it).separation(agents, 1.2);                    
+            (*it).align(agents, 1);
+            (*it).cohesion(agents, 0.4);
             //TODO: print all vectors and check if sum is correct
          break;
 
@@ -181,7 +181,7 @@ int main(int argc, char** argv) {
    //createAgents();
    createPath_2();
    createPath_1();   
-   createRandomAgents(10);
+   createRandomAgents(30);
 
    //TODO: move to graphics class
    glutInit(&argc, argv);

@@ -15,6 +15,19 @@ point point::operator + (pvector const &obj) {
       return res;
 }
 
+void point::div(float d){
+   x = x / d;
+   y = y / d;
+}
+
+
+point point::operator + (point const &obj) {
+      point res;
+      res.x = x + obj.x;
+      res.y = y + obj.y;
+      return res;
+}
+
 pvector point::operator - (point const &obj) {
       pvector res;
       res.x = x - obj.x;
