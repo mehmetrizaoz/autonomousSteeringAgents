@@ -16,6 +16,7 @@ public:
    void drawPath(path &path);  
    void drawPoint(point p);
    void checkInScreen(agent &agent);
+   point getMousePosition();
    void initGraphics();
    static void timerEvent(int value);
    static void handleKeypress(unsigned char key, int x, int y);

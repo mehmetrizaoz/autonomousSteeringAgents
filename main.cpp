@@ -16,10 +16,13 @@
 #define WALL        30
 #define DISTANCE    2
 
+#define MAX_NUMBER_OF_AGENTS 34
+
 #define NUMBER_OF_AGENTS 17
 
 using namespace std;
 
+//TODO: too many global variables
 int mode;
 flowField flow;
 graphics  view;
@@ -32,7 +35,8 @@ int graphics::target_x = -WIDTH;
 int graphics::target_y = HEIGHT;
 
 void createPath_1(){
-   point start = point(-WIDTH - 5,  HEIGHT - 40);
+//TODO: magic numbers
+   point start = point(-WIDTH - 5,  HEIGHT - 40); 
    point end   = point( WIDTH + 5, -HEIGHT + 40);
    pathSimple  = path(6);
    pathSimple.addPoint(start);
@@ -49,8 +53,7 @@ void drawScene() {
    for(auto it = agents.begin(); it < agents.end(); it++){ 
       switch(mode){
          case SEEK:       
-            (*it).targetPoint.x = graphics::target_x;
-            (*it).targetPoint.y = graphics::target_y;            
+            (*it).targetPoint = view.getMousePosition();
             (*it).seek();      
          break;
 
@@ -101,25 +104,24 @@ void drawScene() {
    glutSwapBuffers();
 }
 
-void createRandomAgents(int number){
-   int maxAgentCount = 34;
-   int arr[maxAgentCount];   
+void createRandomAgents(int agentCount){
+   int arr[MAX_NUMBER_OF_AGENTS];   
    agent tempAgent = agent(0, 0);
    srand(time(NULL));
 
-   for(int i=0; i<maxAgentCount; i++){
+   for(int i=0; i<MAX_NUMBER_OF_AGENTS; i++){
       arr[i] = i;        
    }
 
-   for (int i=0; i < maxAgentCount ;i++){
-      int r = rand() % maxAgentCount;
+   for (int i=0; i < MAX_NUMBER_OF_AGENTS ;i++){
+      int r = rand() % MAX_NUMBER_OF_AGENTS;
       swap(arr[i], arr[r]);
    }  
 
-   for(int i=0; i < number*2; i=i+2){
+   for(int i=0; i < agentCount * 2; i=i+2){
       tempAgent.position.x = arr[i]   - WIDTH;
       tempAgent.position.y = arr[i+1] - HEIGHT;
-      tempAgent.vehicleColor = colors.at( (i/2) %8 );
+      tempAgent.vehicleColor = colors.at( (i/2) % 8 );
       tempAgent.setFeatures(0.5, 0.3, 4, 1);
       agents.push_back(tempAgent);
    }
@@ -129,7 +131,7 @@ void createAgents(){
    agent agent1 = agent(-10.0,  0.0);    
    agent agent2 = agent( 10.0,  0.0);
    agent agent3 = agent(  0.0, 20.0);
-   agent agent4 = agent(  5, 5);
+   agent agent4 = agent(  5.0,  5.0);
    
    agent1.setFeatures(0.5, 0.3, 4, 1);
    agent2.setFeatures(0.5, 0.3, 4, 1);

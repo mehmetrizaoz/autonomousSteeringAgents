@@ -20,6 +20,10 @@ void graphics::initGraphics(){
     glutMainLoop();
 }
 
+point graphics::getMousePosition(){
+    return point (graphics::target_x, graphics::target_y);
+}
+
 void graphics::checkInScreen(agent &agent){
     if(agent.position.x > WIDTH)
        agent.position.x -= 2 * WIDTH;
@@ -31,9 +35,9 @@ void graphics::checkInScreen(agent &agent){
        agent.position.y += 2 * HEIGHT;
 }
 
-
 void graphics::mouseMove(int x, int y){
     //TODO: mouse position to glut
+    //TODO: magic numbers
 	graphics::target_x = x / 5.88 - 34;
     graphics::target_y = 34 - y / 5.88; 
 }
@@ -113,18 +117,10 @@ void graphics::drawAgent(agent &agent, color &color){
     glTranslatef(agent.position.x, agent.position.y, 0.0f);  
     glRotatef(agent.velocity.getAngle(), 0.0f, 0.0f, 1.0f);
     glBegin(GL_TRIANGLES);          
-
     glColor3f( color.R, color.G, color.B);  
     glVertex3f( 1.0f,  0.0f, 0.0f);
     glVertex3f(-1.0f,  0.5f, 0.0f);
     glVertex3f(-1.0f, -0.5f, 0.0f);
-    /*
-    glColor3f(1.0f, 0.7f, 0.0f);  
-    glVertex3f( 1.0f,  0.0f, 0.0f);
-    glColor3f(1.0f, 1.0f, 1.0f);
-    glVertex3f(-1.0f,  0.5f, 0.0f);
-    glColor3f(0.0f, 0.0f, 1.0f); 
-    glVertex3f(-1.0f, -0.5f, 0.0f);*/
     glEnd();
     glPopMatrix();  
 }

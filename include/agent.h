@@ -24,6 +24,7 @@ using namespace std;
 class graphics;
 class path;
 
+//TODO: class is too complex, simplify it, make variables private
 class agent{
 public:
   agent(float x, float y);
