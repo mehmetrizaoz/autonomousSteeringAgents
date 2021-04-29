@@ -71,16 +71,22 @@ void agent::uniformFlow(flowField &flow){
     force = force + flow.getField(pos_x, pos_y);    
 }
 
-void agent::seek(){
-    desiredVelocity = targetPoint - position;
-    desiredVelocity.normalize();
-    desiredVelocity.mul(maxSpeed);
+void agent::seek(bool arriving){
+   pvector diff = targetPoint - position;
+   desiredVelocity = diff;
+   desiredVelocity.normalize();
+   desiredVelocity.mul(maxSpeed);
+   
+   if(arriving == true){
+      if(diff.magnitude() > r) { 
+         desiredVelocity.limit(maxSpeed); 
+      }
+      else { 
+         desiredVelocity.limit(maxSpeed * diff.magnitude() / r); 
+      }
+   } 
 
-    //arriving behavior
-    if(desiredVelocity.magnitude() > r) { desiredVelocity.limit(maxSpeed); }
-    else { desiredVelocity.limit(maxSpeed / 2); }
-    
-    addSteeringForce();
+   addSteeringForce();
 }
 
 void agent::reflect(graphics &view, int wall, int distance){    
@@ -123,7 +129,7 @@ void agent::simplePath(graphics &view, path &pathSimple){
   view.drawPoint(targetPoint);
     
   if(distance.magnitude() > pathSimple.width / 8){
-     seek();
+     seek(WITHOUT_ARRIVING);
   }  
 }
 
@@ -152,8 +158,9 @@ void agent::curvedPath(graphics &view, path &pathMultiSegment){
          targetPoint = normalPoint;         
       }       
    }   
-   //view.drawPoint(targetPoint);
-   seek();
+   
+   view.drawPoint(targetPoint);
+   seek(WITHOUT_ARRIVING);
 }
 
 //TODO: add a force multiplier coefficient for all following behaviors

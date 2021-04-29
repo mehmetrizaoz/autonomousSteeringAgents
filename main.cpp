@@ -35,7 +35,6 @@ int graphics::target_x = -WIDTH;
 int graphics::target_y = HEIGHT;
 
 void createPath_1(){
-//TODO: magic numbers
    point start = point(-WIDTH - 5,  HEIGHT - 40); 
    point end   = point( WIDTH + 5, -HEIGHT + 40);
    pathSimple  = path(6);
@@ -54,7 +53,7 @@ void drawScene() {
       switch(mode){
          case SEEK:       
             (*it).targetPoint = view.getMousePosition();
-            (*it).seek();      
+            (*it).seek(WITH_ARRIVING);      
          break;
 
          case REFLECT:     
@@ -83,6 +82,7 @@ void drawScene() {
             (*it).separation(agents);                    
             (*it).align(agents);
             (*it).cohesion(agents);
+            //TODO: print all vectors and check if sum is correct
          break;
 
          case FOLLOW_LEAD:
@@ -122,7 +122,7 @@ void createRandomAgents(int agentCount){
       tempAgent.position.x = arr[i]   - WIDTH;
       tempAgent.position.y = arr[i+1] - HEIGHT;
       tempAgent.vehicleColor = colors.at( (i/2) % 8 );
-      tempAgent.setFeatures(0.5, 0.3, 4, 1);
+      tempAgent.setFeatures(0.9, 0.3, 20, 1);
       agents.push_back(tempAgent);
    }
 }
@@ -133,10 +133,10 @@ void createAgents(){
    agent agent3 = agent(  0.0, 20.0);
    agent agent4 = agent(  5.0,  5.0);
    
-   agent1.setFeatures(0.5, 0.3, 4, 1);
-   agent2.setFeatures(0.5, 0.3, 4, 1);
-   agent3.setFeatures(0.5, 0.3, 4, 1);
-   agent4.setFeatures(0.5, 0.3, 4, 1);
+   agent1.setFeatures(0.5, 0.4, 20, 1);
+   agent2.setFeatures(0.2, 0.3, 20, 1);
+   agent3.setFeatures(0.3, 0.2, 20, 1);
+   agent4.setFeatures(0.4, 0.1, 20, 1);
 
    agents.push_back(agent1);
    agents.push_back(agent2);
@@ -181,7 +181,7 @@ int main(int argc, char** argv) {
    //createAgents();
    createPath_2();
    createPath_1();   
-   createRandomAgents(5);
+   createRandomAgents(10);
 
    //TODO: move to graphics class
    glutInit(&argc, argv);

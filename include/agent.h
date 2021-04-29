@@ -21,6 +21,9 @@ using namespace std;
 #define HIDE           8
 #define PATH_LOOP      9
 
+#define WITH_ARRIVING    true
+#define WITHOUT_ARRIVING false
+
 class graphics;
 class path;
 
@@ -39,8 +42,8 @@ public:
 
   void addSteeringForce();
   void uniformFlow(flowField &flow);
-  void reflect(graphics &view, int wall, int distance);
-  void seek();
+  void reflect(graphics &view, int wall, int distance);  
+  void seek(bool arriving);  
   void separation(vector<agent> agents);
   void cohesion(vector<agent> boids);
   void align(vector<agent> boids);  
