@@ -156,6 +156,8 @@ void agent::curvedPath(graphics &view, path &pathMultiSegment){
    seek();
 }
 
+//TODO: add a force multiplier coefficient for all following behaviors
+//TODO: use utility functions (addSteeringForce etc) for behaviors below
 void agent::cohesion(vector<agent> boids){
    float neighborDist = 20;
    pvector sum = pvector(0,0);
@@ -213,6 +215,7 @@ void agent::align(vector<agent> boids){
 }
 
 void agent::separation(vector<agent> agents){
+   //TODO: slow down as getting closer to any other agent
    float desiredSeparation = 3;
    pvector sum = pvector(0,0);   
    int count = 0;

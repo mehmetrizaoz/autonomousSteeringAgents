@@ -77,9 +77,18 @@ void drawScene() {
 
          case FLOCK:
             view.checkInScreen((*it));
-            (*it).separation(agents);                      
+            (*it).separation(agents);                    
             (*it).align(agents);
             (*it).cohesion(agents);
+         break;
+
+         case FOLLOW_LEAD:
+         break;
+
+         case HIDE:
+         break;
+
+         case PATH_LOOP:
          break;
       }
    }

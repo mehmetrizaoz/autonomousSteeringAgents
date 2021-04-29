@@ -17,6 +17,9 @@ using namespace std;
 #define PATH_SIMPLE    4
 #define PATH_COMPLEX   5
 #define FLOCK          6
+#define FOLLOW_LEAD    7
+#define HIDE           8
+#define PATH_LOOP      9
 
 class graphics;
 class path;
