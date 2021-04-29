@@ -79,7 +79,7 @@ void drawScene() {
 
          case FLOCK:
             view.checkInScreen((*it));
-            (*it).separation(agents, 1.2);                    
+            (*it).separation(agents, 1);                    
             (*it).align(agents, 1);
             (*it).cohesion(agents, 0.4);
             //TODO: print all vectors and check if sum is correct

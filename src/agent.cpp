@@ -165,32 +165,28 @@ void agent::curvedPath(graphics &view, path &pathMultiSegment){
    seek(WITHOUT_ARRIVING);
 }
 
-//TODO: add a force multiplier coefficient for all following behaviors
-//TODO: use utility functions (addSteeringForce etc) for behaviors below
 void agent::cohesion(vector<agent> boids, float multiplier){
    //TODO: magic numbers
    float neighborDist = 15;
-   pvector sum = pvector(0,0);
+   targetPoint = point(0,0);
    float d;
    int count = 0;
 
    for(auto it = boids.begin(); it < boids.end(); it++){
       d = (position - (*it).position).magnitude();
       if( (d >0) && (d < neighborDist) ){
-         sum = sum + (*it).position;
+         targetPoint = targetPoint + (*it).position;
          count++;
       }
    }
 
    if(count>0){
-     sum.div(count);
-     targetPoint.x = sum.x; //TODO: refactor code here
-     targetPoint.y = sum.y;
+     targetPoint.div(count);
 
      desiredVelocity = targetPoint - position;
      desiredVelocity.normalize();
      desiredVelocity.mul(maxSpeed);
-    
+
      addSteeringForce(multiplier);    
    }   
 }
