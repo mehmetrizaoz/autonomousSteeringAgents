@@ -165,7 +165,7 @@ void agent::curvedPath(graphics &view, path &pathMultiSegment){
 
 //TODO: add a force multiplier coefficient for all following behaviors
 //TODO: use utility functions (addSteeringForce etc) for behaviors below
-void agent::cohesion(vector<agent> boids){
+void agent::cohesion(vector<agent> boids, float multiplier){
    //TODO: magic numbers
    float neighborDist = 20;
    pvector sum = pvector(0,0);
@@ -184,8 +184,6 @@ void agent::cohesion(vector<agent> boids){
      sum.div(count);
      targetPoint.x = sum.x;
      targetPoint.y = sum.y;
-     //glColor3f( vehicleColor.R, vehicleColor.G, vehicleColor.B); 
-     //view.drawPoint(targetPoint);
 
      desiredVelocity = targetPoint - position;
      desiredVelocity.normalize();
@@ -193,12 +191,12 @@ void agent::cohesion(vector<agent> boids){
     
      steering = desiredVelocity - velocity;
      steering.limit(maxForce);
-     steering.div(4);
+     steering.mul(multiplier);
      force = force + steering;
    }   
 }
 
-void agent::align(vector<agent> boids){
+void agent::align(vector<agent> boids, float multiplier){
    //TODO: magic numbers
    float neighborDist = 15;
    pvector sum = pvector(0,0);
@@ -219,12 +217,12 @@ void agent::align(vector<agent> boids){
       sum.mul(maxSpeed);
       steering = sum - velocity;
       steering.limit(maxForce);
+      steering.mul(1);
       force = force + steering;
    }
 }
 
-void agent::separation(vector<agent> agents){
-   //TODO: slow down as getting closer to any other agent
+void agent::separation(vector<agent> agents, float multiplier){
    //TODO: magic numbers
    float desiredSeparation = 3;
    pvector sum = pvector(0,0);   
@@ -237,7 +235,7 @@ void agent::separation(vector<agent> agents){
       if( (d >0) && (d < desiredSeparation) ){
          diff = position - (*it).position;         
          diff.normalize();
-         diff.div(d);
+         diff.div(d); //TODO: if necessary do it same with the seek arrival
          sum = sum + diff;
          count++;
       }   
@@ -247,9 +245,8 @@ void agent::separation(vector<agent> agents){
       sum.div(count);
       sum.mul(maxSpeed);      
       steering = sum - velocity;
-      steering.limit(maxForce);
-      
-      //steering.mul(0.5); // !
+      steering.limit(maxForce);      
+      steering.mul(multiplier);
       force = force + steering; 
    } 
 }

@@ -58,7 +58,7 @@ void drawScene() {
 
          case REFLECT:     
             (*it).reflect(view, WALL, DISTANCE);
-            (*it).separation(agents);            
+            (*it).separation(agents, 1);            
          break;
          
          case FLOW_FIELD:        
@@ -79,9 +79,9 @@ void drawScene() {
 
          case FLOCK:
             view.checkInScreen((*it));
-            (*it).separation(agents);                    
-            (*it).align(agents);
-            (*it).cohesion(agents);
+            (*it).separation(agents, 1);                    
+            (*it).align(agents, 0.5);
+            (*it).cohesion(agents, 0.25);
             //TODO: print all vectors and check if sum is correct
          break;
 
