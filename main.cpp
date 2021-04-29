@@ -16,7 +16,7 @@
 #define WALL        30
 #define DISTANCE    2
 
-#define MAX_NUMBER_OF_AGENTS 34
+#define MAX_NUMBER_OF_AGENTS 50
 
 #define NUMBER_OF_AGENTS 17
 
@@ -79,9 +79,9 @@ void drawScene() {
 
          case FLOCK:
             view.checkInScreen((*it));
-            (*it).separation(agents, 1);                    
+            (*it).separation(agents, 0.7);                    
             (*it).align(agents, 1);
-            (*it).cohesion(agents, 0.4);
+            (*it).cohesion(agents, 0.25);
             //TODO: print all vectors and check if sum is correct
          break;
 
@@ -105,16 +105,17 @@ void drawScene() {
 }
 
 void createRandomAgents(int agentCount){
-   int arr[MAX_NUMBER_OF_AGENTS];   
+   int size = MAX_NUMBER_OF_AGENTS * 2;
+   int arr[size];   
    agent tempAgent = agent(0, 0);
    srand(time(NULL));
 
-   for(int i=0; i<MAX_NUMBER_OF_AGENTS; i++){
+   for(int i=0; i<size; i++){
       arr[i] = i;        
    }
 
-   for (int i=0; i < MAX_NUMBER_OF_AGENTS ;i++){
-      int r = rand() % MAX_NUMBER_OF_AGENTS;
+   for (int i=0; i < size; i++){
+      int r = rand() % size;
       swap(arr[i], arr[r]);
    }  
 
@@ -186,9 +187,9 @@ int main(int argc, char** argv) {
    //TODO: move to graphics class
    glutInit(&argc, argv);
    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-   glutInitWindowSize(400, 400);   //TODO: magic number
+   glutInitWindowSize(400, 400);   
    glutCreateWindow("Autonomous Steering Agents");
-   glClearColor(0.7f, 0.9f, 1.0f, 1.0f); //set background color
+   glClearColor(0.7f, 0.7f, 0.7f, 1.0f); //set background color
    glEnable(GL_DEPTH_TEST);    
    glutDisplayFunc(drawScene);
    view.initGraphics();

@@ -209,7 +209,6 @@ void agent::align(vector<agent> boids, float multiplier){
       desiredVelocity.div(count);
       desiredVelocity.normalize();
       desiredVelocity.mul(maxSpeed);
-
       addSteeringForce(multiplier);   
    }
 }
@@ -218,15 +217,12 @@ void agent::separation(vector<agent> agents, float multiplier){
    //TODO: magic numbers
    float desiredSeparation = 3;
    int count = 0;
-   float d = 0;
    pvector diff = pvector(0,0); 
 
    for(auto it = agents.begin(); it < agents.end(); it++){
-      d = ( position - (*it).position ).magnitude();          
-      if( (d >0) && (d < desiredSeparation) ){
-         diff = position - (*it).position;         
-         diff.normalize();
-         diff.div(d); //TODO: if necessary do it same with the seek arrival
+      diff = position - (*it).position ;          
+      if( (diff.magnitude() >0) && (diff.magnitude() < desiredSeparation) ){
+         diff.div(diff.magnitude());
          desiredVelocity = desiredVelocity + diff;
          count++;
       }   
@@ -236,7 +232,6 @@ void agent::separation(vector<agent> agents, float multiplier){
       desiredVelocity.div(count);
       desiredVelocity.normalize();
       desiredVelocity.mul(maxSpeed);
-
       addSteeringForce(multiplier);       
    } 
 }
