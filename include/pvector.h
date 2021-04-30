@@ -17,10 +17,11 @@ public:
    float getAngle();
    float dotProduct(pvector v);
    float angleBetween(pvector v);
-   pvector operator + (pvector const &obj);
-   pvector operator - (pvector const &obj);
-   pvector operator - (point const &obj);
-   pvector operator + (point const &obj);
+   pvector operator +  (pvector const &obj);
+   pvector operator -  (pvector const &obj);
+   bool    operator == (pvector const &obj);
+   pvector operator -  (point const &obj);
+   pvector operator +  (point const &obj);
    void print();
 };
 

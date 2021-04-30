@@ -1,18 +1,18 @@
-vpath %.cpp ../src
 vpath %.h ../include
 CC := g++
 
-objects := assert_UT.o
+CPPFLAGS = -I ../include
+objects := unit_pvector.o
 LIBS = -lboost_unit_test_framework
 
-all: test
+all: test_pvector
 
-test: $(objects)
+test_pvector: $(objects) ../pvector.o
 	$(CC) $^ -o $@ $(LIBS)
 
-%.o: %.c
+%.o: %.cpp
 	$(CC) $(CPPFLAGS) -c $<
 
-.PHONY: clean
+.PHONY: clean help
 clean:
-	rm test $(objects)
+	rm test_pvector $(objects)
