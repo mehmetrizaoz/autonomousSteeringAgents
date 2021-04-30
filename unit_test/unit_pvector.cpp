@@ -28,6 +28,19 @@ BOOST_AUTO_TEST_CASE (s1t3){
   BOOST_CHECK(dotProduct == 11);
 }
 
+BOOST_AUTO_TEST_CASE (s1t4){
+  pvector p1 = pvector(10, 10);
+  pvector p2 = pvector(0, 10);
+  float angle = p1.angleBetween(p2);
+  BOOST_CHECK(angle == 45);
+}
+
+BOOST_AUTO_TEST_CASE (s1t5){
+  pvector p1 = pvector(3, 4);  
+  float angle = p1.getAngle();
+  BOOST_CHECK(angle < 53.2 && angle > 52.8);
+}
+
 
 BOOST_AUTO_TEST_SUITE_END( )
 
