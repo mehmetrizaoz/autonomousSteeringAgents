@@ -56,8 +56,9 @@ void drawScene() {
             (*it).seek(WITH_ARRIVING);      
          break;
 
-         case REFLECT:     
-            (*it).reflect(view, WALL, DISTANCE);
+         case REFLECT:   
+            view.drawWall(WALL);  
+            (*it).reflect(WALL, DISTANCE);
             (*it).separation(agents, 1);            
          break;
          
@@ -70,7 +71,8 @@ void drawScene() {
          break;
          
          case PATH_SIMPLE: 
-            (*it).simplePath(view, pathSimple);             
+            view.drawPath(pathSimple);
+            (*it).simplePath(pathSimple);             
          break;
 
          case PATH_COMPLEX:

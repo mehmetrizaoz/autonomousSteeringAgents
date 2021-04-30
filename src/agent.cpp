@@ -86,8 +86,7 @@ void agent::seek(bool arriving){
    addSteeringForce(1);
 }
 
-void agent::reflect(graphics &view, int wall, int distance){    
-   view.drawWall(wall);
+void agent::reflect(int wall, int distance){    
    int turnPoint = wall - distance; 
 
    if(position.x >= turnPoint){
@@ -108,10 +107,10 @@ void agent::reflect(graphics &view, int wall, int distance){
    }
 }
 
-void agent::simplePath(graphics &view, path &pathSimple){  
+void agent::simplePath(path &pathSimple){  
   point start = pathSimple.points.at(0);
   point end   = pathSimple.points.at(1);
-  view.drawPath(pathSimple);
+  //view.drawPath(pathSimple);
 
   point predictedPos = position + velocity; 
   point normalPoint = point::getNormalPoint(predictedPos, start, end);
@@ -121,8 +120,8 @@ void agent::simplePath(graphics &view, path &pathSimple){
   pvector distance  = predictedPos - normalPoint;
   targetPoint = normalPoint  + b;
 
-  view.drawLine(predictedPos, normalPoint);
-  view.drawPoint(targetPoint);
+  //view.drawLine(predictedPos, normalPoint);
+  //view.drawPoint(targetPoint);
     
   if(distance.magnitude() > pathSimple.width / 8)
      seek(WITHOUT_ARRIVING);

@@ -42,12 +42,12 @@ public:
 
   void addSteeringForce(float multiplier);
   void uniformFlow(flowField &flow);
-  void reflect(graphics &view, int wall, int distance);  
+  void reflect(int wall, int distance);  
   void seek(bool arriving);  
   void separation(vector<agent> agents, float multiplier);
   void cohesion(vector<agent> boids, float multiplier);
   void align(vector<agent> boids, float multiplier);  
-  void simplePath(graphics &view, path &pathSimple);
+  void simplePath(path &pathSimple);
   void curvedPath(graphics &view, path &pathMultiSegment);
 
   string   name;
