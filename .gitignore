@@ -29,6 +29,7 @@
 
 # Executables
 exec
+test_suite*
 *.exec
 *.exe
 *.out
