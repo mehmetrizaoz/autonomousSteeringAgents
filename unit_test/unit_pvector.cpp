@@ -16,10 +16,16 @@ BOOST_AUTO_TEST_CASE (s1t1){
 
 BOOST_AUTO_TEST_CASE (s1t2){
   pvector p1 = pvector(1, 1);
-  p1.mul(3);
-  
+  p1.mul(3);  
   pvector p2 = pvector(3, 3);
   BOOST_CHECK(p1 == p2);
+}
+
+BOOST_AUTO_TEST_CASE (s1t3){
+  pvector p1 = pvector(1, 4);
+  pvector p2 = pvector(3, 2);
+  float dotProduct = p1.dotProduct(p2);
+  BOOST_CHECK(dotProduct == 11);
 }
 
 
