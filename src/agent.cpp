@@ -107,9 +107,9 @@ void agent::reflect(int wall, int distance){
    }
 }
 
-void agent::simplePath(path &pathSimple){  
-  point start = pathSimple.points.at(0);
-  point end   = pathSimple.points.at(1);
+void agent::simplePath(path &path){  
+  point start = path.points.at(0);
+  point end   = path.points.at(1);
 
   point predictedPos = position + velocity; 
   point normalPoint = point::getNormalPoint(predictedPos, start, end);
@@ -122,20 +122,18 @@ void agent::simplePath(path &pathSimple){
   //view.drawLine(predictedPos, normalPoint);
   //view.drawPoint(targetPoint);
     
-  if(distance.magnitude() > pathSimple.width / 8)
+  if(distance.magnitude() > path.width / 8)
      seek(WITHOUT_ARRIVING);
 }
 
-void agent::curvedPath(path &pathMultiSegment){     
+void agent::curvedPath(path &path){     
    float worldRecord = 1000000;
    point normalPoint;
    point predictedPos;
    pvector distance;
    point start, end;
 
-   //view.drawPath(pathMultiSegment);
-
-   for(auto it = pathMultiSegment.points.begin(); it < pathMultiSegment.points.end()-1; it++){
+   for(auto it = path.points.begin(); it < path.points.end()-1; it++){
       start = point((*it).x, (*it).y);
       end   = point((*(it+1)).x, (*(it+1)).y);
       predictedPos = position + velocity; 
@@ -155,7 +153,7 @@ void agent::curvedPath(path &pathMultiSegment){
 }
 
 void agent::cohesion(vector<agent> boids, float multiplier){
-   float neighborDist = 20;
+   float neighborDist = 20; //TODO: magic numer
    targetPoint = point(0,0);
    float d;
    int count = 0;
@@ -177,7 +175,7 @@ void agent::cohesion(vector<agent> boids, float multiplier){
 }
 
 void agent::align(vector<agent> boids, float multiplier){
-   float neighborDist = 20;
+   float neighborDist = 20; //TODO: magic numer
    float d;
    int count = 0;
 
@@ -197,7 +195,7 @@ void agent::align(vector<agent> boids, float multiplier){
 }
 
 void agent::separation(vector<agent> agents, float multiplier){   
-   float desiredSeparation = 4;
+   float desiredSeparation = 4; //TODO: magic numer
    int count = 0;
    pvector diff = pvector(0,0); 
 

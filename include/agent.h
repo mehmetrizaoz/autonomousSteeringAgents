@@ -44,8 +44,8 @@ public:
   void separation(vector<agent> agents, float multiplier);
   void cohesion(vector<agent> boids, float multiplier);
   void align(vector<agent> boids, float multiplier);  
-  void simplePath(path &pathSimple);
-  void curvedPath(path &pathMultiSegment);
+  void simplePath(path &path);
+  void curvedPath(path &path);
 //TODO: make variables private
   string   name;
   color    vehicleColor;
