@@ -58,7 +58,7 @@ void drawScene() {
 
          case REFLECT:   
             view.drawWall(WALL);  
-            (*it).reflect(WALL, DISTANCE);
+            (*it).stayInArea(WALL, DISTANCE);
             (*it).separation(agents, 1);            
          break;
          
@@ -88,7 +88,7 @@ void drawScene() {
             //TODO: print all vectors and check if sum is correct
          break;
 
-         case FOLLOW_LEAD:
+         case PURSUIT:
          break;
 
          case HIDE:

@@ -16,7 +16,7 @@ using namespace std;
 #define PATH_SIMPLE    4
 #define PATH_COMPLEX   5
 #define FLOCK          6
-#define FOLLOW_LEAD    7
+#define PURSUIT        7
 #define HIDE           8
 #define PATH_LOOP      9
 
@@ -39,7 +39,7 @@ public:
   void setFeatures(float s, float f, float r, float m);
   void addSteeringForce(float multiplier);
   void uniformFlow(flowField &flow);
-  void reflect(int wall, int distance);  
+  void stayInArea(int wall, int distance);  
   void seek(bool arriving);  
   void separation(vector<agent> agents, float multiplier);
   void cohesion(vector<agent> boids, float multiplier);

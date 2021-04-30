@@ -86,7 +86,7 @@ void agent::seek(bool arriving){
    addSteeringForce(1);
 }
 
-void agent::reflect(int wall, int distance){    
+void agent::stayInArea(int wall, int distance){    
    int turnPoint = wall - distance; 
 
    if(position.x >= turnPoint){
@@ -154,19 +154,20 @@ void agent::curvedPath(path &path){
 
 void agent::cohesion(vector<agent> boids, float multiplier){
    float neighborDist = 20; //TODO: magic numer
-   targetPoint = point(0,0);
+   point sum = point(0,0);
    float d;
    int count = 0;
 
    for(auto it = boids.begin(); it < boids.end(); it++){
       d = (position - (*it).position).magnitude();
       if( (d >0) && (d < neighborDist) ){
-         targetPoint = targetPoint + (*it).position;
+         sum = sum + (*it).position;
          count++;
       }
    }
    if(count>0){
-     targetPoint.div(count);
+     sum.div(count);
+     targetPoint = sum;
      desiredVelocity = targetPoint - position;
      desiredVelocity.normalize();
      desiredVelocity.mul(maxSpeed);
@@ -178,18 +179,21 @@ void agent::align(vector<agent> boids, float multiplier){
    float neighborDist = 20; //TODO: magic numer
    float d;
    int count = 0;
+   pvector sum = pvector(0,0);
 
    for(auto it = boids.begin(); it < boids.end(); it++){
       d = (position - (*it).position).magnitude();
       if( (d >0) && (d < neighborDist) ){
-         desiredVelocity = desiredVelocity + (*it).velocity;
+         sum = sum + (*it).velocity;
          count++;
       }
    }
    if(count>0){
-      desiredVelocity.div(count);
-      desiredVelocity.normalize();
-      desiredVelocity.mul(maxSpeed);
+      sum.div(count);
+      sum.normalize();
+      sum.mul(maxSpeed);
+
+      desiredVelocity = sum;
       addSteeringForce(multiplier);   
    }
 }
