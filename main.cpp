@@ -76,12 +76,13 @@ void drawScene() {
          break;
 
          case PATH_COMPLEX:
-            (*it).curvedPath(view, pathMultiSegment);
+            view.drawPath(pathMultiSegment);
+            (*it).curvedPath(pathMultiSegment);
          break;
 
          case FLOCK:
             view.checkInScreen((*it));
-            (*it).separation(agents, 0.5);                    
+            (*it).separation(agents, 0.9);                    
             (*it).align(agents, 1);
             (*it).cohesion(agents, 0.3);
             //TODO: print all vectors and check if sum is correct

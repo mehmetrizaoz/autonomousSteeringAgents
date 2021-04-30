@@ -5,7 +5,6 @@
 #include "point.h"
 #include "color.h"
 #include "flowField.h"
-#include "graphics.h"
 #include <vector>
 #include <string>
 
@@ -24,10 +23,9 @@ using namespace std;
 #define WITH_ARRIVING    true
 #define WITHOUT_ARRIVING false
 
-class graphics;
 class path;
 
-//TODO: class is too complex, simplify it, make variables private
+//TODO: create steering class using behaviors 
 class agent{
 public:
   agent(float x, float y);
@@ -39,7 +37,6 @@ public:
   void setMaxForce(float f);
   void applyForce();
   void setFeatures(float s, float f, float r, float m);
-
   void addSteeringForce(float multiplier);
   void uniformFlow(flowField &flow);
   void reflect(int wall, int distance);  
@@ -48,8 +45,8 @@ public:
   void cohesion(vector<agent> boids, float multiplier);
   void align(vector<agent> boids, float multiplier);  
   void simplePath(path &pathSimple);
-  void curvedPath(graphics &view, path &pathMultiSegment);
-
+  void curvedPath(path &pathMultiSegment);
+//TODO: make variables private
   string   name;
   color    vehicleColor;
   point    position;

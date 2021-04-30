@@ -3,7 +3,7 @@
 #include "graphics.h"
 #include <iostream>
 #include "color.h"
-#include <GL/glut.h> 
+//#include <GL/glut.h> 
 
 using namespace std;
 
@@ -110,7 +110,6 @@ void agent::reflect(int wall, int distance){
 void agent::simplePath(path &pathSimple){  
   point start = pathSimple.points.at(0);
   point end   = pathSimple.points.at(1);
-  //view.drawPath(pathSimple);
 
   point predictedPos = position + velocity; 
   point normalPoint = point::getNormalPoint(predictedPos, start, end);
@@ -127,14 +126,14 @@ void agent::simplePath(path &pathSimple){
      seek(WITHOUT_ARRIVING);
 }
 
-void agent::curvedPath(graphics &view, path &pathMultiSegment){     
+void agent::curvedPath(path &pathMultiSegment){     
    float worldRecord = 1000000;
    point normalPoint;
    point predictedPos;
    pvector distance;
    point start, end;
 
-   view.drawPath(pathMultiSegment);
+   //view.drawPath(pathMultiSegment);
 
    for(auto it = pathMultiSegment.points.begin(); it < pathMultiSegment.points.end()-1; it++){
       start = point((*it).x, (*it).y);
@@ -151,7 +150,7 @@ void agent::curvedPath(graphics &view, path &pathMultiSegment){
       }       
    }   
    
-   view.drawPoint(targetPoint);
+   //view.drawPoint(targetPoint);
    seek(WITHOUT_ARRIVING);
 }
 
