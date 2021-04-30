@@ -29,7 +29,7 @@
 
 # Executables
 exec
-test_suite*
+test_suite_pvector
 *.exec
 *.exe
 *.out

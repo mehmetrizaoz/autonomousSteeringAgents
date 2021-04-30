@@ -15,4 +15,4 @@ test_suite_pvector: $(objects) ../pvector.o
 
 .PHONY: clean help
 clean:
-	rm test_pvector $(objects)
+	rm test_suite_pvector $(objects)
