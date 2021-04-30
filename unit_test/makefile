@@ -2,12 +2,12 @@ vpath %.h ../include
 CC := g++
 
 CPPFLAGS = -I ../include
-objects := unit_pvector.o
+objects := test_suite_pvector.o
 LIBS = -lboost_unit_test_framework
 
-all: test_pvector
+all: test_suite_pvector
 
-test_pvector: $(objects) ../pvector.o
+test_suite_pvector: $(objects) ../pvector.o
 	$(CC) $^ -o $@ $(LIBS)
 
 %.o: %.cpp
