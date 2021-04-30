@@ -1,16 +1,18 @@
-TARGETS=assert_UT
+vpath %.cpp ../src
+vpath %.h ../include
+CC := g++
 
-all: $(TARGETS)
-test: $(TARGETS) $(addprefix run-,$(TARGETS))
+objects := assert_UT.o
+LIBS = -lboost_unit_test_framework
 
-%: %.cpp
-	$(CXX) -o$@ $^ -lboost_unit_test_framework
+all: test
 
-run:
-	./hello --log_level=test_suite > file.txt
+test: $(objects)
+	$(CC) $^ -o $@ $(LIBS)
 
+%.o: %.c
+	$(CC) $(CPPFLAGS) -c $<
+
+.PHONY: clean
 clean:
-	rm $(TARGETS)
-
-help:
-	@echo "https://www.ibm.com/developerworks/aix/library/au-ctools1_boost/"
+	rm test $(objects)
