@@ -4,6 +4,19 @@
 #include "path.h"
 #include "point.h"
 
+void steeringBehavior::seek(agent &agent, bool arriving){
+   pvector diff = agent.targetPoint - agent.position;
+   agent.desiredVelocity = diff;
+   agent.desiredVelocity.normalize();
+   agent.desiredVelocity.mul(agent.maxSpeed);
+   
+   if(arriving == true){
+      if(diff.magnitude() > agent.r) agent.desiredVelocity.limit(agent.maxSpeed);       
+      else agent.desiredVelocity.limit(agent.maxSpeed * diff.magnitude() / agent.r);       
+   } 
+   agent.addSteeringForce(1); //!
+}
+
 void steeringBehavior::stayInPath_2(agent &agent, path &path){     
    float worldRecord = 1000000; //TODO: magic number
    point normalPoint;
@@ -26,7 +39,7 @@ void steeringBehavior::stayInPath_2(agent &agent, path &path){
       }       
    }      
    //view.drawPoint(targetPoint);
-   agent.seek(WITHOUT_ARRIVING);
+   seek(agent, WITHOUT_ARRIVING); //!
 }
 
 //TODO: use C++11 deprecated attribute
@@ -46,7 +59,7 @@ void steeringBehavior::stayInPath(agent &agent, path &path){
   //view.drawPoint(targetPoint);
     
   if(distance.magnitude() > path.width / 8)
-     agent.seek(WITHOUT_ARRIVING);
+     seek(agent, WITHOUT_ARRIVING); //!
 }
 
 void steeringBehavior::inFlowField(agent &agent, flowField &flow){
@@ -61,7 +74,7 @@ void steeringBehavior::inFlowField(agent &agent, flowField &flow){
 void steeringBehavior::stayInArea(agent &agent, int turnPoint){
    if(agent.position.x >= turnPoint){
       agent.desiredVelocity = pvector( -agent.maxSpeed, agent.velocity.y );
-      agent.addSteeringForce(1);
+      agent.addSteeringForce(1); //!
    }
    else if(agent.position.x <= -turnPoint){
       agent.desiredVelocity = pvector( agent.maxSpeed, agent.velocity.y );

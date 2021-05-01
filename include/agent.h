@@ -27,7 +27,6 @@ public:
 //utility
   void addSteeringForce(float multiplier);
 //behaviors  
-  void seek(bool arriving);  
   void separation(vector<agent> agents, float multiplier);
   void cohesion(vector<agent> boids, float multiplier);
   void align(vector<agent> boids, float multiplier);  

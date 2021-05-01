@@ -21,5 +21,5 @@ public:
    void inFlowField(agent &agent, flowField &flow);
    void stayInPath(agent &agent, path &path);
    void stayInPath_2(agent &agent, path &path); 
-
+   void seek(agent &agent, bool arriving);
 };

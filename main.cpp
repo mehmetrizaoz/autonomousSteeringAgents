@@ -55,7 +55,7 @@ void drawScene() {
       switch(mode){
          case FOLLOW_MOUSE:       
             (*it).targetPoint = view.getMousePosition();
-            (*it).seek(WITH_ARRIVING);      
+            behavior.seek(*it, WITH_ARRIVING);
          break;
 
          case STAY_IN_FIELD:   
