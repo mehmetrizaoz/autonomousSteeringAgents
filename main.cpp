@@ -79,7 +79,7 @@ void drawScene() {
 
          case STAY_IN_PATH_2:
             view.drawPath(pathMultiSegment);
-            (*it).curvedPath(pathMultiSegment);
+            behavior.stayInPath_2(*it, pathMultiSegment);
          break;
 
          case FLOCK:

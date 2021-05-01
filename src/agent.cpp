@@ -75,32 +75,6 @@ void agent::seek(bool arriving){
    addSteeringForce(1);
 }
 
-void agent::curvedPath(path &path){     
-   float worldRecord = 1000000; //TODO: magic number
-   point normalPoint;
-   point predictedPos;
-   pvector distance;
-   point start, end;
-
-   for(auto it = path.points.begin(); it < path.points.end()-1; it++){
-      start = point((*it).x, (*it).y);
-      end   = point((*(it+1)).x, (*(it+1)).y);
-      predictedPos = position + velocity; 
-      normalPoint = point::getNormalPoint(predictedPos, start, end);      
-      if (normalPoint.x < start.x || normalPoint.x > end.x)
-         normalPoint = end;
-
-      distance = predictedPos - normalPoint;
-      if (distance.magnitude() < worldRecord) {
-         worldRecord = distance.magnitude();
-         targetPoint = normalPoint;         
-      }       
-   }   
-   
-   //view.drawPoint(targetPoint);
-   seek(WITHOUT_ARRIVING);
-}
-
 void agent::cohesion(vector<agent> boids, float multiplier){
    float neighborDist = 20; //TODO: magic numer
    point sum {0,0};
