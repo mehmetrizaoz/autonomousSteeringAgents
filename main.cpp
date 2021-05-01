@@ -45,12 +45,8 @@ void createPath_1(){
 }
 
 //TODO: move to graphics class
-void drawScene() {   
-   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    
-   glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
-   glLoadIdentity(); //Reset the drawing perspective    
-   glTranslatef(0.0f, 0.0f, -85.0f); //Move to the center of the triangle    
-   
+void drawScene() {      
+   view.refreshScene();   
    for(auto it = agents.begin(); it < agents.end(); it++){ 
       switch(mode){
          case FOLLOW_MOUSE:       
@@ -82,6 +78,7 @@ void drawScene() {
          break;
 
          case FLOCK:
+            //TODO: jitter must be eleminated
             view.checkInScreen((*it));
             behavior.separation(agents, *it, 0.9);
             behavior.align(agents, *it, 1);
@@ -90,11 +87,11 @@ void drawScene() {
 
          case PURSUIT:
          break;
-
          case HIDE:
          break;
-
          case PATH_LOOP:
+         break;
+         case WANDER:
          break;
       }
    }
@@ -103,8 +100,9 @@ void drawScene() {
       (*it).applyForce();
       (*it).updatePosition();         
       view.drawAgent(*it, (*it).vehicleColor);
-   }   
-   glutSwapBuffers();
+   }
+
+   //glutSwapBuffers();
 }
 
 void createRandomAgents(int agentCount){

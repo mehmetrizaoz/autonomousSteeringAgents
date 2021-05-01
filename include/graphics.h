@@ -14,6 +14,7 @@ public:
    void drawPath(path &path);  
    void drawPoint(point p);
    void checkInScreen(agent &agent);
+   void refreshScene();
    point getMousePosition();
    void initGraphics();
    static void timerEvent(int value);

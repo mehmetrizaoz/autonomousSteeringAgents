@@ -9,6 +9,14 @@ using namespace std;
 class path;
 class point;
 
+void graphics::refreshScene(){
+   glutSwapBuffers();
+   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    
+   glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
+   glLoadIdentity(); //Reset the drawing perspective    
+   glTranslatef(0.0f, 0.0f, -85.0f); //Move to the center of the triangle     
+}
+
 void graphics::initGraphics(){
     glutMouseFunc(graphics::mouseButton);
     glutPassiveMotionFunc(graphics::mouseMove);

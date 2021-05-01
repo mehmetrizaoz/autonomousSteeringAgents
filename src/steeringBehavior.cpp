@@ -64,15 +64,17 @@ void steeringBehavior::cohesion(vector<agent> boids, agent &agent, float multipl
 }
 
 void steeringBehavior::separation(vector<agent> agents, agent &agent, float multiplier){   
-   float desiredSeparation = 4; //TODO: magic numer
-   int count = 0;
+   float desiredSeparation = 5; //TODO: magic numer
+   int count = 0;   
    pvector diff {0,0}; 
 
    //TODO: logic below will be function and unit test for the function will be created
    for(auto it = agents.begin(); it < agents.end(); it++){
-      diff = agent.position - (*it).position ;          
+      diff = agent.position - (*it).position;
       if( (diff.magnitude() >0) && (diff.magnitude() < desiredSeparation) ){         
-         diff.div(diff.magnitude());
+         float a = desiredSeparation - diff.magnitude();
+         diff.normalize();
+         diff.mul(a);
          agent.desiredVelocity = agent.desiredVelocity + diff;
          count++;
       }   

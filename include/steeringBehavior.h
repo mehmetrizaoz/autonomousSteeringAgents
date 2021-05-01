@@ -12,6 +12,7 @@
 #define PURSUIT        7
 #define HIDE           8
 #define PATH_LOOP      9
+#define WANDER         10
 
 using namespace  std;
 
