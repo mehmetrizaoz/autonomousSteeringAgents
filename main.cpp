@@ -53,31 +53,31 @@ void drawScene() {
    
    for(auto it = agents.begin(); it < agents.end(); it++){ 
       switch(mode){
-         case SEEK:       
+         case FOLLOW_MOUSE:       
             (*it).targetPoint = view.getMousePosition();
             (*it).seek(WITH_ARRIVING);      
          break;
 
-         case REFLECT:   
+         case STAY_IN_FIELD:   
             view.drawWall(WALL);  
             behavior.stayInArea(*it, WALL - DISTANCE);
             (*it).separation(agents, 1);            
          break;
          
-         case FLOW_FIELD:        
+         case IN_FLOW_FIELD:        
             flow = flowField(pvector(GRAVITY));
-            behavior.uniformFlow(*it, flow);
+            behavior.inFlowField(*it, flow);
 
             flow = flowField(pvector(WIND_WEST));
-            behavior.uniformFlow(*it, flow);
+            behavior.inFlowField(*it, flow);
          break;
          
-         case PATH_SIMPLE: 
+         case STAY_IN_PATH: 
             view.drawPath(pathSimple);
-            (*it).simplePath(pathSimple);             
+            behavior.stayInPath(*it, pathSimple);
          break;
 
-         case PATH_COMPLEX:
+         case STAY_IN_PATH_2:
             view.drawPath(pathMultiSegment);
             (*it).curvedPath(pathMultiSegment);
          break;
@@ -151,12 +151,12 @@ void createAgents(){
 }
 
 void displayMenu(){
-   cout << "SEEK:   1" << endl;
-   cout << "REFLECT:2" << endl;
-   cout << "FLOW:   3" << endl;
-   cout << "PATH 1: 4" << endl;
-   cout << "PATH 2: 5" << endl;
-   cout << "FLOCK:  6" << endl;
+   cout << "Follow Mouse  : 1" << endl;
+   cout << "Stay in Field : 2" << endl;
+   cout << "In Flow Field : 3" << endl;
+   cout << "Stay in Path  : 4" << endl;
+   cout << "Stay in Path 2: 5" << endl;
+   cout << "FLOCK         : 6" << endl;
    cin >> mode;
 }
 

@@ -8,11 +8,11 @@
 
 using namespace std;
 
-#define SEEK           1 
-#define REFLECT        2
-#define FLOW_FIELD     3
-#define PATH_SIMPLE    4
-#define PATH_COMPLEX   5
+#define FOLLOW_MOUSE   1 
+#define STAY_IN_FIELD  2
+#define IN_FLOW_FIELD  3
+#define STAY_IN_PATH   4
+#define STAY_IN_PATH_2 5
 #define FLOCK          6
 #define PURSUIT        7
 #define HIDE           8
@@ -42,7 +42,6 @@ public:
   void separation(vector<agent> agents, float multiplier);
   void cohesion(vector<agent> boids, float multiplier);
   void align(vector<agent> boids, float multiplier);  
-  void simplePath(path &path);
   void curvedPath(path &path);
 //private:
   string   name;

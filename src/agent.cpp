@@ -75,26 +75,6 @@ void agent::seek(bool arriving){
    addSteeringForce(1);
 }
 
-//TODO: use C++11 deprecated attribute
-void agent::simplePath(path &path){  
-  point start = path.points.at(0);
-  point end   = path.points.at(1);
-
-  point predictedPos = position + velocity; 
-  point normalPoint = point::getNormalPoint(predictedPos, start, end);
-  pvector b = end - start;
-  b.normalize();
-
-  pvector distance  = predictedPos - normalPoint;
-  targetPoint = normalPoint  + b;
-
-  //view.drawLine(predictedPos, normalPoint);
-  //view.drawPoint(targetPoint);
-    
-  if(distance.magnitude() > path.width / 8)
-     seek(WITHOUT_ARRIVING);
-}
-
 void agent::curvedPath(path &path){     
    float worldRecord = 1000000; //TODO: magic number
    point normalPoint;
