@@ -38,7 +38,6 @@ public:
 //utility
   void addSteeringForce(float multiplier);
 //behaviors  
-  void uniformFlow(flowField &flow);
   void seek(bool arriving);  
   void separation(vector<agent> agents, float multiplier);
   void cohesion(vector<agent> boids, float multiplier);

@@ -66,10 +66,10 @@ void drawScene() {
          
          case FLOW_FIELD:        
             flow = flowField(pvector(GRAVITY));
-            (*it).uniformFlow(flow);
+            behavior.uniformFlow(*it, flow);
 
             flow = flowField(pvector(WIND_WEST));
-            (*it).uniformFlow(flow);            
+            behavior.uniformFlow(*it, flow);
          break;
          
          case PATH_SIMPLE: 

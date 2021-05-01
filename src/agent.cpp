@@ -62,15 +62,6 @@ void agent::addSteeringForce(float multiplier){
    force = force + steering;
 }
 
-void agent::uniformFlow(flowField &flow){
-    //pos_x, pos_y must be non negative integer
-    int pos_x = abs((int)position.x) % WIDTH;
-    int pos_y = abs((int)position.y) % HEIGHT;
-    
-    //TODO: modification required for non uniform fields
-    force = force + flow.getField(pos_x, pos_y);    
-}
-
 void agent::seek(bool arriving){
    pvector diff = targetPoint - position;
    desiredVelocity = diff;
