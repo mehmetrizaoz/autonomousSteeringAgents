@@ -75,6 +75,7 @@ void agent::seek(bool arriving){
    addSteeringForce(1);
 }
 
+//TODO: use C++11 deprecated attribute
 void agent::simplePath(path &path){  
   point start = path.points.at(0);
   point end   = path.points.at(1);
@@ -95,7 +96,7 @@ void agent::simplePath(path &path){
 }
 
 void agent::curvedPath(path &path){     
-   float worldRecord = 1000000;
+   float worldRecord = 1000000; //TODO: magic number
    point normalPoint;
    point predictedPos;
    pvector distance;
@@ -125,7 +126,8 @@ void agent::cohesion(vector<agent> boids, float multiplier){
    point sum {0,0};
    float d;
    int count = 0;
-
+ 
+   //TODO: logic below will be function and unit test for the function will be created
    for(auto it = boids.begin(); it < boids.end(); it++){
       d = (position - (*it).position).magnitude();
       if( (d >0) && (d < neighborDist) ){
@@ -133,6 +135,7 @@ void agent::cohesion(vector<agent> boids, float multiplier){
          count++;
       }
    }
+
    if(count>0){
      sum.div(count);
      targetPoint = sum;
@@ -149,6 +152,7 @@ void agent::align(vector<agent> boids, float multiplier){
    int count = 0;   
    pvector sum {0,0};
 
+   //TODO: logic below will be function and unit test for the function will be created
    for(auto it = boids.begin(); it < boids.end(); it++){
       d = (position - (*it).position).magnitude();
       if( (d >0) && (d < neighborDist) ){
@@ -156,6 +160,7 @@ void agent::align(vector<agent> boids, float multiplier){
          count++;
       }
    }
+
    if(count>0){
       sum.div(count);
       sum.normalize();
@@ -169,17 +174,19 @@ void agent::align(vector<agent> boids, float multiplier){
 void agent::separation(vector<agent> agents, float multiplier){   
    float desiredSeparation = 4; //TODO: magic numer
    int count = 0;
-   pvector diff {0,0};    
+   pvector diff {0,0}; 
 
+   //TODO: logic below will be function and unit test for the function will be created
    for(auto it = agents.begin(); it < agents.end(); it++){
       diff = position - (*it).position ;          
-      if( (diff.magnitude() >0) && (diff.magnitude() < desiredSeparation) ){
+      if( (diff.magnitude() >0) && (diff.magnitude() < desiredSeparation) ){         
          diff.div(diff.magnitude());
          desiredVelocity = desiredVelocity + diff;
          count++;
       }   
    }
-   if(count > 0){
+
+   if(count > 0){ //TODO: implement with common utility function 
       desiredVelocity.div(count);
       desiredVelocity.normalize();
       desiredVelocity.mul(maxSpeed);
