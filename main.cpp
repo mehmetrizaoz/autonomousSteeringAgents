@@ -8,6 +8,7 @@
 #include "graphics.h"
 #include "flowField.h"
 #include "path.h"
+#include "steeringBehavior.h"
 #include <stdlib.h>
 
 #define WIDTH       34
@@ -22,7 +23,7 @@
 
 using namespace std;
 
-//TODO: too many global variables
+//TODO: create a client class and make all the globals below members of that class
 int mode;
 flowField flow;
 graphics  view;
@@ -30,6 +31,7 @@ vector<agent> agents;
 vector<color> colors;
 path pathMultiSegment;
 path pathSimple;
+steeringBehavior behavior;
 
 int graphics::target_x = -WIDTH;
 int graphics::target_y = HEIGHT;
@@ -58,7 +60,7 @@ void drawScene() {
 
          case REFLECT:   
             view.drawWall(WALL);  
-            (*it).stayInArea(WALL, DISTANCE);
+            behavior.stayInArea(*it, WALL - DISTANCE);
             (*it).separation(agents, 1);            
          break;
          

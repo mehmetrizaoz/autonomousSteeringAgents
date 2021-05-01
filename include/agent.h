@@ -35,9 +35,10 @@ public:
   void setMaxForce(float f);
   void applyForce();
   void setFeatures(float s, float f, float r, float m);
+//utility
   void addSteeringForce(float multiplier);
+//behaviors  
   void uniformFlow(flowField &flow);
-  void stayInArea(int wall, int distance);  
   void seek(bool arriving);  
   void separation(vector<agent> agents, float multiplier);
   void cohesion(vector<agent> boids, float multiplier);

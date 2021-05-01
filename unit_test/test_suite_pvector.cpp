@@ -1,4 +1,4 @@
-#define BOOST_TEST_MODULE pvector_test
+#define BOOST_TEST_MODULE test_suite_pvector
 #include <boost/test/included/unit_test.hpp>
 #include "../include/pvector.h"
 #include <iostream>

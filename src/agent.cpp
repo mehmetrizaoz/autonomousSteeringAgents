@@ -84,27 +84,6 @@ void agent::seek(bool arriving){
    addSteeringForce(1);
 }
 
-void agent::stayInArea(int wall, int distance){    
-   int turnPoint = wall - distance; 
-
-   if(position.x >= turnPoint){
-      desiredVelocity = pvector( -maxSpeed, velocity.y );
-      addSteeringForce(1);
-   }
-   else if(position.x <= -turnPoint){
-      desiredVelocity = pvector( maxSpeed, velocity.y );
-      addSteeringForce(1);
-   }
-   else if(position.y >= turnPoint){
-      desiredVelocity = pvector( velocity.x, -maxSpeed );
-      addSteeringForce(1);
-   }
-   else if(position.y <= -turnPoint){
-      desiredVelocity = pvector( velocity.x, maxSpeed );
-      addSteeringForce(1);
-   }
-}
-
 void agent::simplePath(path &path){  
   point start = path.points.at(0);
   point end   = path.points.at(1);
