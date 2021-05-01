@@ -1,7 +1,5 @@
-#ifndef AGENT_H
-#define AGENT_H
+#pragma once
 
-#include "pvector.h"
 #include "point.h"
 #include "color.h"
 #include "flowField.h"
@@ -46,7 +44,7 @@ public:
   void align(vector<agent> boids, float multiplier);  
   void simplePath(path &path);
   void curvedPath(path &path);
-//TODO: make variables private
+//private:
   string   name;
   color    vehicleColor;
   point    position;
@@ -62,4 +60,3 @@ public:
   float    mass;
 };
 
-#endif

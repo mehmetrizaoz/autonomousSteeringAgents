@@ -1,6 +1,4 @@
 #include "graphics.h"
-#include "agent.h"
-#include "path.h"
 #include <GL/glut.h>
 #include <iostream>
 

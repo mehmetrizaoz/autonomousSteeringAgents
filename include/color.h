@@ -1,5 +1,4 @@
-#ifndef COLOR_H
-#define COLOR_H
+#pragma once
 
 class color{
 public:
@@ -9,5 +8,3 @@ public:
    float G;
    float B;
 };
-
-#endif

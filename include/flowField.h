@@ -1,5 +1,4 @@
-#ifndef FLOW_FIELD_H
-#define FLOW_FIELD_H
+#pragma once
 
 #include "pvector.h"
 
@@ -20,5 +19,3 @@ private:
    void randomField();
    pvector uniformField[WIDTH][HEIGHT];
 };
-
-#endif

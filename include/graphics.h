@@ -1,9 +1,7 @@
-#ifndef GRAPHICS_H
-#define GRAPHICS_H
+#pragma once
 
 #include "agent.h"
 #include "path.h"
-#include "color.h"
 
 class agent;
 class point;
@@ -26,5 +24,3 @@ public:
    static int target_x;
    static int target_y;   
 };
-
-#endif

@@ -1,9 +1,7 @@
 #include "agent.h"
-#include "flowField.h"
+#include "pvector.h"
 #include "graphics.h"
 #include <iostream>
-#include "color.h"
-//#include <GL/glut.h> 
 
 using namespace std;
 

@@ -1,5 +1,4 @@
 #include "flowField.h"
-#include "pvector.h"
 
 flowField::flowField(pvector p){
    uniformVectorField(p);

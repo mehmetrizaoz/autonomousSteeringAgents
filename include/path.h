@@ -1,5 +1,4 @@
-#ifndef PATH_H
-#define PATH_H
+#pragma once
 
 #include "point.h"
 #include <vector>
@@ -14,5 +13,3 @@ public:
    path();
    void addPoint(point p);
 };
-
-#endif

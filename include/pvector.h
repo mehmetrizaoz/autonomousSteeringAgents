@@ -1,5 +1,4 @@
-#ifndef PVECTOR_H
-#define PVECTOR_H
+#pragma once
 
 class point;
 
@@ -24,5 +23,3 @@ public:
    pvector operator +  (point const &obj);
    void print();
 };
-
-#endif
