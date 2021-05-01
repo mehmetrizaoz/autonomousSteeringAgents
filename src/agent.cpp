@@ -62,31 +62,6 @@ void agent::addSteeringForce(float multiplier){
    force = force + steering;
 }
 
-void agent::cohesion(vector<agent> boids, float multiplier){
-   float neighborDist = 20; //TODO: magic numer
-   point sum {0,0};
-   float d;
-   int count = 0;
- 
-   //TODO: logic below will be function and unit test for the function will be created
-   for(auto it = boids.begin(); it < boids.end(); it++){
-      d = (position - (*it).position).magnitude();
-      if( (d >0) && (d < neighborDist) ){
-         sum = sum + (*it).position;
-         count++;
-      }
-   }
-
-   if(count>0){
-     sum.div(count);
-     targetPoint = sum;
-     desiredVelocity = targetPoint - position;
-     desiredVelocity.normalize();
-     desiredVelocity.mul(maxSpeed);
-     addSteeringForce(multiplier);    
-   }   
-}
-
 void agent::align(vector<agent> boids, float multiplier){
    float neighborDist = 20; //TODO: magic numer
    float d;

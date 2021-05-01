@@ -25,6 +25,6 @@ public:
    void stayInPath(agent &agent, path &path);
    void stayInPath_2(agent &agent, path &path); 
    void seek(agent &agent, bool arriving);
-   void separation(vector<agent> agents, float multiplier, agent &agent);
-
+   void separation(vector<agent> agents, agent &agent, float multiplier);
+   void cohesion(vector<agent> boids, agent &agent, float multiplier);
 };

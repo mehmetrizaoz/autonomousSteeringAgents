@@ -61,7 +61,7 @@ void drawScene() {
          case STAY_IN_FIELD:   
             view.drawWall(WALL);  
             behavior.stayInArea(*it, WALL - DISTANCE);
-            behavior.separation(agents, 1, *it);
+            behavior.separation(agents, *it, 1);
          break;
          
          case IN_FLOW_FIELD:        
@@ -83,9 +83,9 @@ void drawScene() {
 
          case FLOCK:
             view.checkInScreen((*it));
-            behavior.separation(agents, 0.9, *it);
+            behavior.separation(agents, *it, 0.9);
             (*it).align(agents, 1);
-            (*it).cohesion(agents, 0.3);
+            behavior.cohesion(agents, *it, 0.3);
          break;
 
          case PURSUIT:

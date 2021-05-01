@@ -5,7 +5,32 @@
 #include "point.h"
 #include <vector>
 
-void steeringBehavior::separation(vector<agent> agents, float multiplier, agent &agent){   
+void steeringBehavior::cohesion(vector<agent> boids, agent &agent, float multiplier){
+   float neighborDist = 20; //TODO: magic numer
+   point sum {0,0};
+   float d;
+   int count = 0;
+ 
+   //TODO: logic below will be function and unit test for the function will be created
+   for(auto it = boids.begin(); it < boids.end(); it++){
+      d = (agent.position - (*it).position).magnitude();
+      if( (d >0) && (d < neighborDist) ){
+         sum = sum + (*it).position;
+         count++;
+      }
+   }
+
+   if(count>0){
+     sum.div(count);
+     agent.targetPoint = sum;
+     agent.desiredVelocity = agent.targetPoint - agent.position;
+     agent.desiredVelocity.normalize();
+     agent.desiredVelocity.mul(agent.maxSpeed);
+     agent.addSteeringForce(multiplier);    
+   }   
+}
+
+void steeringBehavior::separation(vector<agent> agents, agent &agent, float multiplier){   
    float desiredSeparation = 4; //TODO: magic numer
    int count = 0;
    pvector diff {0,0}; 

@@ -26,7 +26,6 @@ public:
   void setFeatures(float s, float f, float r, float m);
 //behaviors  
   void addSteeringForce(float multiplier);
-  void cohesion(vector<agent> boids, float multiplier);
   void align(vector<agent> boids, float multiplier);  
 //private:
   string   name;
