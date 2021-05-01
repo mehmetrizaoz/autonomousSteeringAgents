@@ -35,8 +35,8 @@ int graphics::target_x = -WIDTH;
 int graphics::target_y = HEIGHT;
 
 void createPath_1(){
-   point start = point(-WIDTH - 5,  HEIGHT - 40); 
-   point end   = point( WIDTH + 5, -HEIGHT + 40);
+   point start {-WIDTH - 5,  HEIGHT - 40}; 
+   point end   { WIDTH + 5, -HEIGHT + 40};
    pathSimple  = path(6);
    pathSimple.addPoint(start);
    pathSimple.addPoint(end);   
@@ -110,7 +110,7 @@ void drawScene() {
 void createRandomAgents(int agentCount){
    int size = MAX_NUMBER_OF_AGENTS * 2;
    int arr[size];   
-   agent tempAgent = agent(0, 0);
+   agent tempAgent {0, 0};
    srand(time(NULL));
 
    for(int i=0; i<size; i++){
@@ -132,10 +132,10 @@ void createRandomAgents(int agentCount){
 }
 
 void createAgents(){
-   agent agent1 = agent(-10.0,  0.0);    
-   agent agent2 = agent( 10.0,  0.0);
-   agent agent3 = agent(  0.0, 20.0);
-   agent agent4 = agent(  5.0,  5.0);
+   agent agent1 {-10.0,  0.0};
+   agent agent2 { 10.0,  0.0};
+   agent agent3 {  0.0, 20.0};
+   agent agent4 {  5.0,  5.0};
    
    agent1.setFeatures(0.5, 0.4, 20, 1);
    agent2.setFeatures(0.2, 0.3, 20, 1);

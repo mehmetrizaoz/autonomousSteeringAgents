@@ -1,9 +1,7 @@
-#ifndef BEHAVIOR_H
-#define BEHAVIOR_H
+#pragma once
 
 class behavior{
 public:   
    void abc(); 
 };
 
-#endif

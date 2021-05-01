@@ -152,7 +152,7 @@ void agent::curvedPath(path &path){
 
 void agent::cohesion(vector<agent> boids, float multiplier){
    float neighborDist = 20; //TODO: magic numer
-   point sum = point(0,0);
+   point sum {0,0};
    float d;
    int count = 0;
 
@@ -176,8 +176,8 @@ void agent::cohesion(vector<agent> boids, float multiplier){
 void agent::align(vector<agent> boids, float multiplier){
    float neighborDist = 20; //TODO: magic numer
    float d;
-   int count = 0;
-   pvector sum = pvector(0,0);
+   int count = 0;   
+   pvector sum {0,0};
 
    for(auto it = boids.begin(); it < boids.end(); it++){
       d = (position - (*it).position).magnitude();
@@ -199,7 +199,7 @@ void agent::align(vector<agent> boids, float multiplier){
 void agent::separation(vector<agent> agents, float multiplier){   
    float desiredSeparation = 4; //TODO: magic numer
    int count = 0;
-   pvector diff = pvector(0,0); 
+   pvector diff {0,0};    
 
    for(auto it = agents.begin(); it < agents.end(); it++){
       diff = position - (*it).position ;          

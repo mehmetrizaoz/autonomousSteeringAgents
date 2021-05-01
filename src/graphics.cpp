@@ -93,8 +93,8 @@ void graphics::drawPoint(point p){
 }
 
 void graphics::drawWall(float border){
-    point p1 = point (-border,  border);
-    point p2 = point ( border,  border);
+    point p1 {-border,  border};
+    point p2 { border,  border};
     drawLine(p1, p2);
 
     p1 = point ( border,  border);

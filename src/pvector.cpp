@@ -69,9 +69,9 @@ pvector pvector::operator + (pvector const &obj) {
 }
 
 bool pvector::operator == (pvector const &obj) {      
-      if(x == obj.x && y == obj.y)
-         return true;
-      return false;
+   if(x == obj.x && y == obj.y)
+      return true;
+   return false;
 }
 
 pvector pvector::operator + (point const &obj){
