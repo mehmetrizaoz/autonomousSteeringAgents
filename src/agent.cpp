@@ -111,26 +111,3 @@ void agent::align(vector<agent> boids, float multiplier){
       addSteeringForce(multiplier);   
    }
 }
-
-void agent::separation(vector<agent> agents, float multiplier){   
-   float desiredSeparation = 4; //TODO: magic numer
-   int count = 0;
-   pvector diff {0,0}; 
-
-   //TODO: logic below will be function and unit test for the function will be created
-   for(auto it = agents.begin(); it < agents.end(); it++){
-      diff = position - (*it).position ;          
-      if( (diff.magnitude() >0) && (diff.magnitude() < desiredSeparation) ){         
-         diff.div(diff.magnitude());
-         desiredVelocity = desiredVelocity + diff;
-         count++;
-      }   
-   }
-
-   if(count > 0){ //TODO: implement with common utility function 
-      desiredVelocity.div(count);
-      desiredVelocity.normalize();
-      desiredVelocity.mul(maxSpeed);
-      addSteeringForce(multiplier);       
-   } 
-}

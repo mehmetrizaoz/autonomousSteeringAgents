@@ -3,6 +3,30 @@
 #include "agent.h"
 #include "path.h"
 #include "point.h"
+#include <vector>
+
+void steeringBehavior::separation(vector<agent> agents, float multiplier, agent &agent){   
+   float desiredSeparation = 4; //TODO: magic numer
+   int count = 0;
+   pvector diff {0,0}; 
+
+   //TODO: logic below will be function and unit test for the function will be created
+   for(auto it = agents.begin(); it < agents.end(); it++){
+      diff = agent.position - (*it).position ;          
+      if( (diff.magnitude() >0) && (diff.magnitude() < desiredSeparation) ){         
+         diff.div(diff.magnitude());
+         agent.desiredVelocity = agent.desiredVelocity + diff;
+         count++;
+      }   
+   }
+
+   if(count > 0){ //TODO: implement with common utility function
+      agent.desiredVelocity.div(count);
+      agent.desiredVelocity.normalize();
+      agent.desiredVelocity.mul(agent.maxSpeed);
+      agent.addSteeringForce(multiplier);       
+   } 
+}
 
 void steeringBehavior::seek(agent &agent, bool arriving){
    pvector diff = agent.targetPoint - agent.position;

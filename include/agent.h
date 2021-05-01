@@ -24,10 +24,8 @@ public:
   void setMaxForce(float f);
   void applyForce();
   void setFeatures(float s, float f, float r, float m);
-//utility
-  void addSteeringForce(float multiplier);
 //behaviors  
-  void separation(vector<agent> agents, float multiplier);
+  void addSteeringForce(float multiplier);
   void cohesion(vector<agent> boids, float multiplier);
   void align(vector<agent> boids, float multiplier);  
 //private:

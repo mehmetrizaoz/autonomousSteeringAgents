@@ -61,13 +61,12 @@ void drawScene() {
          case STAY_IN_FIELD:   
             view.drawWall(WALL);  
             behavior.stayInArea(*it, WALL - DISTANCE);
-            (*it).separation(agents, 1);            
+            behavior.separation(agents, 1, *it);
          break;
          
          case IN_FLOW_FIELD:        
             flow = flowField(pvector(GRAVITY));
             behavior.inFlowField(*it, flow);
-
             flow = flowField(pvector(WIND_WEST));
             behavior.inFlowField(*it, flow);
          break;
@@ -84,10 +83,9 @@ void drawScene() {
 
          case FLOCK:
             view.checkInScreen((*it));
-            (*it).separation(agents, 0.9);                    
+            behavior.separation(agents, 0.9, *it);
             (*it).align(agents, 1);
             (*it).cohesion(agents, 0.3);
-            //TODO: print all vectors and check if sum is correct
          break;
 
          case PURSUIT:
