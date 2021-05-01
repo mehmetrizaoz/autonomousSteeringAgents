@@ -27,4 +27,6 @@ public:
    void seek(agent &agent, bool arriving);
    void separation(vector<agent> agents, agent &agent, float multiplier);
    void cohesion(vector<agent> boids, agent &agent, float multiplier);
+   void align(vector<agent> boids, agent &agent, float multiplier);
+   void addSteeringForce(agent &agent, float multiplier);
 };

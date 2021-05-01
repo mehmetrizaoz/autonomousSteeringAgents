@@ -84,7 +84,7 @@ void drawScene() {
          case FLOCK:
             view.checkInScreen((*it));
             behavior.separation(agents, *it, 0.9);
-            (*it).align(agents, 1);
+            behavior.align(agents, *it, 1);
             behavior.cohesion(agents, *it, 0.3);
          break;
 

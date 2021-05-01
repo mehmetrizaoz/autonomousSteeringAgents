@@ -24,9 +24,6 @@ public:
   void setMaxForce(float f);
   void applyForce();
   void setFeatures(float s, float f, float r, float m);
-//behaviors  
-  void addSteeringForce(float multiplier);
-  void align(vector<agent> boids, float multiplier);  
 //private:
   string   name;
   color    vehicleColor;
