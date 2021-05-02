@@ -17,12 +17,8 @@ agent::agent(float x, float  y){
 }
 
 void agent::updatePosition(){
-   //velocity.print("velocity");
-   //acceleration.print("acceleration");
    velocity = velocity + acceleration;
-   //velocity.print("velocity");
    velocity.limit(maxSpeed);
-   //velocity.print("velocity");
    position = position + velocity;
    acceleration = pvector(0,0);  
 }

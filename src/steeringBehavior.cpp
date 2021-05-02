@@ -20,31 +20,31 @@ void steeringBehavior::setAngle(pvector &p, float angle){
    p.y = sin ( angle * PI / 180.0 );
 }
 
-static int wanderAngle = 30;
+static int wanderAngle = 0;
 void steeringBehavior::wander(vector<agent> &agents){      
-   agents.at(0).velocity.print("velocity");
+   //agents.at(0).velocity.print("velocity");
 
    pvector p{0, 1};
    pvector circleCenter = agents.at(0).velocity;
    circleCenter.normalize();
    circleCenter.mul(CIRCLE_DISTANCE);      
-   circleCenter.print("circleCenter");
+   //circleCenter.print("circleCenter");
 
    pvector displacement {0, 1};
    displacement.mul(CIRCLE_RADIUS);
 
    setAngle(displacement, wanderAngle); 
-   wanderAngle += 10;  
+   wanderAngle += 3;  //TODO: generate random angle
    wanderAngle = wanderAngle % 360;    
-   displacement.print("displacement"); 
+   //displacement.print("displacement"); 
 
-   cout << "wanderAngle " << wanderAngle << endl;
+   //cout << "wanderAngle " << wanderAngle << endl;
    agents.at(0).desiredVelocity = displacement + circleCenter;
-   agents.at(0).desiredVelocity.print("desiredVelocity");
+   //agents.at(0).desiredVelocity.print("desiredVelocity");
 
    agents.at(0).steering = agents.at(0).desiredVelocity - agents.at(0).velocity;
    agents.at(0).force = agents.at(0).steering;
-   agents.at(0).force.print("force");
+   //agents.at(0).force.print("force");
 }
 
 void steeringBehavior::addSteeringForce(agent &agent, float multiplier){

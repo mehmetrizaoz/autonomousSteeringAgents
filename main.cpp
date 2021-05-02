@@ -91,6 +91,7 @@ void displayMenu(){
    cout << "Stay in Path  : 4" << endl;
    cout << "Stay in Path 2: 5" << endl;
    cout << "FLOCK         : 6" << endl;
+   cout << "WANDER        : 7" << endl;
    cin >> mode;
 }
 
@@ -127,7 +128,6 @@ void drawScene() {
             view.drawWall(WALL);  
             behavior.stayInArea(*it, WALL - DISTANCE);
             behavior.separation(agents, *it, 1);
-            //(*it).force.limit((*it).maxForce);
          break;
          
          case IN_FLOW_FIELD:        
@@ -155,7 +155,6 @@ void drawScene() {
          break;
          case WANDER:
             behavior.wander(agents);
-            //(*it).force.print();
          break;
          case PURSUIT:
          break;
@@ -168,7 +167,6 @@ void drawScene() {
 
    for(auto it = agents.begin(); it < agents.end(); it++){       
       (*it).applyForce();
-      //(*it).acceleration.print("acceleration");      
       (*it).updatePosition();         
       view.drawAgent(*it, (*it).vehicleColor);
       cout << endl;
