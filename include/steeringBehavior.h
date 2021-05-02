@@ -30,7 +30,7 @@ public:
    void cohesion(vector<agent> boids, agent &agent, float multiplier);
    void align(vector<agent> boids, agent &agent, float multiplier);
    void addSteeringForce(agent &agent, float multiplier);
-   void wander(vector<agent> &agents);
+   void wander(agent &agent);
    void setAngle(pvector &p, float angle);
 
 };

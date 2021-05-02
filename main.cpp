@@ -73,14 +73,17 @@ void createAgents(){
    agent1.setFeatures(1.0, 0.7, 20, 1);
    agents.push_back(agent1);
 
-   /*agent agent2 { 10.0,  0.0};
-   agent agent3 {  0.0, 20.0};
-   agent agent4 {  5.0,  5.0};      
+   /*
+   agent agent2 { 10.0,  0.0};
    agent2.setFeatures(0.2, 0.3, 20, 1);
-   agent3.setFeatures(0.3, 0.2, 20, 1);
-   agent4.setFeatures(0.4, 0.1, 20, 1);   
    agents.push_back(agent2);
+
+   agent agent3 {  0.0, 20.0};
+   agent3.setFeatures(0.3, 0.2, 20, 1);
    agents.push_back(agent3);   
+
+   agent agent4 {  5.0,  5.0};       
+   agent4.setFeatures(0.4, 0.1, 20, 1);      
    agents.push_back(agent4);*/
 }
 
@@ -154,7 +157,7 @@ void drawScene() {
             behavior.cohesion(agents, *it, 0.3);
          break;
          case WANDER:
-            behavior.wander(agents);
+            behavior.wander(*it);
          break;
          case PURSUIT:
          break;
