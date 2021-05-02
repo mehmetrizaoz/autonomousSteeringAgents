@@ -50,9 +50,8 @@ void createRandomAgents(int agentCount){
    agent tempAgent {0, 0};
    srand(time(NULL));
 
-   for(int i=0; i<size; i++){
+   for(int i=0; i<size; i++)
       arr[i] = i;        
-   }
 
    for (int i=0; i < size; i++){
       int r = rand() % size;
@@ -181,10 +180,10 @@ int main(int argc, char** argv) {
    view = graphics();       
    
    createColors();
-   createAgents();
+   //createAgents();
    createPath_2();
    createPath_1();   
-   //createRandomAgents(30);
+   createRandomAgents(30);
 
    //TODO: move to graphics class
    glutInit(&argc, argv);

@@ -31,12 +31,11 @@ void steeringBehavior::wander(agent &agent){
    displacement.mul(CIRCLE_RADIUS);
    setAngle(displacement, wanderAngle); 
    
-   wanderAngle++; //TODO: generate random angle
+   wanderAngle += 5; //TODO: generate random angle
    wanderAngle = wanderAngle % 360;    
    
-   agent.desiredVelocity = displacement + circleCenter;   
-   agent.steering = agent.desiredVelocity - agent.velocity;
-   agent.force = agent.steering;   
+   agent.desiredVelocity = displacement + circleCenter;
+   addSteeringForce(agent, 1);  
 }
 
 void steeringBehavior::addSteeringForce(agent &agent, float multiplier){
@@ -52,7 +51,6 @@ void steeringBehavior::align(vector<agent> boids, agent &agent, float multiplier
    float d;
    int count = 0;   
    pvector sum {0,0};
-
    //TODO: logic below will be function and unit test for the function will be created
    for(auto it = boids.begin(); it < boids.end(); it++){
       d = (agent.position - (*it).position).magnitude();
@@ -61,7 +59,6 @@ void steeringBehavior::align(vector<agent> boids, agent &agent, float multiplier
          count++;
       }
    }
-
    if(count>0){
       sum.div(count);
       sum.normalize();
@@ -73,11 +70,9 @@ void steeringBehavior::align(vector<agent> boids, agent &agent, float multiplier
 }
 
 void steeringBehavior::cohesion(vector<agent> boids, agent &agent, float multiplier){
-   float neighborDist = 20; //TODO: magic numer
-   point sum {0,0};
-   float d;
-   int count = 0;
- 
+   float d, neighborDist = 20; //TODO: magic numer
+   point sum {0,0};   
+   int count = 0; 
    //TODO: logic below will be function and unit test for the function will be created
    for(auto it = boids.begin(); it < boids.end(); it++){
       d = (agent.position - (*it).position).magnitude();
@@ -86,7 +81,6 @@ void steeringBehavior::cohesion(vector<agent> boids, agent &agent, float multipl
          count++;
       }
    }
-
    if(count>0){
      sum.div(count);
      agent.targetPoint = sum;
@@ -100,8 +94,7 @@ void steeringBehavior::cohesion(vector<agent> boids, agent &agent, float multipl
 void steeringBehavior::separation(vector<agent> agents, agent &agent, float multiplier){   
    float desiredSeparation = 5; //TODO: magic numer
    int count = 0;   
-   pvector diff {0,0}; 
-
+   pvector diff {0,0};
    //TODO: logic below will be function and unit test for the function will be created
    for(auto it = agents.begin(); it < agents.end(); it++){
       diff = agent.position - (*it).position;
@@ -113,7 +106,6 @@ void steeringBehavior::separation(vector<agent> agents, agent &agent, float mult
          count++;
       }   
    }
-
    if(count > 0){ //TODO: implement with common utility function
       agent.desiredVelocity.div(count);
       agent.desiredVelocity.normalize();
@@ -126,8 +118,7 @@ void steeringBehavior::seek(agent &agent, bool arriving){
    pvector diff = agent.targetPoint - agent.position;
    agent.desiredVelocity = diff;
    agent.desiredVelocity.normalize();
-   agent.desiredVelocity.mul(agent.maxSpeed);
-   
+   agent.desiredVelocity.mul(agent.maxSpeed);   
    if(arriving == true){
       if(diff.magnitude() > agent.r) agent.desiredVelocity.limit(agent.maxSpeed);       
       else agent.desiredVelocity.limit(agent.maxSpeed * diff.magnitude() / agent.r);       
@@ -137,10 +128,8 @@ void steeringBehavior::seek(agent &agent, bool arriving){
 
 void steeringBehavior::stayInPath_2(agent &agent, path &path){     
    float worldRecord = 1000000; //TODO: magic number
-   point normalPoint;
-   point predictedPos;
-   pvector distance;
-   point start, end;
+   point normalPoint, predictedPos, start, end;
+   pvector distance;   
 
    for(auto it = path.points.begin(); it < path.points.end()-1; it++){
       start = point((*it).x, (*it).y);
@@ -164,7 +153,6 @@ void steeringBehavior::stayInPath_2(agent &agent, path &path){
 void steeringBehavior::stayInPath(agent &agent, path &path){  
   point start = path.points.at(0);
   point end   = path.points.at(1);
-
   point predictedPos = agent.position + agent.velocity; 
   point normalPoint = point::getNormalPoint(predictedPos, start, end);
   pvector b = end - start;
@@ -172,7 +160,6 @@ void steeringBehavior::stayInPath(agent &agent, path &path){
 
   pvector distance  = predictedPos - normalPoint;
   agent.targetPoint = normalPoint  + b;
-
   //view.drawLine(predictedPos, normalPoint);
   //view.drawPoint(targetPoint);
     
@@ -183,8 +170,7 @@ void steeringBehavior::stayInPath(agent &agent, path &path){
 void steeringBehavior::inFlowField(agent &agent, flowField &flow){
     //pos_x, pos_y must be non negative integer
     int pos_x = abs((int)agent.position.x) % WIDTH;
-    int pos_y = abs((int)agent.position.y) % HEIGHT;
-    
+    int pos_y = abs((int)agent.position.y) % HEIGHT;    
     //TODO: modification required for non uniform fields
     agent.force = agent.force + flow.getField(pos_x, pos_y);    
 }
