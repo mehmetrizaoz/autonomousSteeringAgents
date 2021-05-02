@@ -70,7 +70,7 @@ void createRandomAgents(int agentCount){
 
 void createAgents(){
    agent agent1 {-10.0,  0.0};
-   agent1.setFeatures(0.3, 0.7, 20, 1);
+   agent1.setFeatures(1.0, 0.7, 20, 1);
    agents.push_back(agent1);
 
    /*agent agent2 { 10.0,  0.0};
@@ -127,6 +127,7 @@ void drawScene() {
             view.drawWall(WALL);  
             behavior.stayInArea(*it, WALL - DISTANCE);
             behavior.separation(agents, *it, 1);
+            //(*it).force.limit((*it).maxForce);
          break;
          
          case IN_FLOW_FIELD:        
@@ -154,7 +155,7 @@ void drawScene() {
          break;
          case WANDER:
             behavior.wander(agents);
-            (*it).force.print();
+            //(*it).force.print();
          break;
          case PURSUIT:
          break;
@@ -165,12 +166,12 @@ void drawScene() {
       }
    }
 
-   for(auto it = agents.begin(); it < agents.end(); it++){ 
-      //(*it).force.print();
+   for(auto it = agents.begin(); it < agents.end(); it++){       
       (*it).applyForce();
-      cout << "acc: "; (*it).acceleration.print();
+      //(*it).acceleration.print("acceleration");      
       (*it).updatePosition();         
       view.drawAgent(*it, (*it).vehicleColor);
+      cout << endl;
    }
 }
 

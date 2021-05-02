@@ -2,6 +2,7 @@
 #include "math.h"
 #include "point.h"
 #include <iostream>
+#include <string>
 
 #define PI          3.14159265
 
@@ -88,8 +89,8 @@ pvector pvector::operator - (point const &obj){
    return res;
 }
 
-void pvector::print(){
-   cout << " " << x << " " << y << endl;
+void pvector::print(const string &s){
+   cout << s << " " << x << " " << y << endl;
 }
 
 pvector pvector::operator - (pvector const &obj) {

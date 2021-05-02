@@ -7,8 +7,8 @@
 #include "math.h"
 #include <iostream>
 
-#define CIRCLE_DISTANCE 2
-#define CIRCLE_RADIUS   1
+#define CIRCLE_DISTANCE 0.005
+#define CIRCLE_RADIUS   0.0025
 
 #define PI 3.14159265
 
@@ -18,32 +18,33 @@ void steeringBehavior::setAngle(pvector &p, float angle){
    float len = p.magnitude();
    p.x = cos ( angle * PI / 180.0 );
    p.y = sin ( angle * PI / 180.0 );
-   cout << "p :" << p.x << " " << p.y << endl;
 }
 
-static int wanderAngle = 0;
-void steeringBehavior::wander(vector<agent> &agents){
+static int wanderAngle = 30;
+void steeringBehavior::wander(vector<agent> &agents){      
+   agents.at(0).velocity.print("velocity");
+
    pvector p{0, 1};
-      
-   cout << "velocity ";  agents.at(0).velocity.print();
    pvector circleCenter = agents.at(0).velocity;
    circleCenter.normalize();
-   circleCenter.mul(CIRCLE_DISTANCE);   
-   cout << "circleCenter ";    circleCenter.print();
+   circleCenter.mul(CIRCLE_DISTANCE);      
+   circleCenter.print("circleCenter");
 
    pvector displacement {0, 1};
-   setAngle(displacement, wanderAngle);
-   wanderAngle += 30;
-   wanderAngle = wanderAngle % 360;
-   displacement.mul(CIRCLE_RADIUS); 
-   cout << "displacement ";    displacement.print();
+   displacement.mul(CIRCLE_RADIUS);
 
+   setAngle(displacement, wanderAngle); 
+   wanderAngle += 10;  
+   wanderAngle = wanderAngle % 360;    
+   displacement.print("displacement"); 
+
+   cout << "wanderAngle " << wanderAngle << endl;
    agents.at(0).desiredVelocity = displacement + circleCenter;
-   addSteeringForce(agents.at(0), 1);
-   cout << "force ";  agents.at(0).force.print();
-   cout << endl;
+   agents.at(0).desiredVelocity.print("desiredVelocity");
 
-  
+   agents.at(0).steering = agents.at(0).desiredVelocity - agents.at(0).velocity;
+   agents.at(0).force = agents.at(0).steering;
+   agents.at(0).force.print("force");
 }
 
 void steeringBehavior::addSteeringForce(agent &agent, float multiplier){
@@ -164,7 +165,7 @@ void steeringBehavior::stayInPath_2(agent &agent, path &path){
       }       
    }      
    //view.drawPoint(targetPoint);
-   seek(agent, WITHOUT_ARRIVING); //!
+   seek(agent, WITHOUT_ARRIVING);
 }
 
 //TODO: use C++11 deprecated attribute

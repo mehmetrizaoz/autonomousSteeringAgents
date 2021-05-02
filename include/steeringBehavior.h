@@ -9,8 +9,8 @@
 #define STAY_IN_PATH   4
 #define STAY_IN_PATH_2 5
 #define FLOCK          6
-#define PURSUIT        7
-#define WANDER         8
+#define WANDER         7
+#define PURSUIT        8
 #define HIDE           9
 #define PATH_LOOP      10
 

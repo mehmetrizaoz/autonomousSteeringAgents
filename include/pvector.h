@@ -1,5 +1,9 @@
 #pragma once
 
+#include <string>
+
+using namespace std;
+
 class point;
 
 class pvector{
@@ -21,5 +25,5 @@ public:
    bool    operator == (pvector const &obj);
    pvector operator -  (point const &obj);
    pvector operator +  (point const &obj);
-   void print();
+   void print(const string &s);
 };
