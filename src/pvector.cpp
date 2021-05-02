@@ -89,7 +89,7 @@ pvector pvector::operator - (point const &obj){
 }
 
 void pvector::print(){
-   cout << " " << x << " " << y;
+   cout << " " << x << " " << y << endl;
 }
 
 pvector pvector::operator - (pvector const &obj) {

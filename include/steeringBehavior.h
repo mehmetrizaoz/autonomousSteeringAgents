@@ -10,9 +10,9 @@
 #define STAY_IN_PATH_2 5
 #define FLOCK          6
 #define PURSUIT        7
-#define HIDE           8
-#define PATH_LOOP      9
-#define WANDER         10
+#define WANDER         8
+#define HIDE           9
+#define PATH_LOOP      10
 
 using namespace  std;
 
@@ -30,4 +30,7 @@ public:
    void cohesion(vector<agent> boids, agent &agent, float multiplier);
    void align(vector<agent> boids, agent &agent, float multiplier);
    void addSteeringForce(agent &agent, float multiplier);
+   void wander(vector<agent> &agents);
+   void setAngle(pvector &p, float angle);
+
 };

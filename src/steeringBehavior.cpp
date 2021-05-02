@@ -4,6 +4,47 @@
 #include "path.h"
 #include "point.h"
 #include <vector>
+#include "math.h"
+#include <iostream>
+
+#define CIRCLE_DISTANCE 2
+#define CIRCLE_RADIUS   1
+
+#define PI 3.14159265
+
+using namespace std;
+
+void steeringBehavior::setAngle(pvector &p, float angle){
+   float len = p.magnitude();
+   p.x = cos ( angle * PI / 180.0 );
+   p.y = sin ( angle * PI / 180.0 );
+   cout << "p :" << p.x << " " << p.y << endl;
+}
+
+static int wanderAngle = 0;
+void steeringBehavior::wander(vector<agent> &agents){
+   pvector p{0, 1};
+      
+   cout << "velocity ";  agents.at(0).velocity.print();
+   pvector circleCenter = agents.at(0).velocity;
+   circleCenter.normalize();
+   circleCenter.mul(CIRCLE_DISTANCE);   
+   cout << "circleCenter ";    circleCenter.print();
+
+   pvector displacement {0, 1};
+   setAngle(displacement, wanderAngle);
+   wanderAngle += 30;
+   wanderAngle = wanderAngle % 360;
+   displacement.mul(CIRCLE_RADIUS); 
+   cout << "displacement ";    displacement.print();
+
+   agents.at(0).desiredVelocity = displacement + circleCenter;
+   addSteeringForce(agents.at(0), 1);
+   cout << "force ";  agents.at(0).force.print();
+   cout << endl;
+
+  
+}
 
 void steeringBehavior::addSteeringForce(agent &agent, float multiplier){
    agent.steering = agent.desiredVelocity - agent.velocity;
