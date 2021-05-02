@@ -44,6 +44,14 @@ void createPath_1(){
    pathSimple.addPoint(end);   
 }
 
+void createPath_2(){
+   pathMultiSegment = path(7);
+   pathMultiSegment.addPoint(point(-40,  5));
+   pathMultiSegment.addPoint(point(-14, 15));
+   pathMultiSegment.addPoint(point( 10,  7));
+   pathMultiSegment.addPoint(point( 40, 12));
+}
+
 void createRandomAgents(int agentCount){
    int size = MAX_NUMBER_OF_AGENTS * 2;
    int arr[size];   
@@ -95,14 +103,10 @@ void displayMenu(){
    cout << "FLOCK         : 6" << endl;
    cout << "WANDER        : 7" << endl;
    cin >> mode;
-}
-
-void createPath_2(){
-   pathMultiSegment = path(7);
-   pathMultiSegment.addPoint(point(-40,  5));
-   pathMultiSegment.addPoint(point(-14, 15));
-   pathMultiSegment.addPoint(point( 10,  7));
-   pathMultiSegment.addPoint(point( 40, 12));
+   if(mode == STAY_IN_PATH)
+      createPath_1();  
+   else if(mode == STAY_IN_PATH_2)
+      createPath_2();
 }
 
 void createColors(){
@@ -180,10 +184,8 @@ int main(int argc, char** argv) {
    view = graphics();       
    
    createColors();
-   //createAgents();
-   createPath_2();
-   createPath_1();   
-   createRandomAgents(30);
+   createAgents();      
+   //createRandomAgents(30);
 
    //TODO: move to graphics class
    glutInit(&argc, argv);

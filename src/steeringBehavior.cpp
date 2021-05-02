@@ -30,10 +30,9 @@ void steeringBehavior::wander(agent &agent){
    pvector displacement {0, 1};
    displacement.mul(CIRCLE_RADIUS);
    setAngle(displacement, wanderAngle); 
-   
-   wanderAngle += 5; //TODO: generate random angle
-   wanderAngle = wanderAngle % 360;    
-   
+      
+   wanderAngle += rand() % 360; //TODO: improve random value
+      
    agent.desiredVelocity = displacement + circleCenter;
    addSteeringForce(agent, 1);  
 }
