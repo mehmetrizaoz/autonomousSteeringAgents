@@ -3,6 +3,10 @@
 #include "agent.h"
 #include "path.h"
 
+#define WIDTH       34
+#define HEIGHT      34
+
+
 class agent;
 class point;
 

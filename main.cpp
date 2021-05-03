@@ -11,9 +11,6 @@
 #include "steeringBehavior.h"
 #include <stdlib.h>
 
-#define WIDTH       34
-#define HEIGHT      34
-
 #define WALL        30
 #define DISTANCE    2
 
@@ -35,22 +32,6 @@ steeringBehavior behavior;
 
 int graphics::target_x = -WIDTH;
 int graphics::target_y = HEIGHT;
-
-void createPath_1(){
-   point start {-WIDTH - 5,  HEIGHT - 40}; 
-   point end   { WIDTH + 5, -HEIGHT + 40};
-   pathSimple  = path(6);
-   pathSimple.addPoint(start);
-   pathSimple.addPoint(end);   
-}
-
-void createPath_2(){
-   pathMultiSegment = path(7);
-   pathMultiSegment.addPoint(point(-40,  5));
-   pathMultiSegment.addPoint(point(-14, 15));
-   pathMultiSegment.addPoint(point( 10,  7));
-   pathMultiSegment.addPoint(point( 40, 12));
-}
 
 void createRandomAgents(int agentCount){
    int size = MAX_NUMBER_OF_AGENTS * 2;
@@ -102,11 +83,13 @@ void displayMenu(){
    cout << "Stay in Path 2: 5" << endl;
    cout << "FLOCK         : 6" << endl;
    cout << "WANDER        : 7" << endl;
+   
    cin >> mode;
+
    if(mode == STAY_IN_PATH)
-      createPath_1();  
+      pathSimple.createPath_1();      
    else if(mode == STAY_IN_PATH_2)
-      createPath_2();
+      pathMultiSegment.createPath_2();
 }
 
 void createColors(){
@@ -168,6 +151,16 @@ void drawScene() {
          break;
          case PATH_LOOP:
          break;
+         case FLEE:
+         break;         
+         case OBSTACLE_AVOIDANCE:
+         break;
+         case WALL_FOLLOWER:
+         break;         
+         case OFFSET_PURSUIT:
+         break;         
+         case LEADER_FOLLOWER:
+         break;         
       }
    }
 
@@ -184,8 +177,8 @@ int main(int argc, char** argv) {
    view = graphics();       
    
    createColors();
-   createAgents();      
-   //createRandomAgents(30);
+   //createAgents();  
+   createRandomAgents(30);
 
    //TODO: move to graphics class
    glutInit(&argc, argv);
