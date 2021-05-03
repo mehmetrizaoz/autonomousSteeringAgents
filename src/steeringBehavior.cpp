@@ -7,7 +7,7 @@
 #include "math.h"
 #include <iostream>
 
-#define CIRCLE_DISTANCE 0.5
+#define CIRCLE_DISTANCE 0.05
 #define CIRCLE_RADIUS   0.25
 
 #define PI 3.14159265
@@ -21,7 +21,9 @@ void steeringBehavior::setAngle(pvector &p, float angle){
 }
 
 static int wanderAngle = 0;
+
 void steeringBehavior::wander(agent &agent){      
+   static int counter = 0;
    pvector p{0, 1};
    pvector circleCenter = agent.velocity;
    circleCenter.normalize();
@@ -29,10 +31,13 @@ void steeringBehavior::wander(agent &agent){
    
    pvector displacement {0, 1};
    displacement.mul(CIRCLE_RADIUS);
-   setAngle(displacement, wanderAngle); 
+   setAngle(displacement, wanderAngle);   
    
-   wanderAngle += 5; //TODO: generate random angle
-   wanderAngle = wanderAngle % 360;    
+   counter++;
+   if(counter == 10){
+      counter = 0;
+      wanderAngle = (rand() % 361);   
+   }
    
    agent.desiredVelocity = displacement + circleCenter;
    addSteeringForce(agent, 1);  

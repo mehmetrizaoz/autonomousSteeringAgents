@@ -13,7 +13,6 @@ public:
    flowField(pvector p);
    flowField();
    pvector getField(int x, int y);
-  // static void createRandomArray(int *arr, int size);   
 private:   
    void uniformVectorField(pvector p);
    void perlinNoise();

@@ -37,5 +37,4 @@ public:
    void addSteeringForce(agent &agent, float multiplier);
    void wander(agent &agent);
    void setAngle(pvector &p, float angle);
-
 };

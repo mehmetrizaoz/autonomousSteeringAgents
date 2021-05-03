@@ -41,7 +41,7 @@ void createRandomAgents(int agentCount){
 
 void createAgents(){
    agent agent1 {-10.0,  0.0};
-   agent1.setFeatures(1.0, 0.7, 20, 1);
+   agent1.setFeatures(1.0, 0.3, 20, 1);
    agents.push_back(agent1);
 
    /*
@@ -158,6 +158,8 @@ int main(int argc, char** argv) {
    displayMenu();
    view = graphics();       
    
+   srand(time(NULL));
+
    createColors();
    createAgents();     
    //createRandomAgents(30);
