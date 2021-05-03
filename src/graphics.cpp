@@ -9,6 +9,9 @@ using namespace std;
 class path;
 class point;
 
+int graphics::target_x = -WIDTH;
+int graphics::target_y = HEIGHT;
+
 void graphics::refreshScene(){
    glutSwapBuffers();
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    

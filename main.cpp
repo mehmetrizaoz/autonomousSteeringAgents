@@ -10,17 +10,12 @@
 #include "path.h"
 #include "steeringBehavior.h"
 #include <stdlib.h>
-
-#define WALL        30
-#define DISTANCE    2
-
-#define MAX_NUMBER_OF_AGENTS 50
+#include "random.h"
 
 #define NUMBER_OF_AGENTS 17
 
 using namespace std;
 
-//TODO: create a client class and make all the globals below members of that class
 int mode;
 flowField flow;
 graphics  view;
@@ -29,24 +24,10 @@ vector<color> colors;
 path way;
 steeringBehavior behavior;
 
-int graphics::target_x = -WIDTH;
-int graphics::target_y = HEIGHT;
-
-void createRandomArray(int *arr, int size){
-   srand(time(NULL));
-   for(int i=0; i<size; i++)
-      arr[i] = i+1;        
-
-   for (int i=0; i < size; i++){
-      int r = rand() % size;
-      swap(arr[i], arr[r]);
-   }     
-}
-
 void createRandomAgents(int agentCount){
    int size = MAX_NUMBER_OF_AGENTS * 2;   
    int arr[size];
-   createRandomArray(arr, size);
+   random::createRandomArray(arr, size);
 
    agent tempAgent {0, 0};
    for(int i=0; i < agentCount * 2; i=i+2){
