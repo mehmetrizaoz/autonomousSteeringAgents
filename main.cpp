@@ -159,8 +159,8 @@ int main(int argc, char** argv) {
    view = graphics();       
    
    createColors();
-   //createAgents();     
-   createRandomAgents(30);
+   createAgents();     
+   //createRandomAgents(30);
 
    //TODO: move to graphics class
    glutInit(&argc, argv);
