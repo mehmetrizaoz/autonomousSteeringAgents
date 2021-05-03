@@ -26,27 +26,29 @@ flowField flow;
 graphics  view;
 vector<agent> agents;
 vector<color> colors;
-path pathMultiSegment;
-path pathSimple;
+path way;
 steeringBehavior behavior;
 
 int graphics::target_x = -WIDTH;
 int graphics::target_y = HEIGHT;
 
-void createRandomAgents(int agentCount){
-   int size = MAX_NUMBER_OF_AGENTS * 2;
-   int arr[size];   
-   agent tempAgent {0, 0};
+void createRandomArray(int *arr, int size){
    srand(time(NULL));
-
    for(int i=0; i<size; i++)
-      arr[i] = i;        
+      arr[i] = i+1;        
 
    for (int i=0; i < size; i++){
       int r = rand() % size;
       swap(arr[i], arr[r]);
-   }  
+   }     
+}
 
+void createRandomAgents(int agentCount){
+   int size = MAX_NUMBER_OF_AGENTS * 2;   
+   int arr[size];
+   createRandomArray(arr, size);
+
+   agent tempAgent {0, 0};
    for(int i=0; i < agentCount * 2; i=i+2){
       tempAgent.position.x = arr[i]   - WIDTH;
       tempAgent.position.y = arr[i+1] - HEIGHT;
@@ -87,12 +89,12 @@ void displayMenu(){
    cin >> mode;
 
    if(mode == STAY_IN_PATH)
-      pathSimple.createPath_1();      
+      way.createPath_1();      
    else if(mode == STAY_IN_PATH_2)
-      pathMultiSegment.createPath_2();
+      way.createPath_2();
 }
 
-void createColors(){
+void createColors(){ //TODO: move to colors
    colors.push_back(color(0.0, 0.0, 0.0));
    colors.push_back(color(0.0, 0.0, 1.0));
    colors.push_back(color(0.0, 1.0, 0.0));
@@ -127,13 +129,13 @@ void drawScene() {
          break;
          
          case STAY_IN_PATH: 
-            view.drawPath(pathSimple);
-            behavior.stayInPath(*it, pathSimple);
+            view.drawPath(way);
+            behavior.stayInPath(*it, way);
          break;
 
          case STAY_IN_PATH_2:
-            view.drawPath(pathMultiSegment);
-            behavior.stayInPath_2(*it, pathMultiSegment);
+            view.drawPath(way);
+            behavior.stayInPath_2(*it, way);
          break;
 
          case FLOCK:            
@@ -168,7 +170,6 @@ void drawScene() {
       (*it).applyForce();
       (*it).updatePosition();         
       view.drawAgent(*it, (*it).vehicleColor);
-      cout << endl;
    }
 }
 
@@ -177,7 +178,7 @@ int main(int argc, char** argv) {
    view = graphics();       
    
    createColors();
-   //createAgents();  
+   //createAgents();     
    createRandomAgents(30);
 
    //TODO: move to graphics class
