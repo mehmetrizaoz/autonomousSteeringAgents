@@ -29,6 +29,9 @@ public:
   void setMaxForce(float f);
   void applyForce();
   void setFeatures(float s, float f, float r, float m);
+  static void createRandomAgents(int agentCount);  
+  static void createAgents();
+  static vector<agent> agents;
 //private:
   string   name;
   color    vehicleColor;

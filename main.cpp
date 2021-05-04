@@ -12,51 +12,13 @@
 #include <stdlib.h>
 #include "random.h"
 
-#define NUMBER_OF_AGENTS 17
-
 using namespace std;
 
 int mode;
 flowField flow;
 graphics  view;
-vector<agent> agents;
-//vector<color> colors;
 path way;
 steeringBehavior behavior;
-
-void createRandomAgents(int agentCount){
-   int size = MAX_NUMBER_OF_AGENTS * 2;   
-   int arr[size];
-   random::createRandomArray(arr, size);
-   agent tempAgent {0, 0};
-   for(int i=0; i < agentCount * 2; i=i+2){
-      tempAgent.position.x = arr[i]   - WIDTH;
-      tempAgent.position.y = arr[i+1] - HEIGHT;
-      tempAgent.vehicleColor = color::colors.at( (i/2) % 8 );
-      tempAgent.setFeatures(0.5, 0.3, 20, 1);
-      agents.push_back(tempAgent);
-   }
-}
-
-void createAgents(){
-   agent agent1 {-10.0,  0.0};
-   agent1.name = "agent1";
-   agent1.setFeatures(1.0, 0.4, 20, 1);
-   agents.push_back(agent1);
-
-   agent agent2 { 10.0,  0.0};
-   agent2.name = "agent2";
-   agent2.setFeatures(0.2, 0.3, 20, 1);
-   agents.push_back(agent2);/*
-
-   agent agent3 {  0.0, 20.0};
-   agent3.setFeatures(0.3, 0.2, 20, 1);
-   agents.push_back(agent3);   
-
-   agent agent4 {  5.0,  5.0};       
-   agent4.setFeatures(0.4, 0.1, 20, 1);      
-   agents.push_back(agent4);*/
-}
 
 void displayMenu(){
    cout << "Follow Mouse  : 1" << endl;
@@ -78,7 +40,7 @@ void displayMenu(){
 //TODO: move to graphics class
 void drawScene() {      
    view.refreshScene();   
-   for(auto it = agents.begin(); it < agents.end(); it++){ 
+   for(auto it = agent::agents.begin(); it < agent::agents.end(); it++){ 
       switch(mode){
          case FOLLOW_MOUSE:       
             (*it).targetPoint = view.getMousePosition();
@@ -88,7 +50,7 @@ void drawScene() {
          case STAY_IN_FIELD:   
             view.drawWall(WALL);  
             behavior.stayInArea(*it, WALL - DISTANCE);
-            behavior.separation(agents, *it, 1);
+            behavior.separation(agent::agents, *it, 1);
          break;
          
          case IN_FLOW_FIELD:        
@@ -101,7 +63,7 @@ void drawScene() {
          case STAY_IN_PATH: 
             view.drawPath(way);
             behavior.stayInPath(*it, way);
-            behavior.separation(agents, *it, 1);
+            behavior.separation(agent::agents, *it, 1);
          break;
 
          case STAY_IN_PATH_2:
@@ -111,9 +73,9 @@ void drawScene() {
 
          case FLOCK:            
             view.checkInScreen((*it));
-            behavior.separation(agents, *it, 0.9); //TODO: jitter must be eleminated
-            behavior.align(agents, *it, 1);
-            behavior.cohesion(agents, *it, 0.3);
+            behavior.separation(agent::agents, *it, 0.9); //TODO: jitter must be eleminated
+            behavior.align(agent::agents, *it, 1);
+            behavior.cohesion(agent::agents, *it, 0.3);
          break;
          case WANDER:
             behavior.wander(*it);
@@ -121,7 +83,7 @@ void drawScene() {
       }
    }
 
-   for(auto it = agents.begin(); it < agents.end(); it++){       
+   for(auto it = agent::agents.begin(); it < agent::agents.end(); it++){       
       (*it).applyForce();
       (*it).updatePosition();         
       view.drawAgent(*it, (*it).vehicleColor);
@@ -136,8 +98,8 @@ int main(int argc, char** argv) {
    
    srand(time(NULL));
    color::createColors();
-   //createAgents();     
-   createRandomAgents(30);
+   agent::createAgents();     
+   //agent::createRandomAgents(30);
 
    //TODO: move to graphics class
    glutInit(&argc, argv);
