@@ -41,13 +41,15 @@ void createRandomAgents(int agentCount){
 
 void createAgents(){
    agent agent1 {-10.0,  0.0};
-   agent1.setFeatures(1.0, 0.3, 20, 1);
+   agent1.name = "agent1";
+   agent1.setFeatures(1.0, 0.4, 20, 1);
    agents.push_back(agent1);
 
-   /*
+
    agent agent2 { 10.0,  0.0};
+   agent2.name = "agent2";
    agent2.setFeatures(0.2, 0.3, 20, 1);
-   agents.push_back(agent2);
+   agents.push_back(agent2);/*
 
    agent agent3 {  0.0, 20.0};
    agent3.setFeatures(0.3, 0.2, 20, 1);
@@ -137,6 +139,8 @@ void drawScene() {
       (*it).updatePosition();         
       view.drawAgent(*it, (*it).vehicleColor);
    }
+   
+   graphics::timerEventFlag = false;
 }
 
 int main(int argc, char** argv) {    

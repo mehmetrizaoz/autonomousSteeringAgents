@@ -9,70 +9,59 @@
 #include <iostream>
 #include <GL/glut.h>
 
-#define CIRCLE_DISTANCE 0.07
-#define CIRCLE_RADIUS   0.2
+#define CIRCLE_DISTANCE 0.05
+#define CIRCLE_RADIUS   0.40
 
 #define PI 3.14159265
 
 using namespace std;
 
-void steeringBehavior::setAngle(pvector &p, float angle){
-   float len = p.magnitude();
-   p.print("p");
-   cout << "len " << len << endl;
-
+void steeringBehavior::setAngle(pvector &p, float angle){   
    p.x = cos ( angle * PI / 180.0 );
    p.y = sin ( angle * PI / 180.0 );
 }
 
-static int wanderAngle = 0;
-int ANGLE_CHANGE = 30;
-void steeringBehavior::wander(agent &agent){     
-   if(graphics::timerEventFlag == true){
-      graphics::timerEventFlag = false;
-
+void steeringBehavior::wander(agent &agent){        
+   if(graphics::timerEventFlag == true){                      
       pvector p{0, 1};
       pvector circleCenter = agent.velocity;
       circleCenter.normalize();
       circleCenter.mul(CIRCLE_DISTANCE + CIRCLE_RADIUS);  
-      graphics::drawPoint(point (agent.position.x + circleCenter.x, circleCenter.y + agent.position.y));
-      graphics::drawLine(agent.position, agent.position + circleCenter); 
-      circleCenter.print("circleCenter");
-      agent.position.print("position");
-      
+      /*graphics::drawPoint(point (agent.position.x + circleCenter.x, 
+                                 agent.position.y + circleCenter.y ));
+      graphics::drawLine(agent.position, agent.position + circleCenter); */
+      //circleCenter.print("circleCenter");
+      //agent.position.print("position");      
 
-      point center = point(agent.position.x + circleCenter.x, circleCenter.y + agent.position.y);
-      graphics::drawCircle(center, CIRCLE_RADIUS);
+      //point center = point(agent.position.x + circleCenter.x, circleCenter.y + agent.position.y);
+      //graphics::drawCircle(center, CIRCLE_RADIUS);
 
-      wanderAngle = (rand() % 360);// * ANGLE_CHANGE) - (ANGLE_CHANGE * .5);
-      cout << "wanderAngle " << wanderAngle << endl;
-      //wanderAngle %= 360;
+      int wanderAngle = (rand() % 360);
 
+      //cout << "wanderAngle " << wanderAngle << endl;
       pvector displacement {0, 1};      
-      //displacement.mul(CIRCLE_RADIUS);
       setAngle(displacement, wanderAngle);
       displacement.mul(CIRCLE_RADIUS);
-      displacement.print("displacement"); 
+      //displacement.print("displacement"); 
 
-      graphics::drawLine(point (agent.position.x + circleCenter.x, circleCenter.y + agent.position.y),
+      /*graphics::drawLine(point (agent.position.x + circleCenter.x, circleCenter.y + agent.position.y),
                          point (agent.position.x + displacement.x + circleCenter.x, 
                                 agent.position.y + displacement.y + circleCenter.y)
-                         );          
-
+                         );*/       
       
       agent.desiredVelocity = displacement + circleCenter;
-      agent.desiredVelocity.print("desiredVelocity");
-      
-      
-      cout << endl;       
+      /*graphics::drawLine(point(agent.position.x, agent.position.y),
+                         point(agent.position.x + agent.desiredVelocity.x, 
+                               agent.desiredVelocity.y + agent.position.y));*/
+      //agent.desiredVelocity.print("desiredVelocity");          
+      //cout << endl;
 
       addSteeringForce(agent, 1);       
 
       //move it to the center when it is out of screen
       if(agent.position.x > WIDTH || agent.position.x < -WIDTH ||
          agent.position.y > HEIGHT || agent.position.y < -HEIGHT)
-         agent.position = point(0,0);
-      
+         agent.position = point(0,0);      
    }
 }
 
