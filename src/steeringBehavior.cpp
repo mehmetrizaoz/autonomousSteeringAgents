@@ -9,8 +9,8 @@
 #include <iostream>
 #include <GL/glut.h>
 
-#define CIRCLE_DISTANCE 0.05
-#define CIRCLE_RADIUS   0.40
+#define CIRCLE_DISTANCE 0.1
+#define CIRCLE_RADIUS   1
 
 #define PI 3.14159265
 
@@ -27,37 +27,27 @@ void steeringBehavior::wander(agent &agent){
       pvector circleCenter = agent.velocity;
       circleCenter.normalize();
       circleCenter.mul(CIRCLE_DISTANCE + CIRCLE_RADIUS);  
-      /*graphics::drawPoint(point (agent.position.x + circleCenter.x, 
-                                 agent.position.y + circleCenter.y ));
-      graphics::drawLine(agent.position, agent.position + circleCenter); */
-      //circleCenter.print("circleCenter");
-      //agent.position.print("position");      
-
+      //graphics::drawPoint(point(agent.position.x + circleCenter.x, agent.position.y + circleCenter.y ));
+      //graphics::drawLine(agent.position, agent.position + circleCenter);
       //point center = point(agent.position.x + circleCenter.x, circleCenter.y + agent.position.y);
       //graphics::drawCircle(center, CIRCLE_RADIUS);
 
-      int wanderAngle = (rand() % 360);
-
-      //cout << "wanderAngle " << wanderAngle << endl;
+      int wanderAngle = (rand() % 360);      
       pvector displacement {0, 1};      
       setAngle(displacement, wanderAngle);
       displacement.mul(CIRCLE_RADIUS);
-      //displacement.print("displacement"); 
 
       /*graphics::drawLine(point (agent.position.x + circleCenter.x, circleCenter.y + agent.position.y),
-                         point (agent.position.x + displacement.x + circleCenter.x, 
-                                agent.position.y + displacement.y + circleCenter.y)
-                         );*/       
+                           point (agent.position.x + displacement.x + circleCenter.x, 
+                                  agent.position.y + displacement.y + circleCenter.y)
+                           );*/       
       
       agent.desiredVelocity = displacement + circleCenter;
       /*graphics::drawLine(point(agent.position.x, agent.position.y),
-                         point(agent.position.x + agent.desiredVelocity.x, 
-                               agent.desiredVelocity.y + agent.position.y));*/
-      //agent.desiredVelocity.print("desiredVelocity");          
-      //cout << endl;
+                           point(agent.position.x + agent.desiredVelocity.x, agent.desiredVelocity.y + agent.position.y));*/
 
-      addSteeringForce(agent, 1);       
-
+      addSteeringForce(agent, 1);  
+      
       //move it to the center when it is out of screen
       if(agent.position.x > WIDTH || agent.position.x < -WIDTH ||
          agent.position.y > HEIGHT || agent.position.y < -HEIGHT)

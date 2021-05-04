@@ -28,7 +28,6 @@ void createRandomAgents(int agentCount){
    int size = MAX_NUMBER_OF_AGENTS * 2;   
    int arr[size];
    random::createRandomArray(arr, size);
-
    agent tempAgent {0, 0};
    for(int i=0; i < agentCount * 2; i=i+2){
       tempAgent.position.x = arr[i]   - WIDTH;
@@ -44,7 +43,6 @@ void createAgents(){
    agent1.name = "agent1";
    agent1.setFeatures(1.0, 0.4, 20, 1);
    agents.push_back(agent1);
-
 
    agent agent2 { 10.0,  0.0};
    agent2.name = "agent2";
@@ -139,7 +137,7 @@ void drawScene() {
       (*it).updatePosition();         
       view.drawAgent(*it, (*it).vehicleColor);
    }
-   
+
    graphics::timerEventFlag = false;
 }
 
