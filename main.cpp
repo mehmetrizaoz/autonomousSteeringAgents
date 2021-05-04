@@ -20,7 +20,7 @@ int mode;
 flowField flow;
 graphics  view;
 vector<agent> agents;
-vector<color> colors;
+//vector<color> colors;
 path way;
 steeringBehavior behavior;
 
@@ -32,7 +32,7 @@ void createRandomAgents(int agentCount){
    for(int i=0; i < agentCount * 2; i=i+2){
       tempAgent.position.x = arr[i]   - WIDTH;
       tempAgent.position.y = arr[i+1] - HEIGHT;
-      tempAgent.vehicleColor = colors.at( (i/2) % 8 );
+      tempAgent.vehicleColor = color::colors.at( (i/2) % 8 );
       tempAgent.setFeatures(0.5, 0.3, 20, 1);
       agents.push_back(tempAgent);
    }
@@ -73,17 +73,6 @@ void displayMenu(){
       way.createPath_1();      
    else if(mode == STAY_IN_PATH_2)
       way.createPath_2();
-}
-
-void createColors(){ //TODO: move to colors
-   colors.push_back(color(0.0, 0.0, 0.0));
-   colors.push_back(color(0.0, 0.0, 1.0));
-   colors.push_back(color(0.0, 1.0, 0.0));
-   colors.push_back(color(0.0, 1.0, 1.0));
-   colors.push_back(color(1.0, 0.0, 0.0));
-   colors.push_back(color(1.0, 0.0, 1.0));
-   colors.push_back(color(1.0, 1.0, 0.0));
-   colors.push_back(color(1.0, 1.0, 1.0));
 }
 
 //TODO: move to graphics class
@@ -146,9 +135,9 @@ int main(int argc, char** argv) {
    view = graphics();    
    
    srand(time(NULL));
-   createColors();
-   createAgents();     
-   //createRandomAgents(30);
+   color::createColors();
+   //createAgents();     
+   createRandomAgents(30);
 
    //TODO: move to graphics class
    glutInit(&argc, argv);
