@@ -23,7 +23,14 @@ void graphics::refreshScene(){
    glTranslatef(0.0f, 0.0f, -85.0f); //Move to the center of the triangle     
 }
 
-void graphics::initGraphics(){
+void graphics::initGraphics(int * a, char** c, void (*callback)()){
+    glutInit(a, c);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+    glutInitWindowSize(400, 400);   
+    glutCreateWindow("Autonomous Steering Agents");
+    glClearColor(0.7f, 0.7f, 0.7f, 1.0f); //set background color
+    glEnable(GL_DEPTH_TEST);   
+    glutDisplayFunc(*callback);
     glutMouseFunc(graphics::mouseButton);
     glutPassiveMotionFunc(graphics::mouseMove);
     glutKeyboardFunc(graphics::handleKeypress);

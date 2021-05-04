@@ -92,24 +92,17 @@ void drawScene() {
    graphics::timerEventFlag = false;
 }
 
+
+
 int main(int argc, char** argv) {    
    displayMenu();
-   view = graphics();    
-   
+
+   view = graphics();       
    srand(time(NULL));
    color::createColors();
    agent::createAgents();     
-   //agent::createRandomAgents(30);
+   agent::createRandomAgents(30);
 
-   //TODO: move to graphics class
-   glutInit(&argc, argv);
-   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-   glutInitWindowSize(400, 400);   
-   glutCreateWindow("Autonomous Steering Agents");
-   glClearColor(0.7f, 0.7f, 0.7f, 1.0f); //set background color
-   glEnable(GL_DEPTH_TEST);    
-   glutDisplayFunc(drawScene);
-
-   view.initGraphics();
+   view.initGraphics(&argc, argv, drawScene);
    return 0;
 }

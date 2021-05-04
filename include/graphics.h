@@ -21,7 +21,8 @@ public:
    void checkInScreen(agent &agent);
    void refreshScene();
    point getMousePosition();
-   void initGraphics();
+   //void initGraphics(void (*callback)());
+   void initGraphics(int * a, char** c, void (*callback)());
    static void timerEvent(int value);
    static void handleKeypress(unsigned char key, int x, int y);
    static void mouseButton(int button, int state, int x, int y);
