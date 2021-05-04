@@ -20,7 +20,7 @@ graphics  view;
 path way;
 steeringBehavior behavior;
 
-void displayMenu(){
+void menu(){
    cout << "Follow Mouse  : 1" << endl;
    cout << "Stay in Field : 2" << endl;
    cout << "In Flow Field : 3" << endl;
@@ -37,9 +37,9 @@ void displayMenu(){
       way.createPath_2();
 }
 
-//TODO: move to graphics class
-void drawScene() {      
+void loop() {      
    view.refreshScene();   
+
    for(auto it = agent::agents.begin(); it < agent::agents.end(); it++){ 
       switch(mode){
          case FOLLOW_MOUSE:       
@@ -92,17 +92,15 @@ void drawScene() {
    graphics::timerEventFlag = false;
 }
 
-
-
 int main(int argc, char** argv) {    
-   displayMenu();
+   menu();
 
    view = graphics();       
    srand(time(NULL));
    color::createColors();
    agent::createAgents();     
-   agent::createRandomAgents(30);
+   //agent::createRandomAgents(30);
 
-   view.initGraphics(&argc, argv, drawScene);
+   view.initGraphics(&argc, argv, loop);
    return 0;
 }
