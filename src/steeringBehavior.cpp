@@ -4,11 +4,13 @@
 #include "path.h"
 #include "point.h"
 #include <vector>
+#include "graphics.h"
 #include "math.h"
 #include <iostream>
+#include <GL/glut.h>
 
-#define CIRCLE_DISTANCE 0.05
-#define CIRCLE_RADIUS   0.25
+#define CIRCLE_DISTANCE 1
+#define CIRCLE_RADIUS   0.5
 
 #define PI 3.14159265
 
@@ -21,26 +23,39 @@ void steeringBehavior::setAngle(pvector &p, float angle){
 }
 
 static int wanderAngle = 0;
+void steeringBehavior::wander(agent &agent){     
+   if(graphics::timerEventFlag == true){
+      graphics::timerEventFlag = false;
 
-void steeringBehavior::wander(agent &agent){      
-   static int counter = 0;
-   pvector p{0, 1};
-   pvector circleCenter = agent.velocity;
-   circleCenter.normalize();
-   circleCenter.mul(CIRCLE_DISTANCE);      
+      pvector p{0, 1};
+      pvector circleCenter = agent.velocity;
+      circleCenter.normalize();
+      circleCenter.mul(CIRCLE_DISTANCE + CIRCLE_RADIUS);     
+/*
+   glPointSize(5.2);
+   glBegin(GL_POINTS);
+   glVertex2f(agent.position.x + circleCenter.x, circleCenter.y + agent.position.y);
+   glEnd(); 
+
+   glColor3f( 0.0, 0.0, 1.0); 
+   glLineWidth(2);
+   glBegin(GL_LINES);
+   glVertex2f(agent.position.x, agent.position.y);
+   glVertex2f(agent.position.x + circleCenter.x, circleCenter.y + agent.position.y);
+   glEnd();
    
-   pvector displacement {0, 1};
-   displacement.mul(CIRCLE_RADIUS);
-   setAngle(displacement, wanderAngle);   
+      point c = point(agent.position.x + circleCenter.x, circleCenter.y + agent.position.y);
+      graphics::drawCircle(c, CIRCLE_RADIUS);*/
+        
+      wanderAngle += rand() % 360;
+
+      pvector displacement {0, 1};
+      displacement.mul(CIRCLE_RADIUS);
+      setAngle(displacement, wanderAngle);   
    
-   counter++;
-   if(counter == 10){
-      counter = 0;
-      wanderAngle = (rand() % 361);   
+      agent.desiredVelocity = displacement + circleCenter;
+      addSteeringForce(agent, 1);  
    }
-   
-   agent.desiredVelocity = displacement + circleCenter;
-   addSteeringForce(agent, 1);  
 }
 
 void steeringBehavior::addSteeringForce(agent &agent, float multiplier){

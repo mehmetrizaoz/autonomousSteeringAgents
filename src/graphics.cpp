@@ -1,8 +1,10 @@
 #include "graphics.h"
 #include <GL/glut.h>
 #include <iostream>
+#include "math.h"
 
 #define ESC         27
+#define PI          3.14159265
 
 using namespace std;
 
@@ -11,6 +13,7 @@ class point;
 
 int graphics::target_x = -WIDTH;
 int graphics::target_y = HEIGHT;
+bool graphics::timerEventFlag = false;
 
 void graphics::refreshScene(){
    glutSwapBuffers();
@@ -62,9 +65,16 @@ void graphics::handleResize(int w, int h) {
                    200.0);                //The far z clipping coordinate
 }
 
+#define _100_MS 5  //TODO: move them somewhere else
+static int counter = 0;
 void graphics::timerEvent(int value) {
     glutPostRedisplay(); //Tell GLUT that the display has changed
     glutTimerFunc(20, timerEvent, 0);
+    counter++;
+    if(counter == _100_MS){
+       counter = 0;
+       graphics::timerEventFlag = true;
+    }
 }
 
 void graphics::mouseButton(int button, int state, int x, int y){
@@ -94,6 +104,19 @@ void graphics::drawLine(point p1, point p2){
     glVertex2f(p1.x, p1.y);
     glVertex2f(p2.x, p2.y);
     glEnd();  
+}
+
+void graphics::drawCircle(point p, float radius){
+   glBegin(GL_LINES);                           
+   pvector p2 = pvector(0,0);
+
+   for (int i = 0; i <= 300; i++) {
+     float angle = 2 * PI * i / 300;
+     float x = cos(angle) * radius;
+     float y = sin(angle) * radius;
+     glVertex2d(p.x + x, p.y + y);
+   }
+   glEnd();
 }
 
 void graphics::drawPoint(point p){

@@ -127,23 +127,7 @@ void drawScene() {
          break;
          case WANDER:
             behavior.wander(*it);
-         break;
-         case PURSUIT:
-         break;
-         case HIDE:
-         break;
-         case PATH_LOOP:
-         break;
-         case FLEE:
-         break;         
-         case OBSTACLE_AVOIDANCE:
-         break;
-         case WALL_FOLLOWER:
-         break;         
-         case OFFSET_PURSUIT:
-         break;         
-         case LEADER_FOLLOWER:
-         break;         
+         break;      
       }
    }
 
@@ -156,10 +140,9 @@ void drawScene() {
 
 int main(int argc, char** argv) {    
    displayMenu();
-   view = graphics();       
+   view = graphics();    
    
    srand(time(NULL));
-
    createColors();
    createAgents();     
    //createRandomAgents(30);

@@ -17,6 +17,7 @@ public:
    void drawLine(point predicted, point normal);
    void drawPath(path &path);  
    void drawPoint(point p);
+   static void drawCircle(point p, float radius);
    void checkInScreen(agent &agent);
    void refreshScene();
    point getMousePosition();
@@ -26,6 +27,7 @@ public:
    static void mouseButton(int button, int state, int x, int y);
    static void handleResize(int w, int h);
    static void mouseMove(int x, int y);   
+   static bool timerEventFlag;
    static int target_x;
    static int target_y;   
 };
