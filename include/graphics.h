@@ -14,9 +14,9 @@ class graphics{
 public:
    void drawWall(float border);
    void drawAgent(agent &agent, color &color);
-   void drawLine(point predicted, point normal);
+   static void drawLine(point predicted, point normal);
    void drawPath(path &path);  
-   void drawPoint(point p);
+   static void drawPoint(point p);
    static void drawCircle(point p, float radius);
    void checkInScreen(agent &agent);
    void refreshScene();

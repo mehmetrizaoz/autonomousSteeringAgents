@@ -71,7 +71,7 @@ void graphics::timerEvent(int value) {
     glutPostRedisplay(); //Tell GLUT that the display has changed
     glutTimerFunc(20, timerEvent, 0);
     counter++;
-    if(counter == _100_MS){
+    if(counter == _100_MS * 2){
        counter = 0;
        graphics::timerEventFlag = true;
     }
@@ -99,7 +99,7 @@ void graphics::drawPath(path &path){
 
 void graphics::drawLine(point p1, point p2){
     glColor3f( 0.0, 0.0, 1.0); 
-    glLineWidth(2);
+    glLineWidth(4);
     glBegin(GL_LINES);
     glVertex2f(p1.x, p1.y);
     glVertex2f(p2.x, p2.y);
@@ -109,7 +109,7 @@ void graphics::drawLine(point p1, point p2){
 void graphics::drawCircle(point p, float radius){
    glBegin(GL_LINES);                           
    pvector p2 = pvector(0,0);
-
+   glLineWidth(2);
    for (int i = 0; i <= 300; i++) {
      float angle = 2 * PI * i / 300;
      float x = cos(angle) * radius;
@@ -120,7 +120,7 @@ void graphics::drawCircle(point p, float radius){
 }
 
 void graphics::drawPoint(point p){
-    glPointSize(2.2);
+    glPointSize(4.0);
     glBegin(GL_POINTS);
     glVertex2f(p.x, p.y);
     glEnd();

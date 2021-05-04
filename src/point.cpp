@@ -1,5 +1,9 @@
 #include "point.h"
 #include "pvector.h"
+#include <string>
+#include <iostream>
+
+using namespace std;
 
 point::point(float x, float y){
    this->x = x;
@@ -43,4 +47,8 @@ point point::getNormalPoint(point predicted, point start, point end){
    b.mul(a_dot_b);   
    point normalPoint = start + b;
    return normalPoint;
+}
+
+void point::print(const string &s){
+   cout << s << " " << x << " " << y << endl;
 }

@@ -9,8 +9,8 @@
 #include <iostream>
 #include <GL/glut.h>
 
-#define CIRCLE_DISTANCE 1
-#define CIRCLE_RADIUS   0.5
+#define CIRCLE_DISTANCE 0.07
+#define CIRCLE_RADIUS   0.2
 
 #define PI 3.14159265
 
@@ -18,11 +18,15 @@ using namespace std;
 
 void steeringBehavior::setAngle(pvector &p, float angle){
    float len = p.magnitude();
+   p.print("p");
+   cout << "len " << len << endl;
+
    p.x = cos ( angle * PI / 180.0 );
    p.y = sin ( angle * PI / 180.0 );
 }
 
 static int wanderAngle = 0;
+int ANGLE_CHANGE = 30;
 void steeringBehavior::wander(agent &agent){     
    if(graphics::timerEventFlag == true){
       graphics::timerEventFlag = false;
@@ -30,31 +34,45 @@ void steeringBehavior::wander(agent &agent){
       pvector p{0, 1};
       pvector circleCenter = agent.velocity;
       circleCenter.normalize();
-      circleCenter.mul(CIRCLE_DISTANCE + CIRCLE_RADIUS);     
-/*
-   glPointSize(5.2);
-   glBegin(GL_POINTS);
-   glVertex2f(agent.position.x + circleCenter.x, circleCenter.y + agent.position.y);
-   glEnd(); 
+      circleCenter.mul(CIRCLE_DISTANCE + CIRCLE_RADIUS);  
+      graphics::drawPoint(point (agent.position.x + circleCenter.x, circleCenter.y + agent.position.y));
+      graphics::drawLine(agent.position, agent.position + circleCenter); 
+      circleCenter.print("circleCenter");
+      agent.position.print("position");
+      
 
-   glColor3f( 0.0, 0.0, 1.0); 
-   glLineWidth(2);
-   glBegin(GL_LINES);
-   glVertex2f(agent.position.x, agent.position.y);
-   glVertex2f(agent.position.x + circleCenter.x, circleCenter.y + agent.position.y);
-   glEnd();
-   
-      point c = point(agent.position.x + circleCenter.x, circleCenter.y + agent.position.y);
-      graphics::drawCircle(c, CIRCLE_RADIUS);*/
-        
-      wanderAngle += rand() % 360;
+      point center = point(agent.position.x + circleCenter.x, circleCenter.y + agent.position.y);
+      graphics::drawCircle(center, CIRCLE_RADIUS);
 
-      pvector displacement {0, 1};
+      wanderAngle = (rand() % 360);// * ANGLE_CHANGE) - (ANGLE_CHANGE * .5);
+      cout << "wanderAngle " << wanderAngle << endl;
+      //wanderAngle %= 360;
+
+      pvector displacement {0, 1};      
+      //displacement.mul(CIRCLE_RADIUS);
+      setAngle(displacement, wanderAngle);
       displacement.mul(CIRCLE_RADIUS);
-      setAngle(displacement, wanderAngle);   
-   
+      displacement.print("displacement"); 
+
+      graphics::drawLine(point (agent.position.x + circleCenter.x, circleCenter.y + agent.position.y),
+                         point (agent.position.x + displacement.x + circleCenter.x, 
+                                agent.position.y + displacement.y + circleCenter.y)
+                         );          
+
+      
       agent.desiredVelocity = displacement + circleCenter;
-      addSteeringForce(agent, 1);  
+      agent.desiredVelocity.print("desiredVelocity");
+      
+      
+      cout << endl;       
+
+      addSteeringForce(agent, 1);       
+
+      //move it to the center when it is out of screen
+      if(agent.position.x > WIDTH || agent.position.x < -WIDTH ||
+         agent.position.y > HEIGHT || agent.position.y < -HEIGHT)
+         agent.position = point(0,0);
+      
    }
 }
 
@@ -112,7 +130,7 @@ void steeringBehavior::cohesion(vector<agent> boids, agent &agent, float multipl
 }
 
 void steeringBehavior::separation(vector<agent> agents, agent &agent, float multiplier){   
-   float desiredSeparation = 5; //TODO: magic numer
+   float desiredSeparation = 3; //TODO: magic numer
    int count = 0;   
    pvector diff {0,0};
    //TODO: logic below will be function and unit test for the function will be created
@@ -171,20 +189,20 @@ void steeringBehavior::stayInPath_2(agent &agent, path &path){
 
 //TODO: use C++11 deprecated attribute
 void steeringBehavior::stayInPath(agent &agent, path &path){  
-  point start = path.points.at(0);
-  point end   = path.points.at(1);
-  point predictedPos = agent.position + agent.velocity; 
-  point normalPoint = point::getNormalPoint(predictedPos, start, end);
-  pvector b = end - start;
-  b.normalize();
+   point start = path.points.at(0);
+   point end   = path.points.at(1);
+   point predictedPos = agent.position + agent.velocity; 
+   point normalPoint = point::getNormalPoint(predictedPos, start, end);
+   pvector b = end - start;
+   b.normalize();
 
-  pvector distance  = predictedPos - normalPoint;
-  agent.targetPoint = normalPoint  + b;
-  //view.drawLine(predictedPos, normalPoint);
-  //view.drawPoint(targetPoint);
+   pvector distance  = predictedPos - normalPoint;
+   agent.targetPoint = normalPoint  + b;
+   //view.drawLine(predictedPos, normalPoint);
+   //view.drawPoint(targetPoint);
     
-  if(distance.magnitude() > path.width / 8)
-     seek(agent, WITHOUT_ARRIVING); //!
+   if(distance.magnitude() > path.width / 8)
+     seek(agent, WITHOUT_ARRIVING);
 }
 
 void steeringBehavior::inFlowField(agent &agent, flowField &flow){

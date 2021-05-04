@@ -112,6 +112,7 @@ void drawScene() {
          case STAY_IN_PATH: 
             view.drawPath(way);
             behavior.stayInPath(*it, way);
+            behavior.separation(agents, *it, 1);
          break;
 
          case STAY_IN_PATH_2:
