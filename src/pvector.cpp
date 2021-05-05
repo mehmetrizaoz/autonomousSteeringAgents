@@ -41,6 +41,11 @@ void pvector::mul(float i){
    y = y * i;
 }
 
+void pvector::add(pvector p){
+   x = x + p.x;
+   y = y + p.y;
+}
+
 float pvector::magnitude(){
    return sqrt((this->x * this->x) + (this->y * this->y));
 }
@@ -61,6 +66,12 @@ pvector pvector::operator + (pvector const &obj) {
    res.x = x + obj.x;
    res.y = y + obj.y;
    return res;
+}
+
+pvector pvector::operator += (pvector const &obj) {   
+   x = x + obj.x;
+   y = y + obj.y;
+   return *this;
 }
 
 bool pvector::operator == (pvector const &obj) {      

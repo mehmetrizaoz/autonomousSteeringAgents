@@ -49,21 +49,21 @@ void loop() {
 
          case STAY_IN_FIELD:   
             view.drawWall(WALL);  
-            (*it).force = behavior.stayInArea(*it, WALL - DISTANCE);
-            (*it).force = (*it).force + behavior.separation(agent::agents, *it, 1);
+            (*it).force  = behavior.stayInArea(*it, WALL - DISTANCE);
+            (*it).force += behavior.separation(agent::agents, *it, 1);
          break;
          
          case IN_FLOW_FIELD:        
             flow = flowField(pvector(GRAVITY));
-            (*it).force = behavior.inFlowField(*it, flow);
+            (*it).force  = behavior.inFlowField(*it, flow);
             flow = flowField(pvector(WIND_WEST));
-            (*it).force = (*it).force + behavior.inFlowField(*it, flow);
+            (*it).force += behavior.inFlowField(*it, flow);
          break;
          
          case STAY_IN_PATH: 
             view.drawPath(way);
-            (*it).force = behavior.stayInPath(*it, way);
-            (*it).force = (*it).force + behavior.separation(agent::agents, *it, 1);
+            (*it).force  = behavior.stayInPath(*it, way);
+            (*it).force += behavior.separation(agent::agents, *it, 1);
          break;
 
          case STAY_IN_PATH_2:
@@ -73,9 +73,9 @@ void loop() {
 
          case FLOCK:            
             view.checkInScreen((*it));
-            (*it).force = behavior.separation(agent::agents, *it, 0.9); //TODO: jitter must be eleminated
-            (*it).force = (*it).force + behavior.align(agent::agents, *it, 1);
-            (*it).force = (*it).force + behavior.cohesion(agent::agents, *it, 0.3);
+            (*it).force  = behavior.separation(agent::agents, *it, 0.9); //TODO: jitter must be eleminated
+            (*it).force += behavior.align(agent::agents, *it, 1);
+            (*it).force += behavior.cohesion(agent::agents, *it, 0.3);
          break;
          case WANDER:
             (*it).force = behavior.wander(*it);
