@@ -28,9 +28,9 @@ class steeringBehavior{
 public:   
    void stayInArea(agent &agent, int turnPoint);
    void inFlowField(agent &agent, flowField &flow);
-   void stayInPath(agent &agent, path &path);
-   void stayInPath_2(agent &agent, path &path); 
-   void seek(agent &agent, bool arriving);
+   pvector stayInPath(agent &agent, path &path);
+   pvector stayInPath_2(agent &agent, path &path); 
+   pvector seek(agent &agent, bool arriving);
    void separation(vector<agent> agents, agent &agent, float multiplier);
    void cohesion(vector<agent> boids, agent &agent, float multiplier);
    void align(vector<agent> boids, agent &agent, float multiplier);

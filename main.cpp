@@ -44,7 +44,7 @@ void loop() {
       switch(mode){
          case FOLLOW_MOUSE:       
             (*it).targetPoint = view.getMousePosition();
-            behavior.seek(*it, WITH_ARRIVING);
+            (*it).force = behavior.seek(*it, WITH_ARRIVING);
          break;
 
          case STAY_IN_FIELD:   
@@ -62,13 +62,13 @@ void loop() {
          
          case STAY_IN_PATH: 
             view.drawPath(way);
-            behavior.stayInPath(*it, way);
+            (*it).force = behavior.stayInPath(*it, way);
             behavior.separation(agent::agents, *it, 1);
          break;
 
          case STAY_IN_PATH_2:
             view.drawPath(way);
-            behavior.stayInPath_2(*it, way);
+            (*it).force = behavior.stayInPath_2(*it, way);
          break;
 
          case FLOCK:            

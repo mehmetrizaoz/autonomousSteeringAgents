@@ -151,7 +151,7 @@ void steeringBehavior::separation(vector<agent> agents, agent &agent, float mult
    } 
 }
 
-void steeringBehavior::seek(agent &agent, bool arriving){
+pvector steeringBehavior::seek(agent &agent, bool arriving){
    pvector diff = agent.targetPoint - agent.position;
    agent.desiredVelocity = diff;
    agent.desiredVelocity.normalize();
@@ -166,11 +166,12 @@ void steeringBehavior::seek(agent &agent, bool arriving){
    agent.steering = agent.desiredVelocity - agent.velocity;
    agent.steering.mul(1);
    agent.steering.limit(agent.maxForce);   
-   agent.force = agent.force + agent.steering; //!
+   return agent.steering;
+   //agent.force = agent.force + agent.steering; //!
    
 }
 
-void steeringBehavior::stayInPath_2(agent &agent, path &path){     
+pvector steeringBehavior::stayInPath_2(agent &agent, path &path){     
    float worldRecord = 1000000; //TODO: magic number
    point normalPoint, predictedPos, start, end;
    pvector distance;   
@@ -190,11 +191,11 @@ void steeringBehavior::stayInPath_2(agent &agent, path &path){
       }       
    }      
    //view.drawPoint(targetPoint);
-   seek(agent, WITHOUT_ARRIVING);
+   return seek(agent, WITHOUT_ARRIVING);
 }
 
 //TODO: use C++11 deprecated attribute
-void steeringBehavior::stayInPath(agent &agent, path &path){  
+pvector steeringBehavior::stayInPath(agent &agent, path &path){  
    point start = path.points.at(0);
    point end   = path.points.at(1);
    point predictedPos = agent.position + agent.velocity; 
@@ -208,7 +209,8 @@ void steeringBehavior::stayInPath(agent &agent, path &path){
    //view.drawPoint(targetPoint);
     
    if(distance.magnitude() > path.width / 8)
-     seek(agent, WITHOUT_ARRIVING);
+     return seek(agent, WITHOUT_ARRIVING);
+   return pvector(0,0);
 }
 
 void steeringBehavior::inFlowField(agent &agent, flowField &flow){
