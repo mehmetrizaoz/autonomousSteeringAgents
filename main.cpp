@@ -98,8 +98,8 @@ int main(int argc, char** argv) {
    view = graphics();       
    srand(time(NULL));
    color::createColors();
-   agent::createAgents();     
-   //agent::createRandomAgents(30);
+   //agent::createAgents();     
+   agent::createRandomAgents(30);
 
    view.initGraphics(&argc, argv, loop);
    return 0;

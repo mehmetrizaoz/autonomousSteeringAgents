@@ -52,6 +52,9 @@ void pvector::normalize(){
 }
 
 void pvector::limit(float limit){
+   this->magnitude();
+   this->mul(limit);
+   /*
    if(this->x >  limit)
       this->x =  limit;
    if(this->x < -limit)
@@ -60,6 +63,7 @@ void pvector::limit(float limit){
       this->y =  limit;
    if(this->y < -limit)
       this->y = -limit;
+      */
 }
 
 pvector pvector::operator + (pvector const &obj) {

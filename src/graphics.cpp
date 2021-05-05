@@ -114,8 +114,7 @@ void graphics::drawLine(point p1, point p2){
 }
 
 void graphics::drawCircle(point p, float radius){
-   glBegin(GL_LINES);                           
-   pvector p2 = pvector(0,0);
+   glBegin(GL_LINES);                              
    glLineWidth(2);
    for (int i = 0; i <= 300; i++) {
      float angle = 2 * PI * i / 300;
