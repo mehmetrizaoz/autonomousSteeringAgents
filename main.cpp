@@ -63,7 +63,6 @@ void loop() {
          case STAY_IN_PATH: 
             view.drawPath(way);
             (*it).force  = behavior.stayInPath(*it, way);
-            (*it).force += behavior.separation(agent::agents, *it, 1);
          break;
 
          case STAY_IN_PATH_2:
@@ -73,9 +72,9 @@ void loop() {
 
          case FLOCK:            
             view.checkInScreen((*it));
-            (*it).force  = behavior.separation(agent::agents, *it, 0.9); //TODO: jitter must be eleminated
-            (*it).force += behavior.align(agent::agents, *it, 1);
-            (*it).force += behavior.cohesion(agent::agents, *it, 0.3);
+            (*it).force  = behavior.separation(agent::agents, *it, 1); //TODO: jitter must be eleminated
+            (*it).force += behavior.align(agent::agents, *it, 1.2);
+            (*it).force += behavior.cohesion(agent::agents, *it, 0.2);
          break;
          case WANDER:
             (*it).force = behavior.wander(*it);
@@ -84,12 +83,9 @@ void loop() {
    }
 
    for(auto it = agent::agents.begin(); it < agent::agents.end(); it++){       
-      (*it).applyForce();
       (*it).updatePosition();         
       view.drawAgent(*it, (*it).vehicleColor);
    }
-
-   //graphics::timerEventFlag = false;
 }
 
 int main(int argc, char** argv) {    

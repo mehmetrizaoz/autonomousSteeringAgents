@@ -57,7 +57,7 @@ void pvector::normalize(){
 }
 
 void pvector::limit(float limit){
-   this->magnitude();
+   this->normalize();
    this->mul(limit);
 }
 
