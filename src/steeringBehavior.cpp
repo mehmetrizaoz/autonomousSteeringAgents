@@ -102,7 +102,6 @@ pvector steeringBehavior::cohesion(vector<agent> boids, agent &agent, float mult
       agent.desiredVelocity = agent.targetPoint - agent.position;
       agent.desiredVelocity.normalize();
       agent.desiredVelocity.mul(agent.maxSpeed);
-
       agent.steering = agent.desiredVelocity - agent.velocity;   
       agent.steering.mul(multiplier); 
       return agent.steering;
@@ -111,30 +110,29 @@ pvector steeringBehavior::cohesion(vector<agent> boids, agent &agent, float mult
 }
 
 pvector steeringBehavior::separation(vector<agent> agents, agent &agent, float multiplier){   
-   float desiredSeparation = 3; //TODO: magic numer
-   int count = 0;   
-   pvector diff {0,0};
+   float desiredSeparation = 3; //TODO: magic number
    pvector sum = pvector(0,0);
-
-   for(auto it = agents.begin(); it < agents.end(); it++){
-      diff = agent.position - (*it).position;
-      if( (diff.magnitude() >0) && (diff.magnitude() < desiredSeparation) ){         
-         float a = desiredSeparation - diff.magnitude();
+   int count = 0;   
+   //pvector diff {0,0}; 
+   for(auto it = agents.begin(); it < agents.end(); it++){      
+      float d = (agent.position - (*it).position).magnitude();
+      
+      if( (d > 0) && (d < desiredSeparation) ){ 
+         pvector diff = agent.position - (*it).position;
          diff.normalize();
-         diff.mul(a);
+         diff.div(d);
          sum = sum + diff;
          count++;
       }   
    }
 
-   if(count > 0){ //TODO: implement with common utility function
-      agent.desiredVelocity = sum;
-      agent.desiredVelocity.div(count);
-      agent.desiredVelocity.normalize();
-      agent.desiredVelocity.mul(agent.maxSpeed);
+   if(count > 0){ //TODO: implement with common utility function      
+      sum.div(count);
+      sum.normalize();
+      sum.mul(agent.maxSpeed);
               
-      agent.steering = agent.desiredVelocity - agent.velocity;   
-      agent.steering.mul(multiplier);        
+      agent.steering = sum - agent.velocity;   
+      agent.steering.limit(agent.maxForce);
       return agent.steering;
    } 
    return pvector(0,0);
@@ -142,8 +140,7 @@ pvector steeringBehavior::separation(vector<agent> agents, agent &agent, float m
 
 //TODO: add arriving behavior
 pvector steeringBehavior::seek(agent &agent){
-   agent.desiredVelocity = agent.targetPoint - agent.position;;
- 
+   agent.desiredVelocity = agent.targetPoint - agent.position; 
    agent.steering = agent.desiredVelocity - agent.velocity;         
    agent.steering.limit(agent.maxForce);
    return agent.steering;  

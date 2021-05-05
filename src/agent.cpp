@@ -50,9 +50,9 @@ void agent::updatePosition(int mode){
     force.div(mass);
     acceleration = force;   
     velocity += acceleration;
-
     
     if(mode == FOLLOW_MOUSE){
+        //arriving behavior
         pvector diff = targetPoint - position;
         if(diff.magnitude() > r)
            velocity.limit(maxSpeed);   

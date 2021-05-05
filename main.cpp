@@ -72,9 +72,9 @@ void loop() {
 
          case FLOCK:            
             view.checkInScreen((*it));
-            (*it).force  = behavior.separation(agent::agents, *it, 0.8); //TODO: jitter must be eleminated
+            (*it).force  = behavior.separation(agent::agents, *it, 1); //TODO: jitter must be eleminated
             (*it).force += behavior.align(agent::agents, *it, 1.0);
-            (*it).force += behavior.cohesion(agent::agents, *it, 0.2);
+            (*it).force += behavior.cohesion(agent::agents, *it, 0.1);
          break;
          case WANDER:
             (*it).force = behavior.wander(*it);
