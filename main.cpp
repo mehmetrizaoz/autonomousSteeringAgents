@@ -44,7 +44,7 @@ void loop() {
       switch(mode){
          case FOLLOW_MOUSE:       
             (*it).targetPoint = view.getMousePosition();
-            (*it).force = behavior.seek(*it, WITH_ARRIVING);
+            (*it).force = behavior.seek(*it);
          break;
 
          case STAY_IN_FIELD:   
@@ -83,7 +83,7 @@ void loop() {
    }
 
    for(auto it = agent::agents.begin(); it < agent::agents.end(); it++){       
-      (*it).updatePosition();         
+      (*it).updatePosition(mode);         
       view.drawAgent(*it, (*it).vehicleColor);
    }
 }

@@ -30,7 +30,7 @@ public:
    pvector inFlowField(agent &agent, flowField &flow);
    pvector stayInPath(agent &agent, path &path);
    pvector stayInPath_2(agent &agent, path &path); 
-   pvector seek(agent &agent, bool arriving);
+   pvector seek(agent &agent);
    pvector separation(vector<agent> agents, agent &agent, float multiplier);
    pvector cohesion(vector<agent> boids, agent &agent, float multiplier);
    pvector align(vector<agent> boids, agent &agent, float multiplier);   

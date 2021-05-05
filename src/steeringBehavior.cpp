@@ -141,19 +141,9 @@ pvector steeringBehavior::separation(vector<agent> agents, agent &agent, float m
 }
 
 //TODO: add arriving behavior
-pvector steeringBehavior::seek(agent &agent, bool arriving){
-   //pvector diff = agent.targetPoint - agent.position;
-   agent.desiredVelocity = agent.targetPoint - agent.position;
-   agent.desiredVelocity.normalize();
-   agent.desiredVelocity.mul(agent.maxSpeed);  
-/*
-   if(arriving == true){ //TODO: not works well
-      if(diff.magnitude() > agent.r) 
-         agent.desiredVelocity.limit(agent.maxSpeed);       
-      else 
-         agent.desiredVelocity.limit(agent.maxSpeed * diff.magnitude() / agent.r);       
-   } */
-  
+pvector steeringBehavior::seek(agent &agent){
+   agent.desiredVelocity = agent.targetPoint - agent.position;;
+ 
    agent.steering = agent.desiredVelocity - agent.velocity;         
    agent.steering.limit(agent.maxForce);
    return agent.steering;  
@@ -179,7 +169,7 @@ pvector steeringBehavior::stayInPath_2(agent &agent, path &path){
       }       
    }      
    //view.drawPoint(targetPoint);
-   return seek(agent, WITHOUT_ARRIVING);
+   return seek(agent);
 }
 
 //TODO: use C++11 deprecated attribute
@@ -197,7 +187,7 @@ pvector steeringBehavior::stayInPath(agent &agent, path &path){
    //view.drawPoint(targetPoint);
     
    if(distance.magnitude() > path.width / 8)
-     return seek(agent, WITHOUT_ARRIVING);
+     return seek(agent);
    return pvector(0,0);
 }
 
