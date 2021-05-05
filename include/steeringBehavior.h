@@ -33,8 +33,7 @@ public:
    pvector seek(agent &agent, bool arriving);
    pvector separation(vector<agent> agents, agent &agent, float multiplier);
    pvector cohesion(vector<agent> boids, agent &agent, float multiplier);
-   pvector align(vector<agent> boids, agent &agent, float multiplier);
-   void addSteeringForce(agent &agent, float multiplier);
+   pvector align(vector<agent> boids, agent &agent, float multiplier);   
    pvector wander(agent &agent);
    void setAngle(pvector &p, float angle);
 };

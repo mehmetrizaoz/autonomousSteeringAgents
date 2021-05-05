@@ -46,10 +46,10 @@ agent::agent(float x, float  y){
 }
 
 void agent::updatePosition(){
-       acceleration = force;   
-   velocity = velocity + acceleration;
-   velocity.limit(maxSpeed);
-   position = position + velocity;
+    acceleration = force;   
+    velocity = velocity + acceleration;
+    velocity.limit(maxSpeed);
+    position = position + velocity;
 }
 
 void agent::setFeatures(float s, float f, float r, float m){

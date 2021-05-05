@@ -72,8 +72,8 @@ void loop() {
 
          case FLOCK:            
             view.checkInScreen((*it));
-            (*it).force  = behavior.separation(agent::agents, *it, 1); //TODO: jitter must be eleminated
-            (*it).force += behavior.align(agent::agents, *it, 1.2);
+            (*it).force  = behavior.separation(agent::agents, *it, 0.8); //TODO: jitter must be eleminated
+            (*it).force += behavior.align(agent::agents, *it, 1.0);
             (*it).force += behavior.cohesion(agent::agents, *it, 0.2);
          break;
          case WANDER:
@@ -90,7 +90,6 @@ void loop() {
 
 int main(int argc, char** argv) {    
    menu();
-
    view = graphics();       
    srand(time(NULL));
    color::createColors();
