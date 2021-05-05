@@ -26,15 +26,15 @@ class path;
 
 class steeringBehavior{
 public:   
-   void stayInArea(agent &agent, int turnPoint);
-   void inFlowField(agent &agent, flowField &flow);
+   pvector stayInArea(agent &agent, int turnPoint);
+   pvector inFlowField(agent &agent, flowField &flow);
    pvector stayInPath(agent &agent, path &path);
    pvector stayInPath_2(agent &agent, path &path); 
    pvector seek(agent &agent, bool arriving);
-   void separation(vector<agent> agents, agent &agent, float multiplier);
-   void cohesion(vector<agent> boids, agent &agent, float multiplier);
-   void align(vector<agent> boids, agent &agent, float multiplier);
+   pvector separation(vector<agent> agents, agent &agent, float multiplier);
+   pvector cohesion(vector<agent> boids, agent &agent, float multiplier);
+   pvector align(vector<agent> boids, agent &agent, float multiplier);
    void addSteeringForce(agent &agent, float multiplier);
-   void wander(agent &agent);
+   pvector wander(agent &agent);
    void setAngle(pvector &p, float angle);
 };

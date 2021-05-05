@@ -34,7 +34,6 @@ void agent::createRandomAgents(int agentCount){
    }
 }
 
-
 agent::agent(float x, float  y){
     position        = point(x, y);
     velocity        = pvector(1.0, 0.0);
@@ -50,7 +49,6 @@ void agent::updatePosition(){
    velocity = velocity + acceleration;
    velocity.limit(maxSpeed);
    position = position + velocity;
-   acceleration = pvector(0,0);  
 }
 
 void agent::setFeatures(float s, float f, float r, float m){
@@ -80,6 +78,5 @@ void agent::setMaxForce(float f){
 
 void agent::applyForce(){
    force.div(mass);    
-   acceleration = force;
-   force = pvector(0,0);
+   acceleration = force;   
 }

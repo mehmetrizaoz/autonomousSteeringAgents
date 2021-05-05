@@ -49,21 +49,21 @@ void loop() {
 
          case STAY_IN_FIELD:   
             view.drawWall(WALL);  
-            behavior.stayInArea(*it, WALL - DISTANCE);
-            behavior.separation(agent::agents, *it, 1);
+            (*it).force = behavior.stayInArea(*it, WALL - DISTANCE);
+            (*it).force = (*it).force + behavior.separation(agent::agents, *it, 1);
          break;
          
          case IN_FLOW_FIELD:        
             flow = flowField(pvector(GRAVITY));
-            behavior.inFlowField(*it, flow);
+            (*it).force = behavior.inFlowField(*it, flow);
             flow = flowField(pvector(WIND_WEST));
-            behavior.inFlowField(*it, flow);
+            (*it).force = (*it).force + behavior.inFlowField(*it, flow);
          break;
          
          case STAY_IN_PATH: 
             view.drawPath(way);
             (*it).force = behavior.stayInPath(*it, way);
-            behavior.separation(agent::agents, *it, 1);
+            (*it).force = (*it).force + behavior.separation(agent::agents, *it, 1);
          break;
 
          case STAY_IN_PATH_2:
@@ -73,12 +73,12 @@ void loop() {
 
          case FLOCK:            
             view.checkInScreen((*it));
-            behavior.separation(agent::agents, *it, 0.9); //TODO: jitter must be eleminated
-            behavior.align(agent::agents, *it, 1);
-            behavior.cohesion(agent::agents, *it, 0.3);
+            (*it).force = behavior.separation(agent::agents, *it, 0.9); //TODO: jitter must be eleminated
+            (*it).force = (*it).force + behavior.align(agent::agents, *it, 1);
+            (*it).force = (*it).force + behavior.cohesion(agent::agents, *it, 0.3);
          break;
          case WANDER:
-            behavior.wander(*it);
+            (*it).force = behavior.wander(*it);
          break;      
       }
    }
@@ -89,7 +89,7 @@ void loop() {
       view.drawAgent(*it, (*it).vehicleColor);
    }
 
-   graphics::timerEventFlag = false;
+   //graphics::timerEventFlag = false;
 }
 
 int main(int argc, char** argv) {    

@@ -13,7 +13,6 @@ class point;
 
 int graphics::target_x = -WIDTH;
 int graphics::target_y = HEIGHT;
-bool graphics::timerEventFlag = false;
 
 void graphics::refreshScene(){
    glutSwapBuffers();
@@ -24,23 +23,23 @@ void graphics::refreshScene(){
 }
 
 void graphics::initGraphics(int * a, char** c, void (*callback)()){
-    glutInit(a, c);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-    glutInitWindowSize(400, 400);   
-    glutCreateWindow("Autonomous Steering Agents");
-    glClearColor(0.7f, 0.7f, 0.7f, 1.0f); //set background color
-    glEnable(GL_DEPTH_TEST);   
-    glutDisplayFunc(*callback);
-    glutMouseFunc(graphics::mouseButton);
-    glutPassiveMotionFunc(graphics::mouseMove);
-    glutKeyboardFunc(graphics::handleKeypress);
-    glutReshapeFunc(graphics::handleResize);    
-    glutTimerFunc(5, graphics::timerEvent, 0);    
-    glutMainLoop();
+   glutInit(a, c);
+   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+   glutInitWindowSize(400, 400);   
+   glutCreateWindow("Autonomous Steering Agents");
+   glClearColor(0.7f, 0.7f, 0.7f, 1.0f); //set background color
+   glEnable(GL_DEPTH_TEST);   
+   glutDisplayFunc(*callback);
+   glutMouseFunc(graphics::mouseButton);
+   glutPassiveMotionFunc(graphics::mouseMove);
+   glutKeyboardFunc(graphics::handleKeypress);
+   glutReshapeFunc(graphics::handleResize);    
+   glutTimerFunc(5, graphics::timerEvent, 0);    
+   glutMainLoop();
 }
 
 point graphics::getMousePosition(){
-    return point (graphics::target_x, graphics::target_y);
+   return point (graphics::target_x, graphics::target_y);
 }
 
 void graphics::checkInScreen(agent &agent){
@@ -72,16 +71,16 @@ void graphics::handleResize(int w, int h) {
                    200.0);                //The far z clipping coordinate
 }
 
-#define _100_MS 5  //TODO: move them somewhere else
-static int counter = 0;
+//#define _100_MS 5  //TODO: move them somewhere else
+//static int counter = 0;
 void graphics::timerEvent(int value) {
     glutPostRedisplay(); //Tell GLUT that the display has changed
     glutTimerFunc(20, timerEvent, 0);
-    counter++;
+    /*counter++;
     if(counter == _100_MS * 2){
        counter = 0;
        graphics::timerEventFlag = true;
-    }
+    }*/
 }
 
 void graphics::mouseButton(int button, int state, int x, int y){
