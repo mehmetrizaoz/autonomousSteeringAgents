@@ -45,10 +45,7 @@ pvector steeringBehavior::wander(agent &agent){
    //graphics::drawLine(point(agent.position.x, agent.position.y),
    //                     point(agent.position.x + agent.desiredVelocity.x, agent.desiredVelocity.y + agent.position.y));
 
-   //addSteeringForce(agent, 1);  
-   agent.steering = agent.desiredVelocity - agent.velocity;
-   agent.steering.mul(1);
-   agent.steering.limit(agent.maxForce);                       
+   addSteeringForce(agent, 1);  
       
    //move it to the center when it is out of screen
    if(agent.position.x > WIDTH || agent.position.x < -WIDTH ||
@@ -59,10 +56,9 @@ pvector steeringBehavior::wander(agent &agent){
 }
 
 void steeringBehavior::addSteeringForce(agent &agent, float multiplier){
-   agent.steering = agent.desiredVelocity - agent.velocity;
-   agent.steering.limit(agent.maxForce);
+   agent.steering = agent.desiredVelocity - agent.velocity;   
    agent.steering.mul(multiplier);   
-   agent.force = agent.force + agent.steering;
+   agent.steering.limit(agent.maxForce);   
 }
 
 pvector steeringBehavior::align(vector<agent> boids, agent &agent, float multiplier){
@@ -85,10 +81,7 @@ pvector steeringBehavior::align(vector<agent> boids, agent &agent, float multipl
       sum.mul(agent.maxSpeed);
 
       agent.desiredVelocity = sum;
-      //addSteeringForce(agent, multiplier);
-      agent.steering = agent.desiredVelocity - agent.velocity;
-      agent.steering.mul(multiplier);
-      agent.steering.limit(agent.maxForce);   
+      addSteeringForce(agent, multiplier);
       return agent.steering;         
    }
 
@@ -115,10 +108,7 @@ pvector steeringBehavior::cohesion(vector<agent> boids, agent &agent, float mult
       agent.desiredVelocity.normalize();
       agent.desiredVelocity.mul(agent.maxSpeed);
 
-      //addSteeringForce(agent, multiplier); 
-      agent.steering = agent.desiredVelocity - agent.velocity;
-      agent.steering.mul(multiplier);
-      agent.steering.limit(agent.maxForce);      
+      addSteeringForce(agent, multiplier); 
       return agent.steering;
    }   
    return pvector(0,0);
@@ -146,10 +136,7 @@ pvector steeringBehavior::separation(vector<agent> agents, agent &agent, float m
       agent.desiredVelocity.div(count);
       agent.desiredVelocity.normalize();
       agent.desiredVelocity.mul(agent.maxSpeed);
-      //addSteeringForce(agent, multiplier);      
-      agent.steering = agent.desiredVelocity - agent.velocity;
-      agent.steering.mul(multiplier);
-      agent.steering.limit(agent.maxForce);
+      addSteeringForce(agent, multiplier);      
       return agent.steering;
    } 
    return pvector(0,0);
@@ -166,10 +153,7 @@ pvector steeringBehavior::seek(agent &agent, bool arriving){
       else agent.desiredVelocity.limit(agent.maxSpeed * diff.magnitude() / agent.r);       
    } 
 
-   //addSteeringForce(agent, 1);
-   agent.steering = agent.desiredVelocity - agent.velocity;
-   agent.steering.mul(1);
-   agent.steering.limit(agent.maxForce);   
+   addSteeringForce(agent, 1);
    return agent.steering;  
 }
 
@@ -226,34 +210,22 @@ pvector steeringBehavior::inFlowField(agent &agent, flowField &flow){
 pvector steeringBehavior::stayInArea(agent &agent, int turnPoint){
    if(agent.position.x >= turnPoint){
       agent.desiredVelocity = pvector( -agent.maxSpeed, agent.velocity.y );      
-      //addSteeringForce(agent, 1);
-      agent.steering = agent.desiredVelocity - agent.velocity;
-      agent.steering.mul(1);
-      agent.steering.limit(agent.maxForce);      
+      addSteeringForce(agent, 1);
       return agent.steering;  
    }
    else if(agent.position.x <= -turnPoint){
       agent.desiredVelocity = pvector( agent.maxSpeed, agent.velocity.y );
-      //addSteeringForce(agent, 1);
-      agent.steering = agent.desiredVelocity - agent.velocity;
-      agent.steering.mul(1);
-      agent.steering.limit(agent.maxForce);      
+      addSteeringForce(agent, 1);
       return agent.steering;  
    }
    else if(agent.position.y >= turnPoint){
       agent.desiredVelocity = pvector( agent.velocity.x, -agent.maxSpeed );
-      //addSteeringForce(agent, 1);
-      agent.steering = agent.desiredVelocity - agent.velocity;
-      agent.steering.mul(1);
-      agent.steering.limit(agent.maxForce);      
+      addSteeringForce(agent, 1);
       return agent.steering;  
    }
    else if(agent.position.y <= -turnPoint){
       agent.desiredVelocity = pvector( agent.velocity.x, agent.maxSpeed );
-      //addSteeringForce(agent, 1);
-      agent.steering = agent.desiredVelocity - agent.velocity;
-      agent.steering.mul(1);
-      agent.steering.limit(agent.maxForce);    
+      addSteeringForce(agent, 1);
       return agent.steering;  
    }
    return pvector(0,0);
