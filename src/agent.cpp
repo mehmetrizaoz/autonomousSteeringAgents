@@ -16,7 +16,7 @@ void agent::createAgents(){
 
    agent agent2 { 10.0,  0.0};
    agent2.name = "agent2";
-   agent2.setFeatures(2.0, 0.9, 20, 1);
+   agent2.setFeatures(4, 0.1, 20, 1);
    agent::agents.push_back(agent2);
 }
 
@@ -29,7 +29,7 @@ void agent::createRandomAgents(int agentCount){
       tempAgent.position.x = arr[i]   - WIDTH;
       tempAgent.position.y = arr[i+1] - HEIGHT;
       tempAgent.vehicleColor = color::colors.at( (i/2) % 8 );
-      tempAgent.setFeatures(1, 0.4, 20, 1);
+      tempAgent.setFeatures(1, 2, 20, 1);
       agent::agents.push_back(tempAgent);
    }
 }
@@ -46,10 +46,12 @@ agent::agent(float x, float  y){
 }
 
 void agent::updatePosition(){
+    force.div(mass);
     acceleration = force;   
-    velocity = velocity + acceleration;
+    velocity += acceleration;
     velocity.limit(maxSpeed);
     position = position + velocity;
+    //acceleration = pvector(0,0);
 }
 
 void agent::setFeatures(float s, float f, float r, float m){
