@@ -28,6 +28,7 @@ void menu(){
    cout << "Stay in Path 2: 5" << endl;
    cout << "FLOCK         : 6" << endl;
    cout << "WANDER        : 7" << endl;
+   cout << "FLEE          : 8" << endl;
    
    cin >> mode;
 
@@ -44,13 +45,13 @@ void loop() {
       if(mode==FLOCK){
          view.checkInScreen((*it));
          pvector sep  = behavior.separation(agent::agents, *it); //TODO: jitter must be eleminated
-         sep.mul(0.7);
+         sep.mul(1.0);
 
          pvector ali = behavior.align(agent::agents, *it);
-         ali.mul(0.6);
+         ali.mul(1.0);
 
          pvector coh = behavior.cohesion(agent::agents, *it);
-         coh.mul(0.4);
+         coh.mul(0.5);
 
          (*it).force = sep + ali + coh;
       } 
@@ -88,8 +89,12 @@ void loop() {
       else if(mode == WANDER){
          (*it).force = behavior.wander(*it);
       }  
-   }   
 
+      else if(mode == FLEE){
+         //(*it).position.print("pos");
+      }
+   }   
+   cout << endl;
    for(auto it = agent::agents.begin(); it < agent::agents.end(); it++){       
       (*it).updatePosition(mode);         
       view.drawAgent(*it, (*it).vehicleColor);
@@ -101,8 +106,10 @@ int main(int argc, char** argv) {
    view = graphics();       
    srand(time(NULL));
    color::createColors();
-   //agent::createAgents();     
-   agent::createRandomAgents(30);
+   
+   //agent::createAgents();  
+   agent::createAgentsInLine(20);
+   //agent::createRandomAgents(30);
 
    view.initGraphics(&argc, argv, loop);
    return 0;

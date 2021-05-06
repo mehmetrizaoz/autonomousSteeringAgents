@@ -10,14 +10,15 @@
 #define STAY_IN_PATH_2 5
 #define FLOCK          6
 #define WANDER         7
+#define FLEE           8
+/*
 #define PURSUIT        8
 #define HIDE           9
 #define PATH_LOOP      10
-#define FLEE           11
 #define OBSTACLE_AVOIDANCE 12
 #define WALL_FOLLOWER      13
 #define OFFSET_PURSUIT     14
-#define LEADER_FOLLOWER    15
+#define LEADER_FOLLOWER    15*/
 
 using namespace  std;
 

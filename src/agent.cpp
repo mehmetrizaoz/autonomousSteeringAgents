@@ -9,6 +9,9 @@ using namespace std;
 
 vector<agent> agent::agents;
 
+
+
+
 void agent::createAgents(){
    agent agent1 {-10.0,  0.0};
    agent1.name = "agent1";
@@ -21,6 +24,22 @@ void agent::createAgents(){
    agent::agents.push_back(agent2);*/
 }
 
+void agent::createAgentsInLine(int agentCount){
+   agent tempAgent {0, 0};
+   pvector location {-WIDTH, 0};
+
+   for(int i=0; i < agentCount; i++){
+      tempAgent.position.x = location.x;
+      tempAgent.position.y = location.y;
+      tempAgent.velocity = pvector(0, 0);
+      tempAgent.targetPoint = tempAgent.position;      
+      location.x += 3;      
+      tempAgent.vehicleColor = color::colors.at( (i/2) % 8 );
+      tempAgent.setFeatures(0.4, 0.4, 20, 1);
+      agent::agents.push_back(tempAgent);
+   }
+}
+
 void agent::createRandomAgents(int agentCount){
    int size = MAX_NUMBER_OF_AGENTS * 2;   
    int arr[size];
@@ -30,14 +49,14 @@ void agent::createRandomAgents(int agentCount){
       tempAgent.position.x = arr[i]   - WIDTH;
       tempAgent.position.y = arr[i+1] - HEIGHT;
       tempAgent.vehicleColor = color::colors.at( (i/2) % 8 );
-      tempAgent.setFeatures(0.8, 0.8, 20, 1);
+      tempAgent.setFeatures(0.4, 0.4, 20, 1);
       agent::agents.push_back(tempAgent);
    }
 }
 
 agent::agent(float x, float  y){
     position        = point(x, y);
-    velocity        = pvector(0.1, 0.0);
+    velocity        = pvector(0.2, 0.0);
     acceleration    = pvector(0.0, 0.0);
     steering        = pvector(0.0, 0.0);
     desiredVelocity = pvector(0.0, 0.0);
@@ -49,18 +68,25 @@ agent::agent(float x, float  y){
 void agent::updatePosition(int mode){
     force.div(mass);
     acceleration = force;   
+    
     velocity += acceleration;
     
+
     if(mode == FOLLOW_MOUSE){
         //arriving behavior
         pvector diff = targetPoint - position;
-        if(diff.magnitude() > r)
-           velocity.limit(maxSpeed);   
-        else 
-           velocity.limit(maxSpeed * diff.magnitude() / r);       
+        if(velocity.magnitude() > maxSpeed){
+            if(diff.magnitude() > r)
+               velocity.limit(maxSpeed);   
+            else  
+            velocity.limit(maxSpeed * diff.magnitude() / r);       
+        }
     }
-    else
-        velocity.limit(maxSpeed);
+    else{
+        if(velocity.magnitude() > maxSpeed){
+           velocity.limit(maxSpeed);
+        }
+    }
 
     position = position + velocity;
 }
