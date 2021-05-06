@@ -52,7 +52,7 @@ float pvector::magnitude(){
 
 void pvector::normalize(){
    float magnitude = this->magnitude();
-   if(magnitude > 0){
+   if(magnitude != 0){
       this->x = this->x / magnitude;
       this->y = this->y / magnitude;
    }

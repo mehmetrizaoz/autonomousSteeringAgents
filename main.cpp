@@ -45,13 +45,13 @@ void loop() {
       if(mode==FLOCK){
          view.checkInScreen((*it));
          pvector sep  = behavior.separation(agent::agents, *it); //TODO: jitter must be eleminated
-         sep.mul(1.0);
+         sep.mul(1.5);
 
          pvector ali = behavior.align(agent::agents, *it);
          ali.mul(1.0);
 
          pvector coh = behavior.cohesion(agent::agents, *it);
-         coh.mul(0.7);
+         coh.mul(0.1);
 
          (*it).force = sep + ali + coh;
       } 
@@ -70,6 +70,7 @@ void loop() {
       else if(mode ==IN_FLOW_FIELD){
          flow = flowField(pvector(GRAVITY));
          (*it).force  = behavior.inFlowField(*it, flow);
+         
          flow = flowField(pvector(WIND_WEST));
          (*it).force += behavior.inFlowField(*it, flow);
       }

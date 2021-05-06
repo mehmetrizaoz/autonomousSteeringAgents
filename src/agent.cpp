@@ -64,6 +64,7 @@ agent::agent(float x, float  y){
 
 void agent::updatePosition(int mode){
     force.div(mass);
+    force.limit(maxForce);//mehmet
     acceleration = force;   
     
     velocity += acceleration;
