@@ -55,16 +55,16 @@ pvector steeringBehavior::wander(agent &agent){
    return agent.steering;
 }
 
-pvector steeringBehavior::align(vector<agent> boids, agent &agent, float multiplier){
-   float neighborDist = 20; //TODO: magic numer
-   float d;
-   int count = 0;   
-   pvector sum {0,0};
+pvector steeringBehavior::align(vector<agent> boids, agent &agent){
+   //TODO: check code below
+   float neighborDist = 50; //TODO: magic numer
+   pvector sum {0,0};  
+   int count = 0;     
 
    for(auto it = boids.begin(); it < boids.end(); it++){
-      d = (agent.position - (*it).position).magnitude();
+      float d = (agent.position - (*it).position).magnitude();
       if( (d >0) && (d < neighborDist) ){
-         sum = sum + (*it).velocity;
+         sum += (*it).velocity;
          count++;
       }
    }
@@ -74,22 +74,21 @@ pvector steeringBehavior::align(vector<agent> boids, agent &agent, float multipl
       sum.normalize();
       sum.mul(agent.maxSpeed);
 
-      agent.desiredVelocity = sum;
-      agent.steering = agent.desiredVelocity - agent.velocity;   
-      agent.steering.mul(multiplier); 
+      agent.steering = sum - agent.velocity;   
+      agent.steering.limit(agent.maxForce);
       return agent.steering;         
    }
 
    return pvector(0,0);
 }
 
-pvector steeringBehavior::cohesion(vector<agent> boids, agent &agent, float multiplier){
-   float d, neighborDist = 20; //TODO: magic numer
+pvector steeringBehavior::cohesion(vector<agent> boids, agent &agent){
+   float neighborDist = 20; //TODO: magic numer
    point sum {0,0};   
    int count = 0; 
 
    for(auto it = boids.begin(); it < boids.end(); it++){
-      d = (agent.position - (*it).position).magnitude();
+      float d = (agent.position - (*it).position).magnitude();
       if( (d >0) && (d < neighborDist) ){
          sum = sum + (*it).position;
          count++;
@@ -99,24 +98,17 @@ pvector steeringBehavior::cohesion(vector<agent> boids, agent &agent, float mult
    if(count>0){
       sum.div(count);
       agent.targetPoint = sum;
-      agent.desiredVelocity = agent.targetPoint - agent.position;
-      agent.desiredVelocity.normalize();
-      agent.desiredVelocity.mul(agent.maxSpeed);
-      agent.steering = agent.desiredVelocity - agent.velocity;   
-      agent.steering.mul(multiplier); 
-      return agent.steering;
+      return seek(agent);
    }   
    return pvector(0,0);
 }
 
-pvector steeringBehavior::separation(vector<agent> agents, agent &agent, float multiplier){   
-   float desiredSeparation = 3; //TODO: magic number
+pvector steeringBehavior::separation(vector<agent> agents, agent &agent){   
+   float desiredSeparation = 5; //TODO: magic number
    pvector sum = pvector(0,0);
    int count = 0;   
-   //pvector diff {0,0}; 
    for(auto it = agents.begin(); it < agents.end(); it++){      
-      float d = (agent.position - (*it).position).magnitude();
-      
+      float d = (agent.position - (*it).position).magnitude();      
       if( (d > 0) && (d < desiredSeparation) ){ 
          pvector diff = agent.position - (*it).position;
          diff.normalize();
@@ -141,7 +133,9 @@ pvector steeringBehavior::separation(vector<agent> agents, agent &agent, float m
 //TODO: add arriving behavior
 pvector steeringBehavior::seek(agent &agent){
    agent.desiredVelocity = agent.targetPoint - agent.position; 
-   agent.steering = agent.desiredVelocity - agent.velocity;         
+   agent.desiredVelocity.normalize();
+   agent.desiredVelocity.mul(agent.maxSpeed * 5); //TODO: improve *5  
+   agent.steering = agent.desiredVelocity - agent.velocity;      
    agent.steering.limit(agent.maxForce);
    return agent.steering;  
 }

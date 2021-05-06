@@ -41,46 +41,54 @@ void loop() {
    view.refreshScene();   
 
    for(auto it = agent::agents.begin(); it < agent::agents.end(); it++){ 
-      switch(mode){
-         case FOLLOW_MOUSE:       
-            (*it).targetPoint = view.getMousePosition();
-            (*it).force = behavior.seek(*it);
-         break;
+      if(mode==FLOCK){
+         view.checkInScreen((*it));
+         pvector sep  = behavior.separation(agent::agents, *it); //TODO: jitter must be eleminated
+         sep.mul(0.7);
 
-         case STAY_IN_FIELD:   
-            view.drawWall(WALL);  
-            (*it).force  = behavior.stayInArea(*it, WALL - DISTANCE);
-            (*it).force += behavior.separation(agent::agents, *it, 1);
-         break;
-         
-         case IN_FLOW_FIELD:        
-            flow = flowField(pvector(GRAVITY));
-            (*it).force  = behavior.inFlowField(*it, flow);
-            flow = flowField(pvector(WIND_WEST));
-            (*it).force += behavior.inFlowField(*it, flow);
-         break;
-         
-         case STAY_IN_PATH: 
-            view.drawPath(way);
-            (*it).force  = behavior.stayInPath(*it, way);
-         break;
+         pvector ali = behavior.align(agent::agents, *it);
+         ali.mul(0.6);
 
-         case STAY_IN_PATH_2:
-            view.drawPath(way);
-            (*it).force = behavior.stayInPath_2(*it, way);
-         break;
+         pvector coh = behavior.cohesion(agent::agents, *it);
+         coh.mul(0.4);
 
-         case FLOCK:            
-            view.checkInScreen((*it));
-            (*it).force  = behavior.separation(agent::agents, *it, 1); //TODO: jitter must be eleminated
-            (*it).force += behavior.align(agent::agents, *it, 1.0);
-            (*it).force += behavior.cohesion(agent::agents, *it, 0.1);
-         break;
-         case WANDER:
-            (*it).force = behavior.wander(*it);
-         break;      
+         (*it).force = sep + ali + coh;
+      } 
+
+      else if (mode == FOLLOW_MOUSE){
+         (*it).targetPoint = view.getMousePosition();
+         (*it).force = behavior.seek(*it);
       }
-   }
+
+      else if (mode == STAY_IN_FIELD){
+         view.drawWall(WALL);  
+         (*it).force  = behavior.stayInArea(*it, WALL - DISTANCE);
+         (*it).force += behavior.separation(agent::agents, *it);         
+      }         
+      
+      else if(mode ==IN_FLOW_FIELD){
+         flow = flowField(pvector(GRAVITY));
+         (*it).force  = behavior.inFlowField(*it, flow);
+         flow = flowField(pvector(WIND_WEST));
+         (*it).force += behavior.inFlowField(*it, flow);
+      }
+         
+      else if(mode ==STAY_IN_PATH){
+         view.drawPath(way);
+         (*it).force  = behavior.stayInPath(*it, way);
+      }
+
+      else if(mode == STAY_IN_PATH_2){
+         view.drawPath(way);
+         pvector seek = behavior.stayInPath_2(*it, way);
+         seek.mul(0.5);
+         (*it).force = seek;
+      }
+
+      else if(mode == WANDER){
+         (*it).force = behavior.wander(*it);
+      }  
+   }   
 
    for(auto it = agent::agents.begin(); it < agent::agents.end(); it++){       
       (*it).updatePosition(mode);         

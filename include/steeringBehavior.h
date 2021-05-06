@@ -31,9 +31,9 @@ public:
    pvector stayInPath(agent &agent, path &path);
    pvector stayInPath_2(agent &agent, path &path); 
    pvector seek(agent &agent);
-   pvector separation(vector<agent> agents, agent &agent, float multiplier);
-   pvector cohesion(vector<agent> boids, agent &agent, float multiplier);
-   pvector align(vector<agent> boids, agent &agent, float multiplier);   
+   pvector separation(vector<agent> agents, agent &agent);
+   pvector cohesion(vector<agent> boids, agent &agent);
+   pvector align(vector<agent> boids, agent &agent);   
    pvector wander(agent &agent);
    void setAngle(pvector &p, float angle);
 };
