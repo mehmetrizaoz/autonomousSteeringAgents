@@ -9,9 +9,6 @@ using namespace std;
 
 vector<agent> agent::agents;
 
-
-
-
 void agent::createAgents(){
    agent agent1 {-10.0,  0.0};
    agent1.name = "agent1";
@@ -35,7 +32,7 @@ void agent::createAgentsInLine(int agentCount){
       tempAgent.targetPoint = tempAgent.position;      
       location.x += 3;      
       tempAgent.vehicleColor = color::colors.at( (i/2) % 8 );
-      tempAgent.setFeatures(0.4, 0.4, 20, 1);
+      tempAgent.setFeatures(0.2, 0.4, 20, 1);
       agent::agents.push_back(tempAgent);
    }
 }
@@ -49,7 +46,7 @@ void agent::createRandomAgents(int agentCount){
       tempAgent.position.x = arr[i]   - WIDTH;
       tempAgent.position.y = arr[i+1] - HEIGHT;
       tempAgent.vehicleColor = color::colors.at( (i/2) % 8 );
-      tempAgent.setFeatures(0.4, 0.4, 20, 1);
+      tempAgent.setFeatures(0.5, 0.3, 20, 1);
       agent::agents.push_back(tempAgent);
    }
 }
@@ -71,21 +68,16 @@ void agent::updatePosition(int mode){
     
     velocity += acceleration;
     
-
-    if(mode == FOLLOW_MOUSE){
-        //arriving behavior
+    //TODO: refactor arriving behavior
+    if(mode == FOLLOW_MOUSE){        
         pvector diff = targetPoint - position;
-        if(velocity.magnitude() > maxSpeed){
-            if(diff.magnitude() > r)
-               velocity.limit(maxSpeed);   
-            else  
+        if(diff.magnitude() > r)
+            velocity.limit(maxSpeed);   
+        else  
             velocity.limit(maxSpeed * diff.magnitude() / r);       
-        }
     }
     else{
-        if(velocity.magnitude() > maxSpeed){
-           velocity.limit(maxSpeed);
-        }
+        velocity.limit(maxSpeed);
     }
 
     position = position + velocity;

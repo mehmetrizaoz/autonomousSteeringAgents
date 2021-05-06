@@ -51,7 +51,7 @@ void loop() {
          ali.mul(1.0);
 
          pvector coh = behavior.cohesion(agent::agents, *it);
-         coh.mul(0.5);
+         coh.mul(0.7);
 
          (*it).force = sep + ali + coh;
       } 
@@ -94,7 +94,6 @@ void loop() {
          //(*it).position.print("pos");
       }
    }   
-   cout << endl;
    for(auto it = agent::agents.begin(); it < agent::agents.end(); it++){       
       (*it).updatePosition(mode);         
       view.drawAgent(*it, (*it).vehicleColor);
@@ -106,10 +105,10 @@ int main(int argc, char** argv) {
    view = graphics();       
    srand(time(NULL));
    color::createColors();
-   
+
    //agent::createAgents();  
-   agent::createAgentsInLine(20);
-   //agent::createRandomAgents(30);
+   //agent::createAgentsInLine(20);
+   agent::createRandomAgents(30);
 
    view.initGraphics(&argc, argv, loop);
    return 0;
