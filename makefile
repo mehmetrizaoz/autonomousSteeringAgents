@@ -7,9 +7,9 @@ objects := pvector.o graphics.o agent.o flowField.o main.o \
            point.o path.o color.o steeringBehavior.o random.o
 LIBS = -lglut -lGLU -lGL
 
-all: agents
+all: exec
 
-agents: $(objects)
+exec: $(objects)
 	$(CC) $^ -o $@ $(LIBS)
 
 %.o: %.c
@@ -17,7 +17,7 @@ agents: $(objects)
 
 .PHONY: clean help
 clean:
-	rm agents $(objects)
+	rm exec $(objects)
 
 help:
 	@echo "make"
