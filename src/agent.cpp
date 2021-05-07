@@ -23,14 +23,21 @@ void agent::createAgents(){
 
 void agent::createAgentsInLine(int agentCount){
    agent tempAgent {0, 0};
-   pvector location {-WIDTH, 0};
-
+   pvector location {-33, 20};
+   
    for(int i=0; i < agentCount; i++){
+      tempAgent.velocity = pvector(0, 0);
       tempAgent.position.x = location.x;
       tempAgent.position.y = location.y;
-      tempAgent.velocity = pvector(0, 0);
-      tempAgent.targetPoint = tempAgent.position;      
-      location.x += 3;      
+      tempAgent.targetPoint = tempAgent.position;                 
+
+      if( ((i+1) % 10) == 0){
+         location.y -= 3;
+         location.x  = -33;
+      }
+      else
+         location.x += 3; 
+
       tempAgent.vehicleColor = color::colors.at( (i/2) % 8 );
       tempAgent.setFeatures(0.2, 0.4, 20, 1);
       agent::agents.push_back(tempAgent);
@@ -64,7 +71,7 @@ agent::agent(float x, float  y){
 
 void agent::updatePosition(int mode){
     force.div(mass);
-    force.limit(maxForce);//mehmet
+    force.limit(maxForce);//force limit only applied here
     acceleration = force;   
     
     velocity += acceleration;

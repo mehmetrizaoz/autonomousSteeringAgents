@@ -94,7 +94,8 @@ void loop() {
       else if(mode == FLEE){
          //(*it).position.print("pos");
       }
-   }   
+   }
+
    for(auto it = agent::agents.begin(); it < agent::agents.end(); it++){       
       (*it).updatePosition(mode);         
       view.drawAgent(*it, (*it).vehicleColor);
@@ -108,8 +109,8 @@ int main(int argc, char** argv) {
    color::createColors();
 
    //agent::createAgents();  
-   //agent::createAgentsInLine(20);
-   agent::createRandomAgents(30);
+   agent::createAgentsInLine(80);
+   //agent::createRandomAgents(30);
 
    view.initGraphics(&argc, argv, loop);
    return 0;
