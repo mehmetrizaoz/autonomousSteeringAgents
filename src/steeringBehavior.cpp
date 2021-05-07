@@ -57,7 +57,7 @@ pvector steeringBehavior::wander(agent &agent){
 
 pvector steeringBehavior::align(vector<agent> boids, agent &agent){
    //TODO: check code below
-   float neighborDist = 30; //TODO: magic numer
+   float neighborDist = 20; //TODO: magic numer
    pvector sum {0,0};  
    int count = 0;     
 
@@ -83,7 +83,7 @@ pvector steeringBehavior::align(vector<agent> boids, agent &agent){
 }
 
 pvector steeringBehavior::cohesion(vector<agent> boids, agent &agent){
-   float neighborDist = 20; //TODO: magic numer
+   float neighborDist = 10; //TODO: magic numer
    point sum {0,0};   
    int count = 0; 
 
@@ -104,7 +104,7 @@ pvector steeringBehavior::cohesion(vector<agent> boids, agent &agent){
 }
 
 pvector steeringBehavior::separation(vector<agent> agents, agent &agent){   
-   float desiredSeparation = 4; //TODO: magic number
+   float desiredSeparation = 7; //TODO: magic number
    pvector sum = pvector(0,0);
    int count = 0;   
    for(auto it = agents.begin(); it < agents.end(); it++){      

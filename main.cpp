@@ -109,7 +109,7 @@ int main(int argc, char** argv) {
    color::createColors();
 
    //agent::createAgents();  
-   agent::createAgentsInLine(80);
+   agent::createAgentsInLine(196);
    //agent::createRandomAgents(30);
 
    view.initGraphics(&argc, argv, loop);

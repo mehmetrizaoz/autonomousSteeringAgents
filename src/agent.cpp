@@ -23,7 +23,7 @@ void agent::createAgents(){
 
 void agent::createAgentsInLine(int agentCount){
    agent tempAgent {0, 0};
-   pvector location {-33, 20};
+   pvector location {-33, 33};
    
    for(int i=0; i < agentCount; i++){
       tempAgent.velocity = pvector(0, 0);
@@ -31,12 +31,12 @@ void agent::createAgentsInLine(int agentCount){
       tempAgent.position.y = location.y;
       tempAgent.targetPoint = tempAgent.position;                 
 
-      if( ((i+1) % 10) == 0){
-         location.y -= 3;
+      if( ((i+1) % 14) == 0){
+         location.y -= 5;
          location.x  = -33;
       }
       else
-         location.x += 3; 
+         location.x += 5; 
 
       tempAgent.vehicleColor = color::colors.at( (i/2) % 8 );
       tempAgent.setFeatures(0.2, 0.4, 20, 1);
@@ -60,7 +60,7 @@ void agent::createRandomAgents(int agentCount){
 
 agent::agent(float x, float  y){
     position        = point(x, y);
-    velocity        = pvector(0.2, 0.0);
+    velocity        = pvector(0.6, 0.0);
     acceleration    = pvector(0.0, 0.0);
     steering        = pvector(0.0, 0.0);
     desiredVelocity = pvector(0.0, 0.0);
