@@ -92,7 +92,19 @@ void loop() {
       }  
 
       else if(mode == FLEE){
-         //(*it).position.print("pos");
+         pvector p = (*it).position - view.getMousePosition();
+         if(p.magnitude() < 15){
+            p.normalize();
+            p.mul((*it).maxSpeed);
+            (*it).desiredVelocity = p;
+         }
+         else{
+            (*it).desiredVelocity = (*it).targetPoint - (*it).position;
+         }
+
+         (*it).steering = (*it).desiredVelocity - (*it).velocity;      
+         (*it).steering;  
+         (*it).force = (*it).steering;
       }
    }
 
