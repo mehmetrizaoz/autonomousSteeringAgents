@@ -26,6 +26,7 @@ void agent::createAgentsInLine(int agentCount){
    //pvector location {0, 0};
    
    for(int i=0; i < agentCount; i++){
+      tempAgent.id = i;
       tempAgent.velocity = pvector(0, 0);
       tempAgent.position.x = location.x;
       tempAgent.position.y = location.y;
@@ -39,7 +40,7 @@ void agent::createAgentsInLine(int agentCount){
          location.x += 5; 
 
       tempAgent.vehicleColor = color::colors.at( (i/2) % 8 );
-      tempAgent.setFeatures(0.3, 0.5, 10, 1);
+      tempAgent.setFeatures(0.3, 0.3, 5, 1);
       agent::agents.push_back(tempAgent);
    }
 }
@@ -70,24 +71,47 @@ agent::agent(float x, float  y){
 }
 
 void agent::updatePosition(int mode, bool arrive){
-    force.div(mass);
+    //force.div(mass);
+//    if(id == 0){
+//       force.print("force1");
+//    }
+
     force.limit(maxForce);
     acceleration = force;     
     velocity += acceleration;
+
+//    if(id == 0){
+//       force.print("force2");
+//       velocity.print("vel2");
+//    }
     
     //TODO: refactor arriving behavior
     if(arrive == true){        
         pvector diff = targetPoint - position;
-        if(diff.magnitude() > r)
-            velocity.limit(maxSpeed);   
-        else  
-            velocity.limit(maxSpeed * diff.magnitude() / r);       
+        if(diff.magnitude() > r){
+            velocity.limit(maxSpeed);
+//            if(id == 0)  velocity.print("vel3");
+        }
+        else{  
+            velocity.limit(maxSpeed * diff.magnitude() / r);
+//            if(id == 0)  velocity.print("vel4");       
+        }
     }
     else{
         velocity.limit(maxSpeed);
     }
+//    if(id == 0){ velocity.print("vel5");  }
 
     position = position + velocity;
+
+    /*if(id == 0){
+       force.print("force");
+       acceleration.print("acceleration");
+       velocity.print("velocity");
+       position.print("position");
+       cout << endl;
+    }*/
+    //clear force
 }
 
 void agent::setFeatures(float s, float f, float r, float m){

@@ -39,5 +39,4 @@ public:
    pvector align(vector<agent> boids, agent &agent);   
    pvector wander(agent &agent);
    void setAngle(pvector &p, float angle);
-   bool arrive;
 };

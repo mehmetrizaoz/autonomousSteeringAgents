@@ -42,7 +42,6 @@ void loop() {
    view.refreshScene();   
 
    for(auto it = agent::agents.begin(); it < agent::agents.end(); it++){
-      behavior.arrive = false;
       if(mode==FLOCK){
          //TODO: jitter exist
          view.checkInScreen((*it));
@@ -61,7 +60,7 @@ void loop() {
       else if (mode == FOLLOW_MOUSE){
          (*it).targetPoint = view.getMousePosition();
          (*it).force = behavior.seek(*it);
-         behavior.arrive = true;
+         (*it).arrive = true;
       }
 
       else if (mode == STAY_IN_FIELD){
@@ -97,26 +96,35 @@ void loop() {
       }  
 
       else if(mode == FLEE){     
-         //TODO: bug exist for agents at the corners          
+         //TODO: bug exist for agents at the corners                  
          pvector dist = (*it).targetPoint - view.getMousePosition();
          view.drawPoint((*it).targetPoint);
-         if(dist.magnitude() < 15){            
+         if(dist.magnitude() < 15){  
+            (*it).arrive = false;
             (*it).desiredVelocity = (*it).position - view.getMousePosition();
             (*it).steering = (*it).desiredVelocity - (*it).velocity;      
             (*it).force = (*it).steering;
+            if((*it).id == 0){
+               cout << "id " << (*it).id;
+               view.getMousePosition().print("mouse");
+               (*it).targetPoint.print("target");
+               cout << "dist " <<  dist.magnitude() << endl;
+               (*it).steering.print("steer");
+               (*it).position.print("pos");
+               (*it).desiredVelocity.print("desired");               
+            }
          }
          else{
-            behavior.arrive = true;
+            (*it).arrive = true;
             (*it).desiredVelocity = (*it).targetPoint - (*it).position;
             (*it).steering = (*it).desiredVelocity - (*it).velocity;
             (*it).force = (*it).steering;
          }
-
       }
    }
 
    for(auto it = agent::agents.begin(); it < agent::agents.end(); it++){       
-      (*it).updatePosition(mode, behavior.arrive);         
+      (*it).updatePosition(mode, (*it).arrive);         
       view.drawAgent(*it, (*it).vehicleColor);
    }
 }
@@ -128,8 +136,8 @@ int main(int argc, char** argv) {
    color::createColors();
 
    //agent::createAgents();  
-   agent::createAgentsInLine(50);
-   //agent::createRandomAgents(30);
+   //agent::createAgentsInLine(196);
+   agent::createRandomAgents(30);
 
    view.initGraphics(&argc, argv, loop);
    return 0;

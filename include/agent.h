@@ -47,5 +47,7 @@ public:
   pvector  desiredVelocity;  
   float    r;
   float    mass;
+  int id;
+  bool arrive = false;
 };
 

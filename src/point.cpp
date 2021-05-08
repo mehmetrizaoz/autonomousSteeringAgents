@@ -50,5 +50,5 @@ point point::getNormalPoint(point predicted, point start, point end){
 }
 
 void point::print(const string &s){
-   cout << s << " " << x << " " << y << endl;
+   cout << " " << s << " " << x << " " << y << endl;
 }
