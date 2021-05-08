@@ -20,29 +20,29 @@ void agent::createAgents(){
    agent::agents.push_back(agent2);*/
 }
 
-void agent::createAgentsInLine(int agentCount){
-   agent tempAgent {0, 0};
-   pvector location {-33, 33};
-   //pvector location {0, 0};
+void agent::createTroop(int agentCount){
+    //TODO: magic numbers
+    agent tempAgent {0, 0};
+    pvector location {-33, 33};
    
-   for(int i=0; i < agentCount; i++){
-      tempAgent.id = i;
-      tempAgent.velocity = pvector(0, 0);
-      tempAgent.position.x = location.x;
-      tempAgent.position.y = location.y;
-      tempAgent.targetPoint = tempAgent.position;                 
+    for(int i=0; i < agentCount; i++){
+        tempAgent.id = i;
+        tempAgent.velocity = pvector(0, 0);
+        tempAgent.position.x = location.x;
+        tempAgent.position.y = location.y;
+        tempAgent.targetPoint = tempAgent.position;                 
 
-      if( ((i+1) % 14) == 0){
-         location.y -= 5;
-         location.x  = -33;
-      }
-      else
-         location.x += 5; 
+        if( ((i+1) % 14) == 0){
+           location.y -= 5;
+           location.x  = -33;
+        }
+        else
+           location.x += 5; 
 
-      tempAgent.vehicleColor = color::colors.at( (i/2) % 8 );
-      tempAgent.setFeatures(0.3, 0.3, 5, 1);
-      agent::agents.push_back(tempAgent);
-   }
+        tempAgent.vehicleColor = color::colors.at( (i/2) % 8 );
+        tempAgent.setFeatures(0.3, 0.3, 5, 1);
+        agent::agents.push_back(tempAgent);
+    }
 }
 
 void agent::createRandomAgents(int agentCount){
