@@ -3,7 +3,6 @@
 #include "graphics.h"
 #include "random.h"
 #include <iostream>
-#include "steeringBehavior.h"
 
 using namespace std;
 
@@ -24,6 +23,7 @@ void agent::createAgents(){
 void agent::createAgentsInLine(int agentCount){
    agent tempAgent {0, 0};
    pvector location {-33, 33};
+   //pvector location {0, 0};
    
    for(int i=0; i < agentCount; i++){
       tempAgent.velocity = pvector(0, 0);
@@ -39,7 +39,7 @@ void agent::createAgentsInLine(int agentCount){
          location.x += 5; 
 
       tempAgent.vehicleColor = color::colors.at( (i/2) % 8 );
-      tempAgent.setFeatures(0.2, 0.4, 20, 1);
+      tempAgent.setFeatures(0.3, 0.5, 10, 1);
       agent::agents.push_back(tempAgent);
    }
 }
@@ -53,7 +53,7 @@ void agent::createRandomAgents(int agentCount){
       tempAgent.position.x = arr[i]   - WIDTH;
       tempAgent.position.y = arr[i+1] - HEIGHT;
       tempAgent.vehicleColor = color::colors.at( (i/2) % 8 );
-      tempAgent.setFeatures(0.5, 0.3, 20, 1);
+      tempAgent.setFeatures(0.4, 0.3, 5, 1);
       agent::agents.push_back(tempAgent);
    }
 }
@@ -69,15 +69,14 @@ agent::agent(float x, float  y){
     vehicleColor    = color(1.0, 0.0, 0.0);
 }
 
-void agent::updatePosition(int mode){
+void agent::updatePosition(int mode, bool arrive){
     force.div(mass);
-    force.limit(maxForce);//force limit only applied here
-    acceleration = force;   
-    
+    force.limit(maxForce);
+    acceleration = force;     
     velocity += acceleration;
     
     //TODO: refactor arriving behavior
-    if(mode == FOLLOW_MOUSE){        
+    if(arrive == true){        
         pvector diff = targetPoint - position;
         if(diff.magnitude() > r)
             velocity.limit(maxSpeed);   

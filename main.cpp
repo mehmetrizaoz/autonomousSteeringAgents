@@ -41,8 +41,10 @@ void menu(){
 void loop() {      
    view.refreshScene();   
 
-   for(auto it = agent::agents.begin(); it < agent::agents.end(); it++){ 
+   for(auto it = agent::agents.begin(); it < agent::agents.end(); it++){
+      behavior.arrive = false;
       if(mode==FLOCK){
+         //TODO: jitter exist
          view.checkInScreen((*it));
          pvector sep  = behavior.separation(agent::agents, *it); //TODO: jitter must be eleminated
          sep.mul(1.5);
@@ -59,6 +61,7 @@ void loop() {
       else if (mode == FOLLOW_MOUSE){
          (*it).targetPoint = view.getMousePosition();
          (*it).force = behavior.seek(*it);
+         behavior.arrive = true;
       }
 
       else if (mode == STAY_IN_FIELD){
@@ -81,6 +84,7 @@ void loop() {
       }
 
       else if(mode == STAY_IN_PATH_2){
+         //TODO: jitter exist
          view.drawPath(way);
          pvector seek = behavior.stayInPath_2(*it, way);
          seek.mul(0.5);
@@ -88,28 +92,31 @@ void loop() {
       }
 
       else if(mode == WANDER){
+         //TODO: jitter exist
          (*it).force = behavior.wander(*it);
       }  
 
-      else if(mode == FLEE){
-         pvector p = (*it).position - view.getMousePosition();
-         if(p.magnitude() < 15){
-            p.normalize();
-            p.mul((*it).maxSpeed);
-            (*it).desiredVelocity = p;
+      else if(mode == FLEE){     
+         //TODO: bug exist for agents at the corners          
+         pvector dist = (*it).targetPoint - view.getMousePosition();
+         view.drawPoint((*it).targetPoint);
+         if(dist.magnitude() < 15){            
+            (*it).desiredVelocity = (*it).position - view.getMousePosition();
+            (*it).steering = (*it).desiredVelocity - (*it).velocity;      
+            (*it).force = (*it).steering;
          }
          else{
+            behavior.arrive = true;
             (*it).desiredVelocity = (*it).targetPoint - (*it).position;
+            (*it).steering = (*it).desiredVelocity - (*it).velocity;
+            (*it).force = (*it).steering;
          }
 
-         (*it).steering = (*it).desiredVelocity - (*it).velocity;      
-         (*it).steering;  
-         (*it).force = (*it).steering;
       }
    }
 
    for(auto it = agent::agents.begin(); it < agent::agents.end(); it++){       
-      (*it).updatePosition(mode);         
+      (*it).updatePosition(mode, behavior.arrive);         
       view.drawAgent(*it, (*it).vehicleColor);
    }
 }
@@ -121,7 +128,7 @@ int main(int argc, char** argv) {
    color::createColors();
 
    //agent::createAgents();  
-   agent::createAgentsInLine(196);
+   agent::createAgentsInLine(50);
    //agent::createRandomAgents(30);
 
    view.initGraphics(&argc, argv, loop);

@@ -11,6 +11,8 @@
 #define FLOCK          6
 #define WANDER         7
 #define FLEE           8
+#define ARRIVE         9
+
 /*
 #define PURSUIT        8
 #define HIDE           9
@@ -37,4 +39,5 @@ public:
    pvector align(vector<agent> boids, agent &agent);   
    pvector wander(agent &agent);
    void setAngle(pvector &p, float angle);
+   bool arrive;
 };

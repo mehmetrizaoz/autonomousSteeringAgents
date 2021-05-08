@@ -22,7 +22,7 @@ class agent{
 public:
   agent(float x, float y);
   ~agent();
-  void updatePosition(int mode);
+  void updatePosition(int mode, bool arrive);
   void setMaxSpeed(float s);
   void setR(float s);
   void setMass(float m);
@@ -44,7 +44,7 @@ public:
   pvector  steering;
   pvector  force;
   pvector  acceleration;
-  pvector  desiredVelocity;
+  pvector  desiredVelocity;  
   float    r;
   float    mass;
 };
