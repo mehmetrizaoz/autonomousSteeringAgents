@@ -62,7 +62,7 @@ void init_agent_path_timer_color(){
       scenario = "FOLLOW_MOUSE";
    }
    else if(mode == FLOCK){
-      agent::createRandomAgents(30, 0.6, 0.3);
+      agent::createRandomAgents(60, 1, 0.3);
       scenario = "FLOCK";
    }   
    else if(mode == WANDER){
@@ -77,8 +77,7 @@ void init_agent_path_timer_color(){
 
 void displayMode(){
    glColor3f (0.0, 0.0, 1.0);
-   glRasterPos2f(-34, 32.5); //define position on the screen    
-
+   glRasterPos2f(-34, 32.5);
    for ( string::iterator it=scenario.begin(); it!=scenario.end(); ++it){ 
       glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *it);
    }   
@@ -91,15 +90,37 @@ void loop() {
       if(mode==FLOCK){ //TODO: jitter exist
          view.checkInScreen((*it));
          pvector sep  = behavior.separation(agent::agents, *it); //TODO: jitter must be eleminated
-         sep.mul(2);
+         sep.mul(1.5);/*
+         point a = point(sep.x, sep.y);
+         a.mul(10);
+         view.drawLine( (*it).position, 
+                        (*it).position + a,
+                        color(1,0,0)
+                     );*/
+         
 
          pvector ali = behavior.align(agent::agents, *it);
-         ali.mul(1.0);
-
+         ali.mul(4);/*
+         a = point(ali.x, ali.y);
+         a.mul(10);
+         view.drawLine( (*it).position, 
+                        (*it).position + a,
+                        color(0,1,0)
+                     );*/
+         
          pvector coh = behavior.cohesion(agent::agents, *it);
-         coh.mul(0.1);
+         coh.mul(0.1);/*
+         a = point(coh.x, coh.y);
+         a.mul(10);
+         view.drawLine( (*it).position, 
+                        (*it).position + a,
+                        color(0,0,1)
+                     );*/
 
          (*it).force = sep + ali + coh;
+         (*it).desiredVelocity = (*it).force + (*it).velocity;
+         (*it).targetPoint = (*it).position + (*it).desiredVelocity;
+         (*it).arrive = true;
       } 
 
       else if (mode == FOLLOW_MOUSE){

@@ -24,6 +24,11 @@ void point::div(float d){
    y = y / d;
 }
 
+void point::mul(float d){
+   x = x * d;
+   y = y * d;
+}
+
 
 point point::operator + (point const &obj) {
    point res;

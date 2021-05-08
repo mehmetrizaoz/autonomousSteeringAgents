@@ -13,8 +13,8 @@ class point;
 class graphics{
 public:
    void drawWall(float border);
-   void drawAgent(agent &agent, color &color);
-   static void drawLine(point predicted, point normal);
+   void drawAgent(agent &agent, color &color);  
+   void drawLine(point p1, point p2, color cl);
    void drawPath(path &path);  
    static void drawPoint(point p);
    static void drawCircle(point p, float radius);

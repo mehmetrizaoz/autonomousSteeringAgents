@@ -95,17 +95,17 @@ void graphics::drawPath(path &path){
     for(auto it = path.points.begin(); it < path.points.end()-1; it++){
         p1 = point((*it).x, (*it).y - path.width/2) ;
         p2 = point((*(it+1)).x, (*(it+1)).y - path.width/2);
-        drawLine(p1, p2);
+        drawLine(p1, p2, color(1, 0, 0));
 
         p1 = point((*it).x, (*it).y + path.width/2) ;
         p2 = point((*(it+1)).x, (*(it+1)).y + path.width/2);
-        drawLine(p1, p2);        
+        drawLine(p1, p2, color(1, 0, 0));        
     }
 }
 
-void graphics::drawLine(point p1, point p2){
-    glColor3f( 0.0, 0.0, 1.0); 
-    glLineWidth(4);
+void graphics::drawLine(point p1, point p2, color cl){
+    glColor3f( cl.R, cl.G, cl.B); 
+    glLineWidth(2);
     glBegin(GL_LINES);
     glVertex2f(p1.x, p1.y);
     glVertex2f(p2.x, p2.y);
@@ -134,19 +134,19 @@ void graphics::drawPoint(point p){
 void graphics::drawWall(float border){
     point p1 {-border,  border};
     point p2 { border,  border};
-    drawLine(p1, p2);
+    drawLine(p1, p2, color(1, 0, 0));
 
     p1 = point ( border,  border);
     p2 = point ( border, -border);
-    drawLine(p1, p2);
+    drawLine(p1, p2, color(1, 0, 0));
 
     p1 = point (  border, -border);
     p2 = point ( -border, -border);
-    drawLine(p1, p2);    
+    drawLine(p1, p2, color(1, 0, 0));    
 
     p1 = point (-border,  border);
     p2 = point (-border, -border);
-    drawLine(p1, p2);
+    drawLine(p1, p2, color(1, 0, 0));
 }
 
 void graphics::drawAgent(agent &agent, color &color){    

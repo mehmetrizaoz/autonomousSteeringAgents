@@ -12,6 +12,7 @@ public:
    point(float x, float y);
    point();
    void div(float d);
+   void mul(float d);
    void print(const string &s);
    point   operator + (pvector const &obj);
    point   operator + (point const &obj);   
