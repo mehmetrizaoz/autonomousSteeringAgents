@@ -2,6 +2,7 @@
 
 #include "flowField.h"
 #include <vector>
+#include "graphics.h"
 
 #define FOLLOW_MOUSE   1 
 #define STAY_IN_FIELD  2
@@ -26,6 +27,7 @@ using namespace  std;
 
 class agent;
 class path;
+class graphics;
 
 class steeringBehavior{
 public:   
@@ -38,5 +40,6 @@ public:
    pvector cohesion(vector<agent> boids, agent &agent);
    pvector align(vector<agent> boids, agent &agent);   
    pvector wander(agent &agent);
+   pvector flee(agent &agent, graphics &view);
    void setAngle(pvector &p, float angle);
 };

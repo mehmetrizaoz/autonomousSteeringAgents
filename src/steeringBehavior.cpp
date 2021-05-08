@@ -21,6 +21,24 @@ void steeringBehavior::setAngle(pvector &p, float angle){
    p.y = sin ( angle * PI / 180.0 );
 }
 
+pvector steeringBehavior::flee(agent &agent, graphics &view){
+   pvector dist = agent.targetPoint - view.getMousePosition();
+   view.drawPoint(agent.targetPoint);
+
+   if(dist.magnitude() < 15){  //TODO: magic number 
+      agent.arrive = false;
+      agent.desiredVelocity = agent.position - view.getMousePosition();               
+   }
+   else{
+      agent.arrive = true;
+      agent.desiredVelocity = agent.targetPoint - agent.position;      
+   }   
+
+   agent.steering = agent.desiredVelocity - agent.velocity;   
+
+   return agent.steering;
+}
+
 pvector steeringBehavior::wander(agent &agent){        
    pvector p{0, 1};
    pvector circleCenter = agent.velocity;
@@ -57,7 +75,7 @@ pvector steeringBehavior::wander(agent &agent){
 
 pvector steeringBehavior::align(vector<agent> boids, agent &agent){
    //TODO: check code below
-   float neighborDist = 20; //TODO: magic numer
+   float neighborDist = 40; //TODO: magic numer
    pvector sum {0,0};  
    int count = 0;     
 
@@ -83,7 +101,7 @@ pvector steeringBehavior::align(vector<agent> boids, agent &agent){
 }
 
 pvector steeringBehavior::cohesion(vector<agent> boids, agent &agent){
-   float neighborDist = 10; //TODO: magic numer
+   float neighborDist = 15; //TODO: magic numer
    point sum {0,0};   
    int count = 0; 
 
@@ -104,7 +122,7 @@ pvector steeringBehavior::cohesion(vector<agent> boids, agent &agent){
 }
 
 pvector steeringBehavior::separation(vector<agent> agents, agent &agent){   
-   float desiredSeparation = 7; //TODO: magic number
+   float desiredSeparation = 4; //TODO: magic number
    pvector sum = pvector(0,0);
    int count = 0;   
    for(auto it = agents.begin(); it < agents.end(); it++){      

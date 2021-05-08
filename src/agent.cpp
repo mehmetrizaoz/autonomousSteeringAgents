@@ -54,7 +54,8 @@ void agent::createRandomAgents(int agentCount){
       tempAgent.position.x = arr[i]   - WIDTH;
       tempAgent.position.y = arr[i+1] - HEIGHT;
       tempAgent.vehicleColor = color::colors.at( (i/2) % 8 );
-      tempAgent.setFeatures(0.4, 0.3, 5, 1);
+      //TODO: solve this: force low for floce, high for staying in field
+      tempAgent.setFeatures(0.6, 0.3, 5, 1); 
       agent::agents.push_back(tempAgent);
    }
 }

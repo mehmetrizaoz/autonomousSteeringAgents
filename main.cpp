@@ -40,13 +40,12 @@ void menu(){
 
 void loop() {      
    view.refreshScene();   
-
+   //TODO: make behavior an attribute of agent, use polymorphism instead of followin switching code
    for(auto it = agent::agents.begin(); it < agent::agents.end(); it++){
-      if(mode==FLOCK){
-         //TODO: jitter exist
+      if(mode==FLOCK){ //TODO: jitter exist
          view.checkInScreen((*it));
          pvector sep  = behavior.separation(agent::agents, *it); //TODO: jitter must be eleminated
-         sep.mul(1.5);
+         sep.mul(2);
 
          pvector ali = behavior.align(agent::agents, *it);
          ali.mul(1.0);
@@ -57,19 +56,19 @@ void loop() {
          (*it).force = sep + ali + coh;
       } 
 
-      else if (mode == FOLLOW_MOUSE){
+      else if (mode == FOLLOW_MOUSE){ //works well
          (*it).targetPoint = view.getMousePosition();
          (*it).force = behavior.seek(*it);
          (*it).arrive = true;
       }
 
-      else if (mode == STAY_IN_FIELD){
+      else if (mode == STAY_IN_FIELD){ //TODO: apply force to agent if it is out of the field
          view.drawWall(WALL);  
          (*it).force  = behavior.stayInArea(*it, WALL - DISTANCE);
          (*it).force += behavior.separation(agent::agents, *it);         
       }         
       
-      else if(mode ==IN_FLOW_FIELD){
+      else if(mode ==IN_FLOW_FIELD){ //works well
          flow = flowField(pvector(GRAVITY));
          (*it).force  = behavior.inFlowField(*it, flow);
          
@@ -77,13 +76,12 @@ void loop() {
          (*it).force += behavior.inFlowField(*it, flow);
       }
          
-      else if(mode ==STAY_IN_PATH){
+      else if(mode ==STAY_IN_PATH){ //works well
          view.drawPath(way);
          (*it).force  = behavior.stayInPath(*it, way);
       }
 
-      else if(mode == STAY_IN_PATH_2){
-         //TODO: jitter exist
+      else if(mode == STAY_IN_PATH_2){ //TODO: jitter exist
          view.drawPath(way);
          pvector seek = behavior.stayInPath_2(*it, way);
          seek.mul(0.5);
@@ -95,22 +93,8 @@ void loop() {
          (*it).force = behavior.wander(*it);
       }  
 
-      else if(mode == FLEE){     
-         //TODO: move the code below to the behavior class
-         pvector dist = (*it).targetPoint - view.getMousePosition();
-         view.drawPoint((*it).targetPoint);
-         if(dist.magnitude() < 15){  
-            (*it).arrive = false;
-            (*it).desiredVelocity = (*it).position - view.getMousePosition();
-            (*it).steering = (*it).desiredVelocity - (*it).velocity;      
-            (*it).force = (*it).steering;
-         }
-         else{
-            (*it).arrive = true;
-            (*it).desiredVelocity = (*it).targetPoint - (*it).position;
-            (*it).steering = (*it).desiredVelocity - (*it).velocity;
-            (*it).force = (*it).steering;
-         }
+      else if(mode == FLEE){ //works well
+         (*it).force = behavior.flee((*it), view);
       }
    }
 
