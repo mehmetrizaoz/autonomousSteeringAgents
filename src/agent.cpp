@@ -45,7 +45,7 @@ void agent::createTroop(int agentCount){
     }
 }
 
-void agent::createRandomAgents(int agentCount){
+void agent::createRandomAgents(int agentCount, const float mForce, const float mSpeed){
    int size = MAX_NUMBER_OF_AGENTS * 2;   
    int arr[size];
    random::createRandomArray(arr, size);
@@ -55,7 +55,7 @@ void agent::createRandomAgents(int agentCount){
       tempAgent.position.y = arr[i+1] - HEIGHT;
       tempAgent.vehicleColor = color::colors.at( (i/2) % 8 );
       //TODO: solve this: force low for floce, high for staying in field
-      tempAgent.setFeatures(0.6, 0.3, 5, 1); 
+      tempAgent.setFeatures(mForce, mSpeed, 5, 1); 
       agent::agents.push_back(tempAgent);
    }
 }

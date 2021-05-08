@@ -31,11 +31,31 @@ void menu(){
    cout << "FLEE          : 8" << endl;
    
    cin >> mode;
+}
 
-   if(mode == STAY_IN_PATH)
-      way.createPath_1();      
-   else if(mode == STAY_IN_PATH_2)
+void init(){
+   view = graphics();       
+   srand(time(NULL));
+   color::createColors();
+   //agent::createAgents();  
+
+   if(mode == STAY_IN_PATH){
+      way.createPath_1();   
+      agent::createRandomAgents(30, 0.6, 0.3);
+   }   
+   else if(mode == STAY_IN_PATH_2){
       way.createPath_2();
+      agent::createRandomAgents(30, 0.4, 0.2);
+   }
+   else if(mode == FLEE){
+      agent::createTroop(196);   
+   }
+   else if(mode == STAY_IN_FIELD){
+      agent::createRandomAgents(30, 0.6, 0.6);
+   }
+   else{
+      agent::createRandomAgents(30, 0.6, 0.3);
+   }
 }
 
 void loop() {      
@@ -106,14 +126,8 @@ void loop() {
 
 int main(int argc, char** argv) {    
    menu();
-   view = graphics();       
-   srand(time(NULL));
-   color::createColors();
-
-   //agent::createAgents();  
-   //agent::createTroop(196);
-   agent::createRandomAgents(30);
-
+   init();
    view.initGraphics(&argc, argv, loop);
+
    return 0;
 }

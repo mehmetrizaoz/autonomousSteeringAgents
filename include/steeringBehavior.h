@@ -12,7 +12,6 @@
 #define FLOCK          6
 #define WANDER         7
 #define FLEE           8
-#define ARRIVE         9
 
 /*
 #define PURSUIT        8

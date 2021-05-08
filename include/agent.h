@@ -29,7 +29,7 @@ public:
   void setMaxForce(float f);
   void applyForce();
   void setFeatures(float s, float f, float r, float m);
-  static void createRandomAgents(int agentCount);  
+  static void createRandomAgents(int agentCount, const float mForce, const  float mSpeed);  
   static void createTroop(int agentCount);
   static void createAgents();
   static vector<agent> agents;
