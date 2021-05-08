@@ -33,8 +33,7 @@ void menu(){
    cin >> mode;
 }
 
-void init(){
-   view = graphics();       
+void init_agent_path_timer_color(){         
    srand(time(NULL));
    color::createColors();
    //agent::createAgents();  
@@ -51,7 +50,7 @@ void init(){
       agent::createTroop(196);   
    }
    else if(mode == STAY_IN_FIELD){
-      agent::createRandomAgents(30, 0.6, 0.6);
+      agent::createRandomAgents(30, 0.5, 0.5);
    }
    else{
       agent::createRandomAgents(30, 0.6, 0.3);
@@ -76,7 +75,7 @@ void loop() {
          (*it).force = sep + ali + coh;
       } 
 
-      else if (mode == FOLLOW_MOUSE){ //works well
+      else if (mode == FOLLOW_MOUSE){
          (*it).targetPoint = view.getMousePosition();
          (*it).force = behavior.seek(*it);
          (*it).arrive = true;
@@ -88,7 +87,7 @@ void loop() {
          (*it).force += behavior.separation(agent::agents, *it);         
       }         
       
-      else if(mode ==IN_FLOW_FIELD){ //works well
+      else if(mode ==IN_FLOW_FIELD){
          flow = flowField(pvector(GRAVITY));
          (*it).force  = behavior.inFlowField(*it, flow);
          
@@ -96,7 +95,7 @@ void loop() {
          (*it).force += behavior.inFlowField(*it, flow);
       }
          
-      else if(mode ==STAY_IN_PATH){ //works well
+      else if(mode ==STAY_IN_PATH){
          view.drawPath(way);
          (*it).force  = behavior.stayInPath(*it, way);
       }
@@ -113,7 +112,7 @@ void loop() {
          (*it).force = behavior.wander(*it);
       }  
 
-      else if(mode == FLEE){ //works well
+      else if(mode == FLEE){
          (*it).force = behavior.flee((*it), view);
       }
    }
@@ -125,8 +124,10 @@ void loop() {
 }
 
 int main(int argc, char** argv) {    
-   menu();
-   init();
+   menu();  
+   init_agent_path_timer_color();
+
+   view = graphics(); 
    view.initGraphics(&argc, argv, loop);
 
    return 0;
