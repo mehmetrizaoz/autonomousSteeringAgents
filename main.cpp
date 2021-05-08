@@ -19,6 +19,7 @@ flowField flow;
 graphics  view;
 path way;
 steeringBehavior behavior;
+string scenario;
 
 void menu(){
    cout << "Follow Mouse  : 1" << endl;
@@ -41,20 +42,46 @@ void init_agent_path_timer_color(){
    if(mode == STAY_IN_PATH){
       way.createPath_1();   
       agent::createRandomAgents(30, 0.6, 0.3);
+      scenario = "STAY_IN_PATH";
    }   
    else if(mode == STAY_IN_PATH_2){
       way.createPath_2();
       agent::createRandomAgents(30, 0.4, 0.2);
+      scenario = "STAY_IN_PATH_2";
    }
    else if(mode == FLEE){
-      agent::createTroop(196);   
+      agent::createTroop(196); 
+      scenario = "FLEE";  
    }
    else if(mode == STAY_IN_FIELD){
       agent::createRandomAgents(30, 0.5, 0.5);
+      scenario = "STAY_IN_FIELD";
    }
-   else{
+   else if(mode == FOLLOW_MOUSE){
       agent::createRandomAgents(30, 0.6, 0.3);
+      scenario = "FOLLOW_MOUSE";
    }
+   else if(mode == FLOCK){
+      agent::createRandomAgents(30, 0.6, 0.3);
+      scenario = "FLOCK";
+   }   
+   else if(mode == WANDER){
+      agent::createRandomAgents(30, 0.6, 0.3);
+      scenario = "WANDER";
+   }  
+   else if(mode == IN_FLOW_FIELD){
+      agent::createRandomAgents(30, 0.6, 0.3);
+      scenario = "IN_FLOW_FIELD";
+   }       
+}
+
+void displayMode(){
+   glColor3f (0.0, 0.0, 1.0);
+   glRasterPos2f(-34, 32.5); //define position on the screen    
+
+   for ( string::iterator it=scenario.begin(); it!=scenario.end(); ++it){ 
+      glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *it);
+   }   
 }
 
 void loop() {      
@@ -121,6 +148,8 @@ void loop() {
       (*it).updatePosition(mode, (*it).arrive);         
       view.drawAgent(*it, (*it).vehicleColor);
    }
+
+   displayMode();
 }
 
 int main(int argc, char** argv) {    
