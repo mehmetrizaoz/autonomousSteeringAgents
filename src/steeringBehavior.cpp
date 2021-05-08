@@ -174,7 +174,6 @@ pvector steeringBehavior::stayInPath_2(agent &agent, path &path){
    return seek(agent);
 }
 
-//TODO: use C++11 deprecated attribute
 pvector steeringBehavior::stayInPath(agent &agent, path &path){  
    point start = path.points.at(0);
    point end   = path.points.at(1);

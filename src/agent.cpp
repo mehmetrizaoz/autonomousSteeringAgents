@@ -54,7 +54,6 @@ void agent::createRandomAgents(int agentCount, const float mForce, const float m
       tempAgent.position.x = arr[i]   - WIDTH;
       tempAgent.position.y = arr[i+1] - HEIGHT;
       tempAgent.vehicleColor = color::colors.at( (i/2) % 8 );
-      //TODO: solve this: force low for floce, high for staying in field
       tempAgent.setFeatures(mForce, mSpeed, 5, 1); 
       agent::agents.push_back(tempAgent);
    }
@@ -91,6 +90,7 @@ void agent::updatePosition(int mode, bool arrive){
     }
 
     position = position + velocity;
+    force = pvector(0,0);
 }
 
 void agent::setFeatures(float s, float f, float r, float m){

@@ -46,7 +46,7 @@ void init_agent_path_timer_color(){
    }   
    else if(mode == STAY_IN_PATH_2){
       way.createPath_2();
-      agent::createRandomAgents(30, 0.4, 0.2);
+      agent::createRandomAgents(30, 0.2, 0.2);
       scenario = "STAY_IN_PATH_2";
    }
    else if(mode == FLEE){
@@ -62,7 +62,7 @@ void init_agent_path_timer_color(){
       scenario = "FOLLOW_MOUSE";
    }
    else if(mode == FLOCK){
-      agent::createRandomAgents(60, 1, 0.3);
+      agent::createRandomAgents(50, 1, 0.3);
       scenario = "FLOCK";
    }   
    else if(mode == WANDER){
@@ -85,11 +85,10 @@ void displayMode(){
 
 void loop() {      
    view.refreshScene();   
-   //TODO: make behavior an attribute of agent, use polymorphism instead of followin switching code
    for(auto it = agent::agents.begin(); it < agent::agents.end(); it++){
-      if(mode==FLOCK){ //TODO: jitter exist
+      if(mode==FLOCK){
          view.checkInScreen((*it));
-         pvector sep  = behavior.separation(agent::agents, *it); //TODO: jitter must be eleminated
+         pvector sep  = behavior.separation(agent::agents, *it);
          sep.mul(1.5);/*
          point a = point(sep.x, sep.y);
          a.mul(10);
@@ -151,7 +150,6 @@ void loop() {
       else if(mode == STAY_IN_PATH_2){ //TODO: jitter exist
          view.drawPath(way);
          pvector seek = behavior.stayInPath_2(*it, way);
-         seek.mul(0.5);
          (*it).force = seek;
       }
 

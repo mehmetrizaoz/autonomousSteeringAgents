@@ -34,7 +34,7 @@ public:
   static void createAgents();
   static vector<agent> agents;
 //private:
-  string   name;
+  string   name; //for debugging
   color    vehicleColor;
   point    position;
   pvector  velocity;  
@@ -47,7 +47,7 @@ public:
   pvector  desiredVelocity;  
   float    r;
   float    mass;
-  int id;
+  int id; //for debugging
   bool arrive = false;
 };
 
