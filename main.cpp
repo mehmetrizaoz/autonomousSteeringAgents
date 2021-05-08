@@ -46,7 +46,7 @@ void init_agent_path_timer_color(){
    }   
    else if(mode == STAY_IN_PATH_2){
       way.createPath_2();
-      agent::createRandomAgents(30, 0.2, 0.2);
+      agent::createRandomAgents(40, 0.4, 0.2);
       scenario = "STAY_IN_PATH_2";
    }
    else if(mode == FLEE){
@@ -134,7 +134,7 @@ void loop() {
          (*it).force += behavior.separation(agent::agents, *it);         
       }         
       
-      else if(mode ==IN_FLOW_FIELD){
+      else if(mode == IN_FLOW_FIELD){
          flow = flowField(pvector(GRAVITY));
          (*it).force  = behavior.inFlowField(*it, flow);
          
@@ -142,15 +142,35 @@ void loop() {
          (*it).force += behavior.inFlowField(*it, flow);
       }
          
-      else if(mode ==STAY_IN_PATH){
+      else if(mode == STAY_IN_PATH){
          view.drawPath(way);
          (*it).force  = behavior.stayInPath(*it, way);
+         (*it).force += behavior.separation(agent::agents, *it);
       }
 
       else if(mode == STAY_IN_PATH_2){ //TODO: jitter exist
          view.drawPath(way);
-         pvector seek = behavior.stayInPath_2(*it, way);
-         (*it).force = seek;
+         pvector seek = behavior.stayInPath_2(*it, way, view);
+         point a = point(seek.x, seek.y);
+         a.mul(10);/*
+         view.drawLine( (*it).position, 
+                        (*it).position + a,
+                        color(1,0,0)
+                     );*/
+
+         pvector sep  = behavior.separation(agent::agents, *it);
+         sep.mul(4);
+         a = point(sep.x, sep.y);
+         a.mul(10);/*
+         view.drawLine( (*it).position, 
+                        (*it).position + a,
+                        color(0,0,1));*/
+                     
+         
+         (*it).force = sep + seek;
+         (*it).desiredVelocity = (*it).force + (*it).velocity;
+         (*it).targetPoint = (*it).position + (*it).desiredVelocity;
+         //(*it).arrive = true;
       }
 
       else if(mode == WANDER){

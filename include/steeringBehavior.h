@@ -32,8 +32,8 @@ class steeringBehavior{
 public:   
    pvector stayInArea(agent &agent, int turnPoint);
    pvector inFlowField(agent &agent, flowField &flow);
-   pvector stayInPath(agent &agent, path &path);
-   pvector stayInPath_2(agent &agent, path &path); 
+   pvector stayInPath(agent &agent, path &path);   
+   pvector stayInPath_2(agent &agent, path &path, graphics view);
    pvector seek(agent &agent);
    pvector separation(vector<agent> agents, agent &agent);
    pvector cohesion(vector<agent> boids, agent &agent);

@@ -90,7 +90,7 @@ void agent::updatePosition(int mode, bool arrive){
     }
 
     position = position + velocity;
-    force = pvector(0,0);
+    //force = pvector(0,0);
 }
 
 void agent::setFeatures(float s, float f, float r, float m){

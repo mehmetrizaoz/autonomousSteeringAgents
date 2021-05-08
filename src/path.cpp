@@ -12,7 +12,7 @@ path::path(float width){
 }
 
 void path::createPath_2(){
-   width = 7;
+   width = 9;
    this->addPoint(point(-40,  5));
    this->addPoint(point(-14, 15));
    this->addPoint(point( 10,  7));

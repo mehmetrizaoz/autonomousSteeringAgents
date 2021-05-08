@@ -24,7 +24,6 @@ void steeringBehavior::setAngle(pvector &p, float angle){
 pvector steeringBehavior::flee(agent &agent, graphics &view){
    pvector dist = agent.targetPoint - view.getMousePosition();
    view.drawPoint(agent.targetPoint);
-
    if(dist.magnitude() < 15){  //TODO: magic number 
       agent.arrive = false;
       agent.desiredVelocity = agent.position - view.getMousePosition();               
@@ -33,9 +32,7 @@ pvector steeringBehavior::flee(agent &agent, graphics &view){
       agent.arrive = true;
       agent.desiredVelocity = agent.targetPoint - agent.position;      
    }   
-
    agent.steering = agent.desiredVelocity - agent.velocity;   
-
    return agent.steering;
 }
 
@@ -44,41 +41,32 @@ pvector steeringBehavior::wander(agent &agent){
    pvector circleCenter = agent.velocity;
    circleCenter.normalize();
    circleCenter.mul(CIRCLE_DISTANCE + CIRCLE_RADIUS);  
-    
    //graphics::drawPoint(point(agent.position.x + circleCenter.x, agent.position.y + circleCenter.y ));
    //graphics::drawLine(agent.position, agent.position + circleCenter);
    //point center = point(agent.position.x + circleCenter.x, circleCenter.y + agent.position.y);
    //graphics::drawCircle(center, CIRCLE_RADIUS);
-
    int wanderAngle = (rand() % 360);      
    pvector displacement {0, 1};      
    setAngle(displacement, wanderAngle);
    displacement.mul(CIRCLE_RADIUS);
-
    //graphics::drawLine(point (agent.position.x + circleCenter.x, circleCenter.y + agent.position.y),
    //                     point (agent.position.x + displacement.x + circleCenter.x, 
    //                            agent.position.y + displacement.y + circleCenter.y));
-      
    agent.desiredVelocity = displacement + circleCenter;
    //graphics::drawLine(point(agent.position.x, agent.position.y),
    //                     point(agent.position.x + agent.desiredVelocity.x, agent.desiredVelocity.y + agent.position.y));
-
-   agent.steering = agent.desiredVelocity - agent.velocity;   
-      
+   agent.steering = agent.desiredVelocity - agent.velocity;         
    //move it to the center when it is out of screen
    if(agent.position.x > WIDTH || agent.position.x < -WIDTH ||
       agent.position.y > HEIGHT || agent.position.y < -HEIGHT)
       agent.position = point(0,0);      
-
    return agent.steering;
 }
 
-pvector steeringBehavior::align(vector<agent> boids, agent &agent){
-   //TODO: check code below
+pvector steeringBehavior::align(vector<agent> boids, agent &agent){   
    float neighborDist = 30; //TODO: magic numer
    pvector sum {0,0};  
    int count = 0;     
-
    for(auto it = boids.begin(); it < boids.end(); it++){
       float d = (agent.position - (*it).position).magnitude();
       if( (d >0) && (d < neighborDist) ){
@@ -86,7 +74,6 @@ pvector steeringBehavior::align(vector<agent> boids, agent &agent){
          count++;
       }
    }
-
    if(count>0){
       sum.div(count);
       sum.normalize();
@@ -101,7 +88,6 @@ pvector steeringBehavior::cohesion(vector<agent> boids, agent &agent){
    float neighborDist = 20; //TODO: magic numer
    point sum {0,0};   
    int count = 0; 
-
    for(auto it = boids.begin(); it < boids.end(); it++){
       float d = (agent.position - (*it).position).magnitude();
       if( (d >0) && (d < neighborDist) ){
@@ -109,7 +95,6 @@ pvector steeringBehavior::cohesion(vector<agent> boids, agent &agent){
          count++;
       }
    }
-
    if(count>0){
       sum.div(count);
       agent.targetPoint = sum;
@@ -132,45 +117,41 @@ pvector steeringBehavior::separation(vector<agent> agents, agent &agent){
          count++;
       }   
    }
-
    if(count > 0){ 
       sum.div(count);
       sum.normalize();
-      sum.mul(agent.maxSpeed);
-              
+      sum.mul(agent.maxSpeed);              
       agent.steering = sum - agent.velocity;   
       return agent.steering;
    } 
    return pvector(0,0);
 }
 
-//TODO: add arriving behavior
 pvector steeringBehavior::seek(agent &agent){
    agent.desiredVelocity = agent.targetPoint - agent.position;
    agent.steering = agent.desiredVelocity - agent.velocity;      
    return agent.steering;  
 }
 
-pvector steeringBehavior::stayInPath_2(agent &agent, path &path){     
+pvector steeringBehavior::stayInPath_2(agent &agent, path &path, graphics view){     
    float worldRecord = 1000000; //TODO: magic number
    point normalPoint, predictedPos, start, end;
    pvector distance;   
-
    for(auto it = path.points.begin(); it < path.points.end()-1; it++){
       start = point((*it).x, (*it).y);
       end   = point((*(it+1)).x, (*(it+1)).y);
       predictedPos = agent.position + agent.velocity; 
-      normalPoint = point::getNormalPoint(predictedPos, start, end);      
-      if (normalPoint.x < start.x || normalPoint.x > end.x)
+      normalPoint = point::getNormalPoint(predictedPos, start, end); 
+      if (normalPoint.x < start.x || normalPoint.x > end.x){
          normalPoint = end;
-
+      }
       distance = predictedPos - normalPoint;
       if (distance.magnitude() < worldRecord) {
          worldRecord = distance.magnitude();
-         agent.targetPoint = normalPoint;         
-      }       
-   }      
-   //view.drawPoint(targetPoint);
+         agent.targetPoint = end;                
+      }      
+      view.drawPoint(agent.targetPoint);      
+   }    
    return seek(agent);
 }
 
@@ -186,7 +167,6 @@ pvector steeringBehavior::stayInPath(agent &agent, path &path){
    agent.targetPoint = normalPoint  + b;
    //view.drawLine(predictedPos, normalPoint);
    //view.drawPoint(targetPoint);
-    
    if(distance.magnitude() > path.width / 8)
      return seek(agent);
    return pvector(0,0);
