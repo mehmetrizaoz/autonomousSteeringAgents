@@ -33,8 +33,8 @@ public:
    pvector separation(vector<agent> agents, agent &agent);
    pvector cohesion(vector<agent> boids, agent &agent);
    pvector align(vector<agent> boids, agent &agent);   
-   pvector wander(agent &agent);
-   pvector pursuit(agent &agent);
+   pvector wander(agent &agent);   
+   pvector pursuit(vector<agent> boids, agent &pursuer);
    pvector flee(agent &agent, graphics &view);
    void setAngle(pvector &p, float angle);
 };

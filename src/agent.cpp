@@ -13,13 +13,15 @@ void agent::createAgents(){
     agent agent1 {-10.0,  0.0};
     agent1.id = 1;
     agent1.name = "gazelle";    
-    agent1.setFeatures(0.3, 0.6, 5, 1);
+    agent1.vehicleColor = color(0,0,1);
+    agent1.setFeatures(0.35, 0.6, 5, 1);
     agent::agents.push_back(agent1);
 
     agent agent2 { 10.0,  0.0};
     agent2.id = 2;
-    agent2.name = "cheetah";    
-    agent2.setFeatures(0.3, 0.6, 5, 1);
+    agent2.name = "cheetah";
+    agent2.vehicleColor = color(1,0,1);
+    agent2.setFeatures(0.25, 0.5, 5, 1);    
     agent::agents.push_back(agent2);
 } 
 

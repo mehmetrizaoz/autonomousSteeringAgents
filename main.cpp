@@ -108,7 +108,7 @@ void loop() {
             (*it).arrive = true;
          }
          else{
-            (*it).force  = behavior.pursuit(*it);
+            (*it).force  = behavior.pursuit(agent::agents, *it);
          }
       }
    }
@@ -160,7 +160,7 @@ void init(int * argv, char** argc, void (*callback)()){
       agent::createRandomAgents(30, 0.6, 0.3);
       scenario = "IN_FLOW_FIELD";
    }
-   else if(mode == PURSUIT){
+   else if(mode == PURSUIT){      
       agent::createAgents();
       scenario = "PURSUIT";
    }
