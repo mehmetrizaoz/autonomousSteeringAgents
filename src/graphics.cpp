@@ -11,6 +11,15 @@ class point;
 int graphics::target_x = -WIDTH;
 int graphics::target_y = HEIGHT;
 
+void graphics::drawText(string scenario){
+   glColor3f (0.0, 0.0, 1.0);
+   glRasterPos2f(-34, 32.5);
+   for ( string::iterator it=scenario.begin(); it!=scenario.end(); ++it){ 
+      glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *it);
+   }   
+}
+
+
 void graphics::refreshScene(){
    glutSwapBuffers();
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    

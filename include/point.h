@@ -17,5 +17,7 @@ public:
    point   operator + (pvector const &obj);
    point   operator + (point const &obj);   
    pvector operator - (point const &obj);
+   bool    operator == (point const &obj);
+
    static point getNormalPoint(point predicted, point start, point end);
 };

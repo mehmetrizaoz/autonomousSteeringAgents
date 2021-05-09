@@ -30,16 +30,8 @@ void menu(){
    cout << "FLOCK         : 6" << endl;
    cout << "WANDER        : 7" << endl;
    cout << "FLEE          : 8" << endl;
-   
+   cout << "PURSUIT       : 9" << endl;
    cin >> mode;
-}
-
-void displayMode(){
-   glColor3f (0.0, 0.0, 1.0);
-   glRasterPos2f(-34, 32.5);
-   for ( string::iterator it=scenario.begin(); it!=scenario.end(); ++it){ 
-      glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *it);
-   }   
 }
 
 void loop() {      
@@ -146,7 +138,7 @@ void loop() {
       view.drawAgent(*it, (*it).vehicleColor);
    }
 
-   displayMode();
+   view.drawText(scenario);
 }
 
 void init(int * argv, char** argc, void (*callback)()){         

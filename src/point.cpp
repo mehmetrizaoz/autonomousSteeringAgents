@@ -19,6 +19,12 @@ point point::operator + (pvector const &obj) {
    return res;
 }
 
+bool point::operator == (point const &obj) {      
+   if(x == obj.x && y == obj.y)
+      return true;
+   return false;
+}
+
 void point::div(float d){
    x = x / d;
    y = y / d;

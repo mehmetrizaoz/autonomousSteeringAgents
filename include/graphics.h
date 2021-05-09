@@ -18,9 +18,10 @@ public:
    void drawAgent(agent &agent, color &color);  
    void drawLine(point p1, point p2, color cl);
    void drawPath(path &path);  
-   static void drawPoint(point p);
-   static void drawCircle(point p, float radius);
+   void drawPoint(point p);
+   void drawCircle(point p, float radius);
    void checkInScreen(agent &agent);
+   void drawText(string scenario);
    void refreshScene();
    point getMousePosition();
    void initGraphics(int * argv, char** argc, void (*callback)());
