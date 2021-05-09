@@ -102,12 +102,15 @@ void loop() {
       }
 
       else if(mode == PURSUIT){
-         if( (*it).id == 1 ){ //gazelle
+         if( (*it).name == "gazelle" ){
             (*it).targetPoint = view.getMousePosition();
             (*it).force  = behavior.seek(*it);
             (*it).arrive = true;
          }
-         else{ //lion the pursuiter
+         else if ( (*it).name == "cheetah" ){
+            (*it).force  = behavior.evade(agent::agents, *it);
+         }
+         else{ //lion
             (*it).force  = behavior.pursuit(agent::agents, *it);
             (*it).arrive = true;
          }

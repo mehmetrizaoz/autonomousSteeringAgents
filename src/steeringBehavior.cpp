@@ -31,9 +31,22 @@ pvector steeringBehavior::flee(agent &agent, graphics &view){
    return agent.steering;
 }
 
-pvector steeringBehavior::pursuit(vector<agent> boids, agent &pursuer){  
-   agent target = boids.at(0);
+pvector steeringBehavior::evade(vector<agent> boids, agent &evader){  
+   agent target = boids.at(1); //lion
    
+   float dist = (target.position - evader.position).magnitude();
+   if(dist < 8){
+      //flee()
+      //return pvector()
+   }
+   
+   evader.velocity = pvector(0,0);
+   return pvector(0,0);
+}
+
+pvector steeringBehavior::pursuit(vector<agent> boids, agent &pursuer){  
+   agent target = boids.at(0); //gazelle
+
    float dist = (target.position - pursuer.position).magnitude();
    float t = dist / target.maxSpeed;
    
@@ -43,7 +56,7 @@ pvector steeringBehavior::pursuit(vector<agent> boids, agent &pursuer){
    point futurePos = target.position + targetVel;
    pursuer.targetPoint = futurePos;   
    
-   return seek(pursuer);;
+   return seek(pursuer);
 }
 
 pvector steeringBehavior::wander(agent &agent){        

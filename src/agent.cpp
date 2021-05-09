@@ -23,6 +23,13 @@ void agent::createAgents(){
     agent2.vehicleColor = color(1,0,1);
     agent2.setFeatures(0.25, 0.5, 5, 1);    
     agent::agents.push_back(agent2);
+
+    agent agent3 { 20.0,  0.0};
+    agent3.id = 3;
+    agent3.name = "cheetah";
+    agent3.vehicleColor = color(1,1,1);
+    agent3.setFeatures(0.4, 0.5, 5, 1);    
+    agent::agents.push_back(agent3);
 } 
 
 void agent::createTroop(int agentCount){

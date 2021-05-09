@@ -35,6 +35,7 @@ public:
    pvector align(vector<agent> boids, agent &agent);   
    pvector wander(agent &agent);   
    pvector pursuit(vector<agent> boids, agent &pursuer);
+   pvector evade(vector<agent> boids, agent &evader);
    pvector flee(agent &agent, graphics &view);
    void setAngle(pvector &p, float angle);
 };
