@@ -19,7 +19,7 @@ void agent::createAgents(){
 
     agent agent2 { 10.0,  0.0};
     agent2.id = 2;
-    agent2.name = "cheetah";
+    agent2.name = "lion";
     agent2.vehicleColor = color(1,0,1);
     agent2.setFeatures(0.25, 0.5, 5, 1);    
     agent::agents.push_back(agent2);

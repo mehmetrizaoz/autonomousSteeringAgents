@@ -107,8 +107,9 @@ void loop() {
             (*it).force  = behavior.seek(*it);
             (*it).arrive = true;
          }
-         else{ //cheetah the pursuiter
+         else{ //lion the pursuiter
             (*it).force  = behavior.pursuit(agent::agents, *it);
+            (*it).arrive = true;
          }
       }
    }
