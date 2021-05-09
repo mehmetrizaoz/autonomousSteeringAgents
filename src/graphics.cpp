@@ -132,6 +132,7 @@ void graphics::drawCircle(point p, float radius){
 }
 
 void graphics::drawPoint(point p){
+    glColor3f(1,0,0); 
     glPointSize(4.0);
     glBegin(GL_POINTS);
     glVertex2f(p.x, p.y);

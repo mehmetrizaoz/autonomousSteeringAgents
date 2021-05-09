@@ -31,6 +31,7 @@ void menu(){
    cout << "WANDER        : 7" << endl;
    cout << "FLEE          : 8" << endl;
    cout << "PURSUIT       : 9" << endl;
+   cout << "EVADE         : 10" << endl;
    cin >> mode;
 }
 
@@ -85,7 +86,7 @@ void loop() {
          (*it).force += behavior.separation(agent::agents, *it);
       }
 
-      else if(mode == STAY_IN_PATH_2){ //TODO: jitter exist
+      else if(mode == STAY_IN_PATH_2){ 
          view.drawPath(way);
          pvector seek = behavior.stayInPath_2(*it, way, view);
          pvector sep  = behavior.separation(agent::agents, *it);
@@ -98,7 +99,7 @@ void loop() {
       }  
 
       else if(mode == FLEE){
-         (*it).force = behavior.flee((*it), view);
+         (*it).force = behavior.flee((*it), view, view.getMousePosition());
       }
 
       else if(mode == PURSUIT){
@@ -107,14 +108,23 @@ void loop() {
             (*it).force  = behavior.seek(*it);
             (*it).arrive = true;
          }
-         else if ( (*it).name == "cheetah" ){
-            (*it).force  = behavior.evade(agent::agents, *it);
-         }
          else{ //lion
             (*it).force  = behavior.pursuit(agent::agents, *it);
             (*it).arrive = true;
          }
       }
+
+      else if(mode == EVADE){
+         if( (*it).name == "lion" ){
+            (*it).targetPoint = view.getMousePosition();
+            (*it).force  = behavior.seek(*it);
+            (*it).arrive = true;
+         }
+         else{//gazelle
+            (*it).force  = behavior.evade(agent::agents, *it, view);
+            //(*it).arrive = true;
+         }
+      }      
    }
 
    for(auto it = agent::agents.begin(); it < agent::agents.end(); it++){       
@@ -168,6 +178,12 @@ void init(int * argv, char** argc, void (*callback)()){
       agent::createAgents();
       scenario = "PURSUIT";
    }
+   else if(mode == EVADE){      
+      agent::createAgents();
+      scenario = "EVADE";
+   }
+
+
 
    view = graphics(); 
    view.initGraphics(argv, argc, loop);

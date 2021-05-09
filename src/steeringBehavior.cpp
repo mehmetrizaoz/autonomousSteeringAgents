@@ -16,12 +16,13 @@ void steeringBehavior::setAngle(pvector &p, float angle){
    p.y = sin ( angle * PI / 180.0 );
 }
 
-pvector steeringBehavior::flee(agent &agent, graphics &view){
-   pvector dist = agent.targetPoint - view.getMousePosition();
+pvector steeringBehavior::flee(agent &agent, graphics &view, point p){
+   pvector dist = agent.targetPoint - p;
    view.drawPoint(agent.targetPoint);
+   
    if(dist.magnitude() < 15){  //TODO: magic number
       agent.arrive = false;
-      agent.desiredVelocity = agent.position - view.getMousePosition();      
+      agent.desiredVelocity = agent.position - p;      
    }
    else{
       agent.arrive = true;
@@ -31,17 +32,21 @@ pvector steeringBehavior::flee(agent &agent, graphics &view){
    return agent.steering;
 }
 
-pvector steeringBehavior::evade(vector<agent> boids, agent &evader){  
+pvector steeringBehavior::evade(vector<agent> boids, agent &evader, graphics view){  
    agent target = boids.at(1); //lion
+   int t = 5;
+
+   pvector targetVel = target.velocity;
+   targetVel.mul(t);
+   point futurePos = target.position + targetVel;
+   view.drawPoint(futurePos);
+
+   pvector dist = evader.position - futurePos;
+   dist.normalize();
+   dist.mul( 1 / dist.magnitude() );
+   evader.targetPoint = evader.position + dist;   
    
-   float dist = (target.position - evader.position).magnitude();
-   if(dist < 8){
-      //flee()
-      //return pvector()
-   }
-   
-   evader.velocity = pvector(0,0);
-   return pvector(0,0);
+   return flee(evader, view, futurePos);
 }
 
 pvector steeringBehavior::pursuit(vector<agent> boids, agent &pursuer){  
