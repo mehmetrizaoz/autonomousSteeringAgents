@@ -12,7 +12,7 @@ path::path(float width){
 }
 
 void path::createPath_2(){
-   width = 9;
+   width = 8;
    this->addPoint(point(-40,  5));
    this->addPoint(point(-14, 15));
    this->addPoint(point( 10,  7));
@@ -20,9 +20,9 @@ void path::createPath_2(){
 }
 
 void path::createPath_1(){
-   point start = point(-WIDTH-5, HEIGHT-40);
-   point end = point(WIDTH+5, -HEIGHT+40);
    width = 6;
+   point start = point(-WIDTH-5,  HEIGHT-40);
+   point end   = point( WIDTH+5, -HEIGHT+40);
    this->addPoint(start);
    this->addPoint(end);      
 }

@@ -98,14 +98,15 @@ void graphics::handleKeypress(unsigned char key, int x, int y) {
 }
 void graphics::drawPath(path &path){ 
     point p1, p2;
+    color blue = color(0,0,1);
     for(auto it = path.points.begin(); it < path.points.end()-1; it++){
         p1 = point((*it).x, (*it).y - path.width/2) ;
         p2 = point((*(it+1)).x, (*(it+1)).y - path.width/2);
-        drawLine(p1, p2, color(1, 0, 0));
+        drawLine(p1, p2, blue);
 
         p1 = point((*it).x, (*it).y + path.width/2) ;
         p2 = point((*(it+1)).x, (*(it+1)).y + path.width/2);
-        drawLine(p1, p2, color(1, 0, 0));        
+        drawLine(p1, p2, blue);        
     }
 }
 
@@ -138,21 +139,22 @@ void graphics::drawPoint(point p){
 }
 
 void graphics::drawWall(float border){
+    color red = color(1,0,0);
     point p1 {-border,  border};
     point p2 { border,  border};
-    drawLine(p1, p2, color(1, 0, 0));
+    drawLine(p1, p2, red);
 
     p1 = point ( border,  border);
     p2 = point ( border, -border);
-    drawLine(p1, p2, color(1, 0, 0));
+    drawLine(p1, p2, red);
 
     p1 = point (  border, -border);
     p2 = point ( -border, -border);
-    drawLine(p1, p2, color(1, 0, 0));    
+    drawLine(p1, p2, red);    
 
     p1 = point (-border,  border);
     p2 = point (-border, -border);
-    drawLine(p1, p2, color(1, 0, 0));
+    drawLine(p1, p2, red);
 }
 
 void graphics::drawAgent(agent &agent, color &color){    

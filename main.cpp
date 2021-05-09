@@ -46,40 +46,26 @@ void loop() {
          view.drawLine( (*it).position, 
                         (*it).position + a,
                         color(1,0,0)
-                     );*/
-         
+                     );*/        
 
          pvector ali = behavior.align(agent::agents, *it);
-         ali.mul(4);/*
-         a = point(ali.x, ali.y);
-         a.mul(10);
-         view.drawLine( (*it).position, 
-                        (*it).position + a,
-                        color(0,1,0)
-                     );*/
-         
+         ali.mul(4);    
          pvector coh = behavior.cohesion(agent::agents, *it);
-         coh.mul(0.1);/*
-         a = point(coh.x, coh.y);
-         a.mul(10);
-         view.drawLine( (*it).position, 
-                        (*it).position + a,
-                        color(0,0,1)
-                     );*/
+         coh.mul(0.1);
 
          (*it).force = sep + ali + coh;
          (*it).desiredVelocity = (*it).force + (*it).velocity;
          (*it).targetPoint = (*it).position + (*it).desiredVelocity;
          (*it).arrive = true;
       } 
-
+      
       else if (mode == FOLLOW_MOUSE){
          (*it).targetPoint = view.getMousePosition();
-         (*it).force = behavior.seek(*it);
+         (*it).force  = behavior.seek(*it);
          (*it).arrive = true;
       }
 
-      else if (mode == STAY_IN_FIELD){ //TODO: apply force to agent if it is out of the field
+      else if (mode == STAY_IN_FIELD){
          view.drawWall(WALL);  
          (*it).force  = behavior.stayInArea(*it, WALL - DISTANCE);
          (*it).force += behavior.separation(agent::agents, *it);         
@@ -102,34 +88,28 @@ void loop() {
       else if(mode == STAY_IN_PATH_2){ //TODO: jitter exist
          view.drawPath(way);
          pvector seek = behavior.stayInPath_2(*it, way, view);
-         /*point a = point(seek.x, seek.y);
-         a.mul(10);
-         view.drawLine( (*it).position, 
-                        (*it).position + a,
-                        color(1,0,0)
-                     );*/
-
          pvector sep  = behavior.separation(agent::agents, *it);
-         sep.mul(5);
-         /*a = point(sep.x, sep.y);
-         a.mul(10);
-         view.drawLine( (*it).position, 
-                        (*it).position + a,
-                        color(0,0,1));*/                     
-         
+         sep.mul(5);         
          (*it).force = sep + seek;
-         //(*it).desiredVelocity = (*it).force + (*it).velocity;
-         //(*it).targetPoint = (*it).position + (*it).desiredVelocity;
-         //(*it).arrive = true;
       }
 
-      else if(mode == WANDER){
-         //TODO: logic must be improved
+      else if(mode == WANDER){//TODO: logic must be improved        
          (*it).force = behavior.wander(*it);
       }  
 
       else if(mode == FLEE){
          (*it).force = behavior.flee((*it), view);
+      }
+
+      else if(mode == PURSUIT){
+         if( (*it).id == 1 ){
+            (*it).targetPoint = view.getMousePosition();
+            (*it).force  = behavior.seek(*it);
+            (*it).arrive = true;
+         }
+         else{
+            (*it).force  = behavior.pursuit(*it);
+         }
       }
    }
 
@@ -150,7 +130,7 @@ void init(int * argv, char** argc, void (*callback)()){
       way.createPath_1();   
       agent::createRandomAgents(30, 0.6, 0.3);
       scenario = "STAY_IN_PATH";
-   }   
+   }
    else if(mode == STAY_IN_PATH_2){
       way.createPath_2();
       agent::createRandomAgents(40, 0.4, 0.2);
@@ -169,17 +149,21 @@ void init(int * argv, char** argc, void (*callback)()){
       scenario = "FOLLOW_MOUSE";
    }
    else if(mode == FLOCK){
-      agent::createRandomAgents(50, 1, 0.3);
+      agent::createRandomAgents(50, 1.0, 0.3);
       scenario = "FLOCK";
-   }   
+   }
    else if(mode == WANDER){
       agent::createRandomAgents(30, 0.6, 0.3);
       scenario = "WANDER";
-   }  
+   }
    else if(mode == IN_FLOW_FIELD){
       agent::createRandomAgents(30, 0.6, 0.3);
       scenario = "IN_FLOW_FIELD";
-   }       
+   }
+   else if(mode == PURSUIT){
+      agent::createAgents();
+      scenario = "PURSUIT";
+   }
 
    view = graphics(); 
    view.initGraphics(argv, argc, loop);

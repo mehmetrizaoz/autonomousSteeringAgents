@@ -8,17 +8,20 @@ using namespace std;
 
 vector<agent> agent::agents;
 
+
 void agent::createAgents(){
-   agent agent1 {-10.0,  0.0};
-   agent1.name = "agent1";
-   agent1.setFeatures(2, 2, 20, 1);
-   agent::agents.push_back(agent1);
-/*
-   agent agent2 { 10.0,  0.0};
-   agent2.name = "agent2";
-   agent2.setFeatures(4, 0.1, 20, 1);
-   agent::agents.push_back(agent2);*/
-}
+    agent agent1 {-10.0,  0.0};
+    agent1.id = 1;
+    agent1.name = "gazelle";    
+    agent1.setFeatures(0.3, 0.6, 5, 1);
+    agent::agents.push_back(agent1);
+
+    agent agent2 { 10.0,  0.0};
+    agent2.id = 2;
+    agent2.name = "cheetah";    
+    agent2.setFeatures(0.3, 0.6, 5, 1);
+    agent::agents.push_back(agent2);
+} 
 
 void agent::createTroop(int agentCount){
     //TODO: magic numbers
