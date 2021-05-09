@@ -51,12 +51,18 @@ BOOST_AUTO_TEST_CASE (s1t6){
 BOOST_AUTO_TEST_CASE (s1t7){
   pvector p1 = pvector(2, 2);
   p1.normalize();  
-  float f = 0.707;
-  BOOST_CHECK_CLOSE_FRACTION(f, p1.x, 0.01);  
-  BOOST_CHECK_CLOSE_FRACTION(f, p1.y, 0.01);
-
+  float range = 0.01;
+  BOOST_CHECK_CLOSE_FRACTION(0.707, p1.x, range);  
+  BOOST_CHECK_CLOSE_FRACTION(0.707, p1.y, range);
 }
 
+BOOST_AUTO_TEST_CASE (s1t8){
+  pvector p1 = pvector(2, 2);
+  p1.limit(3);
+  float range = 0.01;
+  BOOST_CHECK_CLOSE_FRACTION(2.12, p1.x, range);  
+  BOOST_CHECK_CLOSE_FRACTION(2.12, p1.y, range);
+}
 
 BOOST_AUTO_TEST_SUITE_END( )
 
