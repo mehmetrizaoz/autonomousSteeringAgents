@@ -34,47 +34,6 @@ void menu(){
    cin >> mode;
 }
 
-void init_agent_path_timer_color(){         
-   srand(time(NULL));
-   color::createColors();
-   //agent::createAgents();  
-
-   if(mode == STAY_IN_PATH){
-      way.createPath_1();   
-      agent::createRandomAgents(30, 0.6, 0.3);
-      scenario = "STAY_IN_PATH";
-   }   
-   else if(mode == STAY_IN_PATH_2){
-      way.createPath_2();
-      agent::createRandomAgents(40, 0.4, 0.2);
-      scenario = "STAY_IN_PATH_2";
-   }
-   else if(mode == FLEE){
-      agent::createTroop(196); 
-      scenario = "FLEE";  
-   }
-   else if(mode == STAY_IN_FIELD){
-      agent::createRandomAgents(30, 0.5, 0.5);
-      scenario = "STAY_IN_FIELD";
-   }
-   else if(mode == FOLLOW_MOUSE){
-      agent::createRandomAgents(30, 0.6, 0.3);
-      scenario = "FOLLOW_MOUSE";
-   }
-   else if(mode == FLOCK){
-      agent::createRandomAgents(50, 1, 0.3);
-      scenario = "FLOCK";
-   }   
-   else if(mode == WANDER){
-      agent::createRandomAgents(30, 0.6, 0.3);
-      scenario = "WANDER";
-   }  
-   else if(mode == IN_FLOW_FIELD){
-      agent::createRandomAgents(30, 0.6, 0.3);
-      scenario = "IN_FLOW_FIELD";
-   }       
-}
-
 void displayMode(){
    glColor3f (0.0, 0.0, 1.0);
    glRasterPos2f(-34, 32.5);
@@ -191,12 +150,54 @@ void loop() {
    displayMode();
 }
 
-int main(int argc, char** argv) {    
-   menu();  
-   init_agent_path_timer_color();
+void init(int * argv, char** argc, void (*callback)()){         
+   srand(time(NULL));
+   color::createColors();
+   //agent::createAgents();  
+
+   if(mode == STAY_IN_PATH){
+      way.createPath_1();   
+      agent::createRandomAgents(30, 0.6, 0.3);
+      scenario = "STAY_IN_PATH";
+   }   
+   else if(mode == STAY_IN_PATH_2){
+      way.createPath_2();
+      agent::createRandomAgents(40, 0.4, 0.2);
+      scenario = "STAY_IN_PATH_2";
+   }
+   else if(mode == FLEE){
+      agent::createTroop(196); 
+      scenario = "FLEE";  
+   }
+   else if(mode == STAY_IN_FIELD){
+      agent::createRandomAgents(30, 0.5, 0.5);
+      scenario = "STAY_IN_FIELD";
+   }
+   else if(mode == FOLLOW_MOUSE){
+      agent::createRandomAgents(30, 0.6, 0.3);
+      scenario = "FOLLOW_MOUSE";
+   }
+   else if(mode == FLOCK){
+      agent::createRandomAgents(50, 1, 0.3);
+      scenario = "FLOCK";
+   }   
+   else if(mode == WANDER){
+      agent::createRandomAgents(30, 0.6, 0.3);
+      scenario = "WANDER";
+   }  
+   else if(mode == IN_FLOW_FIELD){
+      agent::createRandomAgents(30, 0.6, 0.3);
+      scenario = "IN_FLOW_FIELD";
+   }       
 
    view = graphics(); 
-   view.initGraphics(&argc, argv, loop);
+   view.initGraphics(argv, argc, loop);
+}
+
+int main(int argc, char** argv) {    
+   menu();  
+   init(&argc, argv, loop);
+
 
    return 0;
 }

@@ -22,8 +22,8 @@ void graphics::refreshScene(){
    glTranslatef(0.0f, 0.0f, -85.0f); //Move to the center of the triangle     
 }
 
-void graphics::initGraphics(int * a, char** c, void (*callback)()){
-   glutInit(a, c);
+void graphics::initGraphics(int * argv, char** argc, void (*callback)()){
+   glutInit(argv, argc);
    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
    glutInitWindowSize(400, 400);   
    glutCreateWindow("Autonomous Steering Agents");
