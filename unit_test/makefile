@@ -7,7 +7,7 @@ LIBS = -lboost_unit_test_framework
 
 all: test_suite_pvector
 
-test_suite_pvector: $(objects) ../pvector.o
+test_suite_pvector: $(objects) ../pvector.o ../point.o
 	$(CC) $^ -o $@ $(LIBS)
 
 %.o: %.cpp

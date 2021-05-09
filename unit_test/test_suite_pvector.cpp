@@ -1,6 +1,7 @@
 #define BOOST_TEST_MODULE test_suite_pvector
 #include <boost/test/included/unit_test.hpp>
 #include "../include/pvector.h"
+#include "../include/point.h"
 #include <iostream>
 
 using namespace std;
@@ -62,6 +63,24 @@ BOOST_AUTO_TEST_CASE (s1t8){
   float range = 0.01;
   BOOST_CHECK_CLOSE_FRACTION(2.12, p1.x, range);  
   BOOST_CHECK_CLOSE_FRACTION(2.12, p1.y, range);
+}
+
+BOOST_AUTO_TEST_CASE (s1t9){
+  pvector p1 = pvector(1, 1);
+  p1 += pvector(1,1);
+  BOOST_CHECK(p1 == pvector(2,2));
+
+  p1 = pvector(1,1) + pvector(3,3);
+  BOOST_CHECK(p1 == pvector(4,4));
+
+  p1 = pvector(4,1) - pvector(3,3);
+  BOOST_CHECK(p1 == pvector(1,-2));
+
+  p1 = pvector(4,1) - point(3,3);
+  BOOST_CHECK(p1 == pvector(1,-2));
+
+  p1 = pvector(4,1) + point(3,3);
+  BOOST_CHECK(p1 == pvector(7,4));
 }
 
 BOOST_AUTO_TEST_SUITE_END( )
