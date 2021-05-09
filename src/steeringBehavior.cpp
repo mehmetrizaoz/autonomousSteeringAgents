@@ -33,7 +33,8 @@ pvector steeringBehavior::flee(agent &agent, graphics &view){
 
 pvector steeringBehavior::pursuit(vector<agent> boids, agent &pursuer){  
    agent target = boids.at(0);
-   int t = 3;
+   float dist = (target.position - pursuer.position).magnitude();
+   float t = dist / target.maxSpeed;
    
    pvector targetVel = target.velocity;
    targetVel.mul(t);
