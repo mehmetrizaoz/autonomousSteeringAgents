@@ -6,6 +6,8 @@
 #define WIDTH       34
 #define HEIGHT      34
 
+#define ESC         27
+#define PI          3.14159265
 
 class agent;
 class point;

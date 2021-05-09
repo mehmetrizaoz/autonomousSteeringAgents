@@ -2,7 +2,7 @@
 
 #include "pvector.h"
 
-#define WIDTH       34
+#define WIDTH       34 //TODO: remove these definitions 
 #define HEIGHT      34
 
 #define WIND_WEST 0.1,  0.0

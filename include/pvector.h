@@ -2,6 +2,8 @@
 
 #include <string>
 
+#define PI          3.14159265
+
 using namespace std;
 
 class point;

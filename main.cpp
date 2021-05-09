@@ -110,25 +110,24 @@ void loop() {
       else if(mode == STAY_IN_PATH_2){ //TODO: jitter exist
          view.drawPath(way);
          pvector seek = behavior.stayInPath_2(*it, way, view);
-         point a = point(seek.x, seek.y);
-         a.mul(10);/*
+         /*point a = point(seek.x, seek.y);
+         a.mul(10);
          view.drawLine( (*it).position, 
                         (*it).position + a,
                         color(1,0,0)
                      );*/
 
          pvector sep  = behavior.separation(agent::agents, *it);
-         sep.mul(4);
-         a = point(sep.x, sep.y);
-         a.mul(10);/*
+         sep.mul(5);
+         /*a = point(sep.x, sep.y);
+         a.mul(10);
          view.drawLine( (*it).position, 
                         (*it).position + a,
-                        color(0,0,1));*/
-                     
+                        color(0,0,1));*/                     
          
          (*it).force = sep + seek;
-         (*it).desiredVelocity = (*it).force + (*it).velocity;
-         (*it).targetPoint = (*it).position + (*it).desiredVelocity;
+         //(*it).desiredVelocity = (*it).force + (*it).velocity;
+         //(*it).targetPoint = (*it).position + (*it).desiredVelocity;
          //(*it).arrive = true;
       }
 
@@ -197,7 +196,5 @@ void init(int * argv, char** argc, void (*callback)()){
 int main(int argc, char** argv) {    
    menu();  
    init(&argc, argv, loop);
-
-
    return 0;
 }

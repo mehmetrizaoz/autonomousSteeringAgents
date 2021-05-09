@@ -8,9 +8,6 @@
 
 using namespace std;
 
-#define WITH_ARRIVING    true
-#define WITHOUT_ARRIVING false
-
 #define MAX_NUMBER_OF_AGENTS 50
 
 #define WALL        30

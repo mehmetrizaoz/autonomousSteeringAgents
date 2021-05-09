@@ -9,11 +9,6 @@
 #include <iostream>
 #include <GL/glut.h>
 
-#define CIRCLE_DISTANCE 0.1
-#define CIRCLE_RADIUS   0.4
-
-#define PI 3.14159265
-
 using namespace std;
 
 void steeringBehavior::setAngle(pvector &p, float angle){   

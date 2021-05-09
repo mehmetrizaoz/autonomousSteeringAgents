@@ -4,6 +4,9 @@
 #include <vector>
 #include "graphics.h"
 
+#define CIRCLE_DISTANCE 0.1  //Wander behavior
+#define CIRCLE_RADIUS   0.4
+
 #define FOLLOW_MOUSE   1 
 #define STAY_IN_FIELD  2
 #define IN_FLOW_FIELD  3
@@ -12,15 +15,18 @@
 #define FLOCK          6
 #define WANDER         7
 #define FLEE           8
-
+#define PURSUIT        9
 /*
 #define PURSUIT        8
+#define EVADE          8
 #define HIDE           9
 #define PATH_LOOP      10
 #define OBSTACLE_AVOIDANCE 12
 #define WALL_FOLLOWER      13
 #define OFFSET_PURSUIT     14
-#define LEADER_FOLLOWER    15*/
+#define LEADER_FOLLOWER    15
+
+*/
 
 using namespace  std;
 

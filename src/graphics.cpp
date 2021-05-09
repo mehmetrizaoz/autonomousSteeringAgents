@@ -3,9 +3,6 @@
 #include <iostream>
 #include "math.h"
 
-#define ESC         27
-#define PI          3.14159265
-
 using namespace std;
 
 class path;
