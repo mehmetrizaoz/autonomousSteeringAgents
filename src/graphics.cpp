@@ -120,7 +120,7 @@ void graphics::drawLine(point p1, point p2, color cl){
 }
 
 void graphics::drawCircle(point p, float radius){
-   glBegin(GL_LINES);                              
+   glBegin(GL_LINE_STRIP);                              
    glLineWidth(2);
    for (int i = 0; i <= 300; i++) {
      float angle = 2 * PI * i / 300;
@@ -132,7 +132,7 @@ void graphics::drawCircle(point p, float radius){
 }
 
 void graphics::drawPoint(point p){
-    glColor3f(1,0,0); 
+    glColor3f(1,1,1); 
     glPointSize(4.0);
     glBegin(GL_POINTS);
     glVertex2f(p.x, p.y);

@@ -141,9 +141,13 @@ void loop() {
 
          pvector vel = (*it).velocity;
          vel.normalize();
-         vel.mul(1); //max_see_ahead
+         vel.mul(3); //max_see_ahead
          pvector ahead  = vel + (*it).position;
-         pvector ahead2 = ahead;
+         vel.mul(2);
+         pvector ahead2 = vel + (*it).position;         
+
+         view.drawPoint(point(ahead.x, ahead.y));                        
+         view.drawPoint(point(ahead2.x, ahead2.y));  
          
          float dist  = (ahead  - obstacle::obstacles.at(0).p).magnitude();
          float dist2 = (ahead2 - obstacle::obstacles.at(0).p).magnitude();
@@ -151,12 +155,12 @@ void loop() {
          if(dist < obstacle::obstacles.at(0).r || dist2 < obstacle::obstacles.at(0).r){
             pvector avoidance = ahead - obstacle::obstacles.at(0).p;
             avoidance.normalize();
-            avoidance.mul(20);
+            avoidance.mul(30);
             
             a = point(avoidance.x, avoidance.y);
             view.drawLine( (*it).position, 
                         (*it).position + a,
-                        color(0,1,0));              
+                        color(0,1,0));            
             (*it).force += avoidance;
          }
          
