@@ -138,11 +138,12 @@ void loop() {
          view.drawLine( (*it).position, 
                         (*it).position + a,
                         color(1,0,0));   
-
+       
+         float dynamic_length = (*it).velocity.magnitude() / (*it).maxSpeed;
          pvector vel = (*it).velocity;
          vel.normalize();
-         vel.mul(3); //max_see_ahead
-         pvector ahead  = vel + (*it).position;
+         vel.mul(dynamic_length);
+         pvector ahead = vel + (*it).position;
          vel.mul(2);
          pvector ahead2 = vel + (*it).position;         
 
