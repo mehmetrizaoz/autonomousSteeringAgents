@@ -1,16 +1,16 @@
 #pragma once
 
 #include <vector>
+#include "point.h"
 
 using namespace std;
 
 class obstacle{
 public:
-   float x;
-   float y;   
+   point p;
    float r;
    static void createObstacle();
    static void draw();
-   obstacle(float x, float y, float r);
+   obstacle(point p, float r);
    static vector<obstacle> obstacles;  //TODO: move tocli,ent code    
 };

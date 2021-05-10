@@ -127,15 +127,46 @@ void loop() {
          }
       }      
 
-      else if(mode == AVOID_OBSTACLE){
-           obstacle::draw();
-           //TODO: --
+      else if(mode == AVOID_OBSTACLE){         
+         obstacle::draw();
+         (*it).targetPoint = view.getMousePosition();
+         pvector seek  = behavior.seek(*it);
+         seek.mul(0.5);
+         (*it).force = seek;     
+
+         point a = point(seek.x, seek.y);
+         view.drawLine( (*it).position, 
+                        (*it).position + a,
+                        color(1,0,0));   
+
+         pvector vel = (*it).velocity;
+         vel.normalize();
+         vel.mul(1); //max_see_ahead
+         pvector ahead  = vel + (*it).position;
+         pvector ahead2 = ahead;
+         
+         float dist  = (ahead  - obstacle::obstacles.at(0).p).magnitude();
+         float dist2 = (ahead2 - obstacle::obstacles.at(0).p).magnitude();
+         
+         if(dist < obstacle::obstacles.at(0).r || dist2 < obstacle::obstacles.at(0).r){
+            pvector avoidance = ahead - obstacle::obstacles.at(0).p;
+            avoidance.normalize();
+            avoidance.mul(20);
+            
+            a = point(avoidance.x, avoidance.y);
+            view.drawLine( (*it).position, 
+                        (*it).position + a,
+                        color(0,1,0));              
+            (*it).force += avoidance;
+         }
+         
+         (*it).arrive = true;
       }
 
    }
 
    for(auto it = agent::agents.begin(); it < agent::agents.end(); it++){       
-      (*it).updatePosition(mode, (*it).arrive);         
+      (*it).updatePosition(mode, (*it).arrive);        
       view.drawAgent(*it, (*it).vehicleColor);
    }
 
@@ -145,7 +176,6 @@ void loop() {
 void init(int * argv, char** argc, void (*callback)()){         
    srand(time(NULL));
    color::createColors();
-   //agent::createAgents();  
 
    if(mode == STAY_IN_PATH){
       way.createPath_1();   
@@ -194,8 +224,6 @@ void init(int * argv, char** argc, void (*callback)()){
       obstacle::createObstacle();
       scenario = "OBSTACLE AVOIDANCE";
    }
-
-
 
    view = graphics(); 
    view.initGraphics(argv, argc, loop);

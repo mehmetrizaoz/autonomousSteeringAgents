@@ -8,19 +8,18 @@ using namespace std;
 vector<obstacle> obstacle::obstacles;
 
 void obstacle::createObstacle(){
-   obstacle obs = obstacle(0, 0, 9);
+   obstacle obs = obstacle( point(0,0), 8);
    
    obstacle::obstacles.push_back(obs);
 }
 
-obstacle::obstacle(float x, float y, float r){
-   this->x = x;
-   this->y = y;
+obstacle::obstacle(point p, float r){
+   this->p = p;   
    this->r = r;
 }
 
 void obstacle::draw(){
-   point p = point(obstacle::obstacles.at(0).x, obstacle::obstacles.at(0).y);
+   point p = obstacle::obstacles.at(0).p;
    graphics::drawCircle(p, obstacle::obstacles.at(0).r);
 }
 
