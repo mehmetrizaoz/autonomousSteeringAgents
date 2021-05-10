@@ -127,7 +127,7 @@ void loop() {
          }
       }      
 
-      else if(mode == AVOID_OBSTACLE){         
+      else if(mode == AVOID_OBSTACLE){      //TODO: jitter exist   
          obstacle::draw();
          (*it).targetPoint = view.getMousePosition();
          pvector seek  = behavior.seek(*it);
@@ -142,8 +142,8 @@ void loop() {
          float dynamic_length = (*it).velocity.magnitude() / (*it).maxSpeed;
          pvector vel = (*it).velocity;
          vel.normalize();
-         vel.mul(dynamic_length);
-         pvector ahead = vel + (*it).position;
+         vel.mul(dynamic_length);         
+         pvector ahead  = vel + (*it).position;
          vel.mul(2);
          pvector ahead2 = vel + (*it).position;         
 
@@ -156,7 +156,7 @@ void loop() {
          if(dist < obstacle::obstacles.at(0).r || dist2 < obstacle::obstacles.at(0).r){
             pvector avoidance = ahead - obstacle::obstacles.at(0).p;
             avoidance.normalize();
-            avoidance.mul(30);
+            avoidance.mul(20);
             
             a = point(avoidance.x, avoidance.y);
             view.drawLine( (*it).position, 
