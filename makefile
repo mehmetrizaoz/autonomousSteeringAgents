@@ -4,7 +4,8 @@ CC := g++
 
 CPPFLAGS = -I include
 objects := pvector.o graphics.o agent.o flowField.o main.o \
-           point.o path.o color.o steeringBehavior.o random.o
+           point.o path.o color.o steeringBehavior.o random.o \
+		   obstacle.o
 LIBS = -lglut -lGLU -lGL
 
 all: exec

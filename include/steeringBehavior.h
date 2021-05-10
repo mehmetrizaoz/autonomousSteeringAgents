@@ -17,6 +17,7 @@
 #define FLEE           8
 #define PURSUIT        9
 #define EVADE          10
+#define AVOID_OBSTACLE 11
 
 using namespace  std;
 

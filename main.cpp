@@ -7,6 +7,7 @@
 #include "color.h"
 #include "graphics.h"
 #include "flowField.h"
+#include "obstacle.h"
 #include "path.h"
 #include "steeringBehavior.h"
 #include <stdlib.h>
@@ -22,16 +23,17 @@ steeringBehavior behavior;
 string scenario;
 
 void menu(){
-   cout << "Follow Mouse  : 1" << endl;
-   cout << "Stay in Field : 2" << endl;
-   cout << "In Flow Field : 3" << endl;
-   cout << "Stay in Path  : 4" << endl;
-   cout << "Stay in Path 2: 5" << endl;
-   cout << "FLOCK         : 6" << endl;
-   cout << "WANDER        : 7" << endl;
-   cout << "FLEE          : 8" << endl;
-   cout << "PURSUIT       : 9" << endl;
-   cout << "EVADE         : 10" << endl;
+   cout << "Follow Mouse       : 1" << endl;
+   cout << "Stay in Field      : 2" << endl;
+   cout << "In Flow Field      : 3" << endl;
+   cout << "Stay in Path       : 4" << endl;
+   cout << "Stay in Path 2     : 5" << endl;
+   cout << "FLOCK              : 6" << endl;
+   cout << "WANDER             : 7" << endl;
+   cout << "FLEE               : 8" << endl;
+   cout << "PURSUIT            : 9" << endl;
+   cout << "EVADE              : 10" << endl;
+   cout << "OBSTACLE AVOIDANCE : 11" << endl;
    cin >> mode;
 }
 
@@ -113,7 +115,7 @@ void loop() {
             (*it).arrive = true;
          }
       }
-
+      
       else if(mode == EVADE){
          if( (*it).name == "lion" ){
             (*it).targetPoint = view.getMousePosition();
@@ -122,9 +124,13 @@ void loop() {
          }
          else{//gazelle
             (*it).force  = behavior.evade(agent::agents, *it, view);
-            //(*it).arrive = true;
          }
       }      
+
+      else if(mode == AVOID_OBSTACLE){
+           obstacle::draw();
+      }
+
    }
 
    for(auto it = agent::agents.begin(); it < agent::agents.end(); it++){       
@@ -143,12 +149,12 @@ void init(int * argv, char** argc, void (*callback)()){
    if(mode == STAY_IN_PATH){
       way.createPath_1();   
       agent::createRandomAgents(30, 0.6, 0.3);
-      scenario = "STAY_IN_PATH";
+      scenario = "STAY IN PATH";
    }
    else if(mode == STAY_IN_PATH_2){
       way.createPath_2();
       agent::createRandomAgents(40, 0.4, 0.2);
-      scenario = "STAY_IN_PATH_2";
+      scenario = "STAY IN PATH 2";
    }
    else if(mode == FLEE){
       agent::createTroop(196); 
@@ -156,11 +162,11 @@ void init(int * argv, char** argc, void (*callback)()){
    }
    else if(mode == STAY_IN_FIELD){
       agent::createRandomAgents(30, 0.5, 0.5);
-      scenario = "STAY_IN_FIELD";
+      scenario = "STAY IN FIELD";
    }
    else if(mode == FOLLOW_MOUSE){
       agent::createRandomAgents(30, 0.6, 0.3);
-      scenario = "FOLLOW_MOUSE";
+      scenario = "FOLLOW MOUSE";
    }
    else if(mode == FLOCK){
       agent::createRandomAgents(50, 1.0, 0.3);
@@ -172,7 +178,7 @@ void init(int * argv, char** argc, void (*callback)()){
    }
    else if(mode == IN_FLOW_FIELD){
       agent::createRandomAgents(30, 0.6, 0.3);
-      scenario = "IN_FLOW_FIELD";
+      scenario = "IN FLOW FIELD";
    }
    else if(mode == PURSUIT){      
       agent::createAgents();
@@ -181,6 +187,11 @@ void init(int * argv, char** argc, void (*callback)()){
    else if(mode == EVADE){      
       agent::createAgents();
       scenario = "EVADE";
+   }
+   else if(mode == AVOID_OBSTACLE){
+      agent::createAgents();
+      obstacle::createObstacle();
+      scenario = "OBSTACLE AVOIDANCE";
    }
 
 

@@ -19,7 +19,7 @@ public:
    void drawLine(point p1, point p2, color cl);
    void drawPath(path &path);  
    void drawPoint(point p);
-   void drawCircle(point p, float radius);
+   static void drawCircle(point p, float radius);
    void checkInScreen(agent &agent);
    void drawText(string scenario);
    void refreshScene();
