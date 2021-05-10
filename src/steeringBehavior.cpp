@@ -33,35 +33,34 @@ pvector steeringBehavior::flee(agent &agent, graphics &view, point p){
 }
 
 pvector steeringBehavior::evade(vector<agent> boids, agent &evader, graphics view){  
-   agent target = boids.at(1); //lion
-   int t = 5;
-
-   pvector targetVel = target.velocity;
-   targetVel.mul(t);
-   point futurePos = target.position + targetVel;
-   view.drawPoint(futurePos);
-
-   pvector dist = evader.position - futurePos;
-   dist.normalize();
-   dist.mul( 1 / dist.magnitude() );
-   evader.targetPoint = evader.position + dist;   
-   
-   return flee(evader, view, futurePos);
+   if(boids.at(1).name == "lion"){
+      agent target = boids.at(1); //lion
+      int t = 5;
+      pvector targetVel = target.velocity;
+      targetVel.mul(t);
+      point futurePos = target.position + targetVel;
+      view.drawPoint(futurePos);
+      pvector dist = evader.position - futurePos;
+      dist.normalize();
+      dist.mul( 1 / dist.magnitude() );
+      evader.targetPoint = evader.position + dist;      
+      return flee(evader, view, futurePos);
+   }
+   return pvector(0,0);
 }
 
 pvector steeringBehavior::pursuit(vector<agent> boids, agent &pursuer){  
-   agent target = boids.at(0); //gazelle
-
-   float dist = (target.position - pursuer.position).magnitude();
-   float t = dist / target.maxSpeed;
-   
-   pvector targetVel = target.velocity;
-   targetVel.mul(t);
-
-   point futurePos = target.position + targetVel;
-   pursuer.targetPoint = futurePos;   
-   
-   return seek(pursuer);
+   if(boids.at(0).name == "gazelle"){
+      agent target = boids.at(0); //gazelle   
+      float dist = (target.position - pursuer.position).magnitude();
+      float t = dist / target.maxSpeed;
+      pvector targetVel = target.velocity;
+      targetVel.mul(t);
+      point futurePos = target.position + targetVel;
+      pursuer.targetPoint = futurePos;      
+      return seek(pursuer);
+   }
+   return pvector(0,0);
 }
 
 pvector steeringBehavior::wander(agent &agent){        

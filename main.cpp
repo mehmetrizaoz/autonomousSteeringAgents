@@ -129,6 +129,7 @@ void loop() {
 
       else if(mode == AVOID_OBSTACLE){
            obstacle::draw();
+           //TODO: --
       }
 
    }

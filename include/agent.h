@@ -29,9 +29,9 @@ public:
   static void createRandomAgents(int agentCount, const float mForce, const  float mSpeed);  
   static void createTroop(int agentCount);
   static void createAgents();
-  static vector<agent> agents;
+  static vector<agent> agents; //TODO: move vector to client code
 //private:
-  string   name; //for debugging
+  string   name;
   color    vehicleColor;
   point    position;
   pvector  velocity;  
@@ -44,7 +44,7 @@ public:
   pvector  desiredVelocity;  
   float    r;
   float    mass;
-  int id; //for debugging
+  int id; 
   bool arrive = false;
 };
 

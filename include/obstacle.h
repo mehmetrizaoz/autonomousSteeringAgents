@@ -12,5 +12,5 @@ public:
    static void createObstacle();
    static void draw();
    obstacle(float x, float y, float r);
-   static vector<obstacle> obstacles;      
+   static vector<obstacle> obstacles;  //TODO: move tocli,ent code    
 };
