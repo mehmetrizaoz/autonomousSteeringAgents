@@ -33,6 +33,12 @@ pvector steeringBehavior::flee(agent &agent, graphics &view, point p){
 }
 
 pvector steeringBehavior::evade(vector<agent> boids, agent &evader, graphics view){  
+   point p = point(boids.at(0).position.x + 2, boids.at(0).position.y - 2);   
+   view.drawText(boids.at(0).name, p);
+
+   p = point(boids.at(1).position.x + 2, boids.at(1).position.y - 2);
+   view.drawText(boids.at(1).name, p);
+
    if(boids.at(1).name == "lion"){
       agent target = boids.at(1); //lion
       int t = 5;
@@ -49,7 +55,13 @@ pvector steeringBehavior::evade(vector<agent> boids, agent &evader, graphics vie
    return pvector(0,0);
 }
 
-pvector steeringBehavior::pursuit(vector<agent> boids, agent &pursuer){  
+pvector steeringBehavior::pursuit(vector<agent> boids, agent &pursuer, graphics view){  
+   point p = point(boids.at(0).position.x + 2, boids.at(0).position.y - 2);   
+   view.drawText(boids.at(0).name, p);
+
+   p = point(boids.at(1).position.x + 2, boids.at(1).position.y - 2);
+   view.drawText(boids.at(1).name, p);
+
    if(boids.at(0).name == "gazelle"){
       agent target = boids.at(0); //gazelle   
       float dist = (target.position - pursuer.position).magnitude();

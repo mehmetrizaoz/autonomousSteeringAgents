@@ -21,7 +21,7 @@ public:
    void drawPoint(point p);
    static void drawCircle(point p, float radius);
    void checkInScreen(agent &agent);
-   void drawText(string scenario);
+   void drawText(string text, point p);
    void refreshScene();
    point getMousePosition();
    void initGraphics(int * argv, char** argc, void (*callback)());

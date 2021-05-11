@@ -36,7 +36,7 @@ public:
    pvector cohesion(vector<agent> boids, agent &agent);
    pvector align(vector<agent> boids, agent &agent);   
    pvector wander(agent &agent);   
-   pvector pursuit(vector<agent> boids, agent &pursuer);
+   pvector pursuit(vector<agent> boids, agent &pursuer, graphics view);
    pvector evade(vector<agent> boids, agent &evader, graphics view);
    pvector flee(agent &agent, graphics &view, point p);
    void setAngle(pvector &p, float angle);

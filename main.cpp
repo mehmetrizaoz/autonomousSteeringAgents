@@ -111,7 +111,7 @@ void loop() {
             (*it).arrive = true;
          }
          else{ //lion
-            (*it).force  = behavior.pursuit(agent::agents, *it);
+            (*it).force  = behavior.pursuit(agent::agents, *it, view);
             (*it).arrive = true;
          }
       }
@@ -174,8 +174,8 @@ void loop() {
       (*it).updatePosition(mode, (*it).arrive);        
       view.drawAgent(*it, (*it).vehicleColor);
    }
-
-   view.drawText(scenario);
+      
+   view.drawText(scenario, point(-34, 32.25));
 }
 
 void init(int * argv, char** argc, void (*callback)()){         

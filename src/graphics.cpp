@@ -11,10 +11,11 @@ class point;
 int graphics::target_x = -WIDTH;
 int graphics::target_y = HEIGHT;
 
-void graphics::drawText(string scenario){
+void graphics::drawText(string text, point p){
    glColor3f (0.0, 0.0, 1.0);
-   glRasterPos2f(-34, 32.5);
-   for ( string::iterator it=scenario.begin(); it!=scenario.end(); ++it){ 
+   //glRasterPos2f(-34, 32.5);
+   glRasterPos2f(p.x, p.y);
+   for ( string::iterator it=text.begin(); it!=text.end(); ++it){ 
       glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *it);
    }   
 }
