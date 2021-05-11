@@ -15,7 +15,7 @@ public:
    pvector();
    pvector(float x, float y);
    float magnitude();   
-   void  normalize();
+   pvector & normalize();
    void  div(float i);
    void  mul(float i);
    void  add(pvector p);

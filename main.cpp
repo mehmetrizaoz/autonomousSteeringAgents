@@ -42,16 +42,10 @@ void loop() {
    //TODO: create scenario abstract class and inherit all scenarios from it, remove code below
    for(auto it = agent::agents.begin(); it < agent::agents.end(); it++){
       if(mode==FLOCK){
-         view.checkInScreen((*it));
+         view.forceInScreen((*it));
+         
          pvector sep  = behavior.separation(agent::agents, *it);
-         sep.mul(1.5);/*
-         point a = point(sep.x, sep.y);
-         a.mul(10);
-         view.drawLine( (*it).position, 
-                        (*it).position + a,
-                        color(1,0,0)
-                     );*/        
-
+         sep.mul(1.5);         
          pvector ali = behavior.align(agent::agents, *it);
          ali.mul(4);    
          pvector coh = behavior.cohesion(agent::agents, *it);
@@ -134,13 +128,11 @@ void loop() {
 
          pvector seek  = behavior.seek(*it);
          seek.mul(0.5);
-         pvector avoid = behavior.avoid(*it);
-         avoid.mul(1.0);
+         pvector avoid = behavior.avoid(*it);         
 
-         (*it).force = avoid + seek;    
+         (*it).force = avoid + seek;   
          (*it).arrive = true;
       }
-
    }
 
    for(auto it = agent::agents.begin(); it < agent::agents.end(); it++){       

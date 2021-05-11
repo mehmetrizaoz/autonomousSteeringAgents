@@ -48,7 +48,7 @@ float pvector::magnitude(){
    return sqrt((this->x * this->x) + (this->y * this->y));
 }
 
-void pvector::normalize(){
+pvector &pvector::normalize(){
    float magnitude = this->magnitude();
    if(magnitude != 0){
       this->x = this->x / magnitude;
@@ -58,7 +58,7 @@ void pvector::normalize(){
       this->x = 0;
       this->y = 0;
    }
-      
+   return *this;  
 }
 
 void pvector::limit(float limit){

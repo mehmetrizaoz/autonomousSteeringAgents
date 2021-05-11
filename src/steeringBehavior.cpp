@@ -49,8 +49,7 @@ pvector steeringBehavior::evade(vector<agent> boids, agent &evader, graphics vie
       point futurePos = target.position + targetVel;
       view.drawPoint(futurePos);
       pvector dist = evader.position - futurePos;
-      dist.normalize();
-      dist.mul( 1 / dist.magnitude() );
+      dist.normalize().mul( 1 / dist.magnitude() );
       evader.targetPoint = evader.position + dist;      
       return flee(evader, view, futurePos);
    }
@@ -80,8 +79,7 @@ pvector steeringBehavior::pursuit(vector<agent> boids, agent &pursuer, graphics 
 
 pvector steeringBehavior::wander(agent &agent){        
    pvector circleCenter = agent.velocity;
-   circleCenter.normalize();
-   circleCenter.mul(CIRCLE_DISTANCE + CIRCLE_RADIUS);
+   circleCenter.normalize().mul(CIRCLE_DISTANCE + CIRCLE_RADIUS);
       
    int wanderAngle = (rand() % 360);
    pvector displacement {0, 1};
@@ -112,8 +110,7 @@ pvector steeringBehavior::align(vector<agent> boids, agent &agent){
    }
    if(count>0){
       sum.div(count);
-      sum.normalize();
-      sum.mul(agent.maxSpeed);
+      sum.normalize().mul(agent.maxSpeed);
       agent.steering = sum - agent.velocity;
       return agent.steering;
    }
@@ -147,16 +144,14 @@ pvector steeringBehavior::separation(vector<agent> agents, agent &agent){
       float d = (agent.position - (*it).position).magnitude();
       if( (d > 0) && (d < desiredSeparation) ){
          pvector diff = agent.position - (*it).position;
-         diff.normalize();
-         diff.div(d);
+         diff.normalize().div(d);
          sum = sum + diff;
          count++;
       }
    }
    if(count > 0){
       sum.div(count);
-      sum.normalize();
-      sum.mul(agent.maxSpeed);
+      sum.normalize().mul(agent.maxSpeed);
       agent.steering = sum - agent.velocity;
       return agent.steering;
    }
@@ -166,8 +161,7 @@ pvector steeringBehavior::separation(vector<agent> agents, agent &agent){
 pvector steeringBehavior::avoid(agent &agent){
    float dynamic_length = agent.velocity.magnitude() / agent.maxSpeed;
    pvector vel = agent.velocity;
-   vel.normalize();
-   vel.mul(dynamic_length);         
+   vel.normalize().mul(dynamic_length);         
    pvector ahead  = vel + agent.position;
    vel.mul(6);
    pvector ahead2 = vel + agent.position;         
@@ -180,13 +174,11 @@ pvector steeringBehavior::avoid(agent &agent){
    
    if(dist < obstacle::obstacles.at(0).r || dist2 < obstacle::obstacles.at(0).r){
       pvector avoidance = ahead - obstacle::obstacles.at(0).p;
-      avoidance.normalize();
-      avoidance.mul(20);
+      avoidance.normalize().mul(20);
       
       /*a = point(avoidance.x, avoidance.y);
-      view.drawLine( (*it).position, 
-                  (*it).position + a,
-                  color(0,1,0));*/
+      view.drawLine(agent.position, agent.position + a, color(0,1,0));*/
+                  
       return avoidance;      
    }
    return pvector(0,0);

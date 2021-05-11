@@ -20,7 +20,7 @@ public:
    void drawPath(path &path);  
    void drawPoint(point p);
    static void drawCircle(point p, float radius);
-   void checkInScreen(agent &agent);
+   void forceInScreen(agent &agent);
    void drawText(string text, point p);
    void refreshScene();
    point getMousePosition();

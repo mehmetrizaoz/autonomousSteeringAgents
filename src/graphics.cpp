@@ -49,7 +49,7 @@ point graphics::getMousePosition(){
    return point (graphics::target_x, graphics::target_y);
 }
 
-void graphics::checkInScreen(agent &agent){
+void graphics::forceInScreen(agent &agent){
     if(agent.position.x > WIDTH)
        agent.position.x -= 2 * WIDTH;
     if(agent.position.x < -WIDTH)
