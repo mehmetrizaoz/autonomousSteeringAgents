@@ -20,11 +20,11 @@ obstacle::obstacle(point p, float r){
    this->r = r;
 }
 
-void obstacle::draw(){      
+void obstacle::draw(graphics view){      
    point p;   
    for(auto it = obstacle::obstacles.begin(); it < obstacle::obstacles.end(); it++){
       p = (*it).p;
-      graphics::drawCircle(p, (*it).r);
+      view.drawCircle(p, (*it).r);
    }
 }
 

@@ -173,13 +173,6 @@ pvector steeringBehavior::avoid(agent &agent){
    //view.drawPoint(point(ahead.x, ahead.y));                        
    //view.drawPoint(point(ahead2.x, ahead2.y));  
 
-   //TODO: avoid from all obstacles, make code generic   
-   /*obstacle obs;
-   float minDist
-   for(auto it = obstacle::obstacles.begin(); it < obstacle::obstacles.end(); it++){
-      
-   }*/
-
    for(auto it = obstacle::obstacles.begin(); it < obstacle::obstacles.end(); it++){
       float dist  = (ahead  - (*it).p).magnitude();
       float dist2 = (ahead2 - (*it).p).magnitude();   

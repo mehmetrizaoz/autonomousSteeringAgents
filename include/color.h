@@ -11,6 +11,6 @@ public:
    float R;
    float G;
    float B;
-   static vector<color> colors; //TODO: move tocli,ent code
+   static vector<color> colors;
    static void createColors();
 };

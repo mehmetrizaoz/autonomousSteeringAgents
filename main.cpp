@@ -122,7 +122,8 @@ void loop() {
       }      
 
       else if(mode == AVOID_OBSTACLE){
-         obstacle::draw();
+         obstacle::draw(view);
+         
          (*it).targetPoint = view.getMousePosition();
          pvector seek  = behavior.seek(*it);
          seek.mul(0.5);
