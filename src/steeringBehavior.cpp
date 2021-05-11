@@ -142,7 +142,7 @@ pvector steeringBehavior::cohesion(vector<agent> boids, agent &agent){
 }
 
 pvector steeringBehavior::separation(vector<agent> agents, agent &agent){
-   float desiredSeparation = 4; //TODO: magic number
+   float desiredSeparation = 5; //TODO: magic number
    pvector sum = pvector(0,0);
    int count = 0;
    for(auto it = agents.begin(); it < agents.end(); it++){
@@ -166,26 +166,30 @@ pvector steeringBehavior::separation(vector<agent> agents, agent &agent){
 pvector steeringBehavior::avoid(agent &agent){
    float dynamic_length = agent.velocity.magnitude() / agent.maxSpeed;
    pvector vel = agent.velocity;
-   vel.normalize().mul(dynamic_length);         
+   vel.normalize().mul(dynamic_length);
    pvector ahead  = vel + agent.position;
    vel.mul(6);
-   pvector ahead2 = vel + agent.position;         
-
+   pvector ahead2 = vel + agent.position;
    //view.drawPoint(point(ahead.x, ahead.y));                        
    //view.drawPoint(point(ahead2.x, ahead2.y));  
 
    //TODO: avoid from all obstacles, make code generic   
-   float dist  = (ahead  - obstacle::obstacles.at(0).p).magnitude();
-   float dist2 = (ahead2 - obstacle::obstacles.at(0).p).magnitude();
-   
-   if(dist < obstacle::obstacles.at(0).r + 2 || dist2 < obstacle::obstacles.at(0).r + 2){
-      pvector avoidance = ahead - obstacle::obstacles.at(0).p;
-      avoidance.normalize().mul(10);
+   /*obstacle obs;
+   float minDist
+   for(auto it = obstacle::obstacles.begin(); it < obstacle::obstacles.end(); it++){
       
-      /*a = point(avoidance.x, avoidance.y);
-      view.drawLine(agent.position, agent.position + a, color(0,1,0));*/
-                  
-      return avoidance;      
+   }*/
+
+   for(auto it = obstacle::obstacles.begin(); it < obstacle::obstacles.end(); it++){
+      float dist  = (ahead  - (*it).p).magnitude();
+      float dist2 = (ahead2 - (*it).p).magnitude();   
+      if(dist < (*it).r + 2 || dist2 < (*it).r + 2){
+         pvector avoidance = ahead - (*it).p;
+         avoidance.normalize().mul(20);
+         /*a = point(avoidance.x, avoidance.y);
+         view.drawLine(agent.position, agent.position + a, color(0,1,0));*/                  
+         return avoidance;      
+      }
    }
    return pvector(0,0);
 }

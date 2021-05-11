@@ -9,6 +9,7 @@ class obstacle{
 public:
    point p;
    float r;
+   obstacle();
    static void createObstacle();
    static void draw();
    obstacle(point p, float r);

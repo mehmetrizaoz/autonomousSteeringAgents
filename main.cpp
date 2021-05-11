@@ -44,7 +44,7 @@ void loop() {
       if(mode==FLOCK){
          view.forceInScreen((*it));
          
-         pvector sep  = behavior.separation(agent::agents, *it);
+         pvector sep = behavior.separation(agent::agents, *it);
          sep.mul(1.5);         
          pvector ali = behavior.align(agent::agents, *it);
          ali.mul(4);    
@@ -122,8 +122,7 @@ void loop() {
       }      
 
       else if(mode == AVOID_OBSTACLE){
-         obstacle::draw(); 
-                 
+         obstacle::draw();
          (*it).targetPoint = view.getMousePosition();
          pvector seek  = behavior.seek(*it);
          seek.mul(0.5);
@@ -139,7 +138,7 @@ void loop() {
       view.drawAgent(*it, (*it).vehicleColor);
    }
       
-   view.drawText(scenario, point(-34, 32.25));
+   view.drawText(scenario, point(-34, 32.25)); //TODO: magic numbers, define left corner
 }
 
 void init(int * argv, char** argc, void (*callback)()){         
