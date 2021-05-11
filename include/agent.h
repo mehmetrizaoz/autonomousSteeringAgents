@@ -21,17 +21,12 @@ public:
   agent();
   ~agent();
   void updatePosition(int mode, bool arrive);
-  void setMaxSpeed(float s);
-  void setR(float s);
-  void setMass(float m);
-  void setMaxForce(float f);
-  void applyForce();
   void setFeatures(float s, float f, float r, float m);
+  //TODO: move vector and creation behaviors to client code
   static void createRandomAgents(int agentCount, const float mForce, const  float mSpeed);  
   static void createTroop(int agentCount);
   static void createAgents();
-  static vector<agent> agents; //TODO: move vector to client code
-//private:
+  static vector<agent> agents; 
   string   name;
   color    vehicleColor;
   point    position;
@@ -45,7 +40,7 @@ public:
   pvector  desiredVelocity;  
   float    r;
   float    mass;
-  int id; 
-  bool arrive = false;
+  int      id; 
+  bool     arrive = false;
 };
 

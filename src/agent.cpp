@@ -81,7 +81,7 @@ void agent::updatePosition(int mode, bool arrive){
     acceleration = force;     
     velocity += acceleration;
 
-    //TODO: refactor arriving behavior
+    //arriving behavior implementation
     if(arrive == true){        
         pvector diff = targetPoint - position;
         if(diff.magnitude() > r){
@@ -100,30 +100,10 @@ void agent::updatePosition(int mode, bool arrive){
 }
 
 void agent::setFeatures(float s, float f, float r, float m){
-    setMaxSpeed(s);
-    setMaxForce(f);
-    setR(r);
-    setMass(m);
+    this->maxSpeed = s;
+    this->maxForce = f;
+    this->r = r;
+    this->mass = m;
 }
 
 agent::~agent(){}
-
-void agent::setMass(float m){
-    mass = m;
-}
-
-void agent::setR(float r){
-    this->r = r;
-}
-
-void agent::setMaxSpeed(float s){
-    maxSpeed = s;
-}
-
-void agent::setMaxForce(float f){
-    maxForce = f;
-}
-
-void agent::applyForce(){
-   //acceleration = force;   
-}
