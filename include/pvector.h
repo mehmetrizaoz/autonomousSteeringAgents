@@ -26,8 +26,8 @@ public:
    pvector operator += (pvector const &obj);   
    pvector operator +  (pvector const &obj);
    pvector operator -  (pvector const &obj);
-   bool    operator == (pvector const &obj);
    pvector operator -  (point const &obj);
    pvector operator +  (point const &obj);
+   bool    operator == (pvector const &obj);
    void print(const string &s);
 };

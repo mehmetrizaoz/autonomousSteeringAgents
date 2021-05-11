@@ -21,6 +21,7 @@ graphics  view;
 path way;
 steeringBehavior behavior;
 string scenario;
+vector<obstacle> obstacles;
 
 void menu(){
    cout << "Follow Mouse       : 1" << endl;
@@ -122,13 +123,16 @@ void loop() {
       }      
 
       else if(mode == AVOID_OBSTACLE){
-         obstacle::draw(view);
-         
+         for(auto it = obstacles.begin(); it < obstacles.end(); it++){
+            point p = (*it).p;
+            view.drawCircle(p, (*it).r);
+         }
+
          (*it).targetPoint = view.getMousePosition();
          pvector seek  = behavior.seek(*it);
          seek.mul(0.5);
 
-         pvector avoid = behavior.avoid(*it);
+         pvector avoid = behavior.avoid(obstacles, *it);
          (*it).force = avoid + seek;   
          (*it).arrive = true;
       }
@@ -140,6 +144,12 @@ void loop() {
    }
       
    view.drawText(scenario, point(-34, 32.25)); //TODO: magic numbers, define left corner
+}
+
+void createObstacle(vector<obstacle> &obstacles){   
+   obstacles.push_back(obstacle(point(0,0), 8));   
+   obstacles.push_back(obstacle(point(-20,0), 3));  
+   obstacles.push_back(obstacle(point(20,-10), 4));
 }
 
 void init(int * argv, char** argc, void (*callback)()){         
@@ -190,7 +200,7 @@ void init(int * argv, char** argc, void (*callback)()){
    }
    else if(mode == AVOID_OBSTACLE){
       agent::createAgents();
-      obstacle::createObstacle();
+      createObstacle(obstacles);
       scenario = "OBSTACLE AVOIDANCE";
    }
 

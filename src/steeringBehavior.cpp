@@ -163,7 +163,7 @@ pvector steeringBehavior::separation(vector<agent> agents, agent &agent){
    return pvector(0,0);
 }
 
-pvector steeringBehavior::avoid(agent &agent){
+pvector steeringBehavior::avoid(vector<obstacle> obstacles, agent &agent){
    float dynamic_length = agent.velocity.magnitude() / agent.maxSpeed;
    pvector vel = agent.velocity;
    vel.normalize().mul(dynamic_length);
@@ -173,7 +173,7 @@ pvector steeringBehavior::avoid(agent &agent){
    //view.drawPoint(point(ahead.x, ahead.y));                        
    //view.drawPoint(point(ahead2.x, ahead2.y));  
 
-   for(auto it = obstacle::obstacles.begin(); it < obstacle::obstacles.end(); it++){
+   for(auto it = obstacles.begin(); it < obstacles.end(); it++){
       float dist  = (ahead  - (*it).p).magnitude();
       float dist2 = (ahead2 - (*it).p).magnitude();   
       if(dist < (*it).r + 2 || dist2 < (*it).r + 2){

@@ -10,9 +10,6 @@ class obstacle{
 public:
    point p;
    float r;
-   obstacle();
-   static void createObstacle();
-   static void draw(graphics view);
+   obstacle();      
    obstacle(point p, float r);
-   static vector<obstacle> obstacles;  //TODO: move tocli,ent code    
 };

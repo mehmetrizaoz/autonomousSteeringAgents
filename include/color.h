@@ -11,6 +11,6 @@ public:
    float R;
    float G;
    float B;
-   static vector<color> colors;
+   static vector<color> colors; //move to client code
    static void createColors();
 };

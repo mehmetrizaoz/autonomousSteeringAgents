@@ -3,6 +3,7 @@
 #include "flowField.h"
 #include <vector>
 #include "graphics.h"
+#include "obstacle.h"
 
 #define CIRCLE_DISTANCE 0.1  //Wander behavior
 #define CIRCLE_RADIUS   0.4
@@ -38,7 +39,7 @@ public:
    pvector wander(agent &agent);   
    pvector pursuit(vector<agent> boids, agent &pursuer, graphics view);
    pvector evade(vector<agent> boids, agent &evader, graphics view);
-   pvector flee(agent &agent, graphics &view, point p);
-   pvector avoid(agent &agent);
+   pvector flee(agent &agent, graphics &view, point p);   
+   pvector avoid(vector<obstacle> obstacles, agent &agent);
    void setAngle(pvector &p, float angle);
 };
