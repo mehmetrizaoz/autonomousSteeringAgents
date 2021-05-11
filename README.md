@@ -9,8 +9,9 @@ $sudo apt-get install libboost-all-dev
 
 # Resources
 # Autonomous Steering Agents
-https://natureofcode.com/book/chapter-6-autonomous-agents/
+https://natureofcode.com/book/chapter-6-autonomous-agents
 https://gamedevelopment.tutsplus.com/series/understanding-steering-behaviors--gamedev-12732
+
 # OpenGL Links
 https://videotutorialsrock.com/index.php
 https://www.opengl.org/resources/libraries/glut/spec3/node1.html
