@@ -11,6 +11,7 @@ obstacle::obstacle(){}
 
 void obstacle::createObstacle(){   
    obstacle::obstacles.push_back(obstacle(point(0,0), 8));   
+   obstacle::obstacles.push_back(obstacle(point(-20,0), 3));  
    obstacle::obstacles.push_back(obstacle(point(20,-10), 4));
 }
 
