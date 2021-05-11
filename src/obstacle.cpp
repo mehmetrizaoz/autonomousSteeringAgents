@@ -19,6 +19,7 @@ obstacle::obstacle(point p, float r){
 }
 
 void obstacle::draw(){
+   //TODO: make routine generic, draw all obstacles
    point p = obstacle::obstacles.at(0).p;
    graphics::drawCircle(p, obstacle::obstacles.at(0).r);
 }

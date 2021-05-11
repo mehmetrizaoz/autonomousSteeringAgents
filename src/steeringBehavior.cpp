@@ -47,7 +47,7 @@ pvector steeringBehavior::evade(vector<agent> boids, agent &evader, graphics vie
    view.drawText(target.name, p);
    
    pvector targetVel = target.velocity;
-   targetVel.mul(5);
+   targetVel.mul(5);//TODO: magic number
 
    point futurePos = target.position + targetVel;
    view.drawPoint(futurePos);
@@ -74,7 +74,7 @@ pvector steeringBehavior::pursuit(vector<agent> boids, agent &pursuer, graphics 
    
    float dist = (target.position - pursuer.position).magnitude();
    float t = dist / target.maxSpeed;
-   
+
    pvector targetVel = target.velocity;
    targetVel.mul(t);
    point futurePos = target.position + targetVel;
@@ -173,13 +173,14 @@ pvector steeringBehavior::avoid(agent &agent){
 
    //view.drawPoint(point(ahead.x, ahead.y));                        
    //view.drawPoint(point(ahead2.x, ahead2.y));  
-   
+
+   //TODO: avoid from all obstacles, make code generic   
    float dist  = (ahead  - obstacle::obstacles.at(0).p).magnitude();
    float dist2 = (ahead2 - obstacle::obstacles.at(0).p).magnitude();
    
-   if(dist < obstacle::obstacles.at(0).r || dist2 < obstacle::obstacles.at(0).r){
+   if(dist < obstacle::obstacles.at(0).r + 2 || dist2 < obstacle::obstacles.at(0).r + 2){
       pvector avoidance = ahead - obstacle::obstacles.at(0).p;
-      avoidance.normalize().mul(20);
+      avoidance.normalize().mul(10);
       
       /*a = point(avoidance.x, avoidance.y);
       view.drawLine(agent.position, agent.position + a, color(0,1,0));*/

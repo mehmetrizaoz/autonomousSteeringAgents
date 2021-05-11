@@ -104,7 +104,7 @@ void loop() {
             (*it).targetPoint = view.getMousePosition();
             (*it).force  = behavior.seek(*it);            
          }
-         else{ //lion
+         else{//lion
             (*it).force  = behavior.pursuit(agent::agents, *it, view);            
          }
          (*it).arrive = true;
@@ -122,10 +122,12 @@ void loop() {
       }      
 
       else if(mode == AVOID_OBSTACLE){
-         obstacle::draw();         
+         obstacle::draw(); 
+                 
          (*it).targetPoint = view.getMousePosition();
          pvector seek  = behavior.seek(*it);
          seek.mul(0.5);
+
          pvector avoid = behavior.avoid(*it);
          (*it).force = avoid + seek;   
          (*it).arrive = true;
