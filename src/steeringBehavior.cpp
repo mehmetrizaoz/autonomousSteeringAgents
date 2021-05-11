@@ -34,47 +34,52 @@ pvector steeringBehavior::flee(agent &agent, graphics &view, point p){
 }
 
 pvector steeringBehavior::evade(vector<agent> boids, agent &evader, graphics view){  
-   //TODO: make following code generic
-   point p = point(boids.at(0).position.x + 2, boids.at(0).position.y - 2);   
-   view.drawText(boids.at(0).name, p);
-
-   p = point(boids.at(1).position.x + 2, boids.at(1).position.y - 2);
-   view.drawText(boids.at(1).name, p);
-
-   if(boids.at(1).name == "lion"){
-      agent target = boids.at(1); //lion
-      int t = 5;
-      pvector targetVel = target.velocity;
-      targetVel.mul(t);
-      point futurePos = target.position + targetVel;
-      view.drawPoint(futurePos);
-      pvector dist = evader.position - futurePos;
-      dist.normalize().mul( 1 / dist.magnitude() );
-      evader.targetPoint = evader.position + dist;      
-      return flee(evader, view, futurePos);
+   agent target;
+   for(auto it = boids.begin(); it < boids.end(); it++){
+      if((*it).name == "lion"){
+         target = *it;
+      }
    }
-   return pvector(0,0);
+
+   point p = point(evader.position.x + 2, evader.position.y - 2);   
+   view.drawText(evader.name, p);
+   p = point(target.position.x + 2, target.position.y - 2);
+   view.drawText(target.name, p);
+   
+   pvector targetVel = target.velocity;
+   targetVel.mul(5);
+
+   point futurePos = target.position + targetVel;
+   view.drawPoint(futurePos);
+   
+   pvector dist = evader.position - futurePos;
+   dist.normalize().mul( 1 / dist.magnitude() );
+   
+   evader.targetPoint = evader.position + dist;      
+   return flee(evader, view, futurePos);
 }
 
 pvector steeringBehavior::pursuit(vector<agent> boids, agent &pursuer, graphics view){ 
-   //TODO: make following code generic
-   point p = point(boids.at(0).position.x + 2, boids.at(0).position.y - 2);   
-   view.drawText(boids.at(0).name, p);
-
-   p = point(boids.at(1).position.x + 2, boids.at(1).position.y - 2);
-   view.drawText(boids.at(1).name, p);
-
-   if(boids.at(0).name == "gazelle"){
-      agent target = boids.at(0); //gazelle   
-      float dist = (target.position - pursuer.position).magnitude();
-      float t = dist / target.maxSpeed;
-      pvector targetVel = target.velocity;
-      targetVel.mul(t);
-      point futurePos = target.position + targetVel;
-      pursuer.targetPoint = futurePos;      
-      return seek(pursuer);
+   agent target;
+   for(auto it = boids.begin(); it < boids.end(); it++){
+      if((*it).name == "gazelle"){
+         target = *it;
+      }
    }
-   return pvector(0,0);
+
+   point p = point(target.position.x + 2, target.position.y - 2);   
+   view.drawText(target.name, p);
+   p = point(pursuer.position.x + 2, pursuer.position.y - 2);
+   view.drawText(pursuer.name, p);
+   
+   float dist = (target.position - pursuer.position).magnitude();
+   float t = dist / target.maxSpeed;
+   
+   pvector targetVel = target.velocity;
+   targetVel.mul(t);
+   point futurePos = target.position + targetVel;
+   pursuer.targetPoint = futurePos;      
+   return seek(pursuer);
 }
 
 pvector steeringBehavior::wander(agent &agent){        

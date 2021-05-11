@@ -100,19 +100,18 @@ void loop() {
       }
 
       else if(mode == PURSUIT){
-         if( (*it).name == "gazelle" ){
+         if((*it).name == "gazelle"){
             (*it).targetPoint = view.getMousePosition();
-            (*it).force  = behavior.seek(*it);
-            (*it).arrive = true;
+            (*it).force  = behavior.seek(*it);            
          }
          else{ //lion
-            (*it).force  = behavior.pursuit(agent::agents, *it, view);
-            (*it).arrive = true;
+            (*it).force  = behavior.pursuit(agent::agents, *it, view);            
          }
+         (*it).arrive = true;
       }
       
       else if(mode == EVADE){
-         if( (*it).name == "lion" ){
+         if((*it).name == "lion"){
             (*it).targetPoint = view.getMousePosition();
             (*it).force  = behavior.seek(*it);
             (*it).arrive = true;
@@ -123,13 +122,11 @@ void loop() {
       }      
 
       else if(mode == AVOID_OBSTACLE){
-         obstacle::draw();
+         obstacle::draw();         
          (*it).targetPoint = view.getMousePosition();
-
          pvector seek  = behavior.seek(*it);
          seek.mul(0.5);
-         pvector avoid = behavior.avoid(*it);         
-
+         pvector avoid = behavior.avoid(*it);
          (*it).force = avoid + seek;   
          (*it).arrive = true;
       }

@@ -8,6 +8,7 @@ using namespace std;
 
 vector<agent> agent::agents;
 
+agent::agent(){}
 
 void agent::createAgents(){
     agent agent1 {-10.0,  0.0};

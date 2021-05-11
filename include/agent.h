@@ -18,6 +18,7 @@ class path;
 class agent{
 public:
   agent(float x, float y);
+  agent();
   ~agent();
   void updatePosition(int mode, bool arrive);
   void setMaxSpeed(float s);
