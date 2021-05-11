@@ -131,41 +131,13 @@ void loop() {
       else if(mode == AVOID_OBSTACLE){
          obstacle::draw();
          (*it).targetPoint = view.getMousePosition();
+
          pvector seek  = behavior.seek(*it);
          seek.mul(0.5);
-         (*it).force = seek;     
+         pvector avoid = behavior.avoid(*it);
+         avoid.mul(1.0);
 
-         point a = point(seek.x, seek.y);
-         view.drawLine( (*it).position, 
-                        (*it).position + a,
-                        color(1,0,0));   
-       
-         float dynamic_length = (*it).velocity.magnitude() / (*it).maxSpeed;
-         pvector vel = (*it).velocity;
-         vel.normalize();
-         vel.mul(dynamic_length);         
-         pvector ahead  = vel + (*it).position;
-         vel.mul(6);
-         pvector ahead2 = vel + (*it).position;         
-
-         view.drawPoint(point(ahead.x, ahead.y));                        
-         view.drawPoint(point(ahead2.x, ahead2.y));  
-         
-         float dist  = (ahead  - obstacle::obstacles.at(0).p).magnitude();
-         float dist2 = (ahead2 - obstacle::obstacles.at(0).p).magnitude();
-         
-         if(dist < obstacle::obstacles.at(0).r || dist2 < obstacle::obstacles.at(0).r){
-            pvector avoidance = ahead - obstacle::obstacles.at(0).p;
-            avoidance.normalize();
-            avoidance.mul(20);
-            
-            a = point(avoidance.x, avoidance.y);
-            view.drawLine( (*it).position, 
-                        (*it).position + a,
-                        color(0,1,0));            
-            (*it).force += avoidance;
-         }
-         
+         (*it).force = avoid + seek;    
          (*it).arrive = true;
       }
 

@@ -6,6 +6,7 @@
 #include <vector>
 #include "graphics.h"
 #include "math.h"
+#include "obstacle.h"
 #include <iostream>
 #include <GL/glut.h>
 
@@ -158,6 +159,35 @@ pvector steeringBehavior::separation(vector<agent> agents, agent &agent){
       sum.mul(agent.maxSpeed);
       agent.steering = sum - agent.velocity;
       return agent.steering;
+   }
+   return pvector(0,0);
+}
+
+pvector steeringBehavior::avoid(agent &agent){
+   float dynamic_length = agent.velocity.magnitude() / agent.maxSpeed;
+   pvector vel = agent.velocity;
+   vel.normalize();
+   vel.mul(dynamic_length);         
+   pvector ahead  = vel + agent.position;
+   vel.mul(6);
+   pvector ahead2 = vel + agent.position;         
+
+   //view.drawPoint(point(ahead.x, ahead.y));                        
+   //view.drawPoint(point(ahead2.x, ahead2.y));  
+   
+   float dist  = (ahead  - obstacle::obstacles.at(0).p).magnitude();
+   float dist2 = (ahead2 - obstacle::obstacles.at(0).p).magnitude();
+   
+   if(dist < obstacle::obstacles.at(0).r || dist2 < obstacle::obstacles.at(0).r){
+      pvector avoidance = ahead - obstacle::obstacles.at(0).p;
+      avoidance.normalize();
+      avoidance.mul(20);
+      
+      /*a = point(avoidance.x, avoidance.y);
+      view.drawLine( (*it).position, 
+                  (*it).position + a,
+                  color(0,1,0));*/
+      return avoidance;      
    }
    return pvector(0,0);
 }
