@@ -39,6 +39,7 @@ void menu(){
 
 void loop() {      
    view.refreshScene();   
+   //TODO: create scenario abstract class and inherit all scenarios from it, remove code below
    for(auto it = agent::agents.begin(); it < agent::agents.end(); it++){
       if(mode==FLOCK){
          view.checkInScreen((*it));
@@ -127,7 +128,7 @@ void loop() {
          }
       }      
 
-      else if(mode == AVOID_OBSTACLE){      //TODO: jitter exist   
+      else if(mode == AVOID_OBSTACLE){
          obstacle::draw();
          (*it).targetPoint = view.getMousePosition();
          pvector seek  = behavior.seek(*it);
@@ -144,7 +145,7 @@ void loop() {
          vel.normalize();
          vel.mul(dynamic_length);         
          pvector ahead  = vel + (*it).position;
-         vel.mul(2);
+         vel.mul(6);
          pvector ahead2 = vel + (*it).position;         
 
          view.drawPoint(point(ahead.x, ahead.y));                        

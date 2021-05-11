@@ -33,6 +33,7 @@ pvector steeringBehavior::flee(agent &agent, graphics &view, point p){
 }
 
 pvector steeringBehavior::evade(vector<agent> boids, agent &evader, graphics view){  
+   //TODO: make following code generic
    point p = point(boids.at(0).position.x + 2, boids.at(0).position.y - 2);   
    view.drawText(boids.at(0).name, p);
 
@@ -55,7 +56,8 @@ pvector steeringBehavior::evade(vector<agent> boids, agent &evader, graphics vie
    return pvector(0,0);
 }
 
-pvector steeringBehavior::pursuit(vector<agent> boids, agent &pursuer, graphics view){  
+pvector steeringBehavior::pursuit(vector<agent> boids, agent &pursuer, graphics view){ 
+   //TODO: make following code generic
    point p = point(boids.at(0).position.x + 2, boids.at(0).position.y - 2);   
    view.drawText(boids.at(0).name, p);
 
