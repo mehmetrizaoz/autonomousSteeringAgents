@@ -136,13 +136,13 @@ void loop() {
       }
          
       else if(mode == STAY_IN_PATH){
-         view.drawPath(way);
+         view.drawPath(way, myColor);
          (*it).force  = behavior.stayInPath(*it, way);
          (*it).force += behavior.separation(agents, *it);
       }
 
       else if(mode == STAY_IN_PATH_2){ 
-         view.drawPath(way);
+         view.drawPath(way, myColor);
          pvector seek = behavior.stayInPath_2(*it, way, view);
          pvector sep  = behavior.separation(agents, *it);
          sep.mul(5);         

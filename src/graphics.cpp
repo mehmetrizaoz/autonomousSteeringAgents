@@ -97,17 +97,16 @@ void graphics::mouseButton(int button, int state, int x, int y){
 void graphics::handleKeypress(unsigned char key, int x, int y) {    
     if (key == ESC){ exit(0); }
 }
-void graphics::drawPath(path &path){ 
-    point p1, p2;
-    color blue = color(0,0,1);
+void graphics::drawPath(path &path, color color){ 
+    point p1, p2;    
     for(auto it = path.points.begin(); it < path.points.end()-1; it++){
         p1 = point((*it).x, (*it).y - path.width/2) ;
         p2 = point((*(it+1)).x, (*(it+1)).y - path.width/2);
-        drawLine(p1, p2, blue);
+        drawLine(p1, p2, color.getColor(BLUE));
 
         p1 = point((*it).x, (*it).y + path.width/2) ;
         p2 = point((*(it+1)).x, (*(it+1)).y + path.width/2);
-        drawLine(p1, p2, blue);        
+        drawLine(p1, p2, color.getColor(BLUE));        
     }
 }
 

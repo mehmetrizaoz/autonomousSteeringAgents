@@ -16,8 +16,8 @@ class graphics{
 public:
    void drawWall(float border);
    void drawAgent(agent &agent, color &color);  
-   void drawLine(point p1, point p2, color cl);
-   void drawPath(path &path);  
+   void drawLine(point p1, point p2, color cl);   
+   void drawPath(path &path, color color);
    void drawPoint(point p);
    void drawCircle(point p, float radius);
    void forceInScreen(agent &agent);
