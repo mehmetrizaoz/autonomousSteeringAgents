@@ -22,11 +22,6 @@ public:
   ~agent();
   void updatePosition(int mode, bool arrive);
   void setFeatures(float s, float f, float r, float m);
-  //TODO: move vector and creation behaviors to client code
-  static void createRandomAgents(int agentCount, const float mForce, const  float mSpeed);  
-  static void createTroop(int agentCount);
-  static void createAgents();
-  static vector<agent> agents; 
   string   name;
   color    vehicleColor;
   point    position;

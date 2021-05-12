@@ -4,6 +4,8 @@
 
 using namespace std;
 
+enum num{ BLACK=0, BLUE, GREEN, CYAN, RED, MAGENDA, YELLOW, WHITE };
+
 class color{
 public:
    color(float r, float g, float b);
@@ -11,6 +13,7 @@ public:
    float R;
    float G;
    float B;
-   static vector<color> colors; //move to client
-   static void createColors();
+   color getColor(int i);
+   vector<color> colors;
+   void createColors();
 };

@@ -22,6 +22,8 @@ path way;
 steeringBehavior behavior;
 string scenario;
 vector<obstacle> obstacles;
+color myColor;
+vector<agent> agents;
 
 void menu(){
    cout << "Follow Mouse       : 1" << endl;
@@ -38,18 +40,73 @@ void menu(){
    cin >> mode;
 }
 
+void createRandomAgents(int agentCount, const float mForce, const float mSpeed){
+   int size = MAX_NUMBER_OF_AGENTS * 2;   
+   int arr[size];
+   random::createRandomArray(arr, size);
+   agent tempAgent {0, 0};
+   for(int i=0; i < agentCount * 2; i=i+2){
+      tempAgent.position.x = arr[i]   - WIDTH;
+      tempAgent.position.y = arr[i+1] - HEIGHT;
+      tempAgent.vehicleColor = myColor.colors.at( (i/2) % 8 );
+      tempAgent.setFeatures(mForce, mSpeed, 5, 1); 
+      agents.push_back(tempAgent);
+   }
+}
+
+void createAgents(){
+    agent agent1 {-10.0,  0.0};
+    agent1.id = 1;
+    agent1.name = "gazelle";    
+    agent1.vehicleColor = myColor.getColor(BLUE);
+    agent1.setFeatures(0.5, 0.2, 5, 1);
+    agents.push_back(agent1);
+
+    agent agent2 { 10.0,  0.0};
+    agent2.id = 2;
+    agent2.name = "lion";
+    agent2.vehicleColor = myColor.getColor(YELLOW);
+    agent2.setFeatures(0.4, 0.2, 5, 1);    
+    agents.push_back(agent2);
+}
+
+void createTroop(int agentCount){
+    //TODO: magic numbers
+    agent tempAgent {0, 0};
+    pvector location {-33, 33};
+   
+    for(int i=0; i < agentCount; i++){
+        tempAgent.id = i;
+        tempAgent.velocity = pvector(0, 0);
+        tempAgent.position.x = location.x;
+        tempAgent.position.y = location.y;
+        tempAgent.targetPoint = tempAgent.position;                 
+
+        if( ((i+1) % 14) == 0){
+           location.y -= 5;
+           location.x  = -33;
+        }
+        else
+           location.x += 5; 
+
+        tempAgent.vehicleColor = myColor.colors.at( (i/2) % 8 );
+        tempAgent.setFeatures(0.3, 0.3, 5, 1);
+        agents.push_back(tempAgent);
+    }
+}
+
 void loop() {      
    view.refreshScene();   
    //TODO: create scenario abstract class and inherit all scenarios from it, remove code below
-   for(auto it = agent::agents.begin(); it < agent::agents.end(); it++){
+   for(auto it = agents.begin(); it < agents.end(); it++){
       if(mode==FLOCK){
          view.forceInScreen((*it));
          
-         pvector sep = behavior.separation(agent::agents, *it);
+         pvector sep = behavior.separation(agents, *it);
          sep.mul(1.5);         
-         pvector ali = behavior.align(agent::agents, *it);
+         pvector ali = behavior.align(agents, *it);
          ali.mul(4);    
-         pvector coh = behavior.cohesion(agent::agents, *it);
+         pvector coh = behavior.cohesion(agents, *it);
          coh.mul(0.1);
 
          (*it).force = sep + ali + coh;
@@ -67,7 +124,7 @@ void loop() {
       else if (mode == STAY_IN_FIELD){
          view.drawWall(WALL);  
          (*it).force  = behavior.stayInArea(*it, WALL - DISTANCE);
-         (*it).force += behavior.separation(agent::agents, *it);         
+         (*it).force += behavior.separation(agents, *it);         
       }         
       
       else if(mode == IN_FLOW_FIELD){
@@ -81,13 +138,13 @@ void loop() {
       else if(mode == STAY_IN_PATH){
          view.drawPath(way);
          (*it).force  = behavior.stayInPath(*it, way);
-         (*it).force += behavior.separation(agent::agents, *it);
+         (*it).force += behavior.separation(agents, *it);
       }
 
       else if(mode == STAY_IN_PATH_2){ 
          view.drawPath(way);
          pvector seek = behavior.stayInPath_2(*it, way, view);
-         pvector sep  = behavior.separation(agent::agents, *it);
+         pvector sep  = behavior.separation(agents, *it);
          sep.mul(5);         
          (*it).force = sep + seek;
       }
@@ -106,7 +163,7 @@ void loop() {
             (*it).force  = behavior.seek(*it);            
          }
          else{//lion
-            (*it).force  = behavior.pursuit(agent::agents, *it, view);            
+            (*it).force  = behavior.pursuit(agents, *it, view);            
          }
          (*it).arrive = true;
       }
@@ -118,7 +175,7 @@ void loop() {
             (*it).arrive = true;
          }
          else{//gazelle
-            (*it).force  = behavior.evade(agent::agents, *it, view);
+            (*it).force  = behavior.evade(agents, *it, view);
          }
       }      
 
@@ -138,7 +195,7 @@ void loop() {
       }
    }
 
-   for(auto it = agent::agents.begin(); it < agent::agents.end(); it++){       
+   for(auto it = agents.begin(); it < agents.end(); it++){       
       (*it).updatePosition(mode, (*it).arrive);        
       view.drawAgent(*it, (*it).vehicleColor);
    }
@@ -154,52 +211,52 @@ void createObstacle(vector<obstacle> &obstacles){
 
 void init(int * argv, char** argc, void (*callback)()){         
    srand(time(NULL));
-   color::createColors();
+   myColor.createColors();
 
    if(mode == STAY_IN_PATH){
       way.createPath_1();   
-      agent::createRandomAgents(30, 0.6, 0.3);
+      createRandomAgents(30, 0.6, 0.3);
       scenario = "STAY IN PATH";
    }
    else if(mode == STAY_IN_PATH_2){
       way.createPath_2();
-      agent::createRandomAgents(40, 0.4, 0.2);
+      createRandomAgents(40, 0.4, 0.2);
       scenario = "STAY IN PATH 2";
    }
    else if(mode == FLEE){
-      agent::createTroop(196); 
+      createTroop(196); 
       scenario = "FLEE";  
    }
    else if(mode == STAY_IN_FIELD){
-      agent::createRandomAgents(30, 0.5, 0.5);
+      createRandomAgents(30, 0.5, 0.5);
       scenario = "STAY IN FIELD";
    }
    else if(mode == FOLLOW_MOUSE){
-      agent::createRandomAgents(30, 0.6, 0.3);
+      createRandomAgents(30, 0.6, 0.3);
       scenario = "FOLLOW MOUSE";
    }
    else if(mode == FLOCK){
-      agent::createRandomAgents(50, 1.0, 0.3);
+      createRandomAgents(50, 1.0, 0.3);
       scenario = "FLOCK";
    }
    else if(mode == WANDER){
-      agent::createRandomAgents(30, 0.6, 0.3);
+      createRandomAgents(30, 0.6, 0.3);
       scenario = "WANDER";
    }
    else if(mode == IN_FLOW_FIELD){
-      agent::createRandomAgents(30, 0.6, 0.3);
+      createRandomAgents(30, 0.6, 0.3);
       scenario = "IN FLOW FIELD";
    }
    else if(mode == PURSUIT){      
-      agent::createAgents();
+      createAgents();
       scenario = "PURSUIT";
    }
    else if(mode == EVADE){      
-      agent::createAgents();
+      createAgents();
       scenario = "EVADE";
    }
    else if(mode == AVOID_OBSTACLE){
-      agent::createAgents();
+      createAgents();
       createObstacle(obstacles);
       scenario = "OBSTACLE AVOIDANCE";
    }
@@ -213,3 +270,5 @@ int main(int argc, char** argv) {
    init(&argc, argv, loop);
    return 0;
 }
+
+
