@@ -1,16 +1,16 @@
+/**
+ * @file   path.h
+ * @author Mehmet Rıza Öz
+ * @brief  path class used for path following steering behaviors.
+ * @date   12.05.2021
+*/
+
 #pragma once
 
 #include "point.h"
 #include <vector>
 
 using namespace std;
-
-/**
- * @file   path.h
- * @author Mehmet Rıza Öz
- * @brief  path class used for path following implementations.
- * @date   12.05.2021
-*/
 
 class path{
 public:
