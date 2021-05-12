@@ -23,7 +23,7 @@ public:
   void updatePosition(int mode, bool arrive);
   void setFeatures(float s, float f, float r, float m);
   string   name;
-  color    vehicleColor;
+  color    fillColor;
   point    position;
   pvector  velocity;  
   point    targetPoint;

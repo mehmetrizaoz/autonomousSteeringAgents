@@ -48,7 +48,7 @@ void createRandomAgents(int agentCount, const float mForce, const float mSpeed){
    for(int i=0; i < agentCount * 2; i=i+2){
       tempAgent.position.x = arr[i]   - WIDTH;
       tempAgent.position.y = arr[i+1] - HEIGHT;
-      tempAgent.vehicleColor = myColor.colors.at( (i/2) % 8 );
+      tempAgent.fillColor = myColor.colors.at( (i/2) % 8 );
       tempAgent.setFeatures(mForce, mSpeed, 5, 1); 
       agents.push_back(tempAgent);
    }
@@ -58,14 +58,14 @@ void createAgents(){
     agent agent1 {-10.0,  0.0};
     agent1.id = 1;
     agent1.name = "gazelle";    
-    agent1.vehicleColor = myColor.getColor(BLUE);
+    agent1.fillColor = myColor.getColor(BLUE);
     agent1.setFeatures(0.5, 0.2, 5, 1);
     agents.push_back(agent1);
 
     agent agent2 { 10.0,  0.0};
     agent2.id = 2;
     agent2.name = "lion";
-    agent2.vehicleColor = myColor.getColor(YELLOW);
+    agent2.fillColor = myColor.getColor(YELLOW);
     agent2.setFeatures(0.4, 0.2, 5, 1);    
     agents.push_back(agent2);
 }
@@ -89,7 +89,7 @@ void createTroop(int agentCount){
         else
            location.x += 5; 
 
-        tempAgent.vehicleColor = myColor.colors.at( (i/2) % 8 );
+        tempAgent.fillColor = myColor.colors.at( (i/2) % 8 );
         tempAgent.setFeatures(0.3, 0.3, 5, 1);
         agents.push_back(tempAgent);
     }
@@ -197,7 +197,7 @@ void loop() {
 
    for(auto it = agents.begin(); it < agents.end(); it++){       
       (*it).updatePosition(mode, (*it).arrive);        
-      view.drawAgent(*it, (*it).vehicleColor);
+      view.drawAgent(*it, (*it).fillColor);
    }
       
    view.drawText(scenario, point(-34, 32.25)); //TODO: magic numbers, define left corner

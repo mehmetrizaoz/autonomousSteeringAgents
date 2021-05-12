@@ -16,7 +16,7 @@ agent::agent(float x, float  y){
     desiredVelocity = pvector(0.0, 0.0);
     force           = pvector(0.0, 0.0);
     targetPoint     = point(0.0, 0.0);
-    vehicleColor    = color(1.0, 0.0, 0.0);
+    fillColor       = color(1.0, 0.0, 0.0);
 }
 
 void agent::updatePosition(int mode, bool arrive){
@@ -27,16 +27,13 @@ void agent::updatePosition(int mode, bool arrive){
     //arriving behavior implementation
     if(arrive == true){        
         pvector diff = targetPoint - position;
-        if(diff.magnitude() > r){
-            velocity.limit(maxSpeed);
-        }
-        else{  
-            velocity.limit(maxSpeed * diff.magnitude() / r);
-        }
+        if(diff.magnitude() > r)
+            velocity.limit(maxSpeed);        
+        else
+            velocity.limit(maxSpeed * diff.magnitude() / r);        
     }
-    else{
+    else
         velocity.limit(maxSpeed);
-    }
 
     position = position + velocity;
     force = pvector(0,0);

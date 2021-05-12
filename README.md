@@ -1,7 +1,9 @@
 # Intent
-1- implementing of Craig Raynolds autonomous steering agents
-2- implementing genetics algorithms
-3- implementing neural network
+1- implementing Craig Raynolds autonomous steering agents
+
+2- implementing genetics algorithms 
+
+3- implementing neural network 
 
 # Dependencies
 $sudo apt-get install libglu1-mesa-dev freeglut3-dev mesa-common-dev
