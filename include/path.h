@@ -1,6 +1,6 @@
 /**
  * @file   path.h
- * @author Mehmet Rıza Öz
+ * @author Mehmet Rıza Öz - mehmetrizaoz@gmail.com
  * @brief  path class used for path following steering behaviors.
  * @date   12.05.2021
 */
