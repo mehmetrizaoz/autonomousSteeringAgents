@@ -122,7 +122,7 @@ void loop() {
       }
 
       else if (mode == STAY_IN_FIELD){
-         view.drawWall(WALL);  
+         view.drawWall(WALL, myColor);  
          (*it).force  = behavior.stayInArea(*it, WALL - DISTANCE);
          (*it).force += behavior.separation(agents, *it);         
       }         

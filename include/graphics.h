@@ -14,7 +14,7 @@ class point;
 
 class graphics{
 public:
-   void drawWall(float border);
+   void drawWall(float border, color color);
    void drawAgent(agent &agent, color &color);  
    void drawLine(point p1, point p2, color cl);   
    void drawPath(path &path, color color);

@@ -139,23 +139,22 @@ void graphics::drawPoint(point p){
     glEnd();
 }
 
-void graphics::drawWall(float border){
-    color red = color(1,0,0);
+void graphics::drawWall(float border, color color){
     point p1 {-border,  border};
     point p2 { border,  border};
-    drawLine(p1, p2, red);
+    drawLine(p1, p2, color.getColor(BLUE));
 
     p1 = point ( border,  border);
     p2 = point ( border, -border);
-    drawLine(p1, p2, red);
+    drawLine(p1, p2, color.getColor(BLUE));
 
     p1 = point (  border, -border);
     p2 = point ( -border, -border);
-    drawLine(p1, p2, red);    
+    drawLine(p1, p2, color.getColor(BLUE));    
 
     p1 = point (-border,  border);
     p2 = point (-border, -border);
-    drawLine(p1, p2, red);
+    drawLine(p1, p2, color.getColor(BLUE));
 }
 
 void graphics::drawAgent(agent &agent, color &color){    
