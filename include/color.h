@@ -10,10 +10,10 @@ class color{
 public:
    color(float r, float g, float b);
    color();
+   void createColors();
+   color getColor(int i);
    float R;
    float G;
    float B;
-   color getColor(int i);
    vector<color> colors;
-   void createColors();
 };

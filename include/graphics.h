@@ -20,8 +20,8 @@ public:
    void drawPath(path &path, color color);
    void drawPoint(point p);
    void drawCircle(point p, float radius);
-   void forceInScreen(agent &agent);
    void drawText(string text, point p);
+   void forceInScreen(agent &agent);
    void refreshScene();
    point getMousePosition();
    void initGraphics(int * argv, char** argc, void (*callback)());

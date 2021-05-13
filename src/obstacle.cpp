@@ -1,7 +1,7 @@
 /**
- * @file   obstacle.h
+ * @file   obstacle.cpp
  * @author Mehmet Rıza Öz - mehmetrizaoz@gmail.com
- * @brief  circular obstacles for agent avoidance behaviors
+ * @brief  obstacle class implementation
  * @date   12.05.2021
 */
 
