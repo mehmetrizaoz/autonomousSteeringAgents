@@ -37,18 +37,6 @@ public:
    void addPoint(point p); 
 
    /**
-   * Used when customizing path
-   * @todo move this routine to client side
-   */   
-   void createPath_1();
-
-   /**
-   * Used when customizing path
-   * @todo move this routine to client side
-   */   
-   void createPath_2();
-
-   /**
    * path is created from these points
    * @brief points added to the path
    */

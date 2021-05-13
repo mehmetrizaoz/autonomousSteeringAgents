@@ -9,7 +9,7 @@
 
 flowField::flowField(pvector p)
 {
-   uniformVectorField(p);
+   createFlowField(p);
 }
 
 flowField::flowField(){}
@@ -24,7 +24,7 @@ void flowField::perlinNoise()
 //TODO: implement
 }
 
-void flowField::uniformVectorField(pvector p)
+void flowField::createFlowField(pvector p)
 {
    for (int i = 0; i < WIDTH; i++) {
       for (int j = 0; j < HEIGHT; j++) {

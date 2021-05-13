@@ -18,12 +18,27 @@ using namespace std;
 int mode;
 flowField flow;
 graphics  view;
-path way;
+path myPath;
 steeringBehavior behavior;
 string scenario;
 vector<obstacle> obstacles;
 color myColor;
 vector<agent> agents;
+
+void createPath_1(path &p){
+   point start = point(-WIDTH-5,  HEIGHT-40);
+   point end   = point( WIDTH+5, -HEIGHT+40);
+   p.addPoint(start);
+   p.addPoint(end);      
+}
+
+void createPath_2(path &p){
+   p.addPoint(point(-40,  5));
+   p.addPoint(point(-14, 15));
+   p.addPoint(point( 10,  7));
+   p.addPoint(point( 40, 12));
+}
+
 
 void menu(){
    cout << "Follow Mouse       : 1" << endl;
@@ -135,15 +150,15 @@ void loop() {
          (*it).force += behavior.inFlowField(*it, flow);
       }
          
-      else if(mode == STAY_IN_PATH){
-         view.drawPath(way, myColor);
-         (*it).force  = behavior.stayInPath(*it, way);
+      else if(mode == STAY_IN_PATH){         
+         view.drawPath(myPath, myColor);
+         (*it).force  = behavior.stayInPath(*it, myPath);
          (*it).force += behavior.separation(agents, *it);
       }
 
       else if(mode == STAY_IN_PATH_2){ 
-         view.drawPath(way, myColor);
-         pvector seek = behavior.stayInPath_2(*it, way, view);
+         view.drawPath(myPath, myColor);
+         pvector seek = behavior.stayInPath_2(*it, myPath, view);
          pvector sep  = behavior.separation(agents, *it);
          sep.mul(5);         
          (*it).force = sep + seek;
@@ -214,12 +229,14 @@ void init(int * argv, char** argc, void (*callback)()){
    myColor.createColors();
 
    if(mode == STAY_IN_PATH){
-      way.createPath_1();   
+      myPath = path(6);
+      createPath_1(myPath);   
       createRandomAgents(30, 0.6, 0.3);
       scenario = "STAY IN PATH";
    }
    else if(mode == STAY_IN_PATH_2){
-      way.createPath_2();
+      myPath = path(8);
+      createPath_2(myPath);
       createRandomAgents(40, 0.4, 0.2);
       scenario = "STAY IN PATH 2";
    }

@@ -42,7 +42,7 @@ public:
    pvector getField(int x, int y);
 
 private:   
-   void uniformVectorField(pvector p);
+   void createFlowField(pvector p);
    void perlinNoise();
    void randomField();
    pvector uniformField[WIDTH][HEIGHT];
