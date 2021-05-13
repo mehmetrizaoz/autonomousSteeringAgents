@@ -11,10 +11,10 @@ enum num{ RANDOM=0, STATIC, TROOP };
 
 class scenario{
 public:
+   scenario();
    vector<agent> agents;
    void createAgent(int type);
    virtual void apply()=0;
-   string scenario;
    graphics  view;
    steeringBehavior behavior;
    color myColor;
