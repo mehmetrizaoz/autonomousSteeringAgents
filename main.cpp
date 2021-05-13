@@ -69,7 +69,7 @@ void createRandomAgents(int agentCount, const float mForce, const float mSpeed){
    }
 }
 
-void createAgents(){
+void createStaticAgents(){
     agent agent1 {-10.0,  0.0};
     agent1.id = 1;
     agent1.name = "gazelle";    
@@ -265,15 +265,15 @@ void init(int * argv, char** argc, void (*callback)()){
       scenario = "IN FLOW FIELD";
    }
    else if(mode == PURSUIT){      
-      createAgents();
+      createStaticAgents();
       scenario = "PURSUIT";
    }
    else if(mode == EVADE){      
-      createAgents();
+      createStaticAgents();
       scenario = "EVADE";
    }
    else if(mode == AVOID_OBSTACLE){
-      createAgents();
+      createStaticAgents();
       createObstacle(obstacles);
       scenario = "OBSTACLE AVOIDANCE";
    }
