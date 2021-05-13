@@ -22,7 +22,10 @@ color color::getColor(int i)
     return colors.at(i);
 }
 
-color::color(){}
+color::color()
+{
+    
+}
 
 void color::createColors()
 {

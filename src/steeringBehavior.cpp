@@ -201,7 +201,7 @@ pvector steeringBehavior::stayInPath_2(agent &agent, path &path, graphics view){
       start = point((*it).x, (*it).y);
       end   = point((*(it+1)).x, (*(it+1)).y);
       predictedPos = agent.position + agent.velocity;
-      normalPoint = point::getNormalPoint(predictedPos, start, end);
+      normalPoint.getNormalPoint(predictedPos, start, end);
       if (normalPoint.x < start.x || normalPoint.x > end.x){
          normalPoint = end;
       }
@@ -219,7 +219,8 @@ pvector steeringBehavior::stayInPath(agent &agent, path &path){
    point start = path.points.at(0);
    point end   = path.points.at(1);
    point predictedPos = agent.position + agent.velocity;
-   point normalPoint = point::getNormalPoint(predictedPos, start, end);
+   point normalPoint;
+   normalPoint.getNormalPoint(predictedPos, start, end);
    pvector b = end - start;
    b.normalize();
 
