@@ -14,7 +14,8 @@ void flee::loop(){
 }
 
 flee::flee(){    
+    int agentCount = 196;
     name = "fleeing troop";    
-    createAgent(TROOP, 196, 0, 0);
+    createAgent(TROOP, &agentCount, nullptr, nullptr);
     callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
 }

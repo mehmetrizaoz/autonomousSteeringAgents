@@ -14,8 +14,11 @@ void mouseFollower::loop(){
     refresh();
 }
 
-mouseFollower::mouseFollower(){    
+mouseFollower::mouseFollower(){ 
+    int agentCount = 30;
+    float maxForce = 0.3;
+    float maxSpeed = 0.6;       
     name = "mouse following";
-    createAgent(RANDOM, 30, 0.3, 0.6);
+    createAgent(RANDOM, &agentCount, &maxForce, &maxSpeed);
     callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
 }

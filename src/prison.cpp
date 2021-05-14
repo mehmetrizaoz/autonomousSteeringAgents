@@ -15,7 +15,11 @@ void prison::loop(){
 }
 
 prison::prison(){    
+    int agentCount = 30;
+    float maxForce = 0.5;
+    float maxSpeed = 0.6;       
+
     name = "stay in prison";
-    createAgent(RANDOM, 30, 0.5, 0.5); 
+    createAgent(RANDOM, &agentCount, &maxForce, &maxSpeed); 
     callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
 }

@@ -14,7 +14,11 @@ void wander::loop(){
 }
 
 wander::wander(){    
+    int agentCount = 30;
+    float maxForce = 0.3;
+    float maxSpeed = 0.6;       
+
     name = "wandering objects";
-    createAgent(RANDOM, 30, 0.3, 0.6);   
+    createAgent(RANDOM, &agentCount, &maxForce, &maxSpeed);   
     callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
 }

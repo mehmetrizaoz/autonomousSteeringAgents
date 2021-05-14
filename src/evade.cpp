@@ -22,6 +22,6 @@ void evade::loop(){
 
 evade::evade(){    
     name = "evading";
-    createAgent(STATIC, 0, 0, 0);
+    createAgent(STATIC, nullptr, nullptr, nullptr);
     callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
 }

@@ -14,8 +14,7 @@ void pathFollower::loop(){
         pvector sep  = behavior.separation(agents, *it);
         sep.mul(5);         
         (*it).force = sep + seek;
-    }
-            
+    }            
     refresh();
 }
 
@@ -27,9 +26,12 @@ void pathFollower::createPath(path &p){
 }
 
 pathFollower::pathFollower(){    
+    int agentCount = 40;
+    float maxForce = 0.2;
+    float maxSpeed = 0.4;
     myPath = path(8);
     createPath(myPath); 
     name = "path following";
-    createAgent(RANDOM, 40, 0.2, 0.4);
+    createAgent(RANDOM, &agentCount, &maxForce, &maxSpeed);    
     callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
 }

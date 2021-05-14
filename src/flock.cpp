@@ -26,7 +26,10 @@ void flock::loop(){
 }
 
 flock::flock(){    
+    int agentCount = 50;
+    float maxForce = 0.3;
+    float maxSpeed = 0.8;
     name = "flocking agents";    
-    createAgent(RANDOM, 50, 0.3, 1);
+    createAgent(RANDOM, &agentCount, &maxForce, &maxSpeed);
     callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
 }
