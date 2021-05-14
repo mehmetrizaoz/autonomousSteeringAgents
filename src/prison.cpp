@@ -3,6 +3,9 @@
 #include <iostream>
 #include <GL/glut.h>
 
+#define WALL        30
+#define DISTANCE    2
+
 using namespace std;
 
 void prison::loop(){

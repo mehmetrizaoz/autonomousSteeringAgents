@@ -2,6 +2,8 @@
 #include "random.h"
 #include <iostream>
 
+#define MAX_NUMBER_OF_AGENTS 50
+
 using namespace std;
 
 vector<agent> scenario::agents;

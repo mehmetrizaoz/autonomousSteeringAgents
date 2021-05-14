@@ -1,3 +1,10 @@
+/**
+ * @file   agent.cpp
+ * @author Mehmet Rıza Öz - mehmetrizaoz@gmail.com
+ * @brief  implementation of the agent class
+ * @date   14.05.2021
+*/
+
 #include "agent.h"
 #include "pvector.h"
 #include "graphics.h"

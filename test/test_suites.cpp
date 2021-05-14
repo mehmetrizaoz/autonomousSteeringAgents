@@ -72,6 +72,8 @@ BOOST_AUTO_TEST_SUITE (s1)
   }
 BOOST_AUTO_TEST_SUITE_END()
 
+
+
 BOOST_AUTO_TEST_SUITE (s2) 
   BOOST_AUTO_TEST_CASE (s2t1){
     point p1 = point(1, 1);
