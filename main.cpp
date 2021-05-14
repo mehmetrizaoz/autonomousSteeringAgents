@@ -1,6 +1,4 @@
 #include <iostream>
-#include <vector>
-#include <stdlib.h>
 #include "mouseFollower.h"
 #include "prison.h"
 #include "windy.h"
@@ -15,12 +13,6 @@
 using namespace std;
 
 int mode;
-graphics  view;
-steeringBehavior behavior;
-string scenario;
-vector<obstacle> obstacles;
-color myColor;
-vector<agent> agents;
 
 void menu(){
    cout << "Follow Mouse       : 1" << endl;
