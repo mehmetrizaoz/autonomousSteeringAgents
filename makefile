@@ -15,16 +15,13 @@ all: exec
 
 exec: $(objects)
 	$(CC) $^ -o $@ $(LIBS)
-	mv exec build
-	mv *.o build
 
 %.o: %.cpp
 	$(CC) $(CPPFLAGS) -c $<
 	
-
 .PHONY: clean help
 clean:
-	rm build/exec build/*.o
+	rm exec *.o
 
 help:
 	@echo "make"
