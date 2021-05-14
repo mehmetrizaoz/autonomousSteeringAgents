@@ -29,6 +29,7 @@
 
 # Executables
 exec
+test_suites
 test_suite_pvector
 *.exec
 *.exe
