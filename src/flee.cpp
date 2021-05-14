@@ -6,8 +6,6 @@
 using namespace std;
 
 void flee::initGL(int* argc, char** argv){    
-    void(* callback)();
-    callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
     view.initGraphics(argc, argv, callback);
 }
 
@@ -22,4 +20,5 @@ void flee::loop(){
 flee::flee(){    
     name = "fleeing troop";    
     createAgent(TROOP, 196, 0, 0);
+    callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
 }

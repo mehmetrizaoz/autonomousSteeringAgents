@@ -87,7 +87,7 @@ void scenario::createTroop(int count)
     }
 }
 
-void scenario::createAgent(int type, int count, const float force, const float speed)
+void scenario::createAgent(int type, int count, float force, float speed)
 {
     if(type == TROOP){
         createTroop(count);

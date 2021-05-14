@@ -6,8 +6,6 @@
 using namespace std;
 
 void mouseFollower::initGL(int* argc, char** argv){    
-    void(* callback)();
-    callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
     view.initGraphics(argc, argv, callback);
 }
 
@@ -16,12 +14,12 @@ void mouseFollower::loop(){
        (*it).targetPoint = view.getMousePosition();
        (*it).force  = behavior.seek(*it);
        (*it).arrive = true;
-    }
-            
+    }            
     refresh();
 }
 
 mouseFollower::mouseFollower(){    
     name = "mouse following";
     createAgent(RANDOM, 30, 0.3, 0.6);
+    callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
 }

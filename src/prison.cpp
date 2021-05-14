@@ -6,8 +6,6 @@
 using namespace std;
 
 void prison::initGL(int* argc, char** argv){    
-    void(* callback)();
-    callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
     view.initGraphics(argc, argv, callback);
 }
 
@@ -22,5 +20,6 @@ void prison::loop(){
 
 prison::prison(){    
     name = "stay in prison";
-    createAgent(RANDOM, 30, 0.5, 0.5);    
+    createAgent(RANDOM, 30, 0.5, 0.5); 
+    callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
 }

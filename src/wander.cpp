@@ -6,8 +6,6 @@
 using namespace std;
 
 void wander::initGL(int* argc, char** argv){    
-    void(* callback)();
-    callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
     view.initGraphics(argc, argv, callback);
 }
 
@@ -21,5 +19,6 @@ void wander::loop(){
 
 wander::wander(){    
     name = "wandering objects";
-    createAgent(RANDOM, 30, 0.3, 0.6);    
+    createAgent(RANDOM, 30, 0.3, 0.6);   
+    callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
 }

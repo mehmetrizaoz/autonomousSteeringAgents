@@ -8,8 +8,6 @@ using namespace std;
 vector<obstacle> obstacleAvoidance::obstacles;
 
 void obstacleAvoidance::initGL(int* argc, char** argv){    
-    void(* callback)();
-    callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
     view.initGraphics(argc, argv, callback);
 }
 
@@ -41,4 +39,5 @@ obstacleAvoidance::obstacleAvoidance(){
     name = "avoid obstacles";
     createAgent(STATIC, 0, 0, 0);
     createObstacle(obstacles);    
+    callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
 }

@@ -6,8 +6,6 @@
 using namespace std;
 
 void flock::initGL(int* argc, char** argv){    
-    void(* callback)();
-    callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
     view.initGraphics(argc, argv, callback);
 }
 
@@ -34,4 +32,5 @@ void flock::loop(){
 flock::flock(){    
     name = "flocking agents";    
     createAgent(RANDOM, 50, 0.3, 1);
+    callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
 }

@@ -6,8 +6,6 @@
 using namespace std;
 
 void evade::initGL(int* argc, char** argv){    
-    void(* callback)();
-    callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
     view.initGraphics(argc, argv, callback);
 }
 
@@ -29,4 +27,5 @@ void evade::loop(){
 evade::evade(){    
     name = "evading";
     createAgent(STATIC, 0, 0, 0);
+    callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
 }

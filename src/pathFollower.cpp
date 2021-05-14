@@ -8,8 +8,6 @@ using namespace std;
 path pathFollower::myPath;
 
 void pathFollower::initGL(int* argc, char** argv){    
-    void(* callback)();
-    callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
     view.initGraphics(argc, argv, callback);
 }
 
@@ -37,4 +35,5 @@ pathFollower::pathFollower(){
     createPath(myPath); 
     name = "path following";
     createAgent(RANDOM, 40, 0.2, 0.4);
+    callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
 }

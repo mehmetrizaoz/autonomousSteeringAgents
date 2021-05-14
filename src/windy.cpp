@@ -8,8 +8,6 @@ using namespace std;
 flowField windy::flow;
 
 void windy::initGL(int* argc, char** argv){    
-    void(* callback)();
-    callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
     view.initGraphics(argc, argv, callback);
 }
 
@@ -27,4 +25,5 @@ void windy::loop(){
 windy::windy(){    
     name = "flow field";
     createAgent(RANDOM, 30, 0.3, 0.6);  
+    callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
 }
