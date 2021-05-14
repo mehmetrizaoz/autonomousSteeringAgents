@@ -193,7 +193,7 @@ pvector steeringBehavior::seek(agent &agent){
    return agent.steering;
 }
 
-pvector steeringBehavior::stayInPath_2(agent &agent, path &path, graphics view){
+pvector steeringBehavior::stayInPath(agent &agent, path &path, graphics view){
    float worldRecord = 1000000; //TODO: magic number
    point normalPoint, predictedPos, start, end;
    pvector distance;
@@ -213,24 +213,6 @@ pvector steeringBehavior::stayInPath_2(agent &agent, path &path, graphics view){
       view.drawPoint(agent.targetPoint);
    }
    return seek(agent);
-}
-
-pvector steeringBehavior::stayInPath(agent &agent, path &path){
-   point start = path.points.at(0);
-   point end   = path.points.at(1);
-   point predictedPos = agent.position + agent.velocity;
-   point normalPoint;
-   normalPoint.getNormalPoint(predictedPos, start, end);
-   pvector b = end - start;
-   b.normalize();
-
-   pvector distance  = predictedPos - normalPoint;
-   agent.targetPoint = normalPoint  + b;
-   //view.drawLine(predictedPos, normalPoint);
-   //view.drawPoint(targetPoint);
-   if(distance.magnitude() > path.width / 8)
-     return seek(agent);
-   return pvector(0,0);
 }
 
 pvector steeringBehavior::inFlowField(agent &agent, flowField &flow){
