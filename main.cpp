@@ -5,6 +5,7 @@
 #include "wander.h"
 #include "pursuit.h"
 #include "flee.h"
+#include "scenario.h"
 #include "evade.h"
 #include "flock.h"
 #include "pathFollower.h"
@@ -31,46 +32,40 @@ void menu(){
 int main(int argc, char** argv) {    
    menu();  
 
+   scenario* sc;
+
    if(mode == FOLLOW_MOUSE){
-      mouseFollower mf;
-      mf.initGL(&argc, argv);
+      *sc = mouseFollower();      
    }
    else if(mode == STAY_IN_FIELD){
-      prison pr;
-      pr.initGL(&argc, argv);
+      *sc = prison();
    }
    else if(mode == IN_FLOW_FIELD){
-      windy wnd;
-      wnd.initGL(&argc, argv);
+      *sc = windy();      
    }
    else if(mode == WANDER){
-      wander wndr;
-      wndr.initGL(&argc, argv);
+      *sc = wander();
    }
    else if(mode == PURSUIT){  
-      pursuit prs;
-      prs.initGL(&argc, argv);
+      *sc = pursuit();
    }
    else if(mode == FLEE){
-      flee fl;
-      fl.initGL(&argc, argv);
+      *sc = flee();
    }
    else if(mode == EVADE){
-      evade ev;
-      ev.initGL(&argc, argv);
+      *sc = evade();
    }
    else if(mode == FLOCK){
-      flock flc;
-      flc.initGL(&argc, argv);
+      *sc = flock();
    }
    else if(mode == STAY_IN_PATH){
-      pathFollower ptf;
-      ptf.initGL(&argc, argv);
+      *sc = pathFollower();
    }
    else if(mode == AVOID_OBSTACLE){
-      obstacleAvoidance obst;
-      obst.initGL(&argc, argv);
+      *sc = obstacleAvoidance();
    }
+
+   sc->initGL(&argc, argv);
 
    return 0;
 }

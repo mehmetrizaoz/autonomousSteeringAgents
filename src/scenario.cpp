@@ -10,6 +10,11 @@ steeringBehavior scenario::behavior;
 color scenario::myColor; 
 string scenario::name;
 
+void scenario::initGL(int* argc, char** argv){    
+    view.initGraphics(argc, argv, callback);
+}
+
+
 scenario::scenario()
 {
     srand(time(NULL));

@@ -7,10 +7,6 @@ using namespace std;
 
 vector<obstacle> obstacleAvoidance::obstacles;
 
-void obstacleAvoidance::initGL(int* argc, char** argv){    
-    view.initGraphics(argc, argv, callback);
-}
-
 void obstacleAvoidance::loop(){
     for(auto it = agents.begin(); it < agents.end(); it++){
         for(auto it = obstacles.begin(); it < obstacles.end(); it++){

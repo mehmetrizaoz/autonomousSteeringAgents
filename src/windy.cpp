@@ -7,10 +7,6 @@ using namespace std;
 
 flowField windy::flow;
 
-void windy::initGL(int* argc, char** argv){    
-    view.initGraphics(argc, argv, callback);
-}
-
 void windy::loop(){
     for(auto it = agents.begin(); it < agents.end(); it++){
          flow = flowField(pvector(GRAVITY));

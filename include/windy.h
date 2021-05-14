@@ -11,6 +11,5 @@ public:
    windy();
    static void loop();  
    static flowField flow;
-   void initGL(int* argc, char** argv) override;
 };
 

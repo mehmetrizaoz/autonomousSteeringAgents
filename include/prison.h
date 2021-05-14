@@ -9,6 +9,5 @@ class prison: public scenario{
 public:
    prison();
    static void loop();  
-   void initGL(int* argc, char** argv) override;
 };
 

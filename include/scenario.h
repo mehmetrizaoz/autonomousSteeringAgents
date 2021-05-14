@@ -13,7 +13,7 @@ class scenario{
 public:
    scenario();   
    void createAgent(int type, int count, float force, float speed);
-   virtual void initGL(int * argv, char** argc)=0;
+   void initGL(int * argv, char** argc);
 
    static void refresh(); //opengl callback forces these static
    static vector<agent> agents;

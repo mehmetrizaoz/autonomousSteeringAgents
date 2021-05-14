@@ -5,10 +5,6 @@
 
 using namespace std;
 
-void flock::initGL(int* argc, char** argv){    
-    view.initGraphics(argc, argv, callback);
-}
-
 void flock::loop(){
     for(auto it = agents.begin(); it < agents.end(); it++){
          view.forceInScreen((*it));

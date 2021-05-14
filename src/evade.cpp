@@ -5,10 +5,6 @@
 
 using namespace std;
 
-void evade::initGL(int* argc, char** argv){    
-    view.initGraphics(argc, argv, callback);
-}
-
 void evade::loop(){
     for(auto it = agents.begin(); it < agents.end(); it++){
          if((*it).name == "lion"){

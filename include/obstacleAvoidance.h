@@ -12,6 +12,5 @@ public:
    static void loop(); 
    static vector<obstacle> obstacles;
    static void createObstacle(vector<obstacle> &obstacles); 
-   void initGL(int* argc, char** argv) override;
 };
 

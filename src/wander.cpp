@@ -5,10 +5,6 @@
 
 using namespace std;
 
-void wander::initGL(int* argc, char** argv){    
-    view.initGraphics(argc, argv, callback);
-}
-
 void wander::loop(){
     for(auto it = agents.begin(); it < agents.end(); it++){
        (*it).force = behavior.wander(*it);

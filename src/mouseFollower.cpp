@@ -5,10 +5,6 @@
 
 using namespace std;
 
-void mouseFollower::initGL(int* argc, char** argv){    
-    view.initGraphics(argc, argv, callback);
-}
-
 void mouseFollower::loop(){
     for(auto it = agents.begin(); it < agents.end(); it++){
        (*it).targetPoint = view.getMousePosition();

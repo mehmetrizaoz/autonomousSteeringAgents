@@ -7,10 +7,6 @@ using namespace std;
 
 path pathFollower::myPath;
 
-void pathFollower::initGL(int* argc, char** argv){    
-    view.initGraphics(argc, argv, callback);
-}
-
 void pathFollower::loop(){
     for(auto it = agents.begin(); it < agents.end(); it++){
         view.drawPath(myPath, myColor);

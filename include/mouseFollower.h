@@ -9,6 +9,5 @@ class mouseFollower: public scenario{
 public:
    mouseFollower();
    static void loop();  
-   void initGL(int* argc, char** argv) override;
 };
 

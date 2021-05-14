@@ -9,6 +9,5 @@ class pursuit: public scenario{
 public:
    pursuit();
    static void loop();  
-   void initGL(int* argc, char** argv) override;
 };
 

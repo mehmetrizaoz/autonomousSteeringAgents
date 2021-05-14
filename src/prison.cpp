@@ -5,10 +5,6 @@
 
 using namespace std;
 
-void prison::initGL(int* argc, char** argv){    
-    view.initGraphics(argc, argv, callback);
-}
-
 void prison::loop(){
     for(auto it = agents.begin(); it < agents.end(); it++){
          view.drawWall(WALL, myColor);  

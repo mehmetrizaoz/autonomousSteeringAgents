@@ -5,10 +5,6 @@
 
 using namespace std;
 
-void pursuit::initGL(int* argc, char** argv){    
-    view.initGraphics(argc, argv, callback);
-}
-
 void pursuit::loop(){
     for(auto it = agents.begin(); it < agents.end(); it++){
          if((*it).name == "gazelle"){

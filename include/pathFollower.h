@@ -11,6 +11,5 @@ public:
    static void loop();  
    static path myPath;
    static void createPath(path &p);
-   void initGL(int* argc, char** argv) override;
 };
 
