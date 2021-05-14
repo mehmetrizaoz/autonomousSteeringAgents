@@ -1,0 +1,25 @@
+#include "scenario.h"
+#include "wander.h"
+#include <iostream>
+#include <GL/glut.h>
+
+using namespace std;
+
+void wander::initGL(int* argc, char** argv){    
+    void(* callback)();
+    callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
+    view.initGraphics(argc, argv, callback);
+}
+
+void wander::loop(){
+    for(auto it = agents.begin(); it < agents.end(); it++){
+       (*it).force = behavior.wander(*it);
+    }
+            
+    refresh();
+}
+
+wander::wander(){    
+    name = "wandering objects";
+    createAgent(RANDOM, 30, 0.3, 0.6);    
+}

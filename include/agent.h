@@ -20,7 +20,7 @@ public:
   agent(float x, float y);
   agent();
   ~agent();
-  void updatePosition(int mode, bool arrive);
+  void updatePosition(bool arrive);
   void setFeatures(float s, float f, float r, float m);
   string   name;
   color    fillColor;

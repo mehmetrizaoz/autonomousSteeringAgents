@@ -7,17 +7,20 @@
 
 using namespace std;
 
-enum num{ RANDOM=0, STATIC, TROOP };
+enum types{ RANDOM=0, STATIC, TROOP };
 
 class scenario{
 public:
-   scenario();
-   vector<agent> agents;
-   void createAgent(int type);
-   virtual void apply()=0;
-   graphics  view;
-   steeringBehavior behavior;
-   color myColor;
+   scenario();   
+   void createAgent(int type, int count, const float force, const float speed);
+   virtual void initGL(int * argv, char** argc)=0;
+
+   static void refresh(); //opengl callback forces these static
+   static vector<agent> agents;
+   static graphics  view;
+   static steeringBehavior behavior;
+   static color myColor;   
+   static string name;
 private:
    void createRandomAgents(int agentCount, const float mForce, const float mSpeed);      
    void createStaticAgents();

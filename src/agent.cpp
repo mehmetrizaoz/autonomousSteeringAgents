@@ -19,7 +19,7 @@ agent::agent(float x, float  y){
     fillColor       = color(1.0, 0.0, 0.0);
 }
 
-void agent::updatePosition(int mode, bool arrive){
+void agent::updatePosition(bool arrive){
     force.limit(maxForce);
     acceleration = force;     
     velocity += acceleration;

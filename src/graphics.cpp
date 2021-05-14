@@ -91,7 +91,9 @@ void graphics::timerEvent(int value) {
 }
 
 void graphics::mouseButton(int button, int state, int x, int y){
-	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){}    
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
+        cout << "zdf";
+    }    
 }
 
 void graphics::handleKeypress(unsigned char key, int x, int y) {    
