@@ -21,6 +21,7 @@
 #include "evade.h"
 #include "flock.h"
 #include "pathFollower.h"
+#include "obstacleAvoidance.h"
 
 using namespace std;
 
@@ -31,7 +32,6 @@ string scenario;
 vector<obstacle> obstacles;
 color myColor;
 vector<agent> agents;
-
 
 void menu(){
    cout << "Follow Mouse       : 1" << endl;
@@ -150,6 +150,10 @@ int main(int argc, char** argv) {
    else if(mode == STAY_IN_PATH){
       pathFollower ptf;
       ptf.initGL(&argc, argv);
+   }
+   else if(mode == AVOID_OBSTACLE){
+      obstacleAvoidance obst;
+      obst.initGL(&argc, argv);
    }
 
    return 0;
