@@ -46,6 +46,5 @@ public:
    * path width
    * @brief defines width of the path
    */
-   int width; 
-
+   int width;
 };

@@ -1,3 +1,10 @@
+/**
+ * @file   point.cpp
+ * @author Mehmet Rıza Öz - mehmetrizaoz@gmail.com
+ * @brief  point class implementation file
+ * @date   15.05.2021
+*/
+
 #include "point.h"
 #include "pvector.h"
 #include <string>
@@ -5,52 +12,60 @@
 
 using namespace std;
 
-point::point(float x, float y){
+point::point(float x, float y)
+{
    this->x = x;
    this->y = y;
 }
 
 point::point(){}
 
-point point::operator + (pvector const &obj) {
+point point::operator + (pvector const &obj)
+{
    point res;
    res.x = x + obj.x;
    res.y = y + obj.y;
    return res;
 }
 
-bool point::operator == (point const &obj) {      
+bool point::operator == (point const &obj)
+{
    if(x == obj.x && y == obj.y)
       return true;
    return false;
 }
 
-void point::div(float d){
+void point::div(float d)
+{
    x = x / d;
    y = y / d;
 }
 
-void point::mul(float d){
+void point::mul(float d)
+{
    x = x * d;
    y = y * d;
 }
 
 
-point point::operator + (point const &obj) {
+point point::operator + (point const &obj)
+{
    point res;
    res.x = x + obj.x;
    res.y = y + obj.y;
    return res;
 }
 
-pvector point::operator - (point const &obj) {
+pvector point::operator - (point const &obj)
+{
    pvector res;
    res.x = x - obj.x;
    res.y = y - obj.y;
    return res;
 }
 
-void point::getNormalPoint(point predicted, point start, point end){
+void point::getNormalPoint(point predicted, point start, point end)
+{
    pvector a = predicted - start;
    pvector b = end - start;
    b.normalize();
@@ -61,6 +76,7 @@ void point::getNormalPoint(point predicted, point start, point end){
    this->y = normalPoint.y;
 }
 
-void point::print(const string &s){
+void point::print(const string &s)
+{
    cout << " " << s << " " << x << " " << y << endl;
 }

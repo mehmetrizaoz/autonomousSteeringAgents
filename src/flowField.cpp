@@ -26,8 +26,8 @@ void flowField::perlinNoise()
 
 void flowField::createFlowField(pvector p)
 {
-   for (int i = 0; i < WIDTH; i++) {
-      for (int j = 0; j < HEIGHT; j++) {
+   for (int i = 0; i < FIELD_WIDTH; i++) {
+      for (int j = 0; j < FIELD_HEIGHT; j++) {
          uniformField[i][j] = pvector(p);
       }
    }

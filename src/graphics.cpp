@@ -19,7 +19,8 @@ class point;
 int graphics::target_x = -WIDTH;
 int graphics::target_y = HEIGHT;
 
-void graphics::drawText(string text, point p){
+void graphics::drawText(string text, point p)
+{
    glColor3f (0.0, 0.0, 1.0);
    //glRasterPos2f(-34, 32.5);
    glRasterPos2f(p.x, p.y);
@@ -29,7 +30,8 @@ void graphics::drawText(string text, point p){
 }
 
 
-void graphics::refreshScene(){
+void graphics::refreshScene()
+{
    glutSwapBuffers();
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    
    glMatrixMode(GL_MODELVIEW); //Switch to the drawing perspective
@@ -37,7 +39,8 @@ void graphics::refreshScene(){
    glTranslatef(0.0f, 0.0f, -85.0f); //Move to the center of the triangle     
 }
 
-void graphics::initGraphics(int * argv, char** argc, void (*callback)()){
+void graphics::initGraphics(int * argv, char** argc, void (*callback)())
+{
    glutInit(argv, argc);
    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
    glutInitWindowSize(400, 400);   
@@ -53,11 +56,13 @@ void graphics::initGraphics(int * argv, char** argc, void (*callback)()){
    glutMainLoop();
 }
 
-point graphics::getMousePosition(){
+point graphics::getMousePosition()
+{
    return point (graphics::target_x, graphics::target_y);
 }
 
-void graphics::forceInScreen(agent &agent){
+void graphics::forceInScreen(agent &agent)
+{
     if(agent.position.x > WIDTH)
        agent.position.x -= 2 * WIDTH;
     if(agent.position.x < -WIDTH)
@@ -68,14 +73,16 @@ void graphics::forceInScreen(agent &agent){
        agent.position.y += 2 * HEIGHT;
 }
 
-void graphics::mouseMove(int x, int y){
+void graphics::mouseMove(int x, int y)
+{
     //TODO: mouse position to glut
     //TODO: magic numbers
 	graphics::target_x = x / 5.88 - 34;
     graphics::target_y = 34 - y / 5.88; 
 }
 
-void graphics::handleResize(int w, int h) {        
+void graphics::handleResize(int w, int h)
+{
     glViewport(0, 0, w, h);  //Tell OpenGL how to convert from coordinates to pixel values
     glMatrixMode(GL_PROJECTION); //Switch to setting the camera perspective       
     glLoadIdentity(); //Reset the camera
@@ -86,24 +93,27 @@ void graphics::handleResize(int w, int h) {
                    200.0);                //The far z clipping coordinate
 }
 
-void graphics::timerEvent(int value) {
+void graphics::timerEvent(int value)
+{
     glutPostRedisplay(); //Tell GLUT that the display has changed
     glutTimerFunc(value, timerEvent, 20);
 }
 
-void graphics::mouseButton(int button, int state, int x, int y){
-	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
-        
+void graphics::mouseButton(int button, int state, int x, int y)
+{
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){        
     }    
 }
 
-void graphics::handleKeypress(unsigned char key, int x, int y) {    
+void graphics::handleKeypress(unsigned char key, int x, int y)
+{
     if (key == ESC){ 
         exit(0); 
     }
 }
 
-void graphics::drawPath(path &path, color color){ 
+void graphics::drawPath(path &path, color color)
+{
     point p1, p2;    
     for(auto it = path.points.begin(); it < path.points.end()-1; it++){
         p1 = point((*it).x, (*it).y - path.width/2) ;
@@ -116,7 +126,8 @@ void graphics::drawPath(path &path, color color){
     }
 }
 
-void graphics::drawLine(point p1, point p2, color cl){
+void graphics::drawLine(point p1, point p2, color cl)
+{
     glColor3f( cl.R, cl.G, cl.B); 
     glLineWidth(2);
     glBegin(GL_LINES);
@@ -125,7 +136,8 @@ void graphics::drawLine(point p1, point p2, color cl){
     glEnd();  
 }
 
-void graphics::drawCircle(point p, float radius){
+void graphics::drawCircle(point p, float radius)
+{
    glBegin(GL_LINE_STRIP);                              
    glLineWidth(2);
    for (int i = 0; i <= 300; i++) {
@@ -137,7 +149,8 @@ void graphics::drawCircle(point p, float radius){
    glEnd();
 }
 
-void graphics::drawPoint(point p){
+void graphics::drawPoint(point p)
+{
     glColor3f(1,1,1); 
     glPointSize(4.0);
     glBegin(GL_POINTS);
@@ -145,7 +158,8 @@ void graphics::drawPoint(point p){
     glEnd();
 }
 
-void graphics::drawWall(float border, color color){
+void graphics::drawWall(float border, color color)
+{
     point p1 {-border,  border};
     point p2 { border,  border};
     drawLine(p1, p2, color.getColor(BLUE));
@@ -163,7 +177,8 @@ void graphics::drawWall(float border, color color){
     drawLine(p1, p2, color.getColor(BLUE));
 }
 
-void graphics::drawAgent(agent &agent, color &color){    
+void graphics::drawAgent(agent &agent, color &color)
+{
     glPushMatrix();
     glTranslatef(agent.position.x, agent.position.y, 0.0f);  
     glRotatef(agent.velocity.getAngle(), 0.0f, 0.0f, 1.0f);

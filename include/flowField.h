@@ -9,8 +9,8 @@
 
 #include "pvector.h"
 
-#define WIDTH       34 //TODO: remove these definitions, make themconstructor parameters
-#define HEIGHT      34
+#define FIELD_WIDTH       34 //TODO: remove these definitions, make themconstructor parameters
+#define FIELD_HEIGHT      34
 
 #define WIND_WEST 0.1,  0.0
 #define GRAVITY   0.0, -0.1
@@ -45,5 +45,5 @@ private:
    void createFlowField(pvector p);
    void perlinNoise();
    void randomField();
-   pvector uniformField[WIDTH][HEIGHT];
+   pvector uniformField[FIELD_WIDTH][FIELD_HEIGHT];
 };

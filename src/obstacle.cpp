@@ -12,9 +12,13 @@
 
 using namespace std;
 
-obstacle::obstacle(){}
+obstacle::obstacle()
+{
 
-obstacle::obstacle(point p, float r){
+}
+
+obstacle::obstacle(point p, float r)
+{
    this->p = p;   
    this->r = r;
 }
