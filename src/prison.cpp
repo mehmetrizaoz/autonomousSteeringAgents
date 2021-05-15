@@ -1,3 +1,10 @@
+/**
+ * @file   prison.cpp
+ * @author Mehmet Rıza Öz - mehmetrizaoz@gmail.com
+ * @brief  prison class implementation
+ * @date   15.05.2021
+*/
+
 #include "scenario.h"
 #include "prison.h"
 #include <iostream>
@@ -21,7 +28,7 @@ void prison::loop()
 prison::prison()
 {
     int agentCount = 30;
-    float maxForce = 0.5;
+    float maxForce = 0.6;
     float maxSpeed = 0.6;       
 
     name = "stay in prison";

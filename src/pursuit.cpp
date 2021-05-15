@@ -1,3 +1,10 @@
+/**
+ * @file   pursuit.cpp
+ * @author Mehmet Rıza Öz - mehmetrizaoz@gmail.com
+ * @brief  prison class implementation
+ * @date   15.05.2021
+*/
+
 #include "scenario.h"
 #include "pursuit.h"
 #include <iostream>

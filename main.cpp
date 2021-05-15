@@ -1,3 +1,10 @@
+/**
+ * @file   main.cpp
+ * @author Mehmet Rıza Öz - mehmetrizaoz@gmail.com
+ * @brief  client code
+ * @date   15.05.2021
+*/
+
 #include <iostream>
 #include "mouseFollower.h"
 #include "prison.h"
@@ -13,8 +20,14 @@
 
 using namespace std;
 
+/**
+* @brief specifies user selected scenario
+*/
 int mode;
 
+/**
+* @brief displays menu
+*/
 void menu(){
    cout << "Follow Mouse       : 1" << endl;
    cout << "Stay in Field      : 2" << endl;
@@ -29,6 +42,9 @@ void menu(){
    cin >> mode;
 }
 
+/**
+* @brief main routine
+*/
 int main(int argc, char** argv) {    
    menu();  
 

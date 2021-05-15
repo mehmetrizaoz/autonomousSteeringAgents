@@ -1,3 +1,10 @@
+/**
+ * @file   scenario.cpp
+ * @author Mehmet Rıza Öz - mehmetrizaoz@gmail.com
+ * @brief  scenario base class implementation
+ * @date   15.05.2021
+*/
+
 #include "scenario.h"
 #include "random.h"
 #include <iostream>
@@ -25,7 +32,8 @@ scenario::scenario()
     view = graphics(); 
 }
 
-void scenario::refresh(){
+void scenario::refresh()
+{
     for(auto it = agents.begin(); it < agents.end(); it++){       
        (*it).updatePosition((*it).arrive);
        view.drawAgent(*it, (*it).fillColor);

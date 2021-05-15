@@ -1,3 +1,10 @@
+/**
+ * @file   flee.cpp
+ * @author Mehmet Rıza Öz - mehmetrizaoz@gmail.com
+ * @brief  flee class implementation
+ * @date   15.05.2021
+*/
+
 #include "scenario.h"
 #include "flee.h"
 #include <iostream>

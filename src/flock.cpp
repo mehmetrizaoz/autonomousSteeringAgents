@@ -1,3 +1,10 @@
+/**
+ * @file   flock.cpp
+ * @author Mehmet Rıza Öz - mehmetrizaoz@gmail.com
+ * @brief  flock class implementation
+ * @date   15.05.2021
+*/
+
 #include "scenario.h"
 #include "flock.h"
 #include <iostream>

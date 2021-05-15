@@ -1,3 +1,10 @@
+/**
+ * @file   mouseFollower.cpp
+ * @author Mehmet Rıza Öz - mehmetrizaoz@gmail.com
+ * @brief  mouseFollower class implementation
+ * @date   15.05.2021
+*/
+
 #include "scenario.h"
 #include "mouseFollower.h"
 #include <iostream>

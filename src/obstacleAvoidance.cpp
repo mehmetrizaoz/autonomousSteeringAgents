@@ -1,3 +1,10 @@
+/**
+ * @file   obstacleAvoidance.cpp
+ * @author Mehmet Rıza Öz - mehmetrizaoz@gmail.com
+ * @brief  obstacleAvoidance class implementation
+ * @date   15.05.2021
+*/
+
 #include "scenario.h"
 #include "obstacleAvoidance.h"
 #include <iostream>

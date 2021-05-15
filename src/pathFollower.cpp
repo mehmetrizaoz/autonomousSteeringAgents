@@ -1,3 +1,10 @@
+/**
+ * @file   pathFollower.cpp
+ * @author Mehmet Rıza Öz - mehmetrizaoz@gmail.com
+ * @brief  pathFollower class implementation
+ * @date   15.05.2021
+*/
+
 #include "scenario.h"
 #include "pathFollower.h"
 #include <iostream>
