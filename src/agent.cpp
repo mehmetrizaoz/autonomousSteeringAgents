@@ -13,9 +13,13 @@
 
 using namespace std;
 
-agent::agent(){}
+agent::agent()
+{
 
-agent::agent(float x, float  y){
+}
+
+agent::agent(float x, float  y)
+{
     position        = point(x, y);
     velocity        = pvector(0.6, 0.0);
     acceleration    = pvector(0.0, 0.0);
@@ -26,7 +30,8 @@ agent::agent(float x, float  y){
     fillColor       = color(1.0, 0.0, 0.0);
 }
 
-void agent::updatePosition(bool arrive){
+void agent::updatePosition(bool arrive)
+{
     force.limit(maxForce);
     acceleration = force;     
     velocity += acceleration;
@@ -46,11 +51,15 @@ void agent::updatePosition(bool arrive){
     force = pvector(0,0);
 }
 
-void agent::setFeatures(float s, float f, float r, float m){
+void agent::setFeatures(float s, float f, float r, float m)
+{
     this->maxSpeed = s;
     this->maxForce = f;
     this->r = r;
     this->mass = m;
 }
 
-agent::~agent(){}
+agent::~agent()
+{
+    
+}

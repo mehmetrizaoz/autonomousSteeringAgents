@@ -1,3 +1,11 @@
+/**
+ * @file   graphics.cpp
+ * @author Mehmet Rıza Öz - mehmetrizaoz@gmail.com
+ * @brief  graphics class implementation
+ * @date   15.05.2021
+*/
+
+
 #include "graphics.h"
 #include <GL/glut.h>
 #include <iostream>
@@ -41,7 +49,7 @@ void graphics::initGraphics(int * argv, char** argc, void (*callback)()){
    glutPassiveMotionFunc(graphics::mouseMove);
    glutKeyboardFunc(graphics::handleKeypress);
    glutReshapeFunc(graphics::handleResize);    
-   glutTimerFunc(5, graphics::timerEvent, 0);    
+   glutTimerFunc(20, graphics::timerEvent, 0);    
    glutMainLoop();
 }
 
@@ -78,27 +86,23 @@ void graphics::handleResize(int w, int h) {
                    200.0);                //The far z clipping coordinate
 }
 
-//#define _100_MS 5  //TODO: move them somewhere else
-//static int counter = 0;
 void graphics::timerEvent(int value) {
     glutPostRedisplay(); //Tell GLUT that the display has changed
-    glutTimerFunc(20, timerEvent, 0);
-    /*counter++;
-    if(counter == _100_MS * 2){
-       counter = 0;
-       graphics::timerEventFlag = true;
-    }*/
+    glutTimerFunc(value, timerEvent, 20);
 }
 
 void graphics::mouseButton(int button, int state, int x, int y){
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
-        cout << "zdf";
+        
     }    
 }
 
 void graphics::handleKeypress(unsigned char key, int x, int y) {    
-    if (key == ESC){ exit(0); }
+    if (key == ESC){ 
+        exit(0); 
+    }
 }
+
 void graphics::drawPath(path &path, color color){ 
     point p1, p2;    
     for(auto it = path.points.begin(); it < path.points.end()-1; it++){
