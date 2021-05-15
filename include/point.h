@@ -61,15 +61,15 @@ public:
    void getNormalPoint(point predicted, point start, point end);
 
    /**
-   * overloaded + oeprator 
+   * overloaded + operator 
    * @brief used between vector and point
    * @param obj vector to add
-   s* @return substracted result
+   * @return substracted result
    */  
    point operator + (pvector const &obj);
 
    /**
-   * overloaded + oeprator 
+   * overloaded + operator 
    * @brief used between point and point
    * @param obj point to add
    * @return substracted result
@@ -77,7 +77,7 @@ public:
    point operator + (point const &obj);   
 
    /**
-   * overloaded - oeprator 
+   * overloaded - operator 
    * @brief used between point and point
    * @param obj point to substract
    * @return substracted result
@@ -85,9 +85,10 @@ public:
    pvector operator - (point const &obj);
 
    /**
-   * overloaded == oeprator 
+   * overloaded == operator 
    * @brief used between point and point
    * @param obj point to compare
+   * @return true or false
    */  
    bool operator == (point const &obj);
 

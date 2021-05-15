@@ -12,7 +12,10 @@ flowField::flowField(pvector p)
    createFlowField(p);
 }
 
-flowField::flowField(){}
+flowField::flowField()
+{
+   
+}
 
 void flowField::randomField()
 {

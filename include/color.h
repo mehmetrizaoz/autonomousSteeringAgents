@@ -73,5 +73,4 @@ public:
    * @brief stores main colors
    */   
    vector<color> colors;
-
 };

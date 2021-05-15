@@ -63,90 +63,90 @@ public:
   * used to distinguish specific agent
   * @brief name of the agent
   */
-  string   name;
+  string name;
 
   /**
   * color information passed to graphics
   * @brief color of the agent
   */
-  color    fillColor;
+  color fillColor;
 
   /**
   * position information 
   * @brief x and y coordinates of the agent
   */
-  point    position;
+  point position;
 
   /**
   * velocity vector
   * @brief velocity of the agent
   */
-  pvector  velocity;  
+  pvector velocity;  
 
   /**
   * calculated target point of the agent
   * @brief target of the agent
   */
-  point    targetPoint;
+  point targetPoint;
 
   /**
   * if velocity of the agent is more than this value, limit function restricts velocity
   * @brief maximum speed of the agent
   */
-  float    maxSpeed; 
+  float maxSpeed; 
 
   /**
   * if force of the agent is more than this value, limit function restricts force
   * @brief maximum force of the agent
   */
-  float    maxForce;
+  float maxForce;
 
   /**
   * steering force to change direction
   * @brief steering force to apply
   */
-  pvector  steering;
+  pvector steering;
 
   /**
   * force to apply to agent instance
   * @brief total force to apply
   */
-  pvector  force;
+  pvector force;
 
   /**
   * acceleration to apply
   * @brief added to velocity in each update
   */
-  pvector  acceleration;
+  pvector acceleration;
 
   /**
   * desired velocity to reach the target point
   * @brief get using target point and used to get steering force
   */
-  pvector  desiredVelocity;  
+  pvector desiredVelocity;  
 
   /**
   * radius for arrivin behavior
   * @brief agent slows down as target point gets smaller than radius
   */
-  float    r;
+  float r;
   
   /**
   * mass of the agent
   * @brief used to get acceleration from force
   */
-  float    mass;
+  float mass;
 
   /**
   * identification number of the agent
   * @brief used to distinguish specific agent
   */
-  int      id; 
+  int id; 
 
   /**
   * arriving behavior
   * @brief defines if agent will have arriving behavior
   */
-  bool     arrive = false;
+  bool arrive = false;
 };
 
