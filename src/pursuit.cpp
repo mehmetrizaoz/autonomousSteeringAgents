@@ -5,7 +5,8 @@
 
 using namespace std;
 
-void pursuit::loop(){
+void pursuit::loop()
+{
     for(auto it = agents.begin(); it < agents.end(); it++){
          if((*it).name == "gazelle"){
             (*it).targetPoint = view.getMousePosition();
@@ -20,7 +21,8 @@ void pursuit::loop(){
     refresh();
 }
 
-pursuit::pursuit(){    
+pursuit::pursuit()
+{  
     name = "pursuit";    
     createAgent(STATIC, nullptr, nullptr, nullptr);
     callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );

@@ -7,7 +7,8 @@ using namespace std;
 
 flowField windy::flow;
 
-void windy::loop(){
+void windy::loop()
+{
     for(auto it = agents.begin(); it < agents.end(); it++){
          flow = flowField(pvector(GRAVITY));
          (*it).force  = behavior.inFlowField(*it, flow);
@@ -18,7 +19,8 @@ void windy::loop(){
     refresh();
 }
 
-windy::windy(){    
+windy::windy()
+{
     int agentCount = 30;
     float maxForce = 0.3;
     float maxSpeed = 0.6;       

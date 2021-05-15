@@ -7,7 +7,8 @@ using namespace std;
 
 vector<obstacle> obstacleAvoidance::obstacles;
 
-void obstacleAvoidance::loop(){
+void obstacleAvoidance::loop()
+{
     for(auto it = agents.begin(); it < agents.end(); it++){
         for(auto it = obstacles.begin(); it < obstacles.end(); it++){
             point p = (*it).p;
@@ -25,13 +26,15 @@ void obstacleAvoidance::loop(){
     refresh();
 }
 
-void obstacleAvoidance::createObstacle(vector<obstacle> &obstacles){   
+void obstacleAvoidance::createObstacle(vector<obstacle> &obstacles)
+{
     obstacles.push_back(obstacle(point(0,0), 8));   
     obstacles.push_back(obstacle(point(-20,0), 3));  
     obstacles.push_back(obstacle(point(20,-10), 4));
 }
 
-obstacleAvoidance::obstacleAvoidance(){    
+obstacleAvoidance::obstacleAvoidance()
+{
     name = "avoid obstacles";
     createAgent(STATIC, nullptr, nullptr, nullptr);
     createObstacle(obstacles);    

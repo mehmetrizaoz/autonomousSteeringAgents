@@ -7,7 +7,8 @@ using namespace std;
 
 path pathFollower::myPath;
 
-void pathFollower::loop(){
+void pathFollower::loop()
+{
     for(auto it = agents.begin(); it < agents.end(); it++){
         view.drawPath(myPath, myColor);
         pvector seek = behavior.stayInPath(*it, myPath, view);
@@ -18,14 +19,16 @@ void pathFollower::loop(){
     refresh();
 }
 
-void pathFollower::createPath(path &p){
+void pathFollower::createPath(path &p)
+{
    p.addPoint(point(-40,  5));
    p.addPoint(point(-14, 15));
    p.addPoint(point( 10,  7));
    p.addPoint(point( 40, 12));
 }
 
-pathFollower::pathFollower(){    
+pathFollower::pathFollower()
+{
     int agentCount = 40;
     float maxForce = 0.2;
     float maxSpeed = 0.4;

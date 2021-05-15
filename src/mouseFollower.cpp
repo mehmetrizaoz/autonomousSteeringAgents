@@ -5,7 +5,8 @@
 
 using namespace std;
 
-void mouseFollower::loop(){
+void mouseFollower::loop()
+{
     for(auto it = agents.begin(); it < agents.end(); it++){
        (*it).targetPoint = view.getMousePosition();
        (*it).force  = behavior.seek(*it);
@@ -14,7 +15,8 @@ void mouseFollower::loop(){
     refresh();
 }
 
-mouseFollower::mouseFollower(){ 
+mouseFollower::mouseFollower()
+{
     int agentCount = 30;
     float maxForce = 0.3;
     float maxSpeed = 0.6;       

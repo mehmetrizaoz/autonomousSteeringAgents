@@ -5,7 +5,8 @@
 
 using namespace std;
 
-void flock::loop(){
+void flock::loop()
+{
     for(auto it = agents.begin(); it < agents.end(); it++){
          view.forceInScreen((*it));
          
@@ -25,7 +26,8 @@ void flock::loop(){
     refresh();
 }
 
-flock::flock(){    
+flock::flock()
+{
     int agentCount = 50;
     float maxForce = 0.3;
     float maxSpeed = 0.8;

@@ -12,12 +12,14 @@
 
 using namespace std;
 
-void steeringBehavior::setAngle(pvector &p, float angle){
+void steeringBehavior::setAngle(pvector &p, float angle)
+{
    p.x = cos ( angle * PI / 180.0 );
    p.y = sin ( angle * PI / 180.0 );
 }
 
-pvector steeringBehavior::flee(agent &agent, graphics &view, point p){
+pvector steeringBehavior::flee(agent &agent, graphics &view, point p)
+{
    pvector dist = agent.targetPoint - p;
    view.drawPoint(agent.targetPoint);
    
@@ -33,7 +35,8 @@ pvector steeringBehavior::flee(agent &agent, graphics &view, point p){
    return agent.steering;
 }
 
-pvector steeringBehavior::evade(vector<agent> boids, agent &evader, graphics view){  
+pvector steeringBehavior::evade(vector<agent> boids, agent &evader, graphics view)
+{
    agent target;
    for(auto it = boids.begin(); it < boids.end(); it++){
       if((*it).name == "lion"){
@@ -59,7 +62,8 @@ pvector steeringBehavior::evade(vector<agent> boids, agent &evader, graphics vie
    return flee(evader, view, futurePos);
 }
 
-pvector steeringBehavior::pursuit(vector<agent> boids, agent &pursuer, graphics view){ 
+pvector steeringBehavior::pursuit(vector<agent> boids, agent &pursuer, graphics view)
+{
    agent target;
    for(auto it = boids.begin(); it < boids.end(); it++){
       if((*it).name == "gazelle"){
@@ -82,7 +86,8 @@ pvector steeringBehavior::pursuit(vector<agent> boids, agent &pursuer, graphics 
    return seek(pursuer);
 }
 
-pvector steeringBehavior::wander(agent &agent){        
+pvector steeringBehavior::wander(agent &agent)
+{
    pvector circleCenter = agent.velocity;
    circleCenter.normalize().mul(CIRCLE_DISTANCE + CIRCLE_RADIUS);
       
@@ -102,7 +107,8 @@ pvector steeringBehavior::wander(agent &agent){
    return agent.steering;
 }
 
-pvector steeringBehavior::align(vector<agent> boids, agent &agent){   
+pvector steeringBehavior::align(vector<agent> boids, agent &agent)
+{
    float neighborDist = 30; //TODO: magic numer
    pvector sum {0,0};
    int count = 0;
@@ -122,7 +128,8 @@ pvector steeringBehavior::align(vector<agent> boids, agent &agent){
    return pvector(0,0);
 }
 
-pvector steeringBehavior::cohesion(vector<agent> boids, agent &agent){
+pvector steeringBehavior::cohesion(vector<agent> boids, agent &agent)
+{
    float neighborDist = 20; //TODO: magic numer
    point sum {0,0};
    int count = 0;
@@ -141,7 +148,8 @@ pvector steeringBehavior::cohesion(vector<agent> boids, agent &agent){
    return pvector(0,0);
 }
 
-pvector steeringBehavior::separation(vector<agent> agents, agent &agent){
+pvector steeringBehavior::separation(vector<agent> agents, agent &agent)
+{
    float desiredSeparation = 5; //TODO: magic number
    pvector sum = pvector(0,0);
    int count = 0;
@@ -163,7 +171,8 @@ pvector steeringBehavior::separation(vector<agent> agents, agent &agent){
    return pvector(0,0);
 }
 
-pvector steeringBehavior::avoid(vector<obstacle> obstacles, agent &agent){
+pvector steeringBehavior::avoid(vector<obstacle> obstacles, agent &agent)
+{
    float dynamic_length = agent.velocity.magnitude() / agent.maxSpeed;
    pvector vel = agent.velocity;
    vel.normalize().mul(dynamic_length);
@@ -187,13 +196,15 @@ pvector steeringBehavior::avoid(vector<obstacle> obstacles, agent &agent){
    return pvector(0,0);
 }
 
-pvector steeringBehavior::seek(agent &agent){
+pvector steeringBehavior::seek(agent &agent)
+{
    agent.desiredVelocity = agent.targetPoint - agent.position;
    agent.steering = agent.desiredVelocity - agent.velocity;
    return agent.steering;
 }
 
-pvector steeringBehavior::stayInPath(agent &agent, path &path, graphics view){
+pvector steeringBehavior::stayInPath(agent &agent, path &path, graphics view)
+{
    float worldRecord = 1000000; //TODO: magic number
    point normalPoint, predictedPos, start, end;
    pvector distance;
@@ -215,7 +226,8 @@ pvector steeringBehavior::stayInPath(agent &agent, path &path, graphics view){
    return seek(agent);
 }
 
-pvector steeringBehavior::inFlowField(agent &agent, flowField &flow){
+pvector steeringBehavior::inFlowField(agent &agent, flowField &flow)
+{
     //pos_x, pos_y must be non negative integer
     int pos_x = abs((int)agent.position.x) % WIDTH;
     int pos_y = abs((int)agent.position.y) % HEIGHT;
@@ -223,7 +235,8 @@ pvector steeringBehavior::inFlowField(agent &agent, flowField &flow){
     return flow.getField(pos_x, pos_y);
 }
 
-pvector steeringBehavior::stayInArea(agent &agent, int turnPoint){
+pvector steeringBehavior::stayInArea(agent &agent, int turnPoint)
+{
    if(agent.position.x >= turnPoint){
       agent.desiredVelocity = pvector( -agent.maxSpeed, agent.velocity.y );
       agent.steering = agent.desiredVelocity - agent.velocity;

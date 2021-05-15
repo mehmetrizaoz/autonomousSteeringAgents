@@ -5,7 +5,8 @@
 
 using namespace std;
 
-void evade::loop(){
+void evade::loop()
+{
     for(auto it = agents.begin(); it < agents.end(); it++){
          if((*it).name == "lion"){
             (*it).targetPoint = view.getMousePosition();
@@ -20,7 +21,8 @@ void evade::loop(){
     refresh();
 }
 
-evade::evade(){    
+evade::evade()
+{
     name = "evading";
     createAgent(STATIC, nullptr, nullptr, nullptr);
     callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );

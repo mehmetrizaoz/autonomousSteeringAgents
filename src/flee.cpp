@@ -5,7 +5,8 @@
 
 using namespace std;
 
-void flee::loop(){
+void flee::loop()
+{
     for(auto it = agents.begin(); it < agents.end(); it++){
         (*it).force = behavior.flee((*it), view, view.getMousePosition());
     }
@@ -13,7 +14,8 @@ void flee::loop(){
     refresh();
 }
 
-flee::flee(){    
+flee::flee()
+{
     int agentCount = 196;
     name = "fleeing troop";    
     createAgent(TROOP, &agentCount, nullptr, nullptr);

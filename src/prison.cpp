@@ -8,7 +8,8 @@
 
 using namespace std;
 
-void prison::loop(){
+void prison::loop()
+{
     for(auto it = agents.begin(); it < agents.end(); it++){
          view.drawWall(WALL, myColor);  
          (*it).force  = behavior.stayInArea(*it, WALL - DISTANCE);
@@ -17,7 +18,8 @@ void prison::loop(){
     refresh();
 }
 
-prison::prison(){    
+prison::prison()
+{
     int agentCount = 30;
     float maxForce = 0.5;
     float maxSpeed = 0.6;       

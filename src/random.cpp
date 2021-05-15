@@ -1,3 +1,10 @@
+/**
+ * @file   random.cpp
+ * @author Mehmet Rıza Öz - mehmetrizaoz@gmail.com
+ * @brief  utility class for random operations
+ * @date   15.05.2021
+*/
+
 #include "random.h"
 #include <stdlib.h>
 #include <iostream>

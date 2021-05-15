@@ -5,7 +5,8 @@
 
 using namespace std;
 
-void wander::loop(){
+void wander::loop()
+{
     for(auto it = agents.begin(); it < agents.end(); it++){
        (*it).force = behavior.wander(*it);
     }
@@ -13,7 +14,8 @@ void wander::loop(){
     refresh();
 }
 
-wander::wander(){    
+wander::wander()
+{
     int agentCount = 30;
     float maxForce = 0.3;
     float maxSpeed = 0.6;       
