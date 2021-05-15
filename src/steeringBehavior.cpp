@@ -1,3 +1,10 @@
+/**
+ * @file   steeringBehavior.cpp
+ * @author Mehmet Rıza Öz - mehmetrizaoz@gmail.com
+ * @brief  implementation of autonomous steering behaviors
+ * @date   15.05.2021
+*/
+
 #include "steeringBehavior.h"
 #include "pvector.h"
 #include "agent.h"
