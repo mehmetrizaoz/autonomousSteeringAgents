@@ -104,7 +104,7 @@ public:
    * @param boids list of all the agents
    * @return force to be applied
    */
-   pvector pursuit(vector<agent> boids, agent &pursuer, graphics view);
+   pvector pursuit(vector<agent> boids, agent &pursuer, graphics view, string name);
 
    /**
    * @brief force to evade
@@ -113,7 +113,7 @@ public:
    * @param boids list of all the agents
    * @return force to be applied
    */
-   pvector evade(vector<agent> boids, agent &evader, graphics view);
+   pvector evade(vector<agent> boids, agent &evader, graphics view, string name);
 
    /**   
    * @brief force to flee

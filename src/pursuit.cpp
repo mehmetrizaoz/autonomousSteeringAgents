@@ -20,7 +20,7 @@ void pursuit::loop()
             (*it).force  = behavior.seek(*it);            
          }
          else{//lion
-            (*it).force  = behavior.pursuit(agents, *it, view);            
+            (*it).force  = behavior.pursuit(agents, *it, view, "gazelle");            
          }
          (*it).arrive = true;
     }

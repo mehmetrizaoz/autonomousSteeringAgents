@@ -42,11 +42,11 @@ pvector steeringBehavior::flee(agent &agent, graphics &view, point p)
    return agent.steering;
 }
 
-pvector steeringBehavior::evade(vector<agent> boids, agent &evader, graphics view)
+pvector steeringBehavior::evade(vector<agent> boids, agent &evader, graphics view, string name)
 {
    agent target;
    for(auto it = boids.begin(); it < boids.end(); it++){
-      if((*it).name == "lion"){
+      if((*it).name == name){
          target = *it;
       }
    }
@@ -69,11 +69,11 @@ pvector steeringBehavior::evade(vector<agent> boids, agent &evader, graphics vie
    return flee(evader, view, futurePos);
 }
 
-pvector steeringBehavior::pursuit(vector<agent> boids, agent &pursuer, graphics view)
+pvector steeringBehavior::pursuit(vector<agent> boids, agent &pursuer, graphics view, string name)
 {
    agent target;
    for(auto it = boids.begin(); it < boids.end(); it++){
-      if((*it).name == "gazelle"){
+      if((*it).name == name){
          target = *it;
       }
    }

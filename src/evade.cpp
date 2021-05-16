@@ -21,7 +21,7 @@ void evade::loop()
             (*it).arrive = true;
          }
          else{//gazelle
-            (*it).force  = behavior.evade(agents, *it, view);
+            (*it).force  = behavior.evade(agents, *it, view, "lion");
          }
     }
             
