@@ -19,13 +19,11 @@ enum types{ RANDOM=0, STATIC, TROOP };
 class scenario{
 public:
    /**
-   * Creates scenario
    * @brief default constructor.
    */
    scenario();   
 
    /**
-   * creates agents
    * @brief agent creation 
    * @param type type of creation method
    * @param count number of agents to be created
@@ -35,58 +33,50 @@ public:
    void createAgent(int type, int *count, float *force, float *speed);
 
    /**
-   * graphics initialization
-   * @brief initializing of openGL
+   * @brief graphics initialization
    * @param argv list of user arguments
    * @param argc number of user arguments
    */  
    void initGL(int * argv, char** argc);   
    
    /**
-   * applying force, upodating position etc for all items
-   * @brief refresh behavior for all items 
+   * @brief refreshes all items 
    * @note opengl callback forces that function to be static
    */
    static void refresh();
 
    /**
-   * existing agents stored in that variable
-   * @brief all the agents
+   * @brief structure stores agents
    * @note opengl callback forces that function to be static
    */
    static vector<agent> agents;
 
    /**
-   * used to apply graphics operations
-   * @brief graphics instance
+   * @brief graphics instance used
    * @note opengl callback forces that function to be static
    */
    static graphics  view;
 
    /**
-   * used to apply steering behaviors
-   * @brief behavior instance
+   * @brief behavior instance used
    * @note opengl callback forces that function to be static
    */
    static steeringBehavior behavior;
 
    /**
-   * used to apply color behaviors
-   * @brief color instance
+   * @brief color instance used
    * @note opengl callback forces that function to be static
    */
    static color myColor;   
 
    /**
-   * used to display scenario on screen
-   * @brief name of the scenario
+   * @brief scenario name
    * @note opengl callback forces that function to be static
    */
    static string name;
 
    /**
-   * used as main loop in derived classes
-   * @brief openGL screen refresh callback function
+   * @brief openGL screen refresh callback function, used as main loop in derived classes
    */
    void (*callback)(); 
 private:

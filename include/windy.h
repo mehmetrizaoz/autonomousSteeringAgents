@@ -15,20 +15,18 @@ using namespace std;
 class windy: public scenario{
 public:
    /**
-   * Creates scenario
    * @brief default constructor.
    */
    windy();
 
    /**
-   * windy loop function
-   * @brief loop function for evading scenario
+   * @brief windy scenario loop function
    * @note opengl callback forces that function to be static
    */
    static void loop();  
 
    /**
-   * @brief flow field instance
+   * @brief flow field used
    * @note opengl callback forces that function to be static
    */
    static flowField flow;

@@ -18,14 +18,12 @@
 class flowField{
 public:
    /**
-   * Create a new flowField object.
    * @brief default constructor.
    * @see flowField(pvector p)
    */
    flowField();
 
    /**
-   * Create a new flowField object.
    * @brief constructor.
    * @param p force vector
    * @see flowField()
@@ -33,11 +31,10 @@ public:
    flowField(pvector p);
 
    /**
-   * get force for a specific position
-   * @brief get force for individual pixel
-   * @param x x cprovidesoordinate
-   * @param y y coordinate
-   * @return returns force at specified position
+   * @brief get force at individual pixel
+   * @param x coordinate
+   * @param y coordinate
+   * @return force at specified position
    */
    pvector getField(int x, int y);
 

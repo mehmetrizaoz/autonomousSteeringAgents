@@ -13,21 +13,18 @@ using namespace std;
 
 class pathFollower: public scenario{
 public:
-   /**
-   * Creates scenario
+   /**   
    * @brief default constructor.
    */
    pathFollower();
 
-   /**
-   * path follower avoidance loop function
-   * @brief loop function for evading scenario
+   /**   
+   * @brief path follower scenario loop function
    * @note opengl callback forces that function to be static
    */
    static void loop();  
 
    /**
-   * path creating
    * @brief creates path
    * @param path to create
    * @note opengl callback forces that function to be static
@@ -35,8 +32,7 @@ public:
    static void createPath(path &p);
 
    /**
-   * path instance
-   * @brief used to access path class behaviors
+   * @brief path that will be followed
    * @note opengl callback forces that function to be static
    */
    static path myPath;

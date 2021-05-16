@@ -15,14 +15,12 @@ using namespace std;
 class obstacleAvoidance: public scenario{
 public:
    /**
-   * Creates scenario
    * @brief default constructor.
    */
    obstacleAvoidance();
 
    /**
-   * obstacle avoidance loop function
-   * @brief loop function for evading scenario
+   * @brief obstacle avoidance scenario loop function
    * @note opengl callback forces that function to be static
    */
    static void loop(); 
@@ -34,8 +32,8 @@ public:
    static vector<obstacle> obstacles;
 
    /**
-   * @brief obstacle creation
-   * @param obstacles obstacle list to be created
+   * @brief creation of list of obstacles
+   * @param obstacles list to be created
    * @note opengl callback forces that function to be static
    */
    static void createObstacle(vector<obstacle> &obstacles); 

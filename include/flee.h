@@ -14,14 +14,12 @@ using namespace std;
 class flee: public scenario{
 public:
    /**
-   * Creates scenario
    * @brief default constructor.
    */
    flee();
 
    /**
-   * fleeing loop function
-   * @brief loop function for evading scenario
+   * @brief evading scenario loop function
    * @note opengl callback forces that function to be static
    */
    static void loop();  

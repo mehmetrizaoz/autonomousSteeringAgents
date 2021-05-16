@@ -15,36 +15,31 @@ using namespace std;
 class path{
 public:
    /**
-   * Create a new path object.
-   * @brief Default constructor.
+   * @brief default constructor.
    * @see path(float width)
    */
    path();
    
-   /**
-   * Create a new path object.
-   * @brief Constructor.
+   /**   
+   * @brief donstructor.
    * @param width The width of the path.
    * @see path()
    */
    path(float width);
 
    /**
-   * Used when customizing path
    * @brief adds a new point to the path
-   * @param point new point to add to the path   
+   * @param point to add to the path   
    */
    void addPoint(point p); 
 
    /**
-   * path is created from these points
-   * @brief points added to the path
+   * @brief list of points added to the path
    */
    vector<point> points;
 
-   /**
-   * path width
-   * @brief defines width of the path
+   /**   
+   * @brief width of the path
    */
    int width;
 };

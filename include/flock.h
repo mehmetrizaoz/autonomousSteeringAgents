@@ -15,14 +15,12 @@ using namespace std;
 class flock: public scenario{
 public:
    /**
-   * Creates scenario
    * @brief default constructor.
    */
    flock();
 
    /**
-   * flocking loop function
-   * @brief loop function for evading scenario
+   * @brief flocking scenario loop function
    * @note opengl callback forces that function to be static
    */
    static void loop();  

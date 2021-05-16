@@ -18,10 +18,10 @@ void pathFollower::loop()
 {
     for(auto it = agents.begin(); it < agents.end(); it++){
         view.drawPath(myPath, myColor);
-        pvector seek = behavior.stayInPath(*it, myPath, view);
+        pvector flwpth = behavior.stayInPath(*it, myPath, view);
         pvector sep  = behavior.separation(agents, *it);
         sep.mul(5);         
-        (*it).force = sep + seek;
+        (*it).force = sep + flwpth;
     }            
     refresh();
 }

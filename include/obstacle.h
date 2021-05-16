@@ -12,14 +12,12 @@
 class obstacle{
 public:
    /**
-   * create a new obstacle object.
    * @brief default constructor.
    * @see obstacle(point p, float r
    */
    obstacle();   
 
    /**
-   * create a new obstacle object.
    * @brief constructor 
    * @param p center of the circular obstacle
    * @param r radius of the obstacle
@@ -27,15 +25,13 @@ public:
    */
    obstacle(point p, float r);
 
-   /**
-   * center point of the obstacle
-   * @brief x and y coordinates
+   /**   
+   * @brief center point of the obstacle
    */
    point p;
 
-   /**
-   * radius of the obstacle
-   * @brief the bigger radius the bigger the obstacle
+   /**   
+   * @brief radius of the obstacle
    */
    float r;
 };

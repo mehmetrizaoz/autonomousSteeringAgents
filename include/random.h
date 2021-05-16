@@ -9,10 +9,9 @@
 class random{
 public:
    /**
-   * random array generation
-   * @brief generates random array usin swap between its elements
-   * @param arr int array that will include random values
-   * @param size size of the array
+   * @brief random array generation
+   * @param arr struct that includes random values
+   * @param size of the array
    */
    static void createRandomArray(int *arr, int size);   
 };

@@ -15,14 +15,12 @@ using namespace std;
 class evade: public scenario{
 public:
    /**
-   * Creates scenario
    * @brief default constructor.
    */
    evade();
 
    /**
-   * evading loop function
-   * @brief loop function for evading scenario
+   * @brief loop function of evading scenario
    * @note opengl callback forces that function to be static
    */
    static void loop();  

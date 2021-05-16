@@ -5,7 +5,6 @@
  * @date   15.05.2021
 */
 
-
 #include "graphics.h"
 #include <GL/glut.h>
 #include <iostream>
@@ -101,7 +100,7 @@ void graphics::timerEvent(int value)
 
 void graphics::mouseButton(int button, int state, int x, int y)
 {
-	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){        
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
     }    
 }
 

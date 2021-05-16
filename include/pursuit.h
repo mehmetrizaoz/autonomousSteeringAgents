@@ -14,14 +14,12 @@ using namespace std;
 class pursuit: public scenario{
 public:
    /**
-   * Creates scenario
    * @brief default constructor.
    */
    pursuit();
 
-   /**
-   * pursuing loop function
-   * @brief loop function for evading scenario
+   /**   
+   * @brief pursuing scenario loop function
    * @note opengl callback forces that function to be static
    */
    static void loop();  

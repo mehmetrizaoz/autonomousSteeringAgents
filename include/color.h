@@ -12,23 +12,20 @@
 using namespace std;
 
 /**
-* color names for fundamental colors
-* @brief used to get color from colors vector
+* @brief fundament list of al colors
 */   
 enum num{ BLACK=0, BLUE, GREEN, CYAN, RED, MAGENDA, YELLOW, WHITE };
 
 class color{
 public:
-   /**
-   * Create a new color object.
+   /**   
    * @brief default constructor.
    * @see color(float r, float g, float b)
    */
    color();
 
    /**
-   * Create a new color object.
-   * @brief Constructor.
+   * @brief constructor.
    * @param r red (0-255)
    * @param g green (0-255)
    * @param b blue (0-255)
@@ -37,40 +34,34 @@ public:
    color(float r, float g, float b); 
 
    /**
-   * creates main colors for future use
-   * @brief fills colors vector with 8 main colors in color bar
+   * @brief creation of fundamental 8 colors
    */   
    void createColors();
 
    /**
-   * returns specified color from colors vector
-   * @brief Constructor.
-   * @param i gets specified color
-   * @return requested pre-created color instance
+   * @brief gets requested color
+   * @param i color index
+   * @return requested color
    */
    color getColor(int i);
 
    /**
-   * red color ratio
-   * @brief red condiment
+   * @brief portion of red color
    */   
    float R;
 
    /**
-   * green color ratio
-   * @brief green condiment
+   * @brief portion of green color
    */   
    float G;
 
    /**
-   * blue color ratio
-   * @brief blue condiment
+   * @brief portion of blue color
    */   
    float B;
 
    /**
-   * vector of fundamental colors
-   * @brief stores main colors
+   * @brief storage structure of created fundamental colors
    */   
    vector<color> colors;
 };

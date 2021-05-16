@@ -15,14 +15,13 @@ using namespace std;
 class prison: public scenario{
 public:
    /**
-   * Creates scenario
    * @brief default constructor.
    */
    prison();
 
    /**
    * prison loop function
-   * @brief loop function for evading scenario
+   * @brief prisoning scenario loop function
    * @note opengl callback forces that function to be static
    */
    static void loop();  

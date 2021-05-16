@@ -14,14 +14,12 @@ using namespace std;
 class mouseFollower: public scenario{
 public:
    /**
-   * Creates scenario
    * @brief default constructor.
    */
    mouseFollower();
 
    /**
-   * mouse following loop function
-   * @brief loop function for evading scenario
+   * @brief mouse following scenario loop function
    * @note opengl callback forces that function to be static
    */
    static void loop();  
