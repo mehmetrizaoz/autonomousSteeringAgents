@@ -1,0 +1,32 @@
+@startuml class
+class color {
+  +R : float
+  +G : float 
+  +B : float
+  +color()  
+  +color()
+  +void createColors()
+  +getColor() : color
+}
+
+class graphics {
+  +drawAgent()
+  +drawLine() 
+  +drawPath()
+  +drawPoint()
+  +drawCircle()
+  +drawText()
+  +forceInScreen()
+  +void refreshScene()
+  +point getMousePosition()
+  +void initGraphics()
+  {static} timerEvent()
+  {static} handleKeypress()
+  {static} mouseButton()
+  {static} handleResize()
+  {static} mouseMove()
+  {static} target_x : int
+  {static} target_y : int
+}
+
+@enduml

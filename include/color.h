@@ -31,7 +31,7 @@ public:
    * @param b blue (0-255)
    * @see path()
    */
-   color(float r, float g, float b); 
+   color(float r, float g, float b);
 
    /**
    * @brief creation of fundamental 8 colors
@@ -43,7 +43,7 @@ public:
    * @param i color index
    * @return requested color
    */
-   color getColor(int i);
+   color getColor(int index);
 
    /**
    * @brief portion of red color
