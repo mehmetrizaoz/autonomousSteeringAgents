@@ -1,5 +1,48 @@
 @startuml class
-class agent {
+class steeringBehavior{
+  +stayInArea() : pvector
+  +inFlowField() : pvector
+  +stayInPath() : pvector
+  +seek() : pvector
+  +separation() : pvector
+  +cohesion() : pvector
+  +align() : pvector
+  +wander() : pvector
+  +pursuit() : pvector
+  +evade() : pvector
+  +flee() : pvector
+  +avoid() : pvector
+  +setAngle()
+}
+
+class scenario {
+  +scenario()
+  +createAgent()
+  +initGL()
+  {static}refresh
+  {static}agents : agent
+  {static}view : graphics
+  {static}behavior : steeringBehavior
+  {static}myColor : color
+  {static}name : string
+  +callback : void(*)()
+  -createRandomAgents()
+  -createStaticAgents()
+  -createTroop()
+}
+
+class random {
+  {static} createRandomArray()
+}
+
+class path {
+  +path()
+  +addPoint()
+  +points : point
+  +width : int
+}
+
+class agent{
   +agent()
   +~agent()
   +updatePosition()
@@ -20,7 +63,7 @@ class agent {
   +arrive : bool
 }
 
-class pvector {
+class pvector{
   +pvector()
   +magnitude() : float
   +normalize() : pvector
@@ -36,13 +79,13 @@ class pvector {
   +y : float
 }
 
-class obstacle {
+class obstacle{
   +p : point
   +r : float 
   +obstacle()  
 }
 
-class flowField {
+class flowField{
   -uniformField : pvector 
   +flowField()
   +getField() : pvector
@@ -51,13 +94,13 @@ class flowField {
   -randomField()
 }
 
-class obstacle {
+class obstacle{
   +p : point
   +r : float 
   +obstacle()  
 }
 
-class point {
+class point{
   +x : float
   +y : float 
   +point()  
@@ -68,7 +111,7 @@ class point {
 }
 
 
-class color {
+class color{
   +R : float
   +G : float 
   +B : float
@@ -77,7 +120,7 @@ class color {
   +getColor() : color
 }
 
-class graphics {
+class graphics{
   +drawAgent()
   +drawLine() 
   +drawPath()
@@ -101,6 +144,11 @@ obstacle o-- point : has a
 flowField "1" o-- pvector : has many
 agent "1" o-- pvector : has many
 agent "1" o-- point : has many
-agent o-- color : has many
-
+agent o-- color : has a
+path "1" o-- point : has many
+scenario "1" o-- agent : has many
+scenario o-- graphics : has a
+scenario o-- steeringBehavior : has a
+scenario o-- color : has a
+steeringBehavior "1" o-- pvector : has many
 @enduml
