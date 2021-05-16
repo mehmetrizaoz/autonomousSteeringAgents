@@ -1,10 +1,78 @@
 @startuml class
+class agent {
+  +agent()
+  +~agent()
+  +updatePosition()
+  +setFeatures()
+  +name : string
+  +fillColor : color
+  +position : point
+  +velocity : pvector
+  +targetPoint : point
+  +maxSpeed : float
+  +maxForce : float
+  +steering : pvector
+  +force : pvector
+  +acceleration : pvector
+  +desiredVelocity : pvector
+  +mass : float
+  +id : int
+  +arrive : bool
+}
+
+class pvector {
+  +pvector()
+  +magnitude() : float
+  +normalize() : pvector
+  +div()
+  +mul()
+  +add()
+  +limit()
+  +getAngle() : float
+  +dotProduct() : float
+  +angleBetween()
+  +print()
+  +x : float
+  +y : float
+}
+
+class obstacle {
+  +p : point
+  +r : float 
+  +obstacle()  
+}
+
+class flowField {
+  -uniformField : pvector 
+  +flowField()
+  +getField() : pvector
+  -createFlowField()
+  -perlinNoise()
+  -randomField()
+}
+
+class obstacle {
+  +p : point
+  +r : float 
+  +obstacle()  
+}
+
+class point {
+  +x : float
+  +y : float 
+  +point()  
+  +div()
+  +mul()
+  +print()
+  +getNormalPoint()
+}
+
+
 class color {
   +R : float
   +G : float 
   +B : float
   +color()  
-  +color()
   +void createColors()
   +getColor() : color
 }
@@ -17,8 +85,8 @@ class graphics {
   +drawCircle()
   +drawText()
   +forceInScreen()
-  +void refreshScene()
-  +point getMousePosition()
+  +refreshScene()
+  +getMousePosition() : point
   +void initGraphics()
   {static} timerEvent()
   {static} handleKeypress()
@@ -28,5 +96,11 @@ class graphics {
   {static} target_x : int
   {static} target_y : int
 }
+
+obstacle o-- point : has a
+flowField "1" o-- pvector : has many
+agent "1" o-- pvector : has many
+agent "1" o-- point : has many
+agent o-- color : has many
 
 @enduml
