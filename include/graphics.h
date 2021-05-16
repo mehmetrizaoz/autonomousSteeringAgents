@@ -22,13 +22,6 @@ class point;
 class graphics{
 public:
    /**   
-   * @brief draws square that consists of 4 lines
-   * @param border coordinate of the lines
-   * @param color of the lines
-   */
-   void drawWall(float border, color color);
-
-   /**   
    * @brief drawing with corresponding angle
    * @param agent instance to change
    * @param color of the agent
