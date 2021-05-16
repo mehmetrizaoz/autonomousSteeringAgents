@@ -1,4 +1,50 @@
 @startuml class
+class pathFollower{
+  +pathFollower()
+  +loop()
+  {static}createPath()
+  {static}myPath : path
+}
+
+class evade{
+  +evade()
+  {static}loop()
+}
+
+class wander{
+  +wander()
+  {static}loop()
+}
+
+class windy{
+  +windy()
+  {static}loop()
+  {static}flow : flowField
+}
+
+class obstacleAvoidance{
+  +obstacleAvoidance()
+  {static}loop()
+  {static}obstacles : obstacle
+  {static}createObstacle()
+}
+
+
+class flee{
+  +flee()
+  {static}loop()
+}
+
+class flock{
+  +floack()
+  {static}loop()
+}
+
+class mouseFollower{
+  +mouseFollower()
+  {static}loop()
+}
+
 class steeringBehavior{
   +stayInArea() : pvector
   +inFlowField() : pvector
@@ -151,4 +197,16 @@ scenario o-- graphics : has a
 scenario o-- steeringBehavior : has a
 scenario o-- color : has a
 steeringBehavior "1" o-- pvector : has many
+scenario <|-- evade
+scenario <|-- flee
+scenario <|-- flock
+scenario <|-- mouseFollower
+scenario <|-- obstacleAvoidance
+scenario <|-- pathFollower
+scenario <|-- wander
+scenario <|-- windy
+obstacleAvoidance "1" o-- obstacle : has many
+pathFollower o-- path : has a
+windy "1" o-- flowField : has many
+
 @enduml
