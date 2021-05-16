@@ -19,7 +19,7 @@ color::color(float r, float g, float b)
 
 color color::getColor(int index)
 {
-   return colors.at(i);
+   return colors.at(index);
 }
 
 color::color()
