@@ -102,6 +102,7 @@ public:
    * @param pursuer agent that will follow specified agent
    * @param view used for debugging 
    * @param boids list of all the agents
+   * @param name other agent to pursue
    * @return force to be applied
    */
    pvector pursuit(vector<agent> boids, agent &pursuer, graphics view, string name);
@@ -111,6 +112,7 @@ public:
    * @param evader agent that will escape
    * @param view used for debugging 
    * @param boids list of all the agents
+   * @param name other agent to evade
    * @return force to be applied
    */
    pvector evade(vector<agent> boids, agent &evader, graphics view, string name);
