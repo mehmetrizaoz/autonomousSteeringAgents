@@ -14,7 +14,8 @@ using namespace std;
 class wander: public scenario{
 public:
    /**
-   * @brief default constructor.
+   * @brief default constructor
+   * @todo business logic will be changed
    */
    wander();
 

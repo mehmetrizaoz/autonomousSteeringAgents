@@ -34,12 +34,13 @@ scenario::scenario()
 
 void scenario::refresh()
 {
+    point textPosition = point(-34, 32.25);
     for(auto it = agents.begin(); it < agents.end(); it++){       
        (*it).updatePosition((*it).arrive);
        view.drawAgent(*it, (*it).fillColor);
     }
       
-    view.drawText(name, point(-34, 32.25)); //TODO: magic numbers, define left corner
+    view.drawText(name, textPosition);
     view.refreshScene(); 
 }
 
@@ -79,7 +80,9 @@ void scenario::createStaticAgents()
 
 void scenario::createTroop(int count)
 {
-    //TODO: magic numbers
+    int row = 14;
+    int blanks = 5;
+    int rowStartPosition = -33;
     agent tempAgent {0, 0};
     pvector location {-33, 33};
    
@@ -90,12 +93,12 @@ void scenario::createTroop(int count)
         tempAgent.position.y = location.y;
         tempAgent.targetPoint = tempAgent.position;                 
 
-        if( ((i+1) % 14) == 0){
-           location.y -= 5;
-           location.x  = -33;
+        if( ((i+1) % row) == 0){
+           location.y -= blanks;
+           location.x  = rowStartPosition;
         }
         else
-           location.x += 5; 
+           location.x += blanks; 
 
         tempAgent.fillColor = myColor.colors.at( (i/2) % 8 );
         tempAgent.setFeatures(0.3, 0.3, 5, 1);

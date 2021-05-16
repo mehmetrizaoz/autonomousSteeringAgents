@@ -9,7 +9,7 @@
 
 #include "pvector.h"
 
-#define FIELD_WIDTH       34 //TODO: remove these definitions, make themconstructor parameters
+#define FIELD_WIDTH       34
 #define FIELD_HEIGHT      34
 
 #define WIND_WEST 0.1,  0.0
