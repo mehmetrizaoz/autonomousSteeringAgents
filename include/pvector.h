@@ -46,19 +46,19 @@ public:
    * @brief vector division
    * @param i scalar value to divide
    */
-   void  div(float i);
+   void div(float i);
 
    /**   
    * @brief vector multiplication
    * @param i scalar value to multiply
    */
-   void  mul(float i);
+   void mul(float i);
 
    /**   
    * @brief addition of vectors
    * @param p vector to add
    */
-   void  add(pvector p);
+   void add(pvector p);
 
    /**
    * @brief vector limitation
