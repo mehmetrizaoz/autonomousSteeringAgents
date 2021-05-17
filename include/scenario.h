@@ -84,3 +84,4 @@ private:
    void createStaticAgents();
    void createTroop(int agentCount);
 };
+

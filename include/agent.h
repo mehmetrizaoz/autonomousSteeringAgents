@@ -54,10 +54,10 @@ public:
   */
   void setFeatures(float s, float f, float r, float m);
 
-  /**
-  * @brief name of the agent
-  */
-  string name;
+  string getName();
+  void setName(string n);
+  float getMass();
+  void setMass(float m);
 
   /**
   * @brief color of the agent
@@ -114,11 +114,7 @@ public:
   */
   float r;
   
-  /**
-  * @brief mass of the agent
-  */
-  float mass;
-
+ 
   /**  
   * @brief id of the agent
   */
@@ -128,5 +124,18 @@ public:
   * @brief has arriving behavior or not
   */
   bool arrive = false;
+  
+private:
+  /**
+  * @brief name of the agent
+  */
+  string name;
+
+ /**
+  * @brief mass of the agent
+  */
+  float mass;
+
+
 };
 

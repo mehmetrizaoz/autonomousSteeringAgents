@@ -18,6 +18,22 @@ agent::agent()
 
 }
 
+string agent::getName(){
+   return name;
+}
+
+void agent::setName(string n){
+    name = n;
+}
+
+float agent::getMass(){
+   return mass;
+}
+
+void agent::setMass(float m){
+    mass = m;
+}
+
 agent::agent(float x, float  y)
 {
     position        = point(x, y);

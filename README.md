@@ -1,9 +1,9 @@
 # Intent
-1- implementing Craig Raynolds autonomous steering agents
+1- implementing ai using autonomous steering agents
 
-2- implementing genetics algorithms 
+2- implementing smart agents using genetics algorithms 
 
-3- implementing neural network 
+3- implementing smart agents using neural network 
 
 # Dependencies
 $sudo apt-get install libglu1-mesa-dev freeglut3-dev mesa-common-dev
@@ -11,9 +11,14 @@ $sudo apt-get install libglu1-mesa-dev freeglut3-dev mesa-common-dev
 $sudo apt-get install libboost-all-dev
 
 # Resources
-https://natureofcode.com/book/chapter-6-autonomous-agents
 
-https://gamedevelopment.tutsplus.com/series/understanding-steering-behaviors--gamedev-12732
+Jan Schifmann : Nature of Code
+
+Fernando Bevilacqua : Understanding Steering Behaviors
+
+Jer Thorp : Living in Data
+
+OpenGL : 
 
 https://videotutorialsrock.com/index.php
 

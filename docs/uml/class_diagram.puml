@@ -1,7 +1,7 @@
 @startuml class
 class pathFollower{
   +pathFollower()
-  +loop()
+  {static}loop()
   {static}createPath()
   {static}myPath : path
 }
@@ -63,14 +63,14 @@ class steeringBehavior{
 class scenario {
   +scenario()
   +createAgent()
-  +initGL()
-  {static}refresh()
+  +initGL()  
   {static}agents : agent
   {static}view : graphics
   {static}behavior : steeringBehavior
   {static}myColor : color
   {static}name : string
   +callback : void(*)()
+  {static}refresh()
   -createRandomAgents()
   -createStaticAgents()
   -createTroop()
@@ -124,16 +124,10 @@ class pvector{
   +y : float
 }
 
-class obstacle{
-  +p : point
-  +r : float 
-  +obstacle()  
-}
-
 class flowField{
-  -uniformField : pvector 
   +flowField()
   +getField() : pvector
+  -uniformField : pvector 
   -createFlowField()
   -perlinNoise()
   -randomField()

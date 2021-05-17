@@ -15,7 +15,7 @@ using namespace std;
 void pursuit::loop()
 {
     for(auto it = agents.begin(); it < agents.end(); it++){
-         if((*it).name == "gazelle"){
+         if((*it).getName() == "gazelle"){
             (*it).targetPoint = view.getMousePosition();
             (*it).force  = behavior.seek(*it);            
          }

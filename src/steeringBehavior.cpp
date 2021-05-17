@@ -48,15 +48,15 @@ pvector steeringBehavior::evade(vector<agent> boids, agent &evader, graphics vie
 {
    agent target;
    for(auto it = boids.begin(); it < boids.end(); it++){
-      if((*it).name == name){
+      if((*it).getName() == name){
          target = *it;
       }
    }
 
    point p = point(evader.position.x + 2, evader.position.y - 2);   
-   view.drawText(evader.name, p);
+   view.drawText(evader.getName(), p);
    p = point(target.position.x + 2, target.position.y - 2);
-   view.drawText(target.name, p);
+   view.drawText(target.getName(), p);
    
    pvector targetVel = target.velocity;
    targetVel.mul(5);//TODO: magic number
@@ -75,15 +75,15 @@ pvector steeringBehavior::pursuit(vector<agent> boids, agent &pursuer, graphics 
 {
    agent target;
    for(auto it = boids.begin(); it < boids.end(); it++){
-      if((*it).name == name){
+      if((*it).getName() == name){
          target = *it;
       }
    }
 
    point p = point(target.position.x + 2, target.position.y - 2);   
-   view.drawText(target.name, p);
+   view.drawText(target.getName(), p);
    p = point(pursuer.position.x + 2, pursuer.position.y - 2);
-   view.drawText(pursuer.name, p);
+   view.drawText(pursuer.getName(), p);
    
    float dist = (target.position - pursuer.position).magnitude();
    float t = dist / target.maxSpeed;

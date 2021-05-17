@@ -85,3 +85,12 @@ int main(int argc, char** argv) {
 
    return 0;
 }
+
+/**
+* @todo queuing, hiding, leader following, looped path following scenarios will be implemented
+* @todo smart rocket applications with genetic algorithms will be implemented
+* @todo neural network based applications will be implemented
+* @todo add other uml diagrams
+* @todo mysql database connection
+* @todo create jenkins jobs
+*/

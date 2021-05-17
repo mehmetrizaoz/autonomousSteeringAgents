@@ -64,14 +64,14 @@ void scenario::createStaticAgents()
 {
     agent agent1 {-10.0,  0.0};
     agent1.id = 1;
-    agent1.name = "gazelle";    
+    agent1.setName("gazelle");    
     agent1.fillColor = myColor.getColor(BLUE);
     agent1.setFeatures(0.5, 0.2, 5, 1);
     agents.push_back(agent1);
 
     agent agent2 { 10.0,  0.0};
     agent2.id = 2;
-    agent2.name = "lion";
+    agent2.setName("lion");
     agent2.fillColor = myColor.getColor(YELLOW);
     agent2.setFeatures(0.4, 0.2, 5, 1);    
     agents.push_back(agent2);
