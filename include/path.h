@@ -45,5 +45,8 @@ public:
    */
    int width;
 
+   /**   
+   * @brief overriden draw implementation
+   */
    void draw(graphics view);
 };

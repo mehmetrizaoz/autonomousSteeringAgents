@@ -38,6 +38,8 @@ public:
    */
    float r;
 
-
-   void draw(graphics view);
+   /**   
+   * @brief overriden draw implementation
+   */
+   void draw(graphics view) override;
 };

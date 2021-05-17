@@ -9,15 +9,45 @@ class graphics;
 
 class entity{
 public:
+   /**   
+   * @brief default constructor.
+   */
    entity();
-   string name;
-   int id;
+
+   /**   
+   * @brief getter of the name
+   */
+   string getName();
+
+   /**   
+   * @brief name attribute setter
+   * @param name setter 
+   */
+   void setName(string name);
+
+   /**   
+   * @brief getter of the id attibute
+   */
+   int getId();
+
+   /**   
+   * @brief id attribute setter
+   * @param id setter
+   */
+   void setId(int id);
+   
+   /**   
+   * @brief overriden by child classes
+   * @param view graphics
+   */
+   virtual void draw(graphics view)=0;
+
+   /**   
+   * @brief color of the entity
+   */
    color entityColor;
 
-   string getName();
-   void setName(string n);
-   int getId();
-   void setId(int i);
-
-   virtual void draw(graphics view)=0;
+private:
+   string name;
+   int id;
 };

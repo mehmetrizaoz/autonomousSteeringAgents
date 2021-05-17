@@ -20,11 +20,6 @@
 
 using namespace std;
 
-/**
-* @brief fundament list of al colors
-*/   
-//enum num{ BLACK=0, BLUE, GREEN, CYAN, RED, MAGENDA, YELLOW, WHITE };
-
 class color{
 public:
    /**   

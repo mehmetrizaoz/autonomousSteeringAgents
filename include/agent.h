@@ -78,6 +78,12 @@ public:
   void setMass(float m);
 
   /**
+  * @brief agent drawing
+  * @param view graphics to draw
+  */ 
+  void draw(graphics view) override;
+
+  /**
   * @brief position of the agent
   */
   point position;
@@ -127,7 +133,6 @@ public:
   */
   float r;
   
- 
   /**  
   * @brief id of the agent
   */
@@ -138,8 +143,6 @@ public:
   */
   bool arrive = false;
 
-
-  void draw(graphics view);
 private:
   /**
   * @brief name of the agent
