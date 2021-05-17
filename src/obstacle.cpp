@@ -14,12 +14,15 @@ using namespace std;
 
 obstacle::obstacle()
 {
-
+   p = point(0,0);
+   r = 5;
+   perimeterColor = RED;
 }
 
 obstacle::obstacle(point p, float r)
 {
    this->p = p;   
    this->r = r;
+   perimeterColor = RED;
 }
 

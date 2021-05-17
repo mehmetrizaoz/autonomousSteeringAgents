@@ -18,7 +18,11 @@ point::point(float x, float y)
    this->y = y;
 }
 
-point::point(){}
+point::point()
+{
+   x = 0;
+   y = 0;
+}
 
 point point::operator + (pvector const &obj)
 {

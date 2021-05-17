@@ -8,6 +8,7 @@
 #pragma once
 
 #include "point.h"
+#include "color.h"
 
 class obstacle{
 public:
@@ -34,4 +35,9 @@ public:
    * @brief radius of the obstacle
    */
    float r;
+
+   /**   
+   * @brief obstacle color
+   */
+   color perimeterColor;
 };

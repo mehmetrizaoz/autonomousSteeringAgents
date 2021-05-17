@@ -54,9 +54,26 @@ public:
   */
   void setFeatures(float s, float f, float r, float m);
 
+  /**
+  * @brief name attribute getter
+  */
   string getName();
+
+  /**
+  * @brief name attribute setter
+  * @param n set value
+  */
   void setName(string n);
+
+  /**
+  * @brief mass attribute getter
+  */
   float getMass();
+
+  /**
+  * @brief mass attribute setter
+  * @param m set value
+  */
   void setMass(float m);
 
   /**
@@ -135,7 +152,5 @@ private:
   * @brief mass of the agent
   */
   float mass;
-
-
 };
 

@@ -34,7 +34,8 @@ float pvector::dotProduct(pvector v)
 
 pvector::pvector()
 {
-   
+   x = 0;
+   y = 0;
 }
 
 pvector::pvector(float x, float y)

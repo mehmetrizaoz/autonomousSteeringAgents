@@ -8,6 +8,7 @@
 #pragma once
 
 #include "point.h"
+#include "color.h"
 #include <vector>
 
 using namespace std;
@@ -42,4 +43,9 @@ public:
    * @brief width of the path
    */
    int width;
+
+   /**   
+   * @brief path color
+   */
+   color borderColor;
 };

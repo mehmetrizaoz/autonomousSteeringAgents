@@ -24,9 +24,8 @@ public:
    /**   
    * @brief drawing with corresponding angle
    * @param agent instance to change
-   * @param color of the agent
    */
-   void drawAgent(agent &agent, color &color);  
+   void drawAgent(agent &agent);  
 
    /**
    * @brief drawing line
@@ -39,9 +38,8 @@ public:
    /**
    * @brief draws path
    * @param path to draw
-   * @param color of the path
    */
-   void drawPath(path &path, color color);
+   void drawPath(path &path);
 
    /**
    * @brief draws point
@@ -76,6 +74,7 @@ public:
 
    /**
    * @brief gets mouse position
+   * @return mouse point
    */
    point getMousePosition();
 
@@ -104,6 +103,7 @@ public:
    /**
    * @brief mouse press event
    * @param button mouse key pressed
+   * @param state down/up etc.
    * @param x unused but required for openGL 
    * @param y unused but required for openGL
    */

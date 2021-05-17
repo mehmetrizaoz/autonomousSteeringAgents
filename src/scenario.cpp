@@ -16,7 +16,6 @@ using namespace std;
 vector<agent> scenario::agents;
 graphics scenario::view;
 steeringBehavior scenario::behavior;
-color scenario::myColor; 
 string scenario::name;
 
 void scenario::initGL(int* argc, char** argv)
@@ -28,16 +27,16 @@ void scenario::initGL(int* argc, char** argv)
 scenario::scenario()
 {
     srand(time(NULL));
-    myColor.createColors();
     view = graphics(); 
 }
 
 void scenario::refresh()
 {
     point textPosition = point(-34, 32.25);
+    
     for(auto it = agents.begin(); it < agents.end(); it++){       
        (*it).updatePosition((*it).arrive);
-       view.drawAgent(*it, (*it).fillColor);
+       view.drawAgent(*it);
     }
       
     view.drawText(name, textPosition);
@@ -54,7 +53,7 @@ void scenario::createRandomAgents(int count, const float force, const float spee
    for(int i=0; i < count * 2; i=i+2){
       tempAgent.position.x = arr[i]   - WIDTH;
       tempAgent.position.y = arr[i+1] - HEIGHT;
-      tempAgent.fillColor = myColor.colors.at( (i/2) % 8 );
+      tempAgent.fillColor =  color::getColor((i/2) % 8);
       tempAgent.setFeatures(speed, force, 5, 1); 
       agents.push_back(tempAgent);
    } 
@@ -65,14 +64,14 @@ void scenario::createStaticAgents()
     agent agent1 {-10.0,  0.0};
     agent1.id = 1;
     agent1.setName("gazelle");    
-    agent1.fillColor = myColor.getColor(BLUE);
+    agent1.fillColor = BLUE;
     agent1.setFeatures(0.5, 0.2, 5, 1);
     agents.push_back(agent1);
 
     agent agent2 { 10.0,  0.0};
     agent2.id = 2;
     agent2.setName("lion");
-    agent2.fillColor = myColor.getColor(YELLOW);
+    agent2.fillColor = RED;
     agent2.setFeatures(0.4, 0.2, 5, 1);    
     agents.push_back(agent2);
 }
@@ -99,8 +98,8 @@ void scenario::createTroop(int count)
         }
         else
            location.x += blanks; 
-
-        tempAgent.fillColor = myColor.colors.at( (i/2) % 8 );
+        
+        tempAgent.fillColor =  color::getColor((i/2) % 8);
         tempAgent.setFeatures(0.3, 0.3, 5, 1);
         agents.push_back(tempAgent);
     }

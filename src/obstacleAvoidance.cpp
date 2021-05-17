@@ -17,11 +17,6 @@ vector<obstacle> obstacleAvoidance::obstacles;
 void obstacleAvoidance::loop()
 {
     for(auto it = agents.begin(); it < agents.end(); it++){
-        for(auto it = obstacles.begin(); it < obstacles.end(); it++){
-            point p = (*it).p;
-            view.drawCircle(p, (*it).r);
-        }
-
         (*it).targetPoint = view.getMousePosition();
         pvector seek  = behavior.seek(*it);
         seek.mul(0.5);
@@ -29,6 +24,13 @@ void obstacleAvoidance::loop()
         pvector avoid = behavior.avoid(obstacles, *it);
         (*it).force = avoid + seek;   
         (*it).arrive = true;
+        
+        //
+        for(auto it = obstacles.begin(); it < obstacles.end(); it++){
+            point p = (*it).p;
+            view.drawCircle(p, (*it).r);
+        }
+
     }            
     refresh();
 }

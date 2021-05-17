@@ -15,12 +15,14 @@ void path::addPoint(point p)
 
 path::path()
 {
-
+   borderColor = BLUE;
+   width = 8;
 }
 
 path::path(float width)
 {
    this->width = width;
+   borderColor = BLUE;
 }
 
 

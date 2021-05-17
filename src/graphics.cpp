@@ -21,13 +21,11 @@ int graphics::target_y = HEIGHT;
 void graphics::drawText(string text, point p)
 {
    glColor3f (0.0, 0.0, 1.0);
-   //glRasterPos2f(-34, 32.5);
    glRasterPos2f(p.x, p.y);
    for ( string::iterator it=text.begin(); it!=text.end(); ++it){ 
       glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *it);
    }   
 }
-
 
 void graphics::refreshScene()
 {
@@ -111,21 +109,21 @@ void graphics::handleKeypress(unsigned char key, int x, int y)
     }
 }
 
-void graphics::drawPath(path &path, color color)
+void graphics::drawPath(path &path)
 {
     point p1, p2;    
     for(auto it = path.points.begin(); it < path.points.end()-1; it++){
         p1 = point((*it).x, (*it).y - path.width/2) ;
         p2 = point((*(it+1)).x, (*(it+1)).y - path.width/2);
-        drawLine(p1, p2, color.getColor(BLUE));
+        drawLine(p1, p2, path.borderColor);
 
         p1 = point((*it).x, (*it).y + path.width/2) ;
         p2 = point((*(it+1)).x, (*(it+1)).y + path.width/2);
-        drawLine(p1, p2, color.getColor(BLUE));        
+        drawLine(p1, p2, path.borderColor);        
     }
 }
 
-void graphics::drawLine(point p1, point p2, color cl)
+void graphics::drawLine(point p1, point p2, color cl) 
 {
     glColor3f( cl.R, cl.G, cl.B); 
     glLineWidth(2);
@@ -135,7 +133,7 @@ void graphics::drawLine(point p1, point p2, color cl)
     glEnd();  
 }
 
-void graphics::drawCircle(point p, float radius)
+void graphics::drawCircle(point p, float radius) //todo add color
 {
    glBegin(GL_LINE_STRIP);                              
    glLineWidth(2);
@@ -148,7 +146,7 @@ void graphics::drawCircle(point p, float radius)
    glEnd();
 }
 
-void graphics::drawPoint(point p)
+void graphics::drawPoint(point p) //todo add color
 {
     glColor3f(1,1,1); 
     glPointSize(4.0);
@@ -157,13 +155,13 @@ void graphics::drawPoint(point p)
     glEnd();
 }
 
-void graphics::drawAgent(agent &agent, color &color)
+void graphics::drawAgent(agent &agent)
 {
     glPushMatrix();
     glTranslatef(agent.position.x, agent.position.y, 0.0f);  
     glRotatef(agent.velocity.getAngle(), 0.0f, 0.0f, 1.0f);
     glBegin(GL_TRIANGLES);          
-    glColor3f( color.R, color.G, color.B);  
+    glColor3f( agent.fillColor.R, agent.fillColor.G, agent.fillColor.B);  
     glVertex3f( 1.0f,  0.0f, 0.0f);
     glVertex3f(-1.0f,  0.5f, 0.0f);
     glVertex3f(-1.0f, -0.5f, 0.0f);

@@ -10,6 +10,12 @@
 
 using namespace std;
 
+color::color()
+{
+
+}
+
+
 color::color(float r, float g, float b)
 {
     R = r;
@@ -17,25 +23,18 @@ color::color(float r, float g, float b)
     B = b;
 }
 
-color color::getColor(int index)
-{
-   return colors.at(index);
-}
+color color::getColor(int index){    
+    switch (index)
+    {
+       case 0: return WHITE; break;
+       case 1: return BLUE; break;
+       case 2: return RED; break;
+       case 3: return YELLOW; break;
+       case 4: return GREEN; break;
+       case 5: return BLACK; break;
+       case 6: return CYAN; break;
+       case 7: return MAGENDA; break;   
 
-color::color()
-{
-    
+    }
+    return RED;
 }
-
-void color::createColors()
-{
-   colors.push_back(color(0.0, 0.0, 0.0));
-   colors.push_back(color(0.0, 0.0, 1.0));
-   colors.push_back(color(0.0, 1.0, 0.0));
-   colors.push_back(color(0.0, 1.0, 1.0));
-   colors.push_back(color(1.0, 0.0, 0.0));
-   colors.push_back(color(1.0, 0.0, 1.0));
-   colors.push_back(color(1.0, 1.0, 0.0));
-   colors.push_back(color(1.0, 1.0, 1.0));
-}
-

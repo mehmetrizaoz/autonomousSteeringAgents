@@ -64,12 +64,6 @@ public:
    static steeringBehavior behavior;
 
    /**
-   * @brief color instance used
-   * @note opengl callback forces that function to be static
-   */
-   static color myColor;   
-
-   /**
    * @brief scenario name
    * @note opengl callback forces that function to be static
    */

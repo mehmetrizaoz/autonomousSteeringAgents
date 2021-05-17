@@ -7,6 +7,15 @@
 
 #pragma once
 
+#define BLACK   color(0,0,0)
+#define BLUE    color(0,0,1)
+#define GREEN   color(0,1,0)
+#define CYAN    color(0,1,1)
+#define RED     color(1,0,0)
+#define YELLOW  color(1,1,0)
+#define MAGENDA color(1,0,1)
+#define WHITE   color(1,1,1)
+
 #include <vector>
 
 using namespace std;
@@ -14,7 +23,7 @@ using namespace std;
 /**
 * @brief fundament list of al colors
 */   
-enum num{ BLACK=0, BLUE, GREEN, CYAN, RED, MAGENDA, YELLOW, WHITE };
+//enum num{ BLACK=0, BLUE, GREEN, CYAN, RED, MAGENDA, YELLOW, WHITE };
 
 class color{
 public:
@@ -34,18 +43,6 @@ public:
    color(float r, float g, float b);
 
    /**
-   * @brief creation of fundamental 8 colors
-   */   
-   void createColors();
-
-   /**
-   * @brief gets requested color
-   * @param i color index
-   * @return requested color
-   */
-   color getColor(int index);
-
-   /**
    * @brief portion of red color
    */   
    float R;
@@ -61,7 +58,8 @@ public:
    float B;
 
    /**
-   * @brief storage structure of created fundamental colors
+   * @brief gets colorbar colors
+   * @param index color id
    */   
-   vector<color> colors;
+   static color getColor(int index);
 };

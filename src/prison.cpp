@@ -18,10 +18,10 @@ using namespace std;
 void prison::loop()
 {
     for(auto it = agents.begin(); it < agents.end(); it++){
-        view.drawLine(point(-WALL,  WALL), point( WALL,  WALL), myColor.getColor(BLUE));
-        view.drawLine(point( WALL,  WALL), point( WALL, -WALL), myColor.getColor(BLUE));
-        view.drawLine(point( WALL, -WALL), point(-WALL, -WALL), myColor.getColor(BLUE));
-        view.drawLine(point(-WALL,  WALL), point( -WALL,  -WALL), myColor.getColor(BLUE));
+        view.drawLine(point(-WALL,  WALL), point( WALL,  WALL), BLUE);
+        view.drawLine(point( WALL,  WALL), point( WALL, -WALL), BLUE);
+        view.drawLine(point( WALL, -WALL), point(-WALL, -WALL), BLUE);
+        view.drawLine(point(-WALL,  WALL), point(-WALL, -WALL), BLUE);
         (*it).force  = behavior.stayInArea(*it, WALL - DISTANCE);
         (*it).force += behavior.separation(agents, *it);         
     }            
