@@ -22,8 +22,7 @@ void pathFollower::loop()
         sep.mul(5);         
         (*it).force = sep + flwpth;
 
-        //
-        view.drawPath(myPath);
+        myPath.draw(view);
     }            
     refresh();
 }

@@ -7,6 +7,7 @@
 
 #include "scenario.h"
 #include "random.h"
+#include "entity.h"
 #include <iostream>
 
 #define MAX_NUMBER_OF_AGENTS 50
@@ -23,10 +24,8 @@ void scenario::initGL(int* argc, char** argv)
     view.initGraphics(argc, argv, callback);
 }
 
-
 scenario::scenario()
 {
-    srand(time(NULL));
     view = graphics(); 
 }
 
@@ -35,8 +34,7 @@ void scenario::refresh()
     point textPosition = point(-34, 32.25);
     
     for(auto it = agents.begin(); it < agents.end(); it++){       
-       (*it).updatePosition((*it).arrive);
-       view.drawAgent(*it);
+       (*it).draw(view);
     }
       
     view.drawText(name, textPosition);
@@ -47,13 +45,15 @@ void scenario::createRandomAgents(int count, const float force, const float spee
 {
    int size = MAX_NUMBER_OF_AGENTS * 2;   
    int arr[size];
+
+   srand(time(NULL));
    random::createRandomArray(arr, size);
    agent tempAgent {0, 0};
 
    for(int i=0; i < count * 2; i=i+2){
       tempAgent.position.x = arr[i]   - WIDTH;
       tempAgent.position.y = arr[i+1] - HEIGHT;
-      tempAgent.fillColor =  color::getColor((i/2) % 8);
+      tempAgent.entityColor =  color::getColor((i/2) % 8);
       tempAgent.setFeatures(speed, force, 5, 1); 
       agents.push_back(tempAgent);
    } 
@@ -64,18 +64,17 @@ void scenario::createStaticAgents()
     agent agent1 {-10.0,  0.0};
     agent1.id = 1;
     agent1.setName("gazelle");    
-    agent1.fillColor = BLUE;
+    agent1.entityColor = BLUE;
     agent1.setFeatures(0.5, 0.2, 5, 1);
     agents.push_back(agent1);
 
     agent agent2 { 10.0,  0.0};
     agent2.id = 2;
     agent2.setName("lion");
-    agent2.fillColor = RED;
+    agent2.entityColor = RED;
     agent2.setFeatures(0.4, 0.2, 5, 1);    
     agents.push_back(agent2);
 }
-
 
 void scenario::createTroop(int count)
 {
@@ -99,7 +98,7 @@ void scenario::createTroop(int count)
         else
            location.x += blanks; 
         
-        tempAgent.fillColor =  color::getColor((i/2) % 8);
+        tempAgent.entityColor =  color::getColor((i/2) % 8);
         tempAgent.setFeatures(0.3, 0.3, 5, 1);
         agents.push_back(tempAgent);
     }

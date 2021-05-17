@@ -25,12 +25,9 @@ void obstacleAvoidance::loop()
         (*it).force = avoid + seek;   
         (*it).arrive = true;
         
-        //
-        for(auto it = obstacles.begin(); it < obstacles.end(); it++){
-            point p = (*it).p;
-            view.drawCircle(p, (*it).r);
+        for(auto it = obstacles.begin(); it < obstacles.end(); it++){     
+            (*it).draw(view);
         }
-
     }            
     refresh();
 }

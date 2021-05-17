@@ -8,12 +8,13 @@
 #pragma once
 
 #include "point.h"
+#include "entity.h"
 #include "color.h"
 #include <vector>
 
 using namespace std;
 
-class path{
+class path : public entity{
 public:
    /**
    * @brief default constructor.
@@ -44,8 +45,5 @@ public:
    */
    int width;
 
-   /**   
-   * @brief path color
-   */
-   color borderColor;
+   void draw(graphics view);
 };

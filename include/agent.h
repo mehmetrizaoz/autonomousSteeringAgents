@@ -9,6 +9,7 @@
 
 #include "point.h"
 #include "color.h"
+#include "entity.h"
 #include "flowField.h"
 #include <vector>
 #include <string>
@@ -17,7 +18,7 @@ using namespace std;
 
 class path;
 
-class agent{
+class agent : public entity{
 public:
   /**
   * @brief default constructor.
@@ -75,11 +76,6 @@ public:
   * @param m set value
   */
   void setMass(float m);
-
-  /**
-  * @brief color of the agent
-  */
-  color fillColor;
 
   /**
   * @brief position of the agent
@@ -141,7 +137,9 @@ public:
   * @brief has arriving behavior or not
   */
   bool arrive = false;
-  
+
+
+  void draw(graphics view);
 private:
   /**
   * @brief name of the agent
@@ -152,5 +150,6 @@ private:
   * @brief mass of the agent
   */
   float mass;
+
 };
 

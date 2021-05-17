@@ -8,6 +8,7 @@
 #include "obstacle.h"
 #include "graphics.h"
 #include "point.h"
+#include "entity.h"
 #include <vector>
 
 using namespace std;
@@ -16,13 +17,16 @@ obstacle::obstacle()
 {
    p = point(0,0);
    r = 5;
-   perimeterColor = RED;
+   entityColor = RED;
 }
 
 obstacle::obstacle(point p, float r)
 {
    this->p = p;   
    this->r = r;
-   perimeterColor = RED;
+   entityColor = RED;
 }
 
+void obstacle::draw(graphics view){
+   view.drawCircle(p, r, entityColor);
+}

@@ -8,9 +8,11 @@
 #pragma once
 
 #include "point.h"
+#include "graphics.h"
 #include "color.h"
+#include "entity.h"
 
-class obstacle{
+class obstacle : public entity{
 public:
    /**
    * @brief default constructor.
@@ -36,8 +38,6 @@ public:
    */
    float r;
 
-   /**   
-   * @brief obstacle color
-   */
-   color perimeterColor;
+
+   void draw(graphics view);
 };

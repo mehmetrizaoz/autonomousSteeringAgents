@@ -50,9 +50,10 @@ public:
    /**   
    * @brief draws circle
    * @param p center of the circle
-   * @param radius radius of the circle   
+   * @param radius radius of the circle
+   * @param color of the circle
    */
-   void drawCircle(point p, float radius);
+   void drawCircle(point p, float radius, color color);
 
    /**
    * @brief draws text on screen

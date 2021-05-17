@@ -115,11 +115,11 @@ void graphics::drawPath(path &path)
     for(auto it = path.points.begin(); it < path.points.end()-1; it++){
         p1 = point((*it).x, (*it).y - path.width/2) ;
         p2 = point((*(it+1)).x, (*(it+1)).y - path.width/2);
-        drawLine(p1, p2, path.borderColor);
+        drawLine(p1, p2, path.entityColor);
 
         p1 = point((*it).x, (*it).y + path.width/2) ;
         p2 = point((*(it+1)).x, (*(it+1)).y + path.width/2);
-        drawLine(p1, p2, path.borderColor);        
+        drawLine(p1, p2, path.entityColor);        
     }
 }
 
@@ -133,8 +133,9 @@ void graphics::drawLine(point p1, point p2, color cl)
     glEnd();  
 }
 
-void graphics::drawCircle(point p, float radius) //todo add color
-{
+void graphics::drawCircle(point p, float radius, color color)
+{ 
+   glColor3f(color.R, color.G, color.B); 
    glBegin(GL_LINE_STRIP);                              
    glLineWidth(2);
    for (int i = 0; i <= 300; i++) {
@@ -161,7 +162,7 @@ void graphics::drawAgent(agent &agent)
     glTranslatef(agent.position.x, agent.position.y, 0.0f);  
     glRotatef(agent.velocity.getAngle(), 0.0f, 0.0f, 1.0f);
     glBegin(GL_TRIANGLES);          
-    glColor3f( agent.fillColor.R, agent.fillColor.G, agent.fillColor.B);  
+    glColor3f( agent.entityColor.R, agent.entityColor.G, agent.entityColor.B);  
     glVertex3f( 1.0f,  0.0f, 0.0f);
     glVertex3f(-1.0f,  0.5f, 0.0f);
     glVertex3f(-1.0f, -0.5f, 0.0f);

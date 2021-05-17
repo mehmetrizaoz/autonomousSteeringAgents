@@ -43,7 +43,7 @@ agent::agent(float x, float  y)
     desiredVelocity = pvector(0.0, 0.0);
     force           = pvector(0.0, 0.0);
     targetPoint     = point(0.0, 0.0);
-    fillColor       = color(1.0, 0.0, 0.0);
+    entityColor     = RED;
 }
 
 void agent::updatePosition(bool arrive)
@@ -78,4 +78,9 @@ void agent::setFeatures(float s, float f, float r, float m)
 agent::~agent()
 {
     
+}
+
+void agent::draw(graphics view){
+   this->updatePosition(this->arrive);
+   view.drawAgent(*this);
 }

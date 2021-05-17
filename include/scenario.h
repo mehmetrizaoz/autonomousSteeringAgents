@@ -73,6 +73,7 @@ public:
    * @brief openGL screen refresh callback function, used as main loop in derived classes
    */
    void (*callback)(); 
+   
 private:
    void createRandomAgents(int agentCount, float mForce, float mSpeed);      
    void createStaticAgents();
