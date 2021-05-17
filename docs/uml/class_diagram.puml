@@ -1,9 +1,19 @@
-@startuml class
+@startuml class_diagram
+
 class pathFollower{
   +pathFollower()
   {static}loop()
   {static}createPath()
   {static}myPath : path
+}
+
+abstract class "entity"{
+  +entity()
+  +getName() : string
+  +setName()
+  +getId() : int
+  +setId()
+  +entityColor : color
 }
 
 class evade{

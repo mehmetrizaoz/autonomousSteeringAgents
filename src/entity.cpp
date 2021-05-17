@@ -1,3 +1,10 @@
+/**
+ * @file   entity.cpp
+ * @author Mehmet Rıza Öz - mehmetrizaoz@gmail.com
+ * @brief  entity class implementation
+ * @date   18.05.2021
+*/
+
 #include "entity.h"
 
 entity::entity(){

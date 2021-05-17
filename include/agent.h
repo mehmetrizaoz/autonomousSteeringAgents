@@ -5,8 +5,6 @@
  * @date   14.05.2021
 */
 
-//dev branch
-
 #pragma once
 
 #include "point.h"
