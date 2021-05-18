@@ -13,7 +13,7 @@ abstract class "entity"{
   +setName()
   +getId() : int
   +setId()
-  +virtual draw()
+  +draw()
   +entityColor : color
 }
 
@@ -217,5 +217,5 @@ windy "1" o-- flowField : has many >
 scenario - random : uses >
 entity <|-- path : is a <
 entity <|-- agent : is a <
-entity <|-- obstacle : is a <
+entity <|-- obstacle : is a < 
 @enduml
