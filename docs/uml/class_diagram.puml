@@ -13,6 +13,7 @@ abstract class "entity"{
   +setName()
   +getId() : int
   +setId()
+  +virtual draw()
   +entityColor : color
 }
 
@@ -91,10 +92,11 @@ class random {
 }
 
 class path {
-  +path()
-  +addPoint()
   +points : point
   +width : int
+  +path()
+  +addPoint()
+  +draw()
 }
 
 class agent{
@@ -102,6 +104,7 @@ class agent{
   +~agent()
   +updatePosition()
   +setFeatures()
+  +draw()
   +name : string
   +fillColor : color
   +position : point
@@ -147,6 +150,7 @@ class obstacle{
   +p : point
   +r : float 
   +obstacle()  
+  +draw()
 }
 
 class point{
@@ -211,4 +215,7 @@ obstacleAvoidance "1" o-- obstacle : has many >
 pathFollower o-- path : uses >
 windy "1" o-- flowField : has many >
 scenario - random : uses >
+entity <|-- path : is a <
+entity <|-- agent : is a <
+entity <|-- obstacle : is a <
 @enduml
