@@ -7,7 +7,8 @@ objects := pvector.o graphics.o agent.o flowField.o main.o \
            point.o path.o color.o steeringBehavior.o random.o \
 		   obstacle.o scenario.o mouseFollower.o prison.o \
 		   windy.o wander.o pursuit.o flee.o evade.o flock.o \
-           pathFollower.o obstacleAvoidance.o entity.o
+           pathFollower.o obstacleAvoidance.o entity.o \
+		   leaderFollower.o
 		   
 LIBS = -lglut -lGLU -lGL
 

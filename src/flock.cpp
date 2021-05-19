@@ -28,10 +28,7 @@ void flock::loop()
         pvector seek  = behavior.seek(*it);
         seek.mul(0.01);
 
-
         (*it).force = sep + ali + coh + seek;
-        //(*it).desiredVelocity = (*it).force + (*it).velocity;
-        //(*it).targetPoint = (*it).position + (*it).desiredVelocity;
         (*it).arrive = true;
     }
             

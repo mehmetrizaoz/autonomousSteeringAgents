@@ -15,16 +15,17 @@
 #define CIRCLE_DISTANCE 0.1  //for wandering agents
 #define CIRCLE_RADIUS   0.4
 
-#define FOLLOW_MOUSE   1 
-#define STAY_IN_FIELD  2
-#define IN_FLOW_FIELD  3
-#define AVOID_OBSTACLE 4
-#define STAY_IN_PATH   5
-#define FLOCK          6
-#define WANDER         7
-#define FLEE           8
-#define PURSUIT        9
-#define EVADE          10
+#define FOLLOW_MOUSE    1 
+#define STAY_IN_FIELD   2
+#define IN_FLOW_FIELD   3
+#define AVOID_OBSTACLE  4
+#define STAY_IN_PATH    5
+#define FLOCK           6
+#define WANDER          7
+#define FLEE            8
+#define PURSUIT         9
+#define EVADE           10
+#define LEADER_FOLLOWER 11
 
 using namespace  std;
 

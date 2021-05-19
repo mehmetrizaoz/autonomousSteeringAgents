@@ -16,6 +16,7 @@
 #include "evade.h"
 #include "flock.h"
 #include "pathFollower.h"
+#include "leaderFollower.h"
 #include "obstacleAvoidance.h"
 
 using namespace std;
@@ -32,13 +33,14 @@ void menu(){
    cout << "Follow Mouse       : 1" << endl;
    cout << "Stay in Field      : 2" << endl;
    cout << "In Flow Field      : 3" << endl;
-   cout << "OBSTACLE AVOIDANCE : 4" << endl;
+   cout << "Avoid Obstacles    : 4" << endl;
    cout << "Stay in Path       : 5" << endl;
    cout << "FLOCK              : 6" << endl;
    cout << "WANDER             : 7" << endl;
    cout << "FLEE               : 8" << endl;
    cout << "PURSUIT            : 9" << endl;
    cout << "EVADE              : 10" << endl;
+   cout << "Follow Leader      : 11" << endl;
    cin >> mode;
 }
 
@@ -79,6 +81,9 @@ int main(int argc, char** argv) {
    }
    else if(mode == AVOID_OBSTACLE){
       *sc = obstacleAvoidance();
+   }
+   else if(mode == LEADER_FOLLOWER){
+      *sc = leaderFollower();
    }
 
    sc->initGL(&argc, argv);
