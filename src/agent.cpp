@@ -53,15 +53,16 @@ void agent::updatePosition(bool arrive)
     velocity += acceleration;
 
     //arriving behavior implementation
-    if(arrive == true){        
+    if(arrive == true){
         pvector diff = targetPoint - position;
         if(diff.magnitude() > r)
-            velocity.limit(maxSpeed);        
+            velocity.limit(maxSpeed);
         else
-            velocity.limit(maxSpeed * diff.magnitude() / r);        
+            velocity.limit(maxSpeed * diff.magnitude() / r);
     }
-    else
+    else{
         velocity.limit(maxSpeed);
+    }
 
     position = position + velocity;
     force = pvector(0,0);

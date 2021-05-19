@@ -21,16 +21,14 @@ void leaderFollower::loop()
     for(auto it = agents.begin(); it < agents.end(); it++){
         if((*it).getName() == "leader"){
             (*it).targetPoint = view.getMousePosition();
-            (*it).force  = behavior.seek(*it);  
+            (*it).force  = behavior.seek(*it);
+
             leaderVelocity = (*it).velocity;  
             leaderVelocity.mul(-1);
             leaderPosition = (*it).position;  
-
-            pvector tmp = (*it).velocity;
-            tmp.normalize().mul(10);
-            ahead = (*it).position + tmp;            
         }
         else{//lion            
+            //todo: stop agents in flock if they are in circle
             leaderVelocity.normalize();
             leaderVelocity.mul(15);
             (*it).targetPoint = leaderPosition + leaderVelocity;
@@ -40,15 +38,10 @@ void leaderFollower::loop()
             
             pvector pur = behavior.seek(*it);                               
             pvector sep = behavior.separation(agents, *it);            
-            sep.mul(20);           
+            sep.mul(5);           
             
             pvector diff = (*it).position - (*it).targetPoint;
-            if(diff.magnitude() > 3){
-                (*it).force = sep + pur;
-            }
-            else{
-                (*it).force = pvector(0,0);                
-            }
+            (*it).force = sep + pur;
         }
         (*it).arrive = true;
     }            
@@ -62,6 +55,7 @@ leaderFollower::leaderFollower()
     float maxSpeed = 0.4;       
     name = "leader following";
 
+    //todo: refactor leader creation
     agent agent1 {-10.0,  0.0};
     agent1.id = 1;
     agent1.setName("leader");    
