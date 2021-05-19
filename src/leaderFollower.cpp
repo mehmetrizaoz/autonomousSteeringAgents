@@ -12,20 +12,20 @@
 
 using namespace std;
 
-pvector leaderVelocity;
-point leaderPosition;
-point ahead;
+pvector leaderFollower::leaderVelocity;
+point leaderFollower::leaderPosition;
+point leaderFollower::ahead;
 
 void leaderFollower::loop()
 {
     for(auto it = agents.begin(); it < agents.end(); it++){
         if((*it).getName() == "leader"){
             (*it).targetPoint = view.getMousePosition();
-            (*it).force  = behavior.seek(*it);
-
+            (*it).force  = behavior.seek(*it);  
             leaderVelocity = (*it).velocity;  
             leaderVelocity.mul(-1);
-            leaderPosition = (*it).position;  
+            leaderPosition = (*it).position;
+            (*it).arrive = true;
         }
         else{//lion            
             //todo: stop agents in flock if they are in circle
@@ -34,24 +34,31 @@ void leaderFollower::loop()
             (*it).targetPoint = leaderPosition + leaderVelocity;
             
             view.drawPoint((*it).targetPoint);
-            view.drawCircle((*it).targetPoint, 6, RED);
+            view.drawCircle((*it).targetPoint, 8, RED);            
             
-            pvector pur = behavior.seek(*it);                               
-            pvector sep = behavior.separation(agents, *it);            
-            sep.mul(5);           
+            pvector sep = behavior.separation(agents, *it);
+            sep.mul(10);
+            (*it).force = sep;
             
             pvector diff = (*it).position - (*it).targetPoint;
-            (*it).force = sep + pur;
+            if(diff.magnitude() > 5){
+                (*it).force += behavior.seek(*it);
+            }
+            else{
+                (*it).velocity = pvector(0,0);
+            }
+
+            (*it).arrive = true;
         }
-        (*it).arrive = true;
+        
     }            
     refresh();
 }
 
 leaderFollower::leaderFollower()
 {
-    int agentCount = 8;
-    float maxForce = 0.2;
+    int agentCount = 10;
+    float maxForce = 0.4;
     float maxSpeed = 0.4;       
     name = "leader following";
 

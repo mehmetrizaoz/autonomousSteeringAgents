@@ -13,6 +13,10 @@ using namespace std;
 
 class leaderFollower: public scenario{
 public:
+   static pvector leaderVelocity;
+   static point leaderPosition;
+   static point ahead;
+
    /**
    * @brief default constructor.
    */
