@@ -23,7 +23,7 @@ void leaderFollower::loop()
             (*it).force  = behavior.seek(*it);  
             leaderVelocity = (*it).velocity;  
             leaderVelocity.mul(-1);
-            leaderVelocity.normalize().mul(10);
+            leaderVelocity.normalize().mul(20);
             leaderPosition = (*it).position;
         }
         else{            
@@ -31,9 +31,16 @@ void leaderFollower::loop()
             view.drawCircle((*it).targetPoint, 8, RED);         
             
             pvector sep = behavior.separation(agents, *it);
-            sep.mul(10);
+            sep.mul(15);
             (*it).force = sep;
-            
+
+            pvector aaa = (*it).position - leaderPosition;        
+            if(aaa.magnitude() < 5){
+                pvector fle = behavior.evade(agents, *it, view, "leader");
+                fle.mul(40);
+                (*it).force += fle;
+            }           
+
             pvector diff = (*it).position - (*it).targetPoint;
             if(diff.magnitude() > 5) { (*it).force   += behavior.seek(*it); }
             else                     { (*it).velocity = pvector(0,0);       }

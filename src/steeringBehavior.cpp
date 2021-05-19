@@ -30,7 +30,7 @@ pvector steeringBehavior::flee(agent &agent, graphics &view, point p)
    int radius = 15;
 
    pvector dist = agent.targetPoint - p;
-   view.drawPoint(agent.targetPoint);
+   //view.drawPoint(agent.targetPoint);
    
    if(dist.magnitude() < radius){
       agent.arrive = false;
@@ -54,15 +54,15 @@ pvector steeringBehavior::evade(vector<agent> boids, agent &evader, graphics vie
    }
 
    point p = point(evader.position.x + 2, evader.position.y - 2);   
-   view.drawText(evader.getName(), p);
+   //view.drawText(evader.getName(), p);
    p = point(target.position.x + 2, target.position.y - 2);
-   view.drawText(target.getName(), p);
+   //view.drawText(target.getName(), p);
    
    pvector targetVel = target.velocity;
    targetVel.mul(5);//TODO: magic number
 
    point futurePos = target.position + targetVel;
-   view.drawPoint(futurePos);
+   //view.drawPoint(futurePos);
    
    pvector dist = evader.position - futurePos;
    dist.normalize().mul( 1 / dist.magnitude() );
