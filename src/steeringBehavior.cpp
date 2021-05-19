@@ -82,6 +82,7 @@ pvector steeringBehavior::pursuit(vector<agent> boids, agent &pursuer, graphics 
 
    point p = point(target.position.x + 2, target.position.y - 2);   
    view.drawText(target.getName(), p);
+   
    p = point(pursuer.position.x + 2, pursuer.position.y - 2);
    view.drawText(pursuer.getName(), p);
    
@@ -162,7 +163,7 @@ pvector steeringBehavior::separation(vector<agent> agents, agent &agent)
    float desiredSeparation = 5;
    pvector sum = pvector(0,0);
    int count = 0;
-   for(auto it = agents.begin(); it < agents.end(); it++){
+   for(auto it = agents.begin(); it < agents.end(); it++){      
       float d = (agent.position - (*it).position).magnitude();
       if( (d > 0) && (d < desiredSeparation) ){
          pvector diff = agent.position - (*it).position;
@@ -172,7 +173,7 @@ pvector steeringBehavior::separation(vector<agent> agents, agent &agent)
       }
    }
    if(count > 0){
-      sum.div(count);
+      sum.div(count);      
       sum.normalize().mul(agent.maxSpeed);
       agent.steering = sum - agent.velocity;
       return agent.steering;

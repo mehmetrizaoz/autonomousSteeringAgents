@@ -9,6 +9,7 @@
 #include "random.h"
 #include "entity.h"
 #include <iostream>
+#include <string> 
 
 #define MAX_NUMBER_OF_AGENTS 50
 
@@ -51,6 +52,7 @@ void scenario::createRandomAgents(int count, const float force, const float spee
    agent tempAgent {0, 0};
 
    for(int i=0; i < count * 2; i=i+2){
+      tempAgent.setName("agent"+to_string(i)+":");
       tempAgent.position.x = arr[i]   - WIDTH;
       tempAgent.position.y = arr[i+1] - HEIGHT;
       tempAgent.entityColor =  color::getColor((i/2) % 8);
@@ -59,18 +61,18 @@ void scenario::createRandomAgents(int count, const float force, const float spee
    } 
 }
 
-void scenario::createStaticAgents()
+void scenario::createStaticAgents(string s1, string s2)
 {
     agent agent1 {-10.0,  0.0};
     agent1.id = 1;
-    agent1.setName("gazelle");    
+    agent1.setName(s1);    
     agent1.entityColor = BLUE;
     agent1.setFeatures(0.5, 0.2, 5, 1);
     agents.push_back(agent1);
 
     agent agent2 { 10.0,  0.0};
     agent2.id = 2;
-    agent2.setName("lion");
+    agent2.setName(s2);
     agent2.entityColor = RED;
     agent2.setFeatures(0.4, 0.2, 5, 1);    
     agents.push_back(agent2);
@@ -113,7 +115,7 @@ void scenario::createAgent(int type, int *count, float *force, float *speed)
         createRandomAgents(*count, *force, *speed);
     }
     else if(type == STATIC){
-        createStaticAgents();
+        createStaticAgents("gazelle", "lion");
     }
     else{
         //error message   

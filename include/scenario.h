@@ -76,7 +76,7 @@ public:
    
 private:
    void createRandomAgents(int agentCount, float mForce, float mSpeed);      
-   void createStaticAgents();
+   void createStaticAgents(string s1, string s2);
    void createTroop(int agentCount);
 };
 
