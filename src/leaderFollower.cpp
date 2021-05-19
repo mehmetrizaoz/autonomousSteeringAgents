@@ -14,7 +14,6 @@ using namespace std;
 
 pvector leaderFollower::leaderVelocity;
 point leaderFollower::leaderPosition;
-point leaderFollower::ahead;
 
 void leaderFollower::loop()
 {
@@ -25,15 +24,12 @@ void leaderFollower::loop()
             leaderVelocity = (*it).velocity;  
             leaderVelocity.mul(-1);
             leaderPosition = (*it).position;
-            (*it).arrive = true;
         }
-        else{//lion            
-            //todo: stop agents in flock if they are in circle
+        else{            
             leaderVelocity.normalize();
             leaderVelocity.mul(15);
             (*it).targetPoint = leaderPosition + leaderVelocity;
             
-            view.drawPoint((*it).targetPoint);
             view.drawCircle((*it).targetPoint, 8, RED);            
             
             pvector sep = behavior.separation(agents, *it);
@@ -46,11 +42,9 @@ void leaderFollower::loop()
             }
             else{
                 (*it).velocity = pvector(0,0);
-            }
-
-            (*it).arrive = true;
-        }
-        
+            }            
+        }    
+        (*it).arrive = true;    
     }            
     refresh();
 }
