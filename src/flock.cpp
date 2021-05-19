@@ -24,10 +24,6 @@ void flock::loop()
         pvector coh = behavior.cohesion(agents, *it);
         coh.mul(0.1);
 
-        (*it).targetPoint = view.getMousePosition();
-        pvector seek  = behavior.seek(*it);
-        seek.mul(0.01);
-
         (*it).force = sep + ali + coh + seek;
         (*it).arrive = true;
     }
