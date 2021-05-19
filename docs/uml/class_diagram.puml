@@ -33,6 +33,14 @@ class windy{
   {static}flow : flowField
 }
 
+class leaderFollower{
+  +leaderFollower()
+  {static}loop()
+  {static}leaderPosition : point
+  {static}leaderVelocity : pvector
+}
+
+
 class obstacleAvoidance{
   +obstacleAvoidance()
   {static}loop()
@@ -193,6 +201,9 @@ class graphics{
   {static} target_y : int
 }
 
+entity <|-- path : is a <
+entity <|-- agent : is a <
+entity <|-- obstacle : is a < 
 obstacle o-- point : has >
 flowField "1" o-- pvector : has many >
 agent "1" o-- pvector : has many >
@@ -204,6 +215,7 @@ scenario o-- graphics : uses >
 scenario o-- steeringBehavior : uses  >
 scenario o-- color : uses >
 scenario <|-- evade : is a <
+scenario <|-- leaderFollower : is a <
 scenario <|-- flee : is a <
 scenario <|-- flock : is a <
 scenario <|-- mouseFollower : is a <
@@ -215,7 +227,4 @@ obstacleAvoidance "1" o-- obstacle : has many >
 pathFollower o-- path : uses >
 windy "1" o-- flowField : has many >
 scenario - random : uses >
-entity <|-- path : is a <
-entity <|-- agent : is a <
-entity <|-- obstacle : is a < 
 @enduml

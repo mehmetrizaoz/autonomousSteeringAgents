@@ -34,8 +34,8 @@ void leaderFollower::loop()
             sep.mul(15);
             (*it).force = sep;
 
-            pvector aaa = (*it).position - leaderPosition;        
-            if(aaa.magnitude() < 5){
+            pvector leaderDiff = (*it).position - leaderPosition;        
+            if(leaderDiff.magnitude() < 5){
                 pvector fle = behavior.evade(agents, *it, view, "leader");
                 fle.mul(40);
                 (*it).force += fle;
