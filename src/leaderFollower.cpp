@@ -23,26 +23,20 @@ void leaderFollower::loop()
             (*it).force  = behavior.seek(*it);  
             leaderVelocity = (*it).velocity;  
             leaderVelocity.mul(-1);
+            leaderVelocity.normalize().mul(10);
             leaderPosition = (*it).position;
         }
         else{            
-            leaderVelocity.normalize();
-            leaderVelocity.mul(15);
-            (*it).targetPoint = leaderPosition + leaderVelocity;
-            
-            view.drawCircle((*it).targetPoint, 8, RED);            
+            (*it).targetPoint = leaderPosition + leaderVelocity;            
+            view.drawCircle((*it).targetPoint, 8, RED);         
             
             pvector sep = behavior.separation(agents, *it);
             sep.mul(10);
             (*it).force = sep;
             
             pvector diff = (*it).position - (*it).targetPoint;
-            if(diff.magnitude() > 5){
-                (*it).force += behavior.seek(*it);
-            }
-            else{
-                (*it).velocity = pvector(0,0);
-            }            
+            if(diff.magnitude() > 5) { (*it).force   += behavior.seek(*it); }
+            else                     { (*it).velocity = pvector(0,0);       }
         }    
         (*it).arrive = true;    
     }            
