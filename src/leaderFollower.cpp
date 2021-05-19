@@ -57,7 +57,7 @@ void leaderFollower::loop()
 
 leaderFollower::leaderFollower()
 {
-    int agentCount = 2;
+    int agentCount = 8;
     float maxForce = 0.2;
     float maxSpeed = 0.4;       
     name = "leader following";
