@@ -24,7 +24,7 @@ void flock::loop()
         pvector coh = behavior.cohesion(agents, *it);
         coh.mul(0.1);
 
-        (*it).force = sep + ali + coh + seek;
+        (*it).force = sep + ali + coh;
         (*it).arrive = true;
     }
             
