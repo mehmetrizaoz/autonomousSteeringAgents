@@ -15,19 +15,24 @@ using namespace std;
 void flock::loop()
 {
     for(auto it = agents.begin(); it < agents.end(); it++){
-         view.forceInScreen((*it));
+        view.forceInScreen((*it));
          
-         pvector sep = behavior.separation(agents, *it);
-         sep.mul(1.5);         
-         pvector ali = behavior.align(agents, *it);
-         ali.mul(4);    
-         pvector coh = behavior.cohesion(agents, *it);
-         coh.mul(0.1);
+        pvector sep = behavior.separation(agents, *it);
+        sep.mul(1.5);         
+        pvector ali = behavior.align(agents, *it);
+        ali.mul(4);    
+        pvector coh = behavior.cohesion(agents, *it);
+        coh.mul(0.1);
 
-         (*it).force = sep + ali + coh;
-         (*it).desiredVelocity = (*it).force + (*it).velocity;
-         (*it).targetPoint = (*it).position + (*it).desiredVelocity;
-         (*it).arrive = true;
+        (*it).targetPoint = view.getMousePosition();
+        pvector seek  = behavior.seek(*it);
+        seek.mul(0.01);
+
+
+        (*it).force = sep + ali + coh + seek;
+        //(*it).desiredVelocity = (*it).force + (*it).velocity;
+        //(*it).targetPoint = (*it).position + (*it).desiredVelocity;
+        (*it).arrive = true;
     }
             
     refresh();

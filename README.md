@@ -18,7 +18,7 @@ Fernando Bevilacqua : Understanding Steering Behaviors
 
 Jer Thorp : Living in Data
 
-OpenGL : 
+# Links
 
 https://videotutorialsrock.com/index.php
 
