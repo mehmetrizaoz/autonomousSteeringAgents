@@ -24,15 +24,6 @@ public:
    scenario();   
 
    /**
-   * @brief agent creation 
-   * @param type type of creation method
-   * @param count number of agents to be created
-   * @param force max force of agents to be created
-   * @param speed max speed of agents to be created
-   */
-   void createAgent(int type, int *count, float *force, float *speed);
-
-   /**
    * @brief graphics initialization
    * @param argv list of user arguments
    * @param argc number of user arguments
@@ -74,7 +65,6 @@ public:
    */
    void (*callback)(); 
    
-private:
    void createRandomAgents(int agentCount, float mForce, float mSpeed);      
    void createStaticAgents(string s1, string s2);
    void createTroop(int agentCount);

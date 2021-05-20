@@ -31,6 +31,6 @@ void pursuit::loop()
 pursuit::pursuit()
 {  
     name = "pursuit";    
-    createAgent(STATIC, nullptr, nullptr, nullptr);
+    createStaticAgents("gazelle", "lion");
     callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
 }

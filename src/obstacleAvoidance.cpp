@@ -42,7 +42,7 @@ void obstacleAvoidance::createObstacle(vector<obstacle> &obstacles)
 obstacleAvoidance::obstacleAvoidance()
 {
     name = "avoid obstacles";
-    createAgent(STATIC, nullptr, nullptr, nullptr);
+    createStaticAgents("ag1", "ag2");
     createObstacle(obstacles);    
     callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
 }

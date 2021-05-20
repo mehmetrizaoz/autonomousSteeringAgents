@@ -54,9 +54,9 @@ pvector steeringBehavior::evade(vector<agent> boids, agent &evader, graphics vie
    }
 
    point p = point(evader.position.x + 2, evader.position.y - 2);   
-   //view.drawText(evader.getName(), p);
+   view.drawText(evader.getName(), p);
    p = point(target.position.x + 2, target.position.y - 2);
-   //view.drawText(target.getName(), p);
+   view.drawText(target.getName(), p);
    
    pvector targetVel = target.velocity;
    targetVel.mul(5);//TODO: magic number
@@ -160,7 +160,7 @@ pvector steeringBehavior::cohesion(vector<agent> boids, agent &agent)
 
 pvector steeringBehavior::separation(vector<agent> agents, agent &agent)
 {
-   float desiredSeparation = 3;
+   float desiredSeparation = 6;
    pvector sum = pvector(0,0);
    int count = 0;
    for(auto it = agents.begin(); it < agents.end(); it++){      

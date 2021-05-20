@@ -25,6 +25,9 @@ void leaderFollower::loop()
             leaderVelocity.mul(-1);
             leaderVelocity.normalize().mul(20);
             leaderPosition = (*it).position;
+            
+            view.drawText((*it).getName(), point(leaderPosition.x -3, leaderPosition.y - 3));
+
         }
         else{            
             (*it).targetPoint = leaderPosition + leaderVelocity;            
@@ -34,12 +37,13 @@ void leaderFollower::loop()
             sep.mul(15);
             (*it).force = sep;
 
+/*
             pvector leaderDiff = (*it).position - leaderPosition;        
             if(leaderDiff.magnitude() < 5){
                 pvector fle = behavior.evade(agents, *it, view, "leader");
                 fle.mul(40);
                 (*it).force += fle;
-            }           
+            }*/
 
             pvector diff = (*it).position - (*it).targetPoint;
             if(diff.magnitude() > 5) { (*it).force   += behavior.seek(*it); }
@@ -52,7 +56,7 @@ void leaderFollower::loop()
 
 leaderFollower::leaderFollower()
 {
-    int agentCount = 10;
+    int agentCount = 4;
     float maxForce = 0.4;
     float maxSpeed = 0.4;       
     name = "leader following";
@@ -66,6 +70,6 @@ leaderFollower::leaderFollower()
     agents.push_back(agent1);
 
 
-    createAgent(RANDOM, &agentCount, &maxForce, &maxSpeed);
+    createRandomAgents(agentCount, maxForce, maxSpeed);
     callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
 }

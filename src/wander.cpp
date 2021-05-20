@@ -28,6 +28,6 @@ wander::wander()
     float maxSpeed = 0.6;       
 
     name = "wandering objects";
-    createAgent(RANDOM, &agentCount, &maxForce, &maxSpeed);   
+    createRandomAgents(agentCount, maxForce, maxSpeed);   
     callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
 }

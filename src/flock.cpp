@@ -18,14 +18,13 @@ void flock::loop()
         view.forceInScreen((*it));
          
         pvector sep = behavior.separation(agents, *it);
-        sep.mul(1.5);         
+        sep.mul(1);         
         pvector ali = behavior.align(agents, *it);
         ali.mul(4);    
         pvector coh = behavior.cohesion(agents, *it);
         coh.mul(0.1);
 
         (*it).force = sep + ali + coh;
-        (*it).arrive = true;
     }
             
     refresh();
@@ -33,10 +32,11 @@ void flock::loop()
 
 flock::flock()
 {
-    int agentCount = 50;
-    float maxForce = 0.3;
-    float maxSpeed = 0.8;
+    int agentCount = 20;
+    float maxForce = 0.5;
+    float maxSpeed = 0.9;
     name = "flocking agents";    
-    createAgent(RANDOM, &agentCount, &maxForce, &maxSpeed);
+    createRandomAgents(agentCount, maxForce, maxSpeed);
+    //createAgent(RANDOM, &agentCount, &maxForce, &maxSpeed);
     callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
 }

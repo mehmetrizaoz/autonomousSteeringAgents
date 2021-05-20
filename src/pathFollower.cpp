@@ -43,6 +43,6 @@ pathFollower::pathFollower()
     myPath = path(8);
     createPath(myPath); 
     name = "path following";
-    createAgent(RANDOM, &agentCount, &maxForce, &maxSpeed);    
+    createRandomAgents(agentCount, maxForce, maxSpeed);    
     callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
 }

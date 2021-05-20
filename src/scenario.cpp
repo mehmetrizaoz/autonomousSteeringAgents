@@ -105,19 +105,3 @@ void scenario::createTroop(int count)
         agents.push_back(tempAgent);
     }
 }
-
-void scenario::createAgent(int type, int *count, float *force, float *speed)
-{
-    if(type == TROOP){
-        createTroop(*count);
-    }
-    else if(type == RANDOM){
-        createRandomAgents(*count, *force, *speed);
-    }
-    else if(type == STATIC){
-        createStaticAgents("gazelle", "lion");
-    }
-    else{
-        //error message   
-    }
-}
