@@ -71,10 +71,10 @@ public:
    * @brief force to separate 
    * @param agent agent that will be stayed away
    * @param agents list of all the agents
-   * @param desiredSeparation radius for agents that will be considered
+   * @param radius for agents that will be considered
    * @return force to be applied
    */   
-   pvector separation(vector<agent> agents, agent &agent, float desiredSeparation);
+   pvector separation(vector<agent> agents, agent &agent, float radius);
 
    /**   
    * @brief force to cohesion
@@ -82,7 +82,7 @@ public:
    * @param boids list of all the agents
    * @return force to be applied
    */
-   pvector cohesion(vector<agent> boids, agent &agent);
+   pvector cohesion(vector<agent> boids, agent &agent, float radius);
 
    /**
    * @brief force to align
@@ -90,7 +90,7 @@ public:
    * @param boids list of all the agents
    * @return force to be applied
    */
-   pvector align(vector<agent> boids, agent &agent);   
+   pvector align(vector<agent> boids, agent &agent, float radius);   
 
    /**
    * @brief force to wander

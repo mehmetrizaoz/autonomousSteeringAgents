@@ -117,14 +117,13 @@ pvector steeringBehavior::wander(agent &agent)
    return agent.steering;
 }
 
-pvector steeringBehavior::align(vector<agent> boids, agent &agent)
+pvector steeringBehavior::align(vector<agent> boids, agent &agent, float radius)
 {
-   float neighborDist = 30;
    pvector sum {0,0};
    int count = 0;
    for(auto it = boids.begin(); it < boids.end(); it++){
       float d = (agent.position - (*it).position).magnitude();
-      if( (d >0) && (d < neighborDist) ){
+      if( (d >0) && (d < radius) ){
          sum += (*it).velocity;
          count++;
       }
@@ -138,14 +137,13 @@ pvector steeringBehavior::align(vector<agent> boids, agent &agent)
    return pvector(0,0);
 }
 
-pvector steeringBehavior::cohesion(vector<agent> boids, agent &agent)
+pvector steeringBehavior::cohesion(vector<agent> boids, agent &agent, float radius)
 {
-   float neighborDist = 20;
    point sum {0,0};
    int count = 0;
    for(auto it = boids.begin(); it < boids.end(); it++){
       float d = (agent.position - (*it).position).magnitude();
-      if( (d >0) && (d < neighborDist) ){
+      if( (d >0) && (d < radius) ){
          sum = sum + (*it).position;
          count++;
       }
@@ -158,13 +156,13 @@ pvector steeringBehavior::cohesion(vector<agent> boids, agent &agent)
    return pvector(0,0);
 }
 
-pvector steeringBehavior::separation(vector<agent> agents, agent &agent, float desiredSeparation)
+pvector steeringBehavior::separation(vector<agent> agents, agent &agent, float radius)
 {
    pvector sum = pvector(0,0);
    int count = 0;
    for(auto it = agents.begin(); it < agents.end(); it++){      
       float d = (agent.position - (*it).position).magnitude();
-      if( (d > 0) && (d < desiredSeparation) ){
+      if( (d > 0) && (d < radius) ){
          pvector diff = agent.position - (*it).position;
          diff.normalize().div(d);
          sum = sum + diff;
