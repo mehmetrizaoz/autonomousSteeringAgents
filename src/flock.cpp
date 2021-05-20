@@ -26,7 +26,6 @@ void flock::loop()
 
         (*it).force = sep + ali + coh;
     }
-            
     refresh();
 }
 
@@ -36,7 +35,7 @@ flock::flock()
     float maxForce = 0.5;
     float maxSpeed = 0.9;
     name = "flocking agents";    
-    createRandomAgents(agentCount, maxForce, maxSpeed);
-    //createAgent(RANDOM, &agentCount, &maxForce, &maxSpeed);
+    
+    createRandomAgents(agentCount, maxForce, maxSpeed);    
     callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
 }

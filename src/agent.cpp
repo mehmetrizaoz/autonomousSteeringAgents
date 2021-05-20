@@ -43,7 +43,7 @@ agent::agent(float x, float  y)
     desiredVelocity = pvector(0.0, 0.0);
     force           = pvector(0.0, 0.0);
     targetPoint     = point(0.0, 0.0);
-    entityColor     = RED;
+    setColor(RED);
 }
 
 void agent::updatePosition(bool arrive)

@@ -17,16 +17,32 @@ obstacle::obstacle()
 {
    p = point(0,0);
    r = 5;
-   entityColor = RED;
+   setColor(RED);
 }
 
 obstacle::obstacle(point p, float r)
 {
    this->p = p;   
    this->r = r;
-   entityColor = RED;
+   setColor(RED);
 }
 
 void obstacle::draw(graphics view){
-   view.drawCircle(p, r, entityColor);
+   view.drawCircle(p, r, getColor());
+}
+
+point obstacle::getCenter(){
+   return p;
+}
+
+void obstacle::setCenter(point p){
+   this->p = p;   
+}
+
+float obstacle::getRadius(){
+   return r;
+}
+
+void obstacle::setRadius(float r){
+   this->r = r;
 }

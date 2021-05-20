@@ -15,14 +15,14 @@ void path::addPoint(point p)
 
 path::path()
 {
-   entityColor = BLUE;
+   setColor(BLUE);
    width = 8;
 }
 
 path::path(float width)
 {
    this->width = width;
-   entityColor = BLUE;
+   setColor(BLUE);
 }
 
 void path::draw(graphics view){

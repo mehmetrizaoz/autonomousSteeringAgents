@@ -28,6 +28,18 @@ public:
    */
    obstacle(point p, float r);
 
+
+   point getCenter();
+   void setCenter(point p);
+   float getRadius();
+   void setRadius(float r);
+
+   /**   
+   * @brief overriden draw implementation
+   */
+   void draw(graphics view) override;
+   
+private:
    /**   
    * @brief center point of the obstacle
    */
@@ -38,8 +50,5 @@ public:
    */
    float r;
 
-   /**   
-   * @brief overriden draw implementation
-   */
-   void draw(graphics view) override;
+
 };

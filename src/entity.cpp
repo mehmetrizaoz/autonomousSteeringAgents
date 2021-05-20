@@ -11,6 +11,17 @@ entity::entity(){
     entityColor = RED;
 }
 
+
+color entity::getColor()
+{
+   return entityColor;
+}
+   
+void entity::setColor(color color){
+    entityColor = color;
+}
+
+
 string entity::getName(){
    return name;
 }

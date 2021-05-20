@@ -15,7 +15,6 @@ color::color()
 
 }
 
-
 color::color(float r, float g, float b)
 {
     R = r;

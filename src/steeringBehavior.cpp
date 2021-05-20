@@ -190,10 +190,10 @@ pvector steeringBehavior::avoid(vector<obstacle> obstacles, agent &agent)
    //view.drawPoint(point(ahead2.x, ahead2.y));  
 
    for(auto it = obstacles.begin(); it < obstacles.end(); it++){
-      float dist  = (ahead  - (*it).p).magnitude();
-      float dist2 = (ahead2 - (*it).p).magnitude();   
-      if(dist < (*it).r + 2 || dist2 < (*it).r + 2){
-         pvector avoidance = ahead - (*it).p;
+      float dist  = (ahead  - (*it).getCenter()).magnitude();
+      float dist2 = (ahead2 - (*it).getCenter()).magnitude();   
+      if(dist < (*it).getRadius() + 2 || dist2 < (*it).getRadius() + 2){
+         pvector avoidance = ahead - (*it).getCenter();
          avoidance.normalize().mul(20);
          /*a = point(avoidance.x, avoidance.y);
          view.drawLine(agent.position, agent.position + a, color(0,1,0));*/                  

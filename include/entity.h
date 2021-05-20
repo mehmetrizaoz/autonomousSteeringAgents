@@ -42,12 +42,15 @@ public:
    */
    virtual void draw(graphics view)=0;
 
+   
+   color getColor();
+   void setColor(color color);
+private:
    /**   
    * @brief color of the entity
    */
    color entityColor;
 
-private:
    string name;
    int id;
 };

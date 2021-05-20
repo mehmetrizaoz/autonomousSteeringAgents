@@ -65,10 +65,9 @@ leaderFollower::leaderFollower()
     agent agent1 {-10.0,  0.0};
     agent1.id = 1;
     agent1.setName("leader");    
-    agent1.entityColor = BLUE;
+    agent1.setColor(BLUE);
     agent1.setFeatures(0.8, 0.4, 5, 1);
     agents.push_back(agent1);
-
 
     createRandomAgents(agentCount, maxForce, maxSpeed);
     callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );

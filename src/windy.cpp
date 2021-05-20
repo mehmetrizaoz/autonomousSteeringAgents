@@ -28,7 +28,7 @@ void windy::loop()
 
 windy::windy()
 {
-    int agentCount = 30;
+    int agentCount = 50;
     float maxForce = 0.3;
     float maxSpeed = 0.6;       
 

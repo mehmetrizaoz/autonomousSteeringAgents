@@ -16,8 +16,7 @@ void wander::loop()
 {
     for(auto it = agents.begin(); it < agents.end(); it++){
        (*it).force = behavior.wander(*it);
-    }
-            
+    } 
     refresh();
 }
 
@@ -25,8 +24,7 @@ wander::wander()
 {
     int agentCount = 30;
     float maxForce = 0.3;
-    float maxSpeed = 0.6;       
-
+    float maxSpeed = 0.6;   
     name = "wandering objects";
     createRandomAgents(agentCount, maxForce, maxSpeed);   
     callback = reinterpret_cast <void(*)()> ( (void *)(&loop) );
