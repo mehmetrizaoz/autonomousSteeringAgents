@@ -23,12 +23,13 @@ void obstacleAvoidance::loop()
 
         pvector avoid = behavior.avoid(obstacles, *it);
         (*it).force = avoid + seek;   
-        (*it).arrive = true;
-        
-        for(auto it = obstacles.begin(); it < obstacles.end(); it++){     
-            (*it).draw(view);
-        }
+        (*it).arrive = true;        
     }            
+
+    for(auto it = obstacles.begin(); it < obstacles.end(); it++){     
+        (*it).draw(view);
+    }
+
     refresh();
 }
 
