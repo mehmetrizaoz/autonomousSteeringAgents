@@ -113,12 +113,12 @@ void graphics::drawPath(path &path)
 {
     point p1, p2;    
     for(auto it = path.points.begin(); it < path.points.end()-1; it++){
-        p1 = point((*it).x, (*it).y - path.width/2) ;
-        p2 = point((*(it+1)).x, (*(it+1)).y - path.width/2);
+        p1 = point((*it).x, (*it).y - path.getPathWidth() / 2) ;
+        p2 = point((*(it+1)).x, (*(it+1)).y - path.getPathWidth() / 2);
         drawLine(p1, p2, path.getColor());
 
-        p1 = point((*it).x, (*it).y + path.width/2) ;
-        p2 = point((*(it+1)).x, (*(it+1)).y + path.width/2);
+        p1 = point((*it).x, (*it).y + path.getPathWidth() / 2) ;
+        p2 = point((*(it+1)).x, (*(it+1)).y + path.getPathWidth() / 2);
         drawLine(p1, p2, path.getColor());        
     }
 }

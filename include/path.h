@@ -40,13 +40,16 @@ public:
    */
    vector<point> points;
 
+   void setPathWidth(int w);
+   int getPathWidth();
+   /**   
+   * @brief overriden draw implementation
+   */
+   void draw(graphics view);
+private:
    /**   
    * @brief width of the path
    */
    int width;
 
-   /**   
-   * @brief overriden draw implementation
-   */
-   void draw(graphics view);
 };

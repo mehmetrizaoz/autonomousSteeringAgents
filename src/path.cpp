@@ -19,6 +19,15 @@ path::path()
    width = 8;
 }
 
+void path::setPathWidth(int w){
+   width = w;
+}
+
+int path::getPathWidth(){
+   return width;
+}
+
+
 path::path(float width)
 {
    this->width = width;
