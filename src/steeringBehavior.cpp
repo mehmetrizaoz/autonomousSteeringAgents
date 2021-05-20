@@ -158,9 +158,8 @@ pvector steeringBehavior::cohesion(vector<agent> boids, agent &agent)
    return pvector(0,0);
 }
 
-pvector steeringBehavior::separation(vector<agent> agents, agent &agent)
+pvector steeringBehavior::separation(vector<agent> agents, agent &agent, float desiredSeparation)
 {
-   float desiredSeparation = 6;
    pvector sum = pvector(0,0);
    int count = 0;
    for(auto it = agents.begin(); it < agents.end(); it++){      

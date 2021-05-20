@@ -23,7 +23,7 @@ void prison::loop()
         view.drawLine(point( WALL, -WALL), point(-WALL, -WALL), BLUE);
         view.drawLine(point(-WALL,  WALL), point(-WALL, -WALL), BLUE);
         (*it).force  = behavior.stayInArea(*it, WALL - DISTANCE);
-        (*it).force += behavior.separation(agents, *it);         
+        (*it).force += behavior.separation(agents, *it, 4);         
     }            
     refresh();
 }

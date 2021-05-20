@@ -71,9 +71,10 @@ public:
    * @brief force to separate 
    * @param agent agent that will be stayed away
    * @param agents list of all the agents
+   * @param desiredSeparation radius for agents that will be considered
    * @return force to be applied
-   */
-   pvector separation(vector<agent> agents, agent &agent);
+   */   
+   pvector separation(vector<agent> agents, agent &agent, float desiredSeparation);
 
    /**   
    * @brief force to cohesion

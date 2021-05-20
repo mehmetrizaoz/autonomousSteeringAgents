@@ -17,7 +17,7 @@ void flock::loop()
     for(auto it = agents.begin(); it < agents.end(); it++){
         view.forceInScreen((*it));
          
-        pvector sep = behavior.separation(agents, *it);
+        pvector sep = behavior.separation(agents, *it, 8);
         sep.mul(1);         
         pvector ali = behavior.align(agents, *it);
         ali.mul(4);    

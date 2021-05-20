@@ -33,7 +33,7 @@ void leaderFollower::loop()
             (*it).targetPoint = leaderPosition + leaderVelocity;            
             view.drawCircle((*it).targetPoint, 8, RED);         
             
-            pvector sep = behavior.separation(agents, *it);
+            pvector sep = behavior.separation(agents, *it, 3);
             sep.mul(15);
             (*it).force = sep;
 

@@ -18,7 +18,7 @@ void pathFollower::loop()
 {
     for(auto it = agents.begin(); it < agents.end(); it++){        
         pvector flwpth = behavior.stayInPath(*it, myPath, view);
-        pvector sep  = behavior.separation(agents, *it);
+        pvector sep  = behavior.separation(agents, *it, 3);
         sep.mul(5);         
         (*it).force = sep + flwpth;
 
