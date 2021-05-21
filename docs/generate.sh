@@ -1,7 +1,7 @@
 #!/bin/sh
 ####################################################
 # generate.sh : generates doxygen outputs
-# Usage       : sh generate.sh &
+# Usage       : generate.sh &
 #
 # Todo List  :
 #

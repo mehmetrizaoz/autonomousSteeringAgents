@@ -50,7 +50,7 @@ void menu(){
 int main(int argc, char** argv) {    
    menu();  
 
-   scenario* sc;
+   scenario *sc;
 
    if(mode == FOLLOW_MOUSE){
       *sc = mouseFollower();      
