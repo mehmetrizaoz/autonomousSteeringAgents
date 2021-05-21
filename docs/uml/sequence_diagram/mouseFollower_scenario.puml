@@ -15,15 +15,15 @@ user -> view:  set mouse position
 loop intinite    
     mF -> view: request mouse position
     view --> mF: gives mouse position
-    mF -> agent: set agent target position
     loop for all agents
-    mF -> steeringBehavior: request seek force for agent
-    steeringBehavior --> mF: gives seek force
-    mF -> agent: set agent force
-    mF -> agent: set arriving behavior
-    agent -> agent: calculate next position
-    mF -> view: draw agent
+        mF -> agent: set agent target position
+        mF -> steeringBehavior: request seek force for agent
+        steeringBehavior --> mF: gives seek force
+        mF -> agent: set agent force
+        mF -> agent: set arriving behavior
+        agent -> agent: calculate next position    
     end
+    mF -> view: draw agents
     mF -> view: draw title
     mF -> view: refresh
 end
