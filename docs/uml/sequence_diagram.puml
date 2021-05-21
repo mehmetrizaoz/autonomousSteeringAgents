@@ -1,0 +1,26 @@
+@startuml
+actor actor as user
+participant graphics as view
+participant agent as agent
+participant behavior as steeringBehavior
+participant mouseFollower as mF
+
+user -> mF: user defines scenario
+user -> view:  set mouse position
+note left: anytime
+loop intinite    
+    mF -> view: request mouse position
+    view --> mF: gives mouse position
+    mF -> agent: set agent target position
+    loop for all agents
+    mF -> steeringBehavior: request seek force for agent
+    steeringBehavior --> mF: gives seek force
+    mF -> agent: set agent force
+    mF -> agent: set arriving behavior
+    agent -> agent: calculate next position
+    mF -> view: draw agent
+    end
+    mF -> view: draw title
+    mF -> view: refresh
+end
+@enduml
