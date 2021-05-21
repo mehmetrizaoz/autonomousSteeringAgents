@@ -88,7 +88,7 @@ void scenario::createTroop(int count)
    
     for(int i=0; i < count; i++){
         tempAgent.id = i;
-        tempAgent.velocity = pvector(0, 0);
+        tempAgent.getVelocity() = pvector(0, 0);
         tempAgent.position.x = location.x;
         tempAgent.position.y = location.y;
         tempAgent.targetPoint = tempAgent.position;                 

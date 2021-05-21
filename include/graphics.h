@@ -31,7 +31,7 @@ public:
    * @brief drawing line
    * @param p1 start point of the line
    * @param p2 end point of the line
-   * @param color of the line
+   * @param cl color of the line
    */
    void drawLine(point p1, point p2, color cl);   
 

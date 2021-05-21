@@ -64,9 +64,26 @@ public:
    * @brief openGL screen refresh callback function, used as main loop in derived classes
    */
    void (*callback)(); 
-   
+
+   /**
+   * @brief random agent creation
+   * @param agentCount number of agents
+   * @param mForce maxForce 
+   * @param mSpeed maxSpeed
+   */
    void createRandomAgents(int agentCount, float mForce, float mSpeed);      
+
+   /**
+   * @brief static agent creation
+   * @param s1 name of the first agent
+   * @param s2 name of the second agent
+   */
    void createStaticAgents(string s1, string s2);
+
+   /**
+   * @brief troop creation
+   * @param number of agents in the troop
+   */
    void createTroop(int agentCount);
 };
 

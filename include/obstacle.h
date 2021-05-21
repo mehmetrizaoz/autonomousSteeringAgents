@@ -28,10 +28,24 @@ public:
    */
    obstacle(point p, float r);
 
-
+   /**   
+   * @brief getter of the center point attibute
+   */
    point getCenter();
+
+   /**   
+   * @brief setter of the center point attibute
+   */
    void setCenter(point p);
+
+   /**   
+   * @brief getter of the radius attibute
+   */
    float getRadius();
+
+   /**   
+   * @brief setter of the radius attibute
+   */
    void setRadius(float r);
 
    /**   
@@ -40,14 +54,7 @@ public:
    void draw(graphics view) override;
    
 private:
-   /**   
-   * @brief center point of the obstacle
-   */
    point p;
-
-   /**   
-   * @brief radius of the obstacle
-   */
    float r;
 
 

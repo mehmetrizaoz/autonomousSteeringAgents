@@ -21,7 +21,7 @@ void leaderFollower::loop()
         if((*it).getName() == "leader"){
             (*it).targetPoint = view.getMousePosition();
             (*it).force  = behavior.seek(*it);  
-            leaderVelocity = (*it).velocity;  
+            leaderVelocity = (*it).getVelocity();  
             leaderVelocity.mul(-1);
             leaderVelocity.normalize().mul(20);
             leaderPosition = (*it).position;
@@ -47,7 +47,7 @@ void leaderFollower::loop()
 
             pvector diff = (*it).position - (*it).targetPoint;
             if(diff.magnitude() > 5) { (*it).force   += behavior.seek(*it); }
-            else                     { (*it).velocity = pvector(0,0);       }
+            else                     { (*it).setVelocity(pvector(0,0));       }
         }    
         (*it).arrive = true;    
     }            

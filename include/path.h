@@ -40,16 +40,21 @@ public:
    */
    vector<point> points;
 
+   /**   
+   * @brief setter of the path width
+   */
    void setPathWidth(int w);
+
+   /**   
+   * @brief getter of the path width
+   */
    int getPathWidth();
+   
    /**   
    * @brief overriden draw implementation
    */
    void draw(graphics view);
 private:
-   /**   
-   * @brief width of the path
-   */
    int width;
 
 };

@@ -160,7 +160,7 @@ void graphics::drawAgent(agent &agent)
 {
     glPushMatrix();
     glTranslatef(agent.position.x, agent.position.y, 0.0f);  
-    glRotatef(agent.velocity.getAngle(), 0.0f, 0.0f, 1.0f);
+    glRotatef(agent.getVelocity().getAngle(), 0.0f, 0.0f, 1.0f);
     glBegin(GL_TRIANGLES);          
     glColor3f( agent.getColor().R, agent.getColor().G, agent.getColor().B);  
     glVertex3f( 1.0f,  0.0f, 0.0f);

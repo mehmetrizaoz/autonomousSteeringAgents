@@ -42,7 +42,6 @@ public:
   /**
   * @brief position update calculations
   * @param arrive has arriving behavior or not
-  * @see agent()
   */    
   void updatePosition(bool arrive);
 
@@ -84,14 +83,15 @@ public:
   void draw(graphics view) override;
 
   /**
-  * @brief position of the agent
+  * @brief velocity attribute getter
   */
-  point position;
+  pvector getVelocity();
 
   /**
-  * @brief velocity of the agent
+  * @brief velocity attribute setter
+  * @param v set value
   */
-  pvector velocity;  
+  void setVelocity(pvector v);
 
   /**
   * @brief target of the agent
@@ -104,6 +104,11 @@ public:
   float maxSpeed; 
 
   /**
+  * @brief position of the agent
+  */
+  point position;
+
+  /**
   * @brief maximum force of the agent
   */
   float maxForce;
@@ -114,7 +119,7 @@ public:
   pvector steering;
 
   /**
-  * @brief force of the agent
+  * @brief force to apply to the agent
   */
   pvector force;
 
@@ -129,7 +134,7 @@ public:
   pvector desiredVelocity;  
 
   /**
-  * @brief radius of the agent
+  * @brief radius for arrive behavior
   */
   float r;
   
@@ -144,15 +149,8 @@ public:
   bool arrive = false;
 
 private:
-  /**
-  * @brief name of the agent
-  */
   string name;
-
- /**
-  * @brief mass of the agent
-  */
   float mass;
-
+  pvector velocity;
 };
 

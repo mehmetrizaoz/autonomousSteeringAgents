@@ -46,6 +46,15 @@ agent::agent(float x, float  y)
     setColor(RED);
 }
 
+pvector agent::getVelocity(){
+    return velocity;
+}
+
+void agent::setVelocity(pvector v){
+    velocity = v;
+}
+
+
 void agent::updatePosition(bool arrive)
 {
     force.limit(maxForce);

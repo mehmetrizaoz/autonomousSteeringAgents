@@ -86,7 +86,6 @@ class scenario {
   {static}agents : agent
   {static}view : graphics
   {static}behavior : steeringBehavior
-  {static}myColor : color
   {static}name : string
   +callback : void(*)()
   {static}refresh()
@@ -112,11 +111,14 @@ class agent{
   +~agent()
   +updatePosition()
   +setFeatures()
+  +getName() : string
+  +setName()
+  +getMass() : float
+  +setMass()
+  +getVelocity() : pvector
+  +setVelocity()  
   +draw()
-  +name : string
-  +fillColor : color
   +position : point
-  +velocity : pvector
   +targetPoint : point
   +maxSpeed : float
   +maxForce : float
@@ -124,22 +126,24 @@ class agent{
   +force : pvector
   +acceleration : pvector
   +desiredVelocity : pvector
-  +mass : float
   +id : int
   +arrive : bool
+  -mass : float
+  -name : string
+  -velocity : pvector
 }
 
 class pvector{
   +pvector()
   +magnitude() : float
-  +normalize() : pvector
+  +normalize() : pvector &
   +div()
   +mul()
   +add()
   +limit()
   +getAngle() : float
   +dotProduct() : float
-  +angleBetween()
+  +angleBetween() : float
   +print()
   +x : float
   +y : float
@@ -157,8 +161,14 @@ class flowField{
 class obstacle{
   +p : point
   +r : float 
+  +getCenter() : point
+  +setCenter()
+  +getRadius() : float
+  +setRadius()
   +obstacle()  
   +draw()
+  -p : point
+  -r : float
 }
 
 class point{
@@ -178,7 +188,7 @@ class color{
   +B : float
   +color()  
   +void createColors()
-  +getColor() : color
+  {static}getColor() : color
 }
 
 class graphics{
@@ -208,12 +218,11 @@ obstacle o-- point : has >
 flowField "1" o-- pvector : has many >
 agent "1" o-- pvector : has many >
 agent "1" o-- point : has >
-agent o-- color : has >
+entity o-- color : has >
 path "1" o-- point : is composed of many >
 scenario "1" o-- agent : has many >
 scenario o-- graphics : uses >
 scenario o-- steeringBehavior : uses  >
-scenario o-- color : uses >
 scenario <|-- evade : is a <
 scenario <|-- leaderFollower : is a <
 scenario <|-- flee : is a <
@@ -224,7 +233,7 @@ scenario <|-- pathFollower : is a <
 scenario <|-- wander : is a <
 scenario <|-- windy : is a <
 obstacleAvoidance "1" o-- obstacle : has many >
-pathFollower o-- path : uses >
+pathFollower o-- path : has >
 windy "1" o-- flowField : has many >
 scenario - random : uses >
 @enduml

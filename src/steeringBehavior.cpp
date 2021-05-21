@@ -40,7 +40,7 @@ pvector steeringBehavior::flee(agent &agent, graphics &view, point p)
       agent.arrive = true;
       agent.desiredVelocity = agent.targetPoint - agent.position;
    }   
-   agent.steering = agent.desiredVelocity - agent.velocity;
+   agent.steering = agent.desiredVelocity - agent.getVelocity();
    return agent.steering;
 }
 
@@ -58,7 +58,7 @@ pvector steeringBehavior::evade(vector<agent> boids, agent &evader, graphics vie
    p = point(target.position.x + 2, target.position.y - 2);
    view.drawText(target.getName(), p);
    
-   pvector targetVel = target.velocity;
+   pvector targetVel = target.getVelocity();
    targetVel.mul(5);//TODO: magic number
 
    point futurePos = target.position + targetVel;
@@ -89,7 +89,7 @@ pvector steeringBehavior::pursuit(vector<agent> boids, agent &pursuer, graphics 
    float dist = (target.position - pursuer.position).magnitude();
    float t = dist / target.maxSpeed;
 
-   pvector targetVel = target.velocity;
+   pvector targetVel = target.getVelocity();
    targetVel.mul(t);
    point futurePos = target.position + targetVel;
    pursuer.targetPoint = futurePos;      
@@ -98,7 +98,7 @@ pvector steeringBehavior::pursuit(vector<agent> boids, agent &pursuer, graphics 
 
 pvector steeringBehavior::wander(agent &agent)
 {
-   pvector circleCenter = agent.velocity;
+   pvector circleCenter = agent.getVelocity();
    circleCenter.normalize().mul(CIRCLE_DISTANCE + CIRCLE_RADIUS);
       
    int wanderAngle = (rand() % 360);
@@ -107,7 +107,7 @@ pvector steeringBehavior::wander(agent &agent)
    displacement.mul(CIRCLE_RADIUS);
    
    agent.desiredVelocity = displacement + circleCenter;
-   agent.steering = agent.desiredVelocity - agent.velocity;
+   agent.steering = agent.desiredVelocity - agent.getVelocity();
    
    //move it to the center when it is out of screen
    if(agent.position.x > WIDTH || agent.position.x < -WIDTH ||
@@ -124,14 +124,14 @@ pvector steeringBehavior::align(vector<agent> boids, agent &agent, float radius)
    for(auto it = boids.begin(); it < boids.end(); it++){
       float d = (agent.position - (*it).position).magnitude();
       if( (d >0) && (d < radius) ){
-         sum += (*it).velocity;
+         sum += (*it).getVelocity();
          count++;
       }
    }
    if(count>0){
       sum.div(count);
       sum.normalize().mul(agent.maxSpeed);
-      agent.steering = sum - agent.velocity;
+      agent.steering = sum - agent.getVelocity();
       return agent.steering;
    }
    return pvector(0,0);
@@ -172,7 +172,7 @@ pvector steeringBehavior::separation(vector<agent> agents, agent &agent, float r
    if(count > 0){
       sum.div(count);      
       sum.normalize().mul(agent.maxSpeed);
-      agent.steering = sum - agent.velocity;
+      agent.steering = sum - agent.getVelocity();
       return agent.steering;
    }
    return pvector(0,0);
@@ -180,8 +180,8 @@ pvector steeringBehavior::separation(vector<agent> agents, agent &agent, float r
 
 pvector steeringBehavior::avoid(vector<obstacle> obstacles, agent &agent)
 {
-   float dynamic_length = agent.velocity.magnitude() / agent.maxSpeed;
-   pvector vel = agent.velocity;
+   float dynamic_length = agent.getVelocity().magnitude() / agent.maxSpeed;
+   pvector vel = agent.getVelocity();
    vel.normalize().mul(dynamic_length);
    pvector ahead  = vel + agent.position;
    vel.mul(6);
@@ -206,7 +206,7 @@ pvector steeringBehavior::avoid(vector<obstacle> obstacles, agent &agent)
 pvector steeringBehavior::seek(agent &agent)
 {
    agent.desiredVelocity = agent.targetPoint - agent.position;
-   agent.steering = agent.desiredVelocity - agent.velocity;
+   agent.steering = agent.desiredVelocity - agent.getVelocity();
    return agent.steering;
 }
 
@@ -218,7 +218,7 @@ pvector steeringBehavior::stayInPath(agent &agent, path &path, graphics view)
    for(auto it = path.points.begin(); it < path.points.end()-1; it++){
       start = point((*it).x, (*it).y);
       end   = point((*(it+1)).x, (*(it+1)).y);
-      predictedPos = agent.position + agent.velocity;
+      predictedPos = agent.position + agent.getVelocity();
       normalPoint.getNormalPoint(predictedPos, start, end);
       if (normalPoint.x < start.x || normalPoint.x > end.x){
          normalPoint = end;
@@ -245,23 +245,23 @@ pvector steeringBehavior::inFlowField(agent &agent, flowField &flow)
 pvector steeringBehavior::stayInArea(agent &agent, int turnPoint)
 {
    if(agent.position.x >= turnPoint){
-      agent.desiredVelocity = pvector( -agent.maxSpeed, agent.velocity.y );
-      agent.steering = agent.desiredVelocity - agent.velocity;
+      agent.desiredVelocity = pvector( -agent.maxSpeed, agent.getVelocity().y );
+      agent.steering = agent.desiredVelocity - agent.getVelocity();
       return agent.steering;
    }
    else if(agent.position.x <= -turnPoint){
-      agent.desiredVelocity = pvector( agent.maxSpeed, agent.velocity.y );
-      agent.steering = agent.desiredVelocity - agent.velocity;
+      agent.desiredVelocity = pvector( agent.maxSpeed, agent.getVelocity().y );
+      agent.steering = agent.desiredVelocity - agent.getVelocity();
       return agent.steering;
    }
    else if(agent.position.y >= turnPoint){
-      agent.desiredVelocity = pvector( agent.velocity.x, -agent.maxSpeed );
-      agent.steering = agent.desiredVelocity - agent.velocity;
+      agent.desiredVelocity = pvector( agent.getVelocity().x, -agent.maxSpeed );
+      agent.steering = agent.desiredVelocity - agent.getVelocity();
       return agent.steering;
    }
    else if(agent.position.y <= -turnPoint){
-      agent.desiredVelocity = pvector( agent.velocity.x, agent.maxSpeed );
-      agent.steering = agent.desiredVelocity - agent.velocity;
+      agent.desiredVelocity = pvector( agent.getVelocity().x, agent.maxSpeed );
+      agent.steering = agent.desiredVelocity - agent.getVelocity();
       return agent.steering;
    }
    return pvector(0,0);

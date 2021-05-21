@@ -71,7 +71,7 @@ public:
    * @brief force to separate 
    * @param agent agent that will be stayed away
    * @param agents list of all the agents
-   * @param radius for agents that will be considered
+   * @param radius range for agents that will be aligned
    * @return force to be applied
    */   
    pvector separation(vector<agent> agents, agent &agent, float radius);
@@ -80,6 +80,7 @@ public:
    * @brief force to cohesion
    * @param agent to go to center of other agents, with specified distance
    * @param boids list of all the agents
+   * @param radius range for agents that will be aligned
    * @return force to be applied
    */
    pvector cohesion(vector<agent> boids, agent &agent, float radius);
@@ -88,6 +89,7 @@ public:
    * @brief force to align
    * @param agent to be aligned
    * @param boids list of all the agents
+   * @param radius range for agents that will be aligned
    * @return force to be applied
    */
    pvector align(vector<agent> boids, agent &agent, float radius);   
