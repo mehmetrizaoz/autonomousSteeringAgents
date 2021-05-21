@@ -16,7 +16,7 @@ void pursuit::loop()
 {
     for(auto it = agents.begin(); it < agents.end(); it++){
         if((*it).getName() == "gazelle"){
-            (*it).targetPoint = view.getMousePosition();
+            (*it).setTarget(view.getMousePosition());
             (*it).force  = behavior.seek(*it);            
         }
         else{//lion

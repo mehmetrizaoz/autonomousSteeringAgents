@@ -94,9 +94,15 @@ public:
   void setVelocity(pvector v);
 
   /**
-  * @brief target of the agent
+  * @brief target attribute getter
   */
-  point targetPoint;
+  point getTarget();
+
+  /**
+  * @brief target attribute setter
+  * @param t set value
+  */
+  void setTarget(point t);
 
   /**
   * @brief maximum speed of the agent
@@ -152,5 +158,6 @@ private:
   string name;
   float mass;
   pvector velocity;
+  point targetPoint;
 };
 

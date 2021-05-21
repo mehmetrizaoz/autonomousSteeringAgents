@@ -29,7 +29,7 @@ pvector steeringBehavior::flee(agent &agent, graphics &view, point p)
 {
    int radius = 15;
 
-   pvector dist = agent.targetPoint - p;
+   pvector dist = agent.getTarget() - p;
    //view.drawPoint(agent.targetPoint);
    
    if(dist.magnitude() < radius){
@@ -38,7 +38,7 @@ pvector steeringBehavior::flee(agent &agent, graphics &view, point p)
    }
    else{
       agent.arrive = true;
-      agent.desiredVelocity = agent.targetPoint - agent.position;
+      agent.desiredVelocity = agent.getTarget() - agent.position;
    }   
    agent.steering = agent.desiredVelocity - agent.getVelocity();
    return agent.steering;
@@ -67,7 +67,7 @@ pvector steeringBehavior::evade(vector<agent> boids, agent &evader, graphics vie
    pvector dist = evader.position - futurePos;
    dist.normalize().mul( 1 / dist.magnitude() );
    
-   evader.targetPoint = evader.position + dist;      
+   evader.setTarget(evader.position + dist);
    return flee(evader, view, futurePos);
 }
 
@@ -92,7 +92,7 @@ pvector steeringBehavior::pursuit(vector<agent> boids, agent &pursuer, graphics 
    pvector targetVel = target.getVelocity();
    targetVel.mul(t);
    point futurePos = target.position + targetVel;
-   pursuer.targetPoint = futurePos;      
+   pursuer.setTarget(futurePos);
    return seek(pursuer);
 }
 
@@ -150,7 +150,7 @@ pvector steeringBehavior::cohesion(vector<agent> boids, agent &agent, float radi
    }
    if(count>0){
       sum.div(count);
-      agent.targetPoint = sum;
+      agent.setTarget(sum);
       return seek(agent);
    }
    return pvector(0,0);
@@ -205,7 +205,7 @@ pvector steeringBehavior::avoid(vector<obstacle> obstacles, agent &agent)
 
 pvector steeringBehavior::seek(agent &agent)
 {
-   agent.desiredVelocity = agent.targetPoint - agent.position;
+   agent.desiredVelocity = agent.getTarget() - agent.position;
    agent.steering = agent.desiredVelocity - agent.getVelocity();
    return agent.steering;
 }
@@ -226,9 +226,9 @@ pvector steeringBehavior::stayInPath(agent &agent, path &path, graphics view)
       distance = predictedPos - normalPoint;
       if (distance.magnitude() < worldRecord){
          worldRecord = distance.magnitude();
-         agent.targetPoint = end;
+         agent.setTarget(end);
       }
-      view.drawPoint(agent.targetPoint);
+      view.drawPoint(agent.getTarget());
    }
    return seek(agent);
 }

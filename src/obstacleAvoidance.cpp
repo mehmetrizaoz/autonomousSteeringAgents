@@ -17,7 +17,7 @@ vector<obstacle> obstacleAvoidance::obstacles;
 void obstacleAvoidance::loop()
 {
     for(auto it = agents.begin(); it < agents.end(); it++){
-        (*it).targetPoint = view.getMousePosition();
+        (*it).setTarget(view.getMousePosition());
         pvector seek  = behavior.seek(*it);
         seek.mul(0.5);
 

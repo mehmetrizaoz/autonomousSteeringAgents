@@ -19,7 +19,7 @@ void leaderFollower::loop()
 {
     for(auto it = agents.begin(); it < agents.end(); it++){
         if((*it).getName() == "leader"){
-            (*it).targetPoint = view.getMousePosition();
+            (*it).setTarget(view.getMousePosition());
             (*it).force  = behavior.seek(*it);  
             leaderVelocity = (*it).getVelocity();  
             leaderVelocity.mul(-1);
@@ -30,8 +30,8 @@ void leaderFollower::loop()
 
         }
         else{            
-            (*it).targetPoint = leaderPosition + leaderVelocity;            
-            view.drawCircle((*it).targetPoint, 8, RED);         
+            (*it).setTarget(leaderPosition + leaderVelocity);
+            view.drawCircle((*it).getTarget(), 8, RED);         
             
             pvector sep = behavior.separation(agents, *it, 3);
             sep.mul(15);
@@ -45,7 +45,7 @@ void leaderFollower::loop()
                 (*it).force += fle;
             }*/
 
-            pvector diff = (*it).position - (*it).targetPoint;
+            pvector diff = (*it).position - (*it).getTarget();
             if(diff.magnitude() > 5) { (*it).force   += behavior.seek(*it); }
             else                     { (*it).setVelocity(pvector(0,0));       }
         }    

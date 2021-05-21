@@ -76,7 +76,7 @@ class steeringBehavior{
   +evade() : pvector
   +flee() : pvector
   +avoid() : pvector
-  +setAngle()
+  -setAngle()
 }
 
 class scenario {
@@ -117,9 +117,10 @@ class agent{
   +setMass()
   +getVelocity() : pvector
   +setVelocity()  
+  +getTarget() : point
+  +setTarget()  
   +draw()
-  +position : point
-  +targetPoint : point
+  +position : point  
   +maxSpeed : float
   +maxForce : float
   +steering : pvector
@@ -128,6 +129,7 @@ class agent{
   +desiredVelocity : pvector
   +id : int
   +arrive : bool
+  -targetPoint : point
   -mass : float
   -name : string
   -velocity : pvector

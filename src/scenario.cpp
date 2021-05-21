@@ -88,10 +88,10 @@ void scenario::createTroop(int count)
    
     for(int i=0; i < count; i++){
         tempAgent.id = i;
-        tempAgent.getVelocity() = pvector(0, 0);
+        tempAgent.setVelocity(pvector(0, 0));
         tempAgent.position.x = location.x;
         tempAgent.position.y = location.y;
-        tempAgent.targetPoint = tempAgent.position;                 
+        tempAgent.setTarget(tempAgent.position);
 
         if( ((i+1) % row) == 0){
            location.y -= blanks;

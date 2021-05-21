@@ -137,7 +137,7 @@ public:
    * @return force to be applied
    */
    pvector avoid(vector<obstacle> obstacles, agent &agent);
-
+private:
    /**
    * @brief applies angle on vector
    * @param angle that will be set

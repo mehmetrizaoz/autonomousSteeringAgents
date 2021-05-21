@@ -54,6 +54,14 @@ void agent::setVelocity(pvector v){
     velocity = v;
 }
 
+point agent::getTarget(){
+    return targetPoint;
+}
+
+void agent::setTarget(point t){
+    targetPoint = t;
+}
+
 
 void agent::updatePosition(bool arrive)
 {
