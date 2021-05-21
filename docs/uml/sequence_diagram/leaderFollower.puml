@@ -13,28 +13,27 @@ activate steeringBehavior
 note left: anytime
 user -> view:  set mouse position
 loop intinite    
-    lF -> view: request mouse position    
-    view --> lF: gives mouse position        
-    
-    alt if agent is leader
-        lF -> agent: set agent target position
-        lF -> steeringBehavior: request seek force for agent        
-        steeringBehavior --> lF: gives seek force
-        lF -> agent: set agent force
-        agent -> agent: calculates next position
-        lF -> view: draw leaders name
-    else follower agents
-        loop for all agents 
-        lF -> agent: set target point
-        lF ->steeringBehavior: request separation force
-        steeringBehavior --> lF: gives separation force
-        lF ->steeringBehavior: request seek force
-        steeringBehavior --> lF: gives seek force
-        agent -> agent: calculate next position
-        lF -> agent: set arrive behavior
-        agent -> agent: calculate next position
+    loop for all agents    
+        alt if agent is leader
+            lF -> view: request mouse position    
+            view --> lF: gives mouse position        
+            lF -> agent: set agent target position
+            lF -> steeringBehavior: request seek force for target pos.
+            steeringBehavior --> lF: gives seek force
+            lF -> agent: set seek force            
+            lF -> view: draw leaders name
+        else follower agents        
+            lF -> agent: set target point 
+            lF ->steeringBehavior: request seek force
+            steeringBehavior --> lF: gives seek force
+            lF ->agent: set seek force    
+            lF ->steeringBehavior: request separation force
+            steeringBehavior --> lF: gives separation force
+            lF ->agent: add separation force            
         end
     end
+    lF -> agent:set arrive bevahior
+    agent -> agent: calculates next position
     lF -> view: draw agents
     lF -> view: draw title
     lF -> view: refresh

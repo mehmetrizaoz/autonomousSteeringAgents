@@ -20,9 +20,9 @@ loop intinite
         mF -> steeringBehavior: request seek force for agent
         steeringBehavior --> mF: gives seek force
         mF -> agent: set agent force
-        mF -> agent: set arriving behavior
-        agent -> agent: calculate next position    
     end
+    mF -> agent: set arriving behavior
+    agent -> agent: calculate next position    
     mF -> view: draw agents
     mF -> view: draw title
     mF -> view: refresh
