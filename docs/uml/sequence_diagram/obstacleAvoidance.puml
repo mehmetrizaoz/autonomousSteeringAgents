@@ -1,0 +1,43 @@
+@startuml
+actor actor as user
+participant graphics as view
+participant obstacle as obst
+participant agent as agent
+participant behavior as steeringBehavior
+participant obstacleAvoidance as oA
+
+user -> oA: user defines scenario
+activate oA
+activate view
+activate agent
+activate steeringBehavior
+note left: anytime
+user -> view:  set mouse position
+loop triggered with 20ms periodic event   
+    loop for all agents
+        oA -> view: request mouse position
+        view --> oA: gives mouse position
+        oA -> agent: set agent target position
+        oA -> steeringBehavior: request seek force for agent
+        steeringBehavior --> oA: gives seek force
+        oA -> steeringBehavior: request avoid force for agent
+        steeringBehavior --> oA: gives avoid force
+        oA -> agent: set agent force
+        oA -> agent: set arriving behavior
+    end    
+
+    loop for all obstacles
+        oA -> view: draw obstacle
+    end
+
+    agent -> agent: calculate next position    
+    oA -> view: draw agents
+    oA -> view: draw title
+    oA -> view: refresh
+end
+user -> view: stop program
+deactivate oA
+deactivate view
+deactivate agent
+deactivate steeringBehavior
+@enduml

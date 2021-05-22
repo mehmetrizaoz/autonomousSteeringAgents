@@ -1,0 +1,31 @@
+@startuml
+actor actor as user
+participant graphics as view
+participant agent as agent
+participant behavior as steeringBehavior
+participant wander as wd
+
+user -> wd: user defines scenario
+activate wd
+activate view
+activate agent
+activate steeringBehavior
+note left: anytime
+user -> view:  set mouse position
+loop triggered with 20ms periodic event
+    loop for all agents
+        steeringBehavior --> wd: gives wander force
+        wd -> agent: set agent force
+    end
+    wd -> agent: set arriving behavior
+    agent -> agent: calculate next position    
+    wd -> view: draw agents
+    wd -> view: draw title
+    wd -> view: refresh
+end
+user -> view: stop program
+deactivate wd
+deactivate view
+deactivate agent
+deactivate steeringBehavior
+@enduml

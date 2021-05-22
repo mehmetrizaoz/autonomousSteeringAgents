@@ -12,16 +12,16 @@ activate agent
 activate steeringBehavior
 note left: anytime
 user -> view:  set mouse position
-loop (triggered with 20ms periodic event)
-    mF -> view: request mouse position
-    view --> mF: gives mouse position
+loop triggered with 20ms periodic event
     loop for all agents
+        mF -> view: request mouse position
+        view --> mF: gives mouse position
         mF -> agent: set agent target position
         mF -> steeringBehavior: request seek force for agent
         steeringBehavior --> mF: gives seek force
         mF -> agent: set agent force
-    end
-    mF -> agent: set arriving behavior
+        mF -> agent: set arriving behavior
+    end    
     agent -> agent: calculate next position    
     mF -> view: draw agents
     mF -> view: draw title
