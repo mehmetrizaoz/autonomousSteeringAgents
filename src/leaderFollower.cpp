@@ -15,13 +15,14 @@ using namespace std;
 pvector leaderFollower::leaderVelocity;
 point leaderFollower::leaderPosition;
 float leaderFollower::leaderAngle;
+point sss;
 
 void leaderFollower::loop()
 {
     int k=1;
     int j=0;
     int t=3;
-    point p1 = point(15,0);// leaderPosition + leaderVelocity;
+    point p1 = point(15,0);//leaderPosition + leaderVelocity;
 
     //point ppp = point(1,0);
     //ppp.rotate(45);
@@ -30,9 +31,7 @@ void leaderFollower::loop()
     /*pvector kss = pvector(5,0);
     float dd = kss.getAngle();
     cout << "dd" << dd << endl;*/
-
-
-    cout << "sss" << endl;
+    //cout << "sss" << endl;
     for(auto it = agents.begin(); it < agents.end(); it++){      
         if((*it).getName() == "leader"){
             (*it).setTarget(view.getMousePosition());
@@ -40,12 +39,10 @@ void leaderFollower::loop()
             leaderVelocity = (*it).getVelocity();
             leaderVelocity.mul(-1);
             leaderVelocity.normalize().mul(10);
-            leaderPosition = (*it).position;
-            
+            leaderPosition = (*it).position;            
             leaderAngle = leaderVelocity.getAngle();
-            //cout << leaderAngle << endl;
-            //cout << "leader: " << leaderVelocity.getAngle() << endl;
-            
+
+            sss = leaderPosition + leaderVelocity;
             view.drawText((*it).getName(), point(leaderPosition.x -3, leaderPosition.y - 3));
         }
         else{
@@ -62,15 +59,10 @@ void leaderFollower::loop()
             }
             view.drawLine(point(0,-30), point(0,30), GREEN);
             view.drawLine(point(-30,0), point(30,0), GREEN);
-            //p.print("d );
-            //cout << "j" << j << endl;
-            //view.drawPoint(leaderPosition + leaderVelocity);
-            //(*it).setTarget(leaderPosition + leaderVelocity);
-            //p.rotate(leaderAngle);
-            
+           
             (*it).targetPoint = p1;
             view.drawPoint((*it).targetPoint, RED);
-            
+            //(*it).force += behavior.seek(*it);
             //p1.print("");
             p1.y = p1.y - 2 * t; 
             j++;
@@ -80,20 +72,22 @@ void leaderFollower::loop()
 
     for(auto it = agents.begin(); it < agents.end(); it++){
         if((*it).getName() == "leader"){}
+        //else if((*it).targetPoint.x == 15 && (*it).targetPoint.y == 0){}
         else{
-            (*it).targetPoint.rotate(90);
+            cout << "111" << endl;
+            (*it).targetPoint.rotate(45);
             view.drawPoint((*it).targetPoint, BLUE);
 
-            (*it).force += behavior.seek(*it);
+            //(*it).force += behavior.seek(*it);
         }
     }
-
+    cout << "222---" << endl;
     refresh();
 }
 
 leaderFollower::leaderFollower()
 {
-    int agentCount = 6;
+    int agentCount = 3;
     float maxForce = 0.4;
     float maxSpeed = 0.4;       
     name = "leader following";
