@@ -21,6 +21,8 @@ loop triggered with 20ms periodic event
         oA -> steeringBehavior: request seek force for agent
         steeringBehavior --> oA: gives seek force
         oA -> steeringBehavior: request avoid force for agent
+        steeringBehavior -> obst: request obstacles info
+        obst -> steeringBehavior: gives obstacles info
         steeringBehavior --> oA: gives avoid force
         oA -> agent: set agent force
         oA -> agent: set arriving behavior
