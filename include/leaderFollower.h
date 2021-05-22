@@ -22,7 +22,9 @@ public:
    * @brief leader position
    */
    static point leaderPosition;
-
+   
+   static float leaderAngle;
+   
    /**
    * @brief default constructor.
    */

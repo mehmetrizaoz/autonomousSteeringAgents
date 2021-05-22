@@ -82,6 +82,9 @@ public:
    */  
    bool operator == (point const &obj);
 
+
+   void rotate(float angle);
+
    /**
    * @brief x position
    */  

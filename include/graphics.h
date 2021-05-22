@@ -45,7 +45,7 @@ public:
    * @brief draws point
    * @param p point to draw
    */
-   void drawPoint(point p);
+   void drawPoint(point p, color cl);
 
    /**   
    * @brief draws circle
@@ -81,7 +81,7 @@ public:
 
    /**
    * @brief initialization of graphics
-   * @param argv user parameters
+   * @param argv user parametersdrawc
    * @param argc count of user parameters
    * @param callback loop function for openGL periodic callback
    */

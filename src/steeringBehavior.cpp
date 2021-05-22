@@ -228,7 +228,7 @@ pvector steeringBehavior::stayInPath(agent &agent, path &path, graphics view)
          worldRecord = distance.magnitude();
          agent.setTarget(end);
       }
-      view.drawPoint(agent.getTarget());
+      view.drawPoint(agent.getTarget(), RED);
    }
    return seek(agent);
 }

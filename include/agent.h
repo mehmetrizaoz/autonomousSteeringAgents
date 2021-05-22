@@ -153,11 +153,11 @@ public:
   * @brief has arriving behavior or not
   */
   bool arrive = false;
+  point targetPoint;
 
 private:
   string name;
   float mass;
   pvector velocity;
-  point targetPoint;
 };
 

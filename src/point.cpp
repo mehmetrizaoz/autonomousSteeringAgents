@@ -9,6 +9,7 @@
 #include "pvector.h"
 #include <string>
 #include <iostream>
+#include "math.h"
 
 using namespace std;
 
@@ -22,6 +23,14 @@ point::point()
 {
    x = 0;
    y = 0;
+}
+
+void point::rotate(float angle){
+   float currentAngle;
+   currentAngle = atan2 (this->y, this->x) * 180 / PI;
+   float r = sqrt(this->x * this->x + this->y * this->y);   
+   this->x = r * cos((currentAngle + angle) * PI / 180);
+   this->y = r * sin((currentAngle + angle) * PI / 180);
 }
 
 point point::operator + (pvector const &obj)

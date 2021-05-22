@@ -14,15 +14,26 @@ using namespace std;
 
 pvector leaderFollower::leaderVelocity;
 point leaderFollower::leaderPosition;
+float leaderFollower::leaderAngle;
 
 void leaderFollower::loop()
 {
     int k=1;
     int j=0;
     int t=3;
-    point p = leaderPosition + leaderVelocity;
-    //cout << "sss" << endl;
-    for(auto it = agents.begin(); it < agents.end(); it++){        
+    point p1 = point(15,0);// leaderPosition + leaderVelocity;
+
+    //point ppp = point(1,0);
+    //ppp.rotate(45);
+    //ppp.print("ee");
+    
+    /*pvector kss = pvector(5,0);
+    float dd = kss.getAngle();
+    cout << "dd" << dd << endl;*/
+
+
+    cout << "sss" << endl;
+    for(auto it = agents.begin(); it < agents.end(); it++){      
         if((*it).getName() == "leader"){
             (*it).setTarget(view.getMousePosition());
             (*it).force  = behavior.seek(*it);
@@ -30,6 +41,10 @@ void leaderFollower::loop()
             leaderVelocity.mul(-1);
             leaderVelocity.normalize().mul(10);
             leaderPosition = (*it).position;
+            
+            leaderAngle = leaderVelocity.getAngle();
+            //cout << leaderAngle << endl;
+            //cout << "leader: " << leaderVelocity.getAngle() << endl;
             
             view.drawText((*it).getName(), point(leaderPosition.x -3, leaderPosition.y - 3));
         }
@@ -39,32 +54,46 @@ void leaderFollower::loop()
             (*it).force = sep;
 
             if(j==k){
-                //cout << j << endl;
                 k++;                
-                point pp = leaderPosition + leaderVelocity;
-                p.y = pp.y + t*(k-1);
-                p.x = p.x - t;
-                //cout << "-" << endl;
+                point pp = point(15,0);//leaderPosition + leaderVelocity;
+                p1.y = pp.y + t*(k-1);
+                p1.x = p1.x - t;
                 j=0;
             }
-            //p.print("d");
+            view.drawLine(point(0,-30), point(0,30), GREEN);
+            view.drawLine(point(-30,0), point(30,0), GREEN);
+            //p.print("d );
             //cout << "j" << j << endl;
-            view.drawPoint(leaderPosition + leaderVelocity);
+            //view.drawPoint(leaderPosition + leaderVelocity);
             //(*it).setTarget(leaderPosition + leaderVelocity);
-            view.drawPoint(p);
-            (*it).setTarget(p);
-            p.y = p.y - 2 * t; 
+            //p.rotate(leaderAngle);
+            
+            (*it).targetPoint = p1;
+            view.drawPoint((*it).targetPoint, RED);
+            
+            //p1.print("");
+            p1.y = p1.y - 2 * t; 
             j++;
-            (*it).force += behavior.seek(*it);            
-        }    
+        }   
         (*it).arrive = true;
-    }            
+    }       
+
+    for(auto it = agents.begin(); it < agents.end(); it++){
+        if((*it).getName() == "leader"){}
+        else{
+            (*it).targetPoint.rotate(90);
+            view.drawPoint((*it).targetPoint, BLUE);
+
+            (*it).force += behavior.seek(*it);
+        }
+    }
+
     refresh();
 }
 
 leaderFollower::leaderFollower()
 {
-    int agentCount = 15;
+    int agentCount = 6;
     float maxForce = 0.4;
     float maxSpeed = 0.4;       
     name = "leader following";

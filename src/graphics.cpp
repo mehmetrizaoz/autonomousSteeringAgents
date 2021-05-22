@@ -147,9 +147,9 @@ void graphics::drawCircle(point p, float radius, color color)
    glEnd();
 }
 
-void graphics::drawPoint(point p) //todo add color
+void graphics::drawPoint(point p ,color cl) //todo add color
 {
-    glColor3f(1,1,1); 
+    glColor3f(cl.R, cl.G, cl.B); 
     glPointSize(4.0);
     glBegin(GL_POINTS);
     glVertex2f(p.x, p.y);
