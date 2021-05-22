@@ -12,7 +12,7 @@ activate agent
 activate steeringBehavior
 note left: anytime
 user -> view:  set mouse position
-loop intinite    
+loop (triggered with 20ms periodic event)
     mF -> view: request mouse position
     view --> mF: gives mouse position
     loop for all agents

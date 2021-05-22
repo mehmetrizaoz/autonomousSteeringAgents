@@ -26,7 +26,7 @@ public:
    * @brief default constructor.
    * @see color(float r, float g, float b)
    */
-   color();
+   color();  
 
    /**
    * @brief constructor.
@@ -41,7 +41,7 @@ public:
    * @brief portion of red color
    */   
    float R;
-
+ 
    /**
    * @brief portion of green color
    */   
