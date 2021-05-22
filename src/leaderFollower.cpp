@@ -21,7 +21,7 @@ void leaderFollower::loop()
     int j=0;
     int t=3;
     point p = leaderPosition + leaderVelocity;
-
+    //cout << "sss" << endl;
     for(auto it = agents.begin(); it < agents.end(); it++){        
         if((*it).getName() == "leader"){
             (*it).setTarget(view.getMousePosition());
@@ -29,25 +29,31 @@ void leaderFollower::loop()
             leaderVelocity = (*it).getVelocity();
             leaderVelocity.mul(-1);
             leaderVelocity.normalize().mul(10);
-            leaderPosition = (*it).position;            
+            leaderPosition = (*it).position;
+            
             view.drawText((*it).getName(), point(leaderPosition.x -3, leaderPosition.y - 3));
         }
         else{
             pvector sep = behavior.separation(agents, *it, 3);
-            sep.mul(20);
+            sep.mul(15);
             (*it).force = sep;
 
             if(j==k){
+                //cout << j << endl;
                 k++;                
                 point pp = leaderPosition + leaderVelocity;
-                p.x = pp.x - t*(k-1);
-                p.y = p.y - t;
+                p.y = pp.y + t*(k-1);
+                p.x = p.x - t;
+                //cout << "-" << endl;
                 j=0;
             }
+            //p.print("d");
+            //cout << "j" << j << endl;
             view.drawPoint(leaderPosition + leaderVelocity);
-            //view.drawPoint(p);
+            //(*it).setTarget(leaderPosition + leaderVelocity);
+            view.drawPoint(p);
             (*it).setTarget(p);
-            p.x = p.x + 2 * t; 
+            p.y = p.y - 2 * t; 
             j++;
             (*it).force += behavior.seek(*it);            
         }    
