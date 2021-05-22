@@ -1,0 +1,35 @@
+@startuml
+actor actor as user
+participant graphics as view
+participant agent as agent
+participant behavior as steeringBehavior
+participant flock as flk
+
+user -> flk: user defines scenario
+activate flk
+activate view
+activate agent
+activate steeringBehavior
+note left: anytime
+user -> view:  set mouse position
+loop triggered with 20ms periodic event
+    loop for all agents
+        flk -> steeringBehavior: request separation force for agent
+        steeringBehavior --> flk: gives separation force
+        flk -> steeringBehavior: request align force for agent
+        steeringBehavior --> flk: gives align force
+        flk -> steeringBehavior: request cohesion force for agent
+        steeringBehavior --> flk: gives cohesion force
+        flk -> agent: set force
+    end    
+    agent -> agent: calculate next position    
+    flk -> view: draw agents
+    flk -> view: draw title
+    flk -> view: refresh
+end
+user -> view: stop program
+deactivate flk
+deactivate view
+deactivate agent
+deactivate steeringBehavior
+@enduml

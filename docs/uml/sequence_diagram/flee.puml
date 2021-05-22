@@ -1,0 +1,36 @@
+@startuml
+actor actor as user
+participant graphics as view
+participant agent as agent
+participant behavior as steeringBehavior
+participant flee as fl
+
+user -> fl: user defines scenario
+activate fl
+activate view
+activate agent
+activate steeringBehavior
+note left: anytime
+user -> view:  set mouse position
+loop triggered with 20ms periodic event
+    loop for all agents
+        fl -> view: request mouse position    
+        view --> fl: gives mouse position
+        fl -> steeringBehavior: request flee force for agent
+        steeringBehavior --> fl: gives flee force
+        steeringBehavior -> agent : request target point
+        agent --> steeringBehavior : gives target point
+        steeringBehavior --> fl: gives flee force
+        fl -> agent: set force
+    end    
+    agent -> agent: calculate next position    
+    fl -> view: draw agents
+    fl -> view: draw title
+    fl -> view: refresh
+end
+user -> view: stop program
+deactivate fl
+deactivate view
+deactivate agent
+deactivate steeringBehavior
+@enduml

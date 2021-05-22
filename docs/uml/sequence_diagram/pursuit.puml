@@ -1,0 +1,42 @@
+@startuml
+actor actor as user
+participant graphics as view
+participant agent as agent
+participant behavior as steeringBehavior
+participant pursuit as pr
+
+user -> pr: user defines scenario
+activate pr
+activate view
+activate agent
+activate steeringBehavior
+note left: anytime
+user -> view:  set mouse position
+loop triggered with 20ms periodic prent
+    loop for all agents    
+        alt if agent is gazelle
+            pr -> view: request mouse position    
+            view --> pr: gives mouse position        
+            pr -> agent: set agent target position
+            pr -> steeringBehavior: request seek force for target pos.
+            steeringBehavior --> pr: gives seek force
+            pr -> agent: set force                        
+        else agent is lion            
+            pr -> steeringBehavior: request pursuing force
+            steeringBehavior --> pr: gives pursuing force
+            pr -> agent: set force    
+        end
+        pr -> agent:set arrive behavior
+    end
+    
+    agent -> agent: calculates next position
+    pr -> view: draw agents
+    pr -> view: draw title
+    pr -> view: refresh
+end
+user -> view: stop program
+deactivate pr
+deactivate view
+deactivate agent
+deactivate steeringBehavior
+@enduml

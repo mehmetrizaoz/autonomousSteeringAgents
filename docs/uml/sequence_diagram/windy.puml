@@ -1,24 +1,32 @@
 @startuml
 actor actor as user
 participant graphics as view
+participant flow as fl
 participant agent as agent
 participant behavior as steeringBehavior
-participant wander as wd
+participant windy as wd
 
 user -> wd: user defines scenario
 activate wd
 activate view
+activate fl
 activate agent
 activate steeringBehavior
 note left: anytime
 user -> view:  set mouse position
-loop triggered with 20ms periodic event
+loop triggered with 20ms periodic event   
     loop for all agents
-        wd -> steeringBehavior: request wander force
-        steeringBehavior --> wd: gives wander force
+        wd -> fl: request gravity flow field;
+        fl --> wd: gives gravity        
+        wd -> steeringBehavior: request gravity force
+        steeringBehavior --> wd: gives gravity force
+        wd -> fl: request wind flow field;
+        fl --> wd: gives wind
+        wd -> steeringBehavior: request wind force
+        steeringBehavior --> wd: gives wind force
         wd -> agent: set force
-    end
-    wd -> agent: set arriving behavior
+    end    
+
     agent -> agent: calculate next position    
     wd -> view: draw agents
     wd -> view: draw title
@@ -28,5 +36,6 @@ user -> view: stop program
 deactivate wd
 deactivate view
 deactivate agent
+deactivate fl
 deactivate steeringBehavior
 @enduml

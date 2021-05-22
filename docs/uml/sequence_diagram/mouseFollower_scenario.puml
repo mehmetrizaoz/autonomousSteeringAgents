@@ -19,7 +19,7 @@ loop triggered with 20ms periodic event
         mF -> agent: set agent target position
         mF -> steeringBehavior: request seek force for agent
         steeringBehavior --> mF: gives seek force
-        mF -> agent: set agent force
+        mF -> agent: set force
         mF -> agent: set arriving behavior
     end    
     agent -> agent: calculate next position    

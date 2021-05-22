@@ -1,14 +1,14 @@
 @startuml
 actor actor as user
 participant graphics as view
-participant obstacle as obst
 participant agent as agent
 participant path as way
 participant behavior as steeringBehavior
 participant pathFollower as pF
 
 user -> pF: user defines scenario
-activate pF
+activate way
+activate view
 activate view
 activate agent
 activate steeringBehavior
@@ -23,7 +23,7 @@ loop triggered with 20ms periodic event
         steeringBehavior --> pF: gives stayInPath force
         pF -> steeringBehavior: request separation force for agent
         steeringBehavior --> pF: gives separation force
-        pF -> agent: set agent force
+        pF -> agent: set force
         pF -> agent: set arriving behavior
     end    
 
@@ -39,6 +39,7 @@ end
 user -> view: stop program
 deactivate pF
 deactivate view
+deactivate way
 deactivate agent
 deactivate steeringBehavior
 @enduml

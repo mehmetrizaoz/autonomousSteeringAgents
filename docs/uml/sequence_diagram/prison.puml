@@ -1,0 +1,34 @@
+@startuml
+actor actor as user
+participant graphics as view
+participant agent as agent
+participant behavior as steeringBehavior
+participant prison as pr
+
+user -> pr: user defines scenario
+activate pr
+activate view
+activate agent
+activate steeringBehavior
+note left: anytime
+user -> view:  set mouse position
+loop triggered with 20ms periodic event
+    loop for all agents
+        pr -> view : draw field
+        pr -> steeringBehavior: request separation force for agent
+        steeringBehavior --> pr: gives separation force
+        pr -> steeringBehavior: request stayInArea force for agent
+        steeringBehavior --> pr: gives stayInArea force
+        pr -> agent: set force
+    end    
+    agent -> agent: calculate next position    
+    pr -> view: draw agents
+    pr -> view: draw title
+    pr -> view: refresh
+end
+user -> view: stop program
+deactivate pr
+deactivate view
+deactivate agent
+deactivate steeringBehavior
+@enduml
