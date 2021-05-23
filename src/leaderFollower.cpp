@@ -23,7 +23,7 @@ void leaderFollower::loop()
     int k=1;
     int j=0;
     int t=3;
-    point p1 = point(10,10);//leaderPosition + leaderVelocity;c
+    point p1 = sss;//leaderPosition + leaderVelocity;c
 
     for(auto it = agents.begin(); it < agents.end(); it++){      
         if((*it).getName() == "leader"){
@@ -31,7 +31,7 @@ void leaderFollower::loop()
             (*it).force  = behavior.seek(*it);
             leaderVelocity = (*it).getVelocity();
             leaderVelocity.mul(-1);
-            leaderVelocity.normalize().mul(10);
+            leaderVelocity.normalize().mul(20);
             leaderPosition = (*it).position;            
             leaderAngle = leaderVelocity.getAngle();
 
@@ -45,16 +45,16 @@ void leaderFollower::loop()
 
             if(j==k){
                 k++;                
-                point pp = point(10,10);//leaderPosition + leaderVelocity;
+                point pp = sss;//point(10,10);//leaderPosition + leaderVelocity;
                 p1.y = pp.y + t*(k-1);
                 p1.x = p1.x - t;
                 j=0;
             }
-            view.drawLine(point(0,-30), point(0,30), GREEN);
-            view.drawLine(point(-30,0), point(30,0), GREEN);
+            //view.drawLine(point(0,-30), point(0,30), GREEN);
+            //view.drawLine(point(-30,0), point(30,0), GREEN);
            
             (*it).targetPoint = p1;
-            view.drawPoint((*it).targetPoint, RED);
+            //view.drawPoint((*it).targetPoint, RED);
 
             p1.y = p1.y - 2 * t; 
             j++;
@@ -67,27 +67,27 @@ void leaderFollower::loop()
         else{
             //cout << endl;
             //(*it).targetPoint.print("p");
-            float diff = (10 - (*it).targetPoint.x) * (10 - (*it).targetPoint.x);
-            diff      += (10 - (*it).targetPoint.y) * (10  - (*it).targetPoint.y);
+            float diff = (sss.x - (*it).targetPoint.x) * (sss.x - (*it).targetPoint.x);
+            diff      += (sss.y - (*it).targetPoint.y) * (sss.y  - (*it).targetPoint.y);
             diff       = sqrt(diff);
             //cout << "diff " << diff << endl;
             
-            pvector mm = (*it).targetPoint - point(10,10);
+            pvector mm = (*it).targetPoint - sss;//point(10,10);
             float ang = mm.getAngle();
             //cout << "ang" << ang << endl;
             
-            (*it).targetPoint.x = diff * cos((ang + 45) * PI / 180);
-            (*it).targetPoint.y = diff * sin((ang + 45) * PI / 180);
+            (*it).targetPoint.x = diff * cos((ang + leaderAngle) * PI / 180);
+            (*it).targetPoint.y = diff * sin((ang + leaderAngle) * PI / 180);
 
-            (*it).targetPoint = point(10, 10) + (*it).targetPoint;
+            (*it).targetPoint = sss + (*it).targetPoint;
             //(*it).targetPoint.print("pt");
 
-            view.drawPoint((*it).targetPoint, BLUE);
+            //view.drawPoint((*it).targetPoint, BLUE);
 
             (*it).force += behavior.seek(*it);
         }
     }
-    cout << "---" << endl << endl;
+    //cout << "---" << endl << endl;
     refresh();
 }
 
