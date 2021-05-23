@@ -2,7 +2,7 @@
  * @file   leaderFollower.cpp
  * @author Mehmet Rıza Öz - mehmetrizaoz@gmail.com
  * @brief  leaderFollower class implementation
- * @date   19.05.2021
+ * @date   23.05.2021
 */
 
 #include "scenario.h"
@@ -44,30 +44,24 @@ void leaderFollower::loop()
             sep.mul(20);
             (*it).force = sep;
             
+            //make target of the agents different and v shaped individually
             if(index == row){
                 row++;        
                 vTarget = point( vTarget.x - distance, mainTarget.y + distance * ( row - 1 ) );
                 index = 0;
             }
-            
+            index++;            
             (*it).targetPoint = vTarget;
-            view.drawPoint((*it).targetPoint, RED);
-            vTarget.y = vTarget.y - ( 2 * distance ); 
-            index++;
+            //view.drawPoint((*it).targetPoint, RED);
+            vTarget.y = vTarget.y - ( 2 * distance );            
 
-            //todo make below transform parametric function in point class                  
-            //--------------------------------------------------
-            float diff = mainTarget.difference( (*it).targetPoint );
-            pvector agentTargetToMainTarget = (*it).targetPoint - mainTarget;
-            float angleAboutMainTarget = agentTargetToMainTarget.getAngle();            
-            (*it).targetPoint = point (diff * cos((angleAboutMainTarget + leaderAngle) * PI / 180),
-                                       diff * sin((angleAboutMainTarget + leaderAngle) * PI / 180));
-            (*it).targetPoint = mainTarget + (*it).targetPoint;
-            //--------------------------------------------------
+            //transform other agent targets referencing first agents target considering leader angle
+            (*it).targetPoint.rotateByAngleAboutPoint(mainTarget, leaderAngle);
 
             view.drawPoint((*it).targetPoint, BLUE);
-            //todo: make angle of the agent same with angle of leader
             (*it).force += behavior.seek(*it);
+
+            //todo: make angle of the agent same with angle of leader
         }   
         (*it).arrive = true;
     }       
@@ -77,8 +71,8 @@ void leaderFollower::loop()
 leaderFollower::leaderFollower()
 {
     int agentCount = 10;
-    float maxForce = 0.4;
-    float maxSpeed = 0.8;       
+    float maxForce = 0.1;
+    float maxSpeed = 0.4;       
     name = "leader following";
 
     //todo: refactor leader creation

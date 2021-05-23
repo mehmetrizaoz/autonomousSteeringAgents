@@ -84,9 +84,17 @@ public:
 
    /**
    * @brief rotate point by angle
-   * @param obj angle to rotate   
+   * @param angle angle to rotate   
    */  
    void rotate(float angle);
+
+   /**
+   * @brief rotate point about another point by angle
+   * @param p reference point to rotate  
+   * @param angle to rotate
+   */  
+   void rotateByAngleAboutPoint(point p, float angle);
+
 
    /**
    * @brief difference measurement of points

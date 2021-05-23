@@ -25,6 +25,16 @@ point::point()
    y = 0;
 }
 
+void point::rotateByAngleAboutPoint(point p, float angle){
+   pvector agentTargetToMainTarget = *this - p;
+   float diff = p.difference( *this );
+   float angleAboutMainTarget = agentTargetToMainTarget.getAngle();
+   
+   *this = point (diff * cos((angleAboutMainTarget + angle) * PI / 180),
+                              diff * sin((angleAboutMainTarget + angle) * PI / 180));
+   *this = p + *this;
+}
+
 void point::rotate(float angle){
    float currentAngle;
    currentAngle = atan2 (this->y, this->x) * 180 / PI;
