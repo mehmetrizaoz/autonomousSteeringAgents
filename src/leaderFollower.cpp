@@ -40,7 +40,7 @@ void leaderFollower::loop()
         }
         else{
             pvector sep = behavior.separation(agents, *it, 3);
-            sep.mul(15);
+            sep.mul(20);
             (*it).force = sep;
 
             if(j==k){
@@ -76,8 +76,8 @@ void leaderFollower::loop()
             float ang = mm.getAngle();
             //cout << "ang" << ang << endl;
             
-            (*it).targetPoint.x = diff * cos((ang + leaderAngle) * PI / 180);
-            (*it).targetPoint.y = diff * sin((ang + leaderAngle) * PI / 180);
+            (*it).targetPoint.x = diff * cos((ang + leaderAngle + 180) * PI / 180);
+            (*it).targetPoint.y = diff * sin((ang + leaderAngle + 180) * PI / 180);
 
             (*it).targetPoint = sss + (*it).targetPoint;
             //(*it).targetPoint.print("pt");
@@ -93,7 +93,7 @@ void leaderFollower::loop()
 
 leaderFollower::leaderFollower()
 {
-    int agentCount = 6;
+    int agentCount = 15;
     float maxForce = 0.4;
     float maxSpeed = 0.4;       
     name = "leader following";
