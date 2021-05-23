@@ -33,6 +33,10 @@ void point::rotate(float angle){
    this->y = r * sin((currentAngle + angle) * PI / 180);
 }
 
+float point::difference(point &obj){
+   return sqrt( (x - obj.x) * (x - obj.x) + (y - obj.y) * (y - obj.y) );
+}
+
 point point::operator + (pvector const &obj)
 {
    point res;

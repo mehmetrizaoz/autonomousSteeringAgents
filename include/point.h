@@ -71,19 +71,29 @@ public:
    /**   
    * @brief overloaded - operator
    * @param obj point to substract
-   * @return difference
+   * @return difference as pvector
    */  
    pvector operator - (point const &obj);
 
-   /**   
+   /**
    * @brief overloaded == operator 
    * @param obj point to compare
    * @return comparison result
    */  
    bool operator == (point const &obj);
 
-
+   /**
+   * @brief rotate point by angle
+   * @param obj angle to rotate   
+   */  
    void rotate(float angle);
+
+   /**
+   * @brief difference measurement of points
+   * @param obj point to measure difference
+   * @return difference of two points
+   */  
+   float difference(point &obj);
 
    /**
    * @brief x position

@@ -16,70 +16,69 @@ using namespace std;
 pvector leaderFollower::leaderVelocity;
 point leaderFollower::leaderPosition;
 float leaderFollower::leaderAngle;
-point sss;
+point mainTarget;
 
 void leaderFollower::loop()
 {   //todo: refactor code
-    int k=1;
-    int j=0;
-    int t=3;
-    point p1 = sss;
+    int row = 1;
+    int index = 0;
+    int distance = 3;
+    point vTarget = mainTarget;
 
     for(auto it = agents.begin(); it < agents.end(); it++){      
         if((*it).getName() == "leader"){
             (*it).setTarget(view.getMousePosition());
             (*it).force  = behavior.seek(*it);
+            
             leaderVelocity = (*it).getVelocity();
             leaderVelocity.mul(-1);
             leaderVelocity.normalize().mul(10);
             leaderPosition = (*it).position;            
             leaderAngle = leaderVelocity.getAngle() + 180;
-            sss = leaderPosition + leaderVelocity;
+
+            mainTarget = leaderPosition + leaderVelocity;
             view.drawText((*it).getName(), point(leaderPosition.x -3, leaderPosition.y - 3));
         }
         else{
             pvector sep = behavior.separation(agents, *it, 3);
             sep.mul(20);
             (*it).force = sep;
-            if(j==k){
-                k++;                
-                point pp = sss;
-                p1.y = pp.y + t*(k-1);
-                p1.x = p1.x - t;
-                j=0;
+            
+            if(index == row){
+                row++;        
+                vTarget = point( vTarget.x - distance, mainTarget.y + distance * ( row - 1 ) );
+                index = 0;
             }
-            (*it).targetPoint = p1;
-            //view.drawPoint((*it).targetPoint, RED);
-            p1.y = p1.y - 2 * t; 
-            j++;
+            
+            (*it).targetPoint = vTarget;
+            view.drawPoint((*it).targetPoint, RED);
+            vTarget.y = vTarget.y - ( 2 * distance ); 
+            index++;
+
+            //todo make below transform parametric function in point class                  
+            //--------------------------------------------------
+            float diff = mainTarget.difference( (*it).targetPoint );
+            pvector agentTargetToMainTarget = (*it).targetPoint - mainTarget;
+            float angleAboutMainTarget = agentTargetToMainTarget.getAngle();            
+            (*it).targetPoint = point (diff * cos((angleAboutMainTarget + leaderAngle) * PI / 180),
+                                       diff * sin((angleAboutMainTarget + leaderAngle) * PI / 180));
+            (*it).targetPoint = mainTarget + (*it).targetPoint;
+            //--------------------------------------------------
+
+            view.drawPoint((*it).targetPoint, BLUE);
+            //todo: make angle of the agent same with angle of leader
+            (*it).force += behavior.seek(*it);
         }   
         (*it).arrive = true;
     }       
-
-    for(auto it = agents.begin(); it < agents.end(); it++){
-        if((*it).getName() == "leader"){}
-        else{ 
-            //todo make below transform parametric function
-            float diff = (sss.x - (*it).targetPoint.x) * (sss.x - (*it).targetPoint.x);
-            diff      += (sss.y - (*it).targetPoint.y) * (sss.y  - (*it).targetPoint.y);
-            diff       = sqrt(diff);
-            pvector mm = (*it).targetPoint - sss;
-            float ang = mm.getAngle();
-            (*it).targetPoint.x = diff * cos((ang + leaderAngle) * PI / 180);
-            (*it).targetPoint.y = diff * sin((ang + leaderAngle) * PI / 180);
-            (*it).targetPoint = sss + (*it).targetPoint;
-            //view.drawPoint((*it).targetPoint, BLUE);
-            (*it).force += behavior.seek(*it);
-        }
-    }    
     refresh();
 }
 
 leaderFollower::leaderFollower()
 {
-    int agentCount = 15;
+    int agentCount = 10;
     float maxForce = 0.4;
-    float maxSpeed = 0.4;       
+    float maxSpeed = 0.8;       
     name = "leader following";
 
     //todo: refactor leader creation
