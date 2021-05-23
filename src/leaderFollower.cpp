@@ -9,6 +9,7 @@
 #include "leaderFollower.h"
 #include <iostream>
 #include <GL/glut.h>
+#include "math.h"
 
 using namespace std;
 
@@ -22,7 +23,7 @@ void leaderFollower::loop()
     int k=1;
     int j=0;
     int t=3;
-    point p1 = point(15,0);//leaderPosition + leaderVelocity;
+    point p1 = point(10,0);//leaderPosition + leaderVelocity;
 
     //point ppp = point(1,0);
     //ppp.rotate(45);
@@ -34,8 +35,8 @@ void leaderFollower::loop()
     //cout << "sss" << endl;
     for(auto it = agents.begin(); it < agents.end(); it++){      
         if((*it).getName() == "leader"){
-            (*it).setTarget(view.getMousePosition());
-            (*it).force  = behavior.seek(*it);
+            /*(*it).setTarget(view.getMousePosition());
+            (*it).force  = behavior.seek(*it);*/
             leaderVelocity = (*it).getVelocity();
             leaderVelocity.mul(-1);
             leaderVelocity.normalize().mul(10);
@@ -46,13 +47,13 @@ void leaderFollower::loop()
             view.drawText((*it).getName(), point(leaderPosition.x -3, leaderPosition.y - 3));
         }
         else{
-            pvector sep = behavior.separation(agents, *it, 3);
+            /*pvector sep = behavior.separation(agents, *it, 3);
             sep.mul(15);
-            (*it).force = sep;
+            (*it).force = sep;*/
 
             if(j==k){
                 k++;                
-                point pp = point(15,0);//leaderPosition + leaderVelocity;
+                point pp = point(10,0);//leaderPosition + leaderVelocity;
                 p1.y = pp.y + t*(k-1);
                 p1.x = p1.x - t;
                 j=0;
@@ -72,16 +73,30 @@ void leaderFollower::loop()
 
     for(auto it = agents.begin(); it < agents.end(); it++){
         if((*it).getName() == "leader"){}
-        //else if((*it).targetPoint.x == 15 && (*it).targetPoint.y == 0){}
         else{
-            cout << "111" << endl;
-            (*it).targetPoint.rotate(45);
+            cout << endl;
+            (*it).targetPoint.print("p");
+            float diff = (10 - (*it).targetPoint.x) * (10 - (*it).targetPoint.x);
+            diff      += (0  - (*it).targetPoint.y) * (0  - (*it).targetPoint.y);
+            diff       = sqrt(diff);
+            cout << "diff " << diff << endl;
+            
+            pvector mm = (*it).targetPoint - point(10,0);
+            float ang = mm.getAngle();
+            cout << "ang" << ang << endl;
+            
+            (*it).targetPoint.x = diff * cos((ang + 45) * PI / 180);
+            (*it).targetPoint.y = diff * sin((ang + 45) * PI / 180);
+
+            (*it).targetPoint = point(10, 0) + (*it).targetPoint;
+            (*it).targetPoint.print("pt");
+
             view.drawPoint((*it).targetPoint, BLUE);
 
             //(*it).force += behavior.seek(*it);
         }
     }
-    cout << "222---" << endl;
+    cout << "---" << endl << endl;
     refresh();
 }
 
