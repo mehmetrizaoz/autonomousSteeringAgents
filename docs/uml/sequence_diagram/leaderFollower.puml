@@ -24,8 +24,7 @@ loop triggered with 20ms periodic event
             lF -> view: draw leaders name
         else follower agents        
             lF -> agent: set target point 
-            lF ->steeringBehavior: request seek force
-            steeringBehavior --> lF: gives seek force            
+            lf -> agent: transform target point
             lF ->steeringBehavior: request separation force
             steeringBehavior --> lF: gives separation force
             lF ->agent: add force            
