@@ -49,16 +49,22 @@ void scenario::createRandomAgents(int count, const float force, const float spee
 
    srand(time(NULL));
    random::createRandomArray(arr, size);
+   
    agent tempAgent {0, 0};
-
    for(int i=0; i < count * 2; i=i+2){
       tempAgent.setName("agent"+to_string(i)+":");
       tempAgent.position.x = arr[i]   - WIDTH;
       tempAgent.position.y = arr[i+1] - HEIGHT;
+
+      float f = (float) arr[i] / (float) 100.0;
+      float s = (float) arr[i+1] / (float) 100.0;
+      if( f > force ) f = force;
+      if( s > speed || s < f) s = speed;
+      
       tempAgent.setColor(color::getColor((i/2) % 8));
-      tempAgent.setFeatures(speed, force, 5, 1); 
+      tempAgent.setFeatures(s, f, 5, 1); 
       agents.push_back(tempAgent);
-   } 
+   }
 }
 
 void scenario::createStaticAgents(string s1, string s2)
