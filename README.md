@@ -1,9 +1,9 @@
 # Intent
-1- implementing ai using autonomous steering agents
+1- implementing smart agents using Craig Raynolds's autonomous steering behaviors
 
-2- implementing smart agents using genetics algorithms 
+2- implementing smart agents using Jer Thorp's genetics algorithms 
 
-3- implementing smart agents using neural network 
+3- implementing smart agents using artificial neural network 
 
 # Dependencies
 $sudo apt-get install libglu1-mesa-dev freeglut3-dev mesa-common-dev
