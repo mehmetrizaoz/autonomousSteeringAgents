@@ -21,7 +21,6 @@ void entity::setColor(color color){
     entityColor = color;
 }
 
-
 string entity::getName(){
    return name;
 }
