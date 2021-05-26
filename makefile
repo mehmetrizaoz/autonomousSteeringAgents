@@ -8,8 +8,7 @@ objects := pvector.o graphics.o agent.o flowField.o main.o \
 		   obstacle.o scenario.o mouseFollower.o prison.o \
 		   windy.o wander.o pursuit.o flee.o evade.o flock.o \
            pathFollower.o obstacleAvoidance.o entity.o \
-		   leaderFollower.o
-		   
+		   leaderFollower.o DNA.o
 LIBS = -lglut -lGLU -lGL
 
 all: exec
