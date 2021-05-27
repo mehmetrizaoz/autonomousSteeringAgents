@@ -6,13 +6,14 @@ using namespace std;
 
 DNA::DNA(int lifetime){
     srand(time(NULL));    
-
+    
     for(int i=0; i<lifetime; i++){
         float angle = rand() % 360;
         pvector pv = pvector(cos(angle * PI / 180), sin(angle * PI / 180)) ;
         pv.mul(maxForce);
-        genes.at(i) = pv;
+        genes.push_back(pv);
     }
+
 }
 
 DNA::DNA(vector<pvector> &newgenes){
@@ -25,9 +26,9 @@ DNA DNA::crossover(DNA partner){
 
     for(int i=0; i<genes.size(); i++){
         if(i>crossover)
-           child.at(i) = genes.at(i);
+           child.push_back(genes.at(i));
         else
-           child.at(i) = partner.genes.at(i);
+           child.push_back(partner.genes.at(i));
     }
     
     DNA newgenes = DNA(child); 
@@ -35,8 +36,12 @@ DNA DNA::crossover(DNA partner){
 }
 
 void DNA::mutate(float m){
+    float i = rand() % 10;
+    i /= float(10);
     for (int i = 0; i < genes.size(); i++) {
-        if ( (rand() % 1) < m) {
+        float temp = rand() % 10;
+        temp /= float(10);        
+        if ( temp < m ) {            
             float angle = rand() % 360;
             pvector pv = pvector(cos(angle * PI / 180), sin(angle * PI / 180)) ;
             pv.mul(maxForce);

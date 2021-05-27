@@ -62,6 +62,7 @@ void leaderFollower::loop()
             (*it).force += behavior.seek(*it);
 
             //todo: make angle of the agent same with angle of leader
+            //todo: leader changes its orientation before arriving
         }   
         (*it).arrive = true;
     }       

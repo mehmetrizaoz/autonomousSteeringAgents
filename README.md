@@ -12,7 +12,7 @@ $sudo apt-get install libboost-all-dev
 
 # Resources
 
-Jan Schifmann : Nature of Code
+Dan Schifmann : Nature of Code
 
 Fernando Bevilacqua : Understanding Steering Behaviors
 
