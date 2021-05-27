@@ -72,8 +72,8 @@ void leaderFollower::loop()
 leaderFollower::leaderFollower()
 {
     int agentCount = 10;
-    float maxForce = 0.1;
-    float maxSpeed = 0.4;       
+    float maxForce = 0.4;
+    float maxSpeed = 0.6;       
     name = "leader following";
 
     //todo: refactor leader creation
