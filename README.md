@@ -8,9 +8,13 @@ $sudo apt-get install libboost-all-dev
 
 # Used Libraries and Tools
 UML             : plantuml
+
 documentation   : doxygen
+
 Graphics        : openGL
+
 static analysis : cppcheck
+
 unit test       : boost/test
 
 # Resources
