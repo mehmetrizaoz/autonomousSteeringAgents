@@ -59,7 +59,8 @@ void scenario::createRandomAgents(int count, const float force, const float spee
       float f = (float) arr[i] / (float) 100.0;
       float s = (float) arr[i+1] / (float) 100.0;
       if( f > force ) f = force;
-      if( s > speed || s < f) s = speed;
+      if( s > speed ) s = speed;
+      if( s > f ) s = f;
       
       tempAgent.setColor(color::getColor((i/2) % 8));
       tempAgent.setFeatures(s, f, 5, 1); 

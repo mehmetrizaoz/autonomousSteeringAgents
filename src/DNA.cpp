@@ -20,6 +20,10 @@ DNA::DNA(vector<pvector> &newgenes){
     genes = newgenes;
 }
 
+DNA::DNA(){
+    
+}
+
 DNA DNA::crossover(DNA partner){
     vector<pvector> child;
     int crossover = int(rand() % genes.size());

@@ -16,6 +16,7 @@ class DNA {
 public:
    vector<pvector> genes;
    float maxForce = 0.1;
+   DNA();
    DNA(int lifetime);
    DNA(vector<pvector> &newgenes);
    DNA crossover(DNA partner);

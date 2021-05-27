@@ -247,21 +247,25 @@ pvector steeringBehavior::stayInArea(agent &agent, int turnPoint)
    if(agent.position.x >= turnPoint){
       agent.desiredVelocity = pvector( -agent.maxSpeed, agent.getVelocity().y );
       agent.steering = agent.desiredVelocity - agent.getVelocity();
+      agent.steering.mul(5);
       return agent.steering;
    }
    else if(agent.position.x <= -turnPoint){
       agent.desiredVelocity = pvector( agent.maxSpeed, agent.getVelocity().y );
       agent.steering = agent.desiredVelocity - agent.getVelocity();
+      agent.steering.mul(5);
       return agent.steering;
    }
    else if(agent.position.y >= turnPoint){
       agent.desiredVelocity = pvector( agent.getVelocity().x, -agent.maxSpeed );
       agent.steering = agent.desiredVelocity - agent.getVelocity();
+      agent.steering.mul(5);
       return agent.steering;
    }
    else if(agent.position.y <= -turnPoint){
       agent.desiredVelocity = pvector( agent.getVelocity().x, agent.maxSpeed );
       agent.steering = agent.desiredVelocity - agent.getVelocity();
+      agent.steering.mul(5);
       return agent.steering;
    }
    return pvector(0,0);

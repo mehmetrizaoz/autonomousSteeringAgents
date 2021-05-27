@@ -31,8 +31,8 @@ void prison::loop()
 prison::prison()
 {
     int agentCount = 10;
-    float maxForce = 0.6;
-    float maxSpeed = 0.6;       
+    float maxForce = 0.7;
+    float maxSpeed = 0.7;       
 
     name = "stay in prison";
     createRandomAgents(agentCount, maxForce, maxSpeed); 
