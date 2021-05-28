@@ -186,8 +186,8 @@ pvector steeringBehavior::avoid(vector<obstacle> obstacles, agent &agent)
    pvector ahead  = vel + agent.position;
    vel.mul(6);
    pvector ahead2 = vel + agent.position;
-   //view.drawPoint(point(ahead.x, ahead.y));                        
-   //view.drawPoint(point(ahead2.x, ahead2.y));  
+   //view.drawPoint(ahead, RED);                        
+   //view.drawPoint(ahead2, BLUE);  
 
    for(auto it = obstacles.begin(); it < obstacles.end(); it++){
       float dist  = (ahead  - (*it).getCenter()).magnitude();

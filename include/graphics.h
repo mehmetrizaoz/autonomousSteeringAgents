@@ -9,6 +9,7 @@
 
 #include "agent.h"
 #include "path.h"
+#include "point.h"
 
 #define WIDTH       34
 #define HEIGHT      34
@@ -133,4 +134,14 @@ public:
    * @brief mouse position y
    */
    static int target_y;   
+
+   /**
+   * @brief mouse click position
+   */
+   static point clickPosition;
+   
+   /**
+   * @brief mouse click flag
+   */
+   static bool clicked;
 };

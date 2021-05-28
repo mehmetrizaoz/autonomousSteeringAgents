@@ -17,6 +17,13 @@ vector<obstacle> obstacleAvoidance::obstacles;
 void obstacleAvoidance::loop()
 {
     for(auto it = agents.begin(); it < agents.end(); it++){
+        if(view.clicked == true){
+            cout << "clicked" << endl;
+            view.clickPosition.print("pos");
+            obstacles.push_back(obstacle(view.clickPosition, 4));
+            view.clicked = false;
+        }
+
         (*it).setTarget(view.getMousePosition());
         pvector seek  = behavior.seek(*it);
         seek.mul(0.5);
@@ -25,8 +32,10 @@ void obstacleAvoidance::loop()
         (*it).force = avoid + seek;   
         (*it).arrive = true;        
     }            
-
-    for(auto it = obstacles.begin(); it < obstacles.end(); it++){     
+    //cout << "-------" << endl;
+    for(auto it = obstacles.begin(); it < obstacles.end(); it++){            
+        //cout << (*it).getRadius() << endl;
+        //(*it).getCenter().print("center:");
         (*it).draw(view);
     }
 
@@ -35,7 +44,7 @@ void obstacleAvoidance::loop()
 
 void obstacleAvoidance::createObstacle(vector<obstacle> &obstacles)
 {
-    obstacles.push_back(obstacle(point(0,0), 8));   
+    obstacles.push_back(obstacle(point(0,0), 8));
     obstacles.push_back(obstacle(point(-20,0), 3));  
     obstacles.push_back(obstacle(point(20,-10), 4));
 }

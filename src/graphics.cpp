@@ -18,6 +18,9 @@ class point;
 int graphics::target_x = -WIDTH;
 int graphics::target_y = HEIGHT;
 
+point graphics::clickPosition;
+bool graphics::clicked = false;
+
 void graphics::drawText(string text, point p)
 {
    glColor3f (0.0, 0.0, 1.0);
@@ -99,6 +102,9 @@ void graphics::timerEvent(int value)
 void graphics::mouseButton(int button, int state, int x, int y)
 {
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
+        clicked = true;
+        clickPosition.x = x / 5.88 - 34;
+        clickPosition.y = 34 - y / 5.88;
     }    
 }
 
