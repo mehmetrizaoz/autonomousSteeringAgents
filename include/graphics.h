@@ -122,6 +122,7 @@ public:
    * @brief event triggered with mouse movements
    * @param x osition of the mouse
    * @param y position of the mouse
+   * @todo: mouse position to glut and magic numbers
    */
    static void mouseMove(int x, int y);   
 

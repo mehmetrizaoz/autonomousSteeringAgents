@@ -74,9 +74,7 @@ void graphics::forceInScreen(agent &agent)
 }
 
 void graphics::mouseMove(int x, int y)
-{
-    //TODO: mouse position to glut
-    //TODO: magic numbers
+{    
 	graphics::target_x = x / 5.88 - 34;
     graphics::target_y = 34 - y / 5.88; 
 }
@@ -153,7 +151,7 @@ void graphics::drawCircle(point p, float radius, color color)
    glEnd();
 }
 
-void graphics::drawPoint(point p ,color cl) //todo add color
+void graphics::drawPoint(point p ,color cl)
 {
     glColor3f(cl.R, cl.G, cl.B); 
     glPointSize(4.0);

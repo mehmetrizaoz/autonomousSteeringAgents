@@ -33,6 +33,8 @@ public:
    /**
    * @brief leader following scenario loop function
    * @note opengl callback forces that function to be static
+   * @todo bug exist, leader changes orientation unexpectedly just before arriving its target point
+   * @todo make angle of the agent same with angle of leader
    */
    static void loop();  
 };

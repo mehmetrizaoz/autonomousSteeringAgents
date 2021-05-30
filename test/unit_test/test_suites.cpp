@@ -194,7 +194,3 @@ BOOST_AUTO_TEST_SUITE (s2)
   }
 
 BOOST_AUTO_TEST_SUITE_END()
-
-/**
-* @todo unit tests for other classes will be implemented
-*/

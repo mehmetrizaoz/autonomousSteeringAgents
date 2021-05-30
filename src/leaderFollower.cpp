@@ -19,7 +19,7 @@ float leaderFollower::leaderAngle;
 point mainTarget;
 
 void leaderFollower::loop()
-{   //todo: refactor code
+{
     int row = 1;
     int index = 0;
     int distance = 3;
@@ -59,10 +59,7 @@ void leaderFollower::loop()
             (*it).targetPoint.rotateByAngleAboutPoint(mainTarget, leaderAngle);
 
             view.drawPoint((*it).targetPoint, BLUE);
-            (*it).force += behavior.seek(*it);
-
-            //todo: make angle of the agent same with angle of leader
-            //todo: leader changes its orientation before arriving
+            (*it).force += behavior.seek(*it);            
         }   
         (*it).arrive = true;
     }       
@@ -76,7 +73,6 @@ leaderFollower::leaderFollower()
     float maxSpeed = 0.6;       
     name = "leader following";
 
-    //todo: refactor leader creation
     agent agent1 {-10.0,  0.0};
     agent1.id = 1;
     agent1.setName("leader");

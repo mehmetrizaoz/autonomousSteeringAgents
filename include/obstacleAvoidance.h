@@ -22,6 +22,7 @@ public:
    /**
    * @brief obstacle avoidance scenario loop function
    * @note opengl callback forces that function to be static
+   * @todo: bug: too many obstacle cause disregarding obstacles
    */
    static void loop(); 
 

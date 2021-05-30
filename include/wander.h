@@ -15,7 +15,7 @@ class wander: public scenario{
 public:
    /**
    * @brief default constructor
-   * @todo business logic will be changed
+   * @todo: change wander behavior, existing wandering is not a natural behavior
    */
    wander();
 
