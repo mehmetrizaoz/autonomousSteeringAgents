@@ -162,6 +162,37 @@ BOOST_AUTO_TEST_SUITE (s2)
     BOOST_CHECK(p2 == pvector(-2,-2));
   }
 
+  BOOST_AUTO_TEST_CASE (s2t4)
+  {
+    point p1 = point(1,1);
+    point p2 = point(3,3);
+    float resultToTest = p1.difference(p2);    
+    float tolerance = 0.1;
+    float expected = 2.82;
+    BOOST_CHECK_CLOSE_FRACTION(resultToTest, expected, tolerance);
+  }
+
+  BOOST_AUTO_TEST_CASE (s2t5)
+  {
+    float angle = 30;
+    point p1 = point(1,0);
+    p1.rotate(angle);
+    float tolerance = 0.1;
+    BOOST_CHECK_CLOSE_FRACTION(p1.x, 0.866, tolerance);
+    BOOST_CHECK_CLOSE_FRACTION(p1.y, 0.5, tolerance);
+  }
+
+  BOOST_AUTO_TEST_CASE (s2t6)
+  {
+    float angle = 90;
+    point p1 = point(4,4);
+    point p2 = point(8,0);
+    p1.rotateByAngleAboutPoint(p2, angle);
+    float tolerance = 0.1;
+    BOOST_CHECK_CLOSE_FRACTION(p1.x,  4, tolerance);
+    BOOST_CHECK_CLOSE_FRACTION(p1.y, -4, tolerance);    
+  }
+
 BOOST_AUTO_TEST_SUITE_END()
 
 /**
