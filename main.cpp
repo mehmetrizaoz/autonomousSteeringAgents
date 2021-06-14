@@ -85,13 +85,8 @@ int main(int argc, char** argv) {
    else if(mode == LEADER_FOLLOWER){
       *sc = leaderFollower();
    }
+   else {return 0;}
 
    sc->initGL(&argc, argv);
-
    return 0;
 }
-
-/**
-* @todo queue, wall follower, hide, looped path scenarios will be implemented
-* @todo add other uml diagrams
-*/
