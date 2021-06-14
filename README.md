@@ -17,6 +17,9 @@ static analysis : cppcheck
 
 unit test       : boost/test
 
+Language : C++14
+Other :make
+
 # Resources
 Dan Schifmann : Nature of Code
 
